@@ -1,1 +1,3 @@
-<p (clickStop)="test()">gvg works!</p>
+<div *ngFor="let chara of charaList; trackBy: trackByFn">
+    <img [src]="chara.iconUrl" alt="">
+</div>

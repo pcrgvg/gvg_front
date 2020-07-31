@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService} from '@core';
+import { PcrApiService } from '@api';
+import { Chara } from '@pcrgvg/models';
+
+
 
 @Component({
   selector: 'app-gvg',
@@ -7,16 +10,19 @@ import { HttpService} from '@core';
   styleUrls: ['./gvg.component.scss']
 })
 export class GvgComponent implements OnInit {
-
   constructor(
-    private http: HttpService
+    private pcrApi: PcrApiService
   ) { }
+  charaList: Chara[] = []
 
   ngOnInit(): void {
+    this.pcrApi.charaList().subscribe(res => {
+      this.charaList = res;
+    })
   }
 
-  test() {
-    console.log('tes');
+  trackByFn(_: number, chara: Chara): number{
+    return chara.prefabId
   }
 
 }

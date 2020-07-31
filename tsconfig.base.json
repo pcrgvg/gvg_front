@@ -19,7 +19,8 @@
     "paths": {
       "@src/*": ["src/*"],
       "@app/*": ["src/app/*"],
-      "@core": ["src/app/core/index"]
+      "@core": ["src/app/core/index"],
+      "@api": ["src/app/apis/index"],
     }
   }
 }
