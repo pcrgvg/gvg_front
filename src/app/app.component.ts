@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '@/app/core/net/http.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +9,16 @@ import { HttpService } from '@/app/core/net/http.service';
 })
 export class AppComponent implements OnInit {
   title = 'pcr';
-  gvgList = [];
   constructor(
-    private http: HttpService
+    private router: Router,
   ){}
 
-  ngOnInit() {
-    this.http.Get('/pcr/charaList').subscribe(res => {
-      console.log(res);
-      console.log(res);
-      // this.gvgList = res.data;
-    }, err => {
-      console.log('ersubssaaa')
-    })
+  ngOnInit(): void {
+    this.router.events.pipe(
+      filter(ev => ev instanceof NavigationEnd)
+    ).subscribe(res => {
+
+    });
   }
+
 }

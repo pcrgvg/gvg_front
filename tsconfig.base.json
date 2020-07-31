@@ -17,8 +17,9 @@
       "dom"
     ],
     "paths": {
-      "@/*": ["src/*"],
-      "@app/*": ["src/app/*"]
+      "@src/*": ["src/*"],
+      "@app/*": ["src/app/*"],
+      "@core": ["src/app/core/index"]
     }
   }
 }

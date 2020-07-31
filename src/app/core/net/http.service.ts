@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 type Body = string | {
   [param: string]: string | ReadonlyArray<string>;
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService extends HttpClient {
   constructor(handler: HttpHandler) {
-    super(handler)
+    super(handler);
   }
 
-  Get(url: string, body?: any, option: {
+  Get<T>(url: string, body?: any, option: {
     headers?: HttpHeaders | {
       [header: string]: string | string[];
     };
@@ -21,23 +22,22 @@ export class HttpService extends HttpClient {
     reportProgress?: boolean;
     responseType?: 'json';
     withCredentials?: boolean;
-  } = {}) {
+  } = {}): Observable<T> {
     let params = new HttpParams();
     if ( typeof body === 'string') {
       params = new HttpParams({
         fromString: body
-      })
+      });
     }
     if ( body instanceof Object) {
       params = new HttpParams({
         fromObject: body
-      })
+      });
     }
-    console.log(params.keys())
-   return this.get(url, {
+    return this.get<T>(url, {
       ...option,
       params,
-    })
+    });
   }
 
 }

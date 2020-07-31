@@ -4,8 +4,8 @@ import { Injectable, ErrorHandler } from '@angular/core';
 export class CoreErrorHandler implements ErrorHandler {
 
   constructor() { }
-
-  handleError(error: any){
+  /// 若已经在订阅的err中处理了,这里就不会再处理
+  handleError(error: any): void {
     console.log(error, 'deal error by errorhandler');
   }
 }
