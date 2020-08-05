@@ -1,0 +1,8 @@
+section {
+  height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: 200px auto 200px;
+  div {
+    border: 1px solid red;
+  }
+}

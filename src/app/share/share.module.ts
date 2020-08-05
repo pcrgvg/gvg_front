@@ -3,24 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
+import { OverlayModule } from '@angular/cdk/overlay';
 
-
-const commonModule = [
-  CommonModule,
-  RouterModule,
-  FormsModule,
-  ReactiveFormsModule,
-  DirectivesModule
-];
-
+const commonModule = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, DirectivesModule, OverlayModule];
 
 @NgModule({
   declarations: [],
-  imports: [
-    ...commonModule
-  ],
-  exports: [
-    ...commonModule
-  ]
+  imports: [...commonModule],
+  exports: [...commonModule],
 })
-export class ShareModule { }
+export class ShareModule {}

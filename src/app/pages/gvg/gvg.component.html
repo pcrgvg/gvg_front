@@ -1,3 +1,32 @@
-<div *ngFor="let chara of charaList; trackBy: trackByFn">
-    <img [src]="chara.iconUrl" alt="">
+<button mat-button (clickStop)="getCharaList()">刷新</button>
+<button mat-button (clickStop)="createJson()">生成Json</button>
+<button mat-button (clickStop)="toggleModal()">添加</button>
+<button mat-button (clickStop)="filter()">筛刀结果</button>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let boss of bossList; index as i; trackBy: trackByBossFn">
+    <mat-expansion-panel-header>
+      <mat-panel-title>bossName{{ i }}</mat-panel-title>
+      <mat-panel-description>boss 数据</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let task of boss.tasks">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <img style="height: 42px; width: 42px;" *ngFor="let chara of task.charas" [src]="chara.iconUrl" alt="" srcset="" />
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div *ngFor="let bossTask of filterResult" style="margin-bottom: 20px; border-bottom: 1px solid red;">
+  <div *ngFor="let task of bossTask">
+    <div>boss{{ task.bossId }}</div>
+    <div>
+      <img style="height: 42px; width: 42px;" *ngFor="let chara of task.charas" [src]="chara.iconUrl" alt="" srcset="" />
+    </div>
+  </div>
 </div>

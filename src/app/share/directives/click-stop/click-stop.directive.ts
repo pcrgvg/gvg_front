@@ -4,7 +4,6 @@ import { Directive, Output, EventEmitter, HostListener, HostBinding } from '@ang
   selector: '[clickStop]',
 })
 export class ClickStopDirective {
-
   @Output() clickStop = new EventEmitter();
   @HostListener('click', ['$event'])
   clickEvent(event: MouseEvent) {
@@ -13,6 +12,5 @@ export class ClickStopDirective {
     this.clickStop.emit(event);
   }
 
-  constructor() { }
-
+  constructor() {}
 }

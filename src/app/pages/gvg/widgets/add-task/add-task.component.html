@@ -1,0 +1,53 @@
+<mat-dialog-actions align="end">
+  <button mat-button (clickStop)="reset()">重新选择</button>
+  <button mat-button color="accent" (clickStop)="confirm()" cdkFocusInitial>确定</button>
+</mat-dialog-actions>
+<mat-dialog-content>
+  <div class="team_box">
+    <span>阵容</span>
+    <span>所属boss</span>
+    <div class="chara_box">
+      <img
+        *ngFor="let chara of dialogData.selectChara; trackBy: trackByCharaFn"
+        (clickStop)="toggleSelect(chara)"
+        style="opacity: 1;"
+        [src]="chara.iconUrl"
+      />
+    </div>
+    <div>
+      <form [formGroup]="validateForm">
+        <mat-form-field appearance="fill">
+          <mat-label>boss</mat-label>
+          <mat-select formControlName="bossId">
+            <mat-option *ngFor="let boss of dialogData.bossList" [value]="boss.id">
+              {{ boss.id }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="validateForm.invalid">2</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <mat-tab-group dynamicHeight>
+    <mat-tab label="前卫">
+      <div class="chara_box">
+        <img
+          *ngFor="let chara of front; trackBy: trackByCharaFn"
+          [class.selected]="dialogData.selectChara.includes(chara)"
+          (clickStop)="toggleSelect(chara)"
+          [src]="chara.iconUrl"
+        />
+      </div>
+    </mat-tab>
+    <mat-tab label="中卫">
+      <div class="chara_box">
+        <img *ngFor="let chara of middle; trackBy: trackByCharaFn" (clickStop)="toggleSelect(chara)" [src]="chara.iconUrl" alt="" />
+      </div>
+    </mat-tab>
+    <mat-tab label="后卫">
+      <div class="chara_box">
+        <img *ngFor="let chara of back; trackBy: trackByCharaFn" (clickStop)="toggleSelect(chara)" [src]="chara.iconUrl" alt="" />
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>

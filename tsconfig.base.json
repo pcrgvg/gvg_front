@@ -12,15 +12,13 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "resolveJsonModule": true,
+    "lib": ["es2018", "dom"],
     "paths": {
       "@src/*": ["src/*"],
       "@app/*": ["src/app/*"],
       "@core": ["src/app/core/index"],
-      "@api": ["src/app/apis/index"],
+      "@api": ["src/app/apis/index"]
     }
   }
 }

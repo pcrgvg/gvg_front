@@ -1,0 +1,987 @@
+[
+  {
+    "id": 1,
+    "tasks": [
+      {
+        "id": 1,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "アオイ（編入生）",
+            "prefabId": 110701,
+            "searchAreaWidth": 680,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110731.webp"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "charas": [
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "charas": [
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "スズナ（サマー）",
+            "prefabId": 110001,
+            "searchAreaWidth": 705,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110031.webp"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "charas": [
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "ユニ",
+            "prefabId": 111001,
+            "searchAreaWidth": 807,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111031.webp"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "charas": [
+          {
+            "unitName": "キャル（ニューイヤー）",
+            "prefabId": 112001,
+            "searchAreaWidth": 690,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/112031.webp"
+          },
+          {
+            "unitName": "カスミ",
+            "prefabId": 101401,
+            "searchAreaWidth": 730,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/101431.webp"
+          },
+          {
+            "unitName": "ユイ（ニューイヤー）",
+            "prefabId": 108801,
+            "searchAreaWidth": 745,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/108831.webp"
+          },
+          {
+            "unitName": "キャル（サマー）",
+            "prefabId": 107801,
+            "searchAreaWidth": 780,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107831.webp"
+          },
+          {
+            "unitName": "マホ",
+            "prefabId": 101001,
+            "searchAreaWidth": 795,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/101061.webp"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "スズナ（サマー）",
+            "prefabId": 110001,
+            "searchAreaWidth": 705,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110031.webp"
+          },
+          {
+            "unitName": "アオイ（編入生）",
+            "prefabId": 110701,
+            "searchAreaWidth": 680,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110731.webp"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "charas": [
+          {
+            "unitName": "ネネカ",
+            "prefabId": 107001,
+            "searchAreaWidth": 660,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107031.webp"
+          },
+          {
+            "unitName": "キョウカ（ハロウィン）",
+            "prefabId": 111101,
+            "searchAreaWidth": 820,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111131.webp"
+          },
+          {
+            "unitName": "キャル（サマー）",
+            "prefabId": 107801,
+            "searchAreaWidth": 780,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107831.webp"
+          },
+          {
+            "unitName": "ユイ",
+            "prefabId": 100201,
+            "searchAreaWidth": 800,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100261.webp"
+          },
+          {
+            "unitName": "ルナ",
+            "prefabId": 111401,
+            "searchAreaWidth": 765,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111431.webp"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "コッコロ",
+            "prefabId": 105901,
+            "searchAreaWidth": 500,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/105961.webp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "tasks": [
+      {
+        "id": 10,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "charas": [
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "ネネカ",
+            "prefabId": 107001,
+            "searchAreaWidth": 660,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107031.webp"
+          },
+          {
+            "unitName": "キャル（サマー）",
+            "prefabId": 107801,
+            "searchAreaWidth": 780,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107831.webp"
+          },
+          {
+            "unitName": "キョウカ（ハロウィン）",
+            "prefabId": 111101,
+            "searchAreaWidth": 820,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111131.webp"
+          },
+          {
+            "unitName": "マホ（サマー）",
+            "prefabId": 110601,
+            "searchAreaWidth": 792,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110631.webp"
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "charas": [
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "マコト",
+            "prefabId": 104301,
+            "searchAreaWidth": 165,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/104331.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "tasks": [
+      {
+        "id": 14,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "シズル（バレンタイン）",
+            "prefabId": 109101,
+            "searchAreaWidth": 385,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/109131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "charas": [
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "charas": [
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "サレン（サマー）",
+            "prefabId": 110301,
+            "searchAreaWidth": 585,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110331.webp"
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "charas": [
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "ルナ",
+            "prefabId": 111401,
+            "searchAreaWidth": 765,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111431.webp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "tasks": [
+      {
+        "id": 18,
+        "charas": [
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "マコト",
+            "prefabId": 104301,
+            "searchAreaWidth": 165,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/104331.webp"
+          },
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "charas": [
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "ネネカ",
+            "prefabId": 107001,
+            "searchAreaWidth": 660,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107031.webp"
+          },
+          {
+            "unitName": "ユイ（プリンセス）",
+            "prefabId": 180201,
+            "searchAreaWidth": 767,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180231.webp"
+          },
+          {
+            "unitName": "キャル（サマー）",
+            "prefabId": 107801,
+            "searchAreaWidth": 780,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107831.webp"
+          },
+          {
+            "unitName": "キョウカ（ハロウィン）",
+            "prefabId": 111101,
+            "searchAreaWidth": 820,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111131.webp"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "charas": [
+          {
+            "unitName": "ムイミ",
+            "prefabId": 106101,
+            "searchAreaWidth": 162,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/106131.webp"
+          },
+          {
+            "unitName": "マコト",
+            "prefabId": 104301,
+            "searchAreaWidth": 165,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/104331.webp"
+          },
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "アオイ（編入生）",
+            "prefabId": 110701,
+            "searchAreaWidth": 680,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110731.webp"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "tasks": [
+      {
+        "id": 21,
+        "charas": [
+          {
+            "unitName": "コッコロ（ニューイヤー）",
+            "prefabId": 111901,
+            "searchAreaWidth": 159,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111931.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "ユイ",
+            "prefabId": 100201,
+            "searchAreaWidth": 800,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100261.webp"
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "charas": [
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "アオイ（編入生）",
+            "prefabId": 110701,
+            "searchAreaWidth": 680,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110731.webp"
+          },
+          {
+            "unitName": "ユイ",
+            "prefabId": 100201,
+            "searchAreaWidth": 800,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100261.webp"
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "charas": [
+          {
+            "unitName": "コッコロ（ニューイヤー）",
+            "prefabId": 111901,
+            "searchAreaWidth": 159,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/111931.webp"
+          },
+          {
+            "unitName": "マコト",
+            "prefabId": 104301,
+            "searchAreaWidth": 165,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/104331.webp"
+          },
+          {
+            "unitName": "マコト（サマー）",
+            "prefabId": 110401,
+            "searchAreaWidth": 180,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110431.webp"
+          },
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "ユイ",
+            "prefabId": 100201,
+            "searchAreaWidth": 800,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100261.webp"
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "charas": [
+          {
+            "unitName": "クリスティーナ",
+            "prefabId": 107101,
+            "searchAreaWidth": 290,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/107131.webp"
+          },
+          {
+            "unitName": "レイ",
+            "prefabId": 100301,
+            "searchAreaWidth": 250,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100361.webp"
+          },
+          {
+            "unitName": "コッコロ（プリンセス）",
+            "prefabId": 180501,
+            "searchAreaWidth": 555,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/180531.webp"
+          },
+          {
+            "unitName": "スズナ（サマー）",
+            "prefabId": 110001,
+            "searchAreaWidth": 705,
+            "rarity": 5,
+            "iconUrl": "https://redive.estertion.win/icon/unit/110031.webp"
+          },
+          {
+            "unitName": "ユイ",
+            "prefabId": 100201,
+            "searchAreaWidth": 800,
+            "rarity": 6,
+            "iconUrl": "https://redive.estertion.win/icon/unit/100261.webp"
+          }
+        ]
+      }
+    ]
+  }
+]
