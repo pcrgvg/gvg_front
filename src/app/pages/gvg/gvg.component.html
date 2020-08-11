@@ -1,10 +1,11 @@
 <button mat-button (clickStop)="getCharaList()">刷新</button>
 <button mat-button (clickStop)="createJson()">生成Json</button>
 <button mat-button (clickStop)="toggleModal()">添加</button>
+<button mat-button (clickStop)="toggleAuto()">非手动</button>
 <button mat-button (clickStop)="filter()">筛刀结果</button>
 
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let boss of bossList; index as i; trackBy: trackByBossFn">
+  <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
     <mat-expansion-panel-header>
       <mat-panel-title>bossName{{ i }}</mat-panel-title>
       <mat-panel-description>boss 数据</mat-panel-description>

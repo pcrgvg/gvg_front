@@ -1,17 +1,19 @@
 @import '~src/theme.scss';
 
 :host {
-  width: 700px;
-  min-width: 300px;
+  width: 80vw;
   background: #fff;
 }
 
-.team_box {
+.form {
   display: grid;
-  margin-bottom: 30px;
-  grid-template-columns: 300px auto;
-  grid-template-rows: 20px 42px;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  &_field {
+    padding-bottom: 1.25em;
+  }
 }
+
 .chara {
   &_box {
     display: flex;

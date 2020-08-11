@@ -1,12 +1,7 @@
-<mat-dialog-actions align="end">
-  <button mat-button (clickStop)="reset()">重新选择</button>
-  <button mat-button color="accent" (clickStop)="confirm()" cdkFocusInitial>确定</button>
-</mat-dialog-actions>
-<mat-dialog-content>
-  <div class="team_box">
+<div mat-dialog-title style="display: flex;">
+  <div style="flex-grow: 1;">
     <span>阵容</span>
-    <span>所属boss</span>
-    <div class="chara_box">
+    <div class="chara_box" style="height: 42px;">
       <img
         *ngFor="let chara of dialogData.selectChara; trackBy: trackByCharaFn"
         (clickStop)="toggleSelect(chara)"
@@ -14,20 +9,76 @@
         [src]="chara.iconUrl"
       />
     </div>
-    <div>
-      <form [formGroup]="validateForm">
-        <mat-form-field appearance="fill">
-          <mat-label>boss</mat-label>
-          <mat-select formControlName="bossId">
-            <mat-option *ngFor="let boss of dialogData.bossList" [value]="boss.id">
-              {{ boss.id }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="validateForm.invalid">2</mat-error>
-        </mat-form-field>
-      </form>
-    </div>
   </div>
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" (clickStop)="reset()">重新选择</button>
+    <button mat-button color="accent" (clickStop)="confirm(confirmType.unServer)">仅保存到本地</button>
+    <button mat-button color="accent" (clickStop)="confirm(confirmType.server)">确定</button>
+  </mat-dialog-actions>
+</div>
+<mat-dialog-content>
+  <div>
+    <form class="form" [formGroup]="validateForm">
+      <mat-form-field>
+        <mat-label>服务器</mat-label>
+        <mat-select formControlName="server">
+          <mat-option *ngFor="let server of serverOption" [value]="server.value">
+            {{ server.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>boss</mat-label>
+        <mat-select formControlName="bossId" required>
+          <mat-option *ngFor="let boss of dialogData.bossList" [value]="boss.id">
+            {{ boss.id }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="isError('bossId')">选择BOSS</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>阶段</mat-label>
+        <mat-select formControlName="stage">
+          <mat-option *ngFor="let stage of stageOption" [value]="stage.value">
+            {{ stage.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>伤害</mat-label>
+        <input matInput formControlName="damage" type="number" />
+        <span matSuffix>W</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>自动</mat-label>
+        <mat-select formControlName="canAuto">
+          <mat-option *ngFor="let auto of autoOption" [value]="auto.value">
+            {{ auto.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <div>
+        <span style="opacity: 0.54; font-size: 12px; transform: scale(0.75);">链接</span>
+        <div style="display: flex; align-items: center;">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip selected color="accent" *ngFor="let link of links; index as i" removable 
+            (removed)="removeLink(i)">{{link.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          </mat-chip-list>
+          <button mat-icon-button color="accent" (clickStop)="addLink()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div> -->
+    </form>
+  </div>
+
   <mat-tab-group dynamicHeight>
     <mat-tab label="前卫">
       <div class="chara_box">
@@ -41,12 +92,24 @@
     </mat-tab>
     <mat-tab label="中卫">
       <div class="chara_box">
-        <img *ngFor="let chara of middle; trackBy: trackByCharaFn" (clickStop)="toggleSelect(chara)" [src]="chara.iconUrl" alt="" />
+        <img
+          *ngFor="let chara of middle; trackBy: trackByCharaFn"
+          [class.selected]="dialogData.selectChara.includes(chara)"
+          (clickStop)="toggleSelect(chara)"
+          [src]="chara.iconUrl"
+          alt=""
+        />
       </div>
     </mat-tab>
     <mat-tab label="后卫">
       <div class="chara_box">
-        <img *ngFor="let chara of back; trackBy: trackByCharaFn" (clickStop)="toggleSelect(chara)" [src]="chara.iconUrl" alt="" />
+        <img
+          *ngFor="let chara of back; trackBy: trackByCharaFn"
+          [class.selected]="dialogData.selectChara.includes(chara)"
+          (clickStop)="toggleSelect(chara)"
+          [src]="chara.iconUrl"
+          alt=""
+        />
       </div>
     </mat-tab>
   </mat-tab-group>

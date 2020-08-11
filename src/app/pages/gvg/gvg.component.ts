@@ -3,7 +3,7 @@ import { PcrApiService } from '@api';
 import { Chara, Task, Boss } from '@pcrgvg/models';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
-import { FilterTaskService } from '@core';
+import { FilterTaskService, RediveService } from '@core';
 
 type BossTask = Task & { bossId: number };
 
@@ -13,7 +13,12 @@ type BossTask = Task & { bossId: number };
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
-  constructor(private pcrApi: PcrApiService, private matDialog: MatDialog, private ftSrc: FilterTaskService) {}
+  constructor(
+    private pcrApi: PcrApiService,
+    private matDialog: MatDialog,
+    private ftSrc: FilterTaskService,
+    private redive: RediveService,
+  ) {}
 
   charaList: Chara[] = [];
 
@@ -21,29 +26,39 @@ export class GvgComponent implements OnInit {
 
   filterResult: BossTask[][] = [];
 
+  onlyAuto: boolean = false;
+
   ngOnInit(): void {
-    this.getJson();
-    // this.getCharaList();
+    // this.getJson();
+    this.getCharaList();
   }
 
   getJson() {
     import('@src/assets/task.json').then((res: any) => {
-      console.log(res.default, 'rrrrr');
       this.bossList = res.default;
     });
   }
 
   getCharaList() {
     this.pcrApi.charaList().subscribe((res) => {
-      this.charaList = res;
+      this.charaList = res.map((r) => {
+        return {
+          ...r,
+          iconUrl: this.redive.addIconUrl(r.prefabId, r.rarity),
+        };
+      });
     });
   }
 
+  get filterBossList(): Boss[] {
+    if (this.onlyAuto) {
+      return this.bossList;
+    }
+    return this.bossList;
+  }
+
   filter() {
-    const a = new Date();
     this.filterResult = this.ftSrc.filterTask(this.bossList);
-    const b = new Date();
-    console.log(b.getTime() - a.getTime());
   }
 
   toggleModal() {
@@ -69,6 +84,10 @@ export class GvgComponent implements OnInit {
 
   createJson() {
     this.pcrApi.updateTask(this.bossList).subscribe((res) => {});
+  }
+
+  toggleAuto() {
+    this.onlyAuto = !this.onlyAuto;
   }
 
   trackByBossFn(_: number, boss: Boss): number {

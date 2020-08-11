@@ -4,6 +4,7 @@ import { Chara } from '@pcrgvg/models';
 import { Observable } from 'rxjs';
 
 export const pcrApis = {
+  // 获取角色列表
   charaList: '/pcr/charaList',
 };
 

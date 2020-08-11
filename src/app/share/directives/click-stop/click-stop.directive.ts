@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, HostListener, HostBinding } from '@angular/core';
+import { Directive, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[clickStop]',

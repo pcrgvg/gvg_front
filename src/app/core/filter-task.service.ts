@@ -113,7 +113,6 @@ export class FilterTaskService {
       bossTasks = this.combine(bossTask, 2);
       result = this.findRepeatChara(bossTasks);
     }
-    console.log(result);
     return result;
   }
 }

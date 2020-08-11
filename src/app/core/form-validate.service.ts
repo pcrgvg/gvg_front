@@ -10,10 +10,7 @@ export class FormValidateService {
   formIsValid(validateForm: FormGroup): boolean {
     for (const i in validateForm.controls) {
       if (validateForm.controls.hasOwnProperty(i) && !validateForm.controls[i].disabled) {
-        if (!validateForm.controls[i].valid) {
-          // TODO;
-        }
-        validateForm.controls[i].clearAsyncValidators();
+        // validateForm.controls[i].clearAsyncValidators();
         validateForm.controls[i].markAsDirty();
         validateForm.controls[i].updateValueAndValidity();
         if (validateForm.controls[i] instanceof FormArray) {
@@ -24,19 +21,5 @@ export class FormValidateService {
       }
     }
     return validateForm.valid;
-  }
-
-  markFormDirty(validateForm: FormGroup) {
-    for (const i in validateForm.controls) {
-      if (validateForm.controls.hasOwnProperty(i) && !validateForm.controls[i].disabled) {
-        validateForm.controls[i].markAsDirty();
-        validateForm.controls[i].updateValueAndValidity();
-        if (validateForm.controls[i] instanceof FormArray) {
-          for (const control of (<FormArray>validateForm.controls[i]).controls) {
-            this.markFormDirty(<FormGroup>control);
-          }
-        }
-      }
-    }
   }
 }
