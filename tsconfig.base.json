@@ -18,7 +18,8 @@
       "@src/*": ["src/*"],
       "@app/*": ["src/app/*"],
       "@core": ["src/app/core/index"],
-      "@api": ["src/app/apis/index"]
+      "@apis": ["src/app/apis/index"],
+      "@models": ["src/app/models/index"]
     }
   }
 }

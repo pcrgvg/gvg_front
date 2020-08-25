@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Chara, Task, Boss } from '@pcrgvg/models';
+import { Chara, Task, GvgTask } from '@pcrgvg/models';
 import { cloneDeep } from 'lodash';
 
 /**
@@ -54,7 +54,7 @@ export class FilterTaskService {
    * @param bossList
    * flat task
    */
-  flatTask(bossList: Boss[]): BossTask[] {
+  flatTask(bossList: GvgTask[]): BossTask[] {
     const list = cloneDeep(bossList);
     const tasks: BossTask[] = [];
     // flat task
@@ -104,7 +104,7 @@ export class FilterTaskService {
   }
 
   // 开始筛刀 15/10个角色
-  filterTask(bossList: Boss[]): BossTask[][] {
+  filterTask(bossList: GvgTask[]): BossTask[][] {
     const bossTask: BossTask[] = this.flatTask(bossList);
     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
     let result: BossTask[][] = this.findRepeatChara(bossTasks);

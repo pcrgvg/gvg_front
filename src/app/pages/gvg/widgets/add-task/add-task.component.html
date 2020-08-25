@@ -2,12 +2,11 @@
   <div style="flex-grow: 1;">
     <span>阵容</span>
     <div class="chara_box" style="height: 42px;">
-      <img
-        *ngFor="let chara of dialogData.selectChara; trackBy: trackByCharaFn"
+      <app-pcr-icon
+        *ngFor="let chara of dialogData.task.charas; trackBy: trackByCharaFn"
+        [prefabId]="chara.prefabId"
         (clickStop)="toggleSelect(chara)"
-        style="opacity: 1;"
-        [src]="chara.iconUrl"
-      />
+      ></app-pcr-icon>
     </div>
   </div>
   <mat-dialog-actions align="end">
@@ -32,7 +31,8 @@
         <mat-label>boss</mat-label>
         <mat-select formControlName="bossId" required>
           <mat-option *ngFor="let boss of dialogData.bossList" [value]="boss.id">
-            {{ boss.id }}
+            <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon>
+            <span>{{ boss.unitName }}</span>
           </mat-option>
         </mat-select>
         <mat-error *ngIf="isError('bossId')">选择BOSS</mat-error>
@@ -82,34 +82,35 @@
   <mat-tab-group dynamicHeight>
     <mat-tab label="前卫">
       <div class="chara_box">
-        <img
+        <app-pcr-icon
+          class="img"
           *ngFor="let chara of front; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.selectChara.includes(chara)"
+          [class.selected]="dialogData.task.charas?.includes(chara)"
           (clickStop)="toggleSelect(chara)"
-          [src]="chara.iconUrl"
-        />
+          [prefabId]="chara.prefabId"
+        ></app-pcr-icon>
       </div>
     </mat-tab>
     <mat-tab label="中卫">
       <div class="chara_box">
-        <img
+        <app-pcr-icon
+          class="img"
           *ngFor="let chara of middle; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.selectChara.includes(chara)"
+          [class.selected]="dialogData.task.charas?.includes(chara)"
           (clickStop)="toggleSelect(chara)"
-          [src]="chara.iconUrl"
-          alt=""
-        />
+          [prefabId]="chara.prefabId"
+        ></app-pcr-icon>
       </div>
     </mat-tab>
     <mat-tab label="后卫">
       <div class="chara_box">
-        <img
+        <app-pcr-icon
+          class="img"
           *ngFor="let chara of back; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.selectChara.includes(chara)"
+          [class.selected]="dialogData.task.charas?.includes(chara)"
           (clickStop)="toggleSelect(chara)"
-          [src]="chara.iconUrl"
-          alt=""
-        />
+          [prefabId]="chara.prefabId"
+        ></app-pcr-icon>
       </div>
     </mat-tab>
   </mat-tab-group>

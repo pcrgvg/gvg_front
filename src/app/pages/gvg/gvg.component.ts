@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { PcrApiService } from '@api';
-import { Chara, Task, Boss } from '@pcrgvg/models';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PcrApiService } from '@apis';
+import { Chara, Task, GvgTask } from '@pcrgvg/models';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { FilterTaskService, RediveService } from '@core';
+import { cloneDeep } from 'lodash';
+import { CanAutoType } from '@src/app/models';
 
 type BossTask = Task & { bossId: number };
 
@@ -13,6 +15,7 @@ type BossTask = Task & { bossId: number };
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
+  readonly a = 8;
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
@@ -22,75 +25,75 @@ export class GvgComponent implements OnInit {
 
   charaList: Chara[] = [];
 
-  bossList: Boss[] = [];
+  bossList: GvgTask[] = [];
+  filterBossList: GvgTask[] = [];
 
   filterResult: BossTask[][] = [];
 
   onlyAuto: boolean = false;
 
   ngOnInit(): void {
-    // this.getJson();
-    this.getCharaList();
+    this.getGvgTaskList();
+    // this.getCharaList();
   }
 
-  getJson() {
-    import('@src/assets/task.json').then((res: any) => {
-      this.bossList = res.default;
+  getGvgTaskList() {
+    this.pcrApi.gvgTaskList().subscribe((res) => {
+      this.bossList = res;
+      this.filterBossList = res;
     });
   }
 
   getCharaList() {
     this.pcrApi.charaList().subscribe((res) => {
-      this.charaList = res.map((r) => {
-        return {
-          ...r,
-          iconUrl: this.redive.addIconUrl(r.prefabId, r.rarity),
-        };
-      });
+      this.charaList = res;
     });
-  }
-
-  get filterBossList(): Boss[] {
-    if (this.onlyAuto) {
-      return this.bossList;
-    }
-    return this.bossList;
   }
 
   filter() {
-    this.filterResult = this.ftSrc.filterTask(this.bossList);
+    this.filterResult = this.ftSrc.filterTask(this.filterBossList);
   }
 
-  toggleModal() {
+  toggleModal(task?: Task, bossId?: number) {
     const dialogRef = this.matDialog.open(AddTaskComponent, {
       data: {
         charaList: this.charaList,
-        selectChara: [],
+        task: task
+          ? cloneDeep(task)
+          : {
+              charas: [],
+            },
         bossList: this.bossList,
+        bossId,
       },
       closeOnNavigation: true,
     });
-    dialogRef.afterClosed().subscribe((res) => {
+    dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
-        const { bossId, selectChara } = res;
+        const { bossId, gvgTask } = res;
         const boss = this.bossList.find((boss) => boss.id === bossId);
-        boss.tasks.push({
-          id: null,
-          charas: selectChara,
-        });
+        boss.tasks.push(gvgTask.tasks[0]);
       }
     });
   }
 
-  createJson() {
-    this.pcrApi.updateTask(this.bossList).subscribe((res) => {});
-  }
-
   toggleAuto() {
     this.onlyAuto = !this.onlyAuto;
+    const bossList = cloneDeep(this.bossList);
+    if (this.onlyAuto) {
+      bossList.forEach((gvgtask) => {
+        const tasks = cloneDeep(gvgtask.tasks);
+        gvgtask.tasks = tasks.filter((task) => task.canAuto !== CanAutoType.unAuto);
+      });
+    }
+    this.filterBossList = bossList;
   }
 
-  trackByBossFn(_: number, boss: Boss): number {
+  trackByBossFn(_: number, boss: GvgTask): number {
     return boss.id;
+  }
+
+  trackByCharaFn(_: number, chara: Chara): number {
+    return chara.prefabId;
   }
 }

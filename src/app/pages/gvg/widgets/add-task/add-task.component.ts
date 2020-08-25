@@ -1,9 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Chara, ServerType, ServerName, Boss } from '@pcrgvg/models';
+import { Chara, ServerType, ServerName, GvgTask, Task } from '@pcrgvg/models';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { FormValidateService } from '@core';
-import { SnackbarService } from '@core';
+import { FormValidateService, SnackbarService } from '@core';
+import { PcrApiService } from '@apis';
+import { CanAutoType, CanAutoName } from '@models';
+import { pipe } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 interface Link {
   url: string;
@@ -19,6 +22,7 @@ export class AddTaskComponent implements OnInit {
   validateForm: FormGroup;
   stageOption = [];
   links: Link[] = [];
+  loading = false;
   confirmType = {
     server: 1,
     unServer: 2,
@@ -39,38 +43,36 @@ export class AddTaskComponent implements OnInit {
   ];
   autoOption = [
     {
-      label: '手动',
-      value: 1,
+      label: CanAutoName.unAuto,
+      value: CanAutoType.unAuto,
     },
     {
-      label: '自动',
-      value: 2,
+      label: CanAutoName.auto,
+      value: CanAutoType.auto,
     },
     {
-      label: '可自动',
-      value: 3,
-    },
-    {
-      label: '半自动',
-      value: 4,
+      label: CanAutoName.harfAuto,
+      value: CanAutoType.harfAuto,
     },
   ];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dialogData: {
       charaList: Chara[];
-      selectChara: Chara[];
-      bossList: Boss[];
+      task: Task;
+      bossList: GvgTask[];
+      bossId: number;
     },
     private modalRef: MatDialogRef<AddTaskComponent>,
     private fb: FormBuilder,
     private fv: FormValidateService,
     private snackbar: SnackbarService,
+    private pcraApiSrv: PcrApiService,
   ) {
     this.validateForm = this.fb.group({
-      bossId: [null, [Validators.required]],
-      canAuto: 1,
-      damage: null,
+      bossId: [this.dialogData.bossId, [Validators.required]],
+      canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
+      damage: this.dialogData.task?.damage,
       stage: 1,
       server: ServerType.jp,
     });
@@ -85,7 +87,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   reset(): void {
-    this.dialogData.selectChara = [];
+    this.dialogData.task.charas = [];
   }
 
   get front(): Chara[] {
@@ -119,7 +121,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   confirm(confirmType: number) {
-    if (!this.dialogData.selectChara.length) {
+    if (!this.dialogData.task?.charas?.length) {
       this.snackbar.openSnackBar('至少选择一个角色');
       return;
     }
@@ -131,21 +133,33 @@ export class AddTaskComponent implements OnInit {
       ...this.validateForm.value,
     };
     if (confirmType === this.confirmType.server) {
+      const gvgTask: GvgTask = {
+        ...value,
+        task: this.dialogData.task,
+      };
+      this.loading = true;
+      this.pcraApiSrv
+        .updateTask(gvgTask)
+        .pipe(finalize(() => (this.loading = false)))
+        .subscribe((res) => {
+          this.modalRef.close({
+            bossId: res.id,
+            gvgTask: res,
+          });
+        });
     } else {
+      // 仅本地
     }
-    this.modalRef.close({
-      bossId: value.bossId,
-      selectChara: this.dialogData.selectChara,
-    });
   }
 
   toggleSelect(chara: Chara): void {
-    if (this.dialogData.selectChara.findIndex((r) => r.prefabId === chara.prefabId) === -1) {
-      if (this.dialogData.selectChara.length < 5) {
-        this.dialogData.selectChara.push(chara);
+    const charas = [];
+    if (this.dialogData.task?.charas?.findIndex((r) => r.prefabId === chara.prefabId) === -1) {
+      if (this.dialogData.task.charas?.length < 5) {
+        this.dialogData.task.charas.push(chara);
       }
     } else {
-      this.dialogData.selectChara = this.dialogData.selectChara.filter((r) => r.prefabId !== chara.prefabId);
+      this.dialogData.task.charas = this.dialogData.task.charas?.filter((r) => r.prefabId !== chara.prefabId);
     }
   }
 

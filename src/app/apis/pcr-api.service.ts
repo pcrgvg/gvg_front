@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@core';
-import { Chara } from '@pcrgvg/models';
+import { Chara, GvgTask } from '@pcrgvg/models';
 import { Observable } from 'rxjs';
 
 export const pcrApis = {
   // 获取角色列表
   charaList: '/pcr/charaList',
+  gvgTaskList: '/pcr/gvgTask',
+  updateGvgTask: '/pcr/updateGvgTask',
 };
 
 @Injectable({
@@ -18,7 +20,11 @@ export class PcrApiService {
     return this.http.Get<Chara[]>(pcrApis.charaList);
   }
 
-  updateTask(tasks): Observable<any> {
-    return this.http.post(pcrApis.charaList, tasks);
+  updateTask(gvgTask: GvgTask): Observable<GvgTask> {
+    return this.http.post<GvgTask>(pcrApis.updateGvgTask, gvgTask);
+  }
+
+  gvgTaskList(): Observable<GvgTask[]> {
+    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList);
   }
 }

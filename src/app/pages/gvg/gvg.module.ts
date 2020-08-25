@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
@@ -31,6 +32,7 @@ import { AddTaskComponent } from './widgets/add-task/add-task.component';
     MatFormFieldModule,
     MatIconModule,
     MatChipsModule,
+    MatMenuModule,
   ],
   entryComponents: [AddTaskComponent],
 })
