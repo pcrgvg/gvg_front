@@ -13,7 +13,7 @@ interface FilterResult {
   task: Task;
 }
 
-type BossTask = Task & { bossId: number };
+type BossTask = Task & { bossId: number; prefabId: number };
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,11 @@ export class FilterTaskService {
     function combineSub(start: number, subResult: BossTask[]) {
       /// subResult长度符合k，放入result
       if (subResult.length === k) {
-        result.push(subResult.slice(0));
+        if (subResult.findIndex((r) => r.isUsed) > -1) {
+          result.unshift(subResult.slice(0));
+        } else {
+          result.push(subResult.slice(0));
+        }
         return;
       }
       const len = subResult.length;
@@ -62,11 +66,26 @@ export class FilterTaskService {
       boss.tasks.forEach((task) => {
         tasks.push({
           bossId: boss.id,
+          prefabId: boss.prefabId,
           ...task,
         });
       });
     });
     return tasks;
+  }
+
+  /**
+   *
+   * @param charas 最多只能有2个角色重复，并且只能有其中一个角色能重复2次
+   */
+  repeatCondition(charas: any[]): boolean {
+    // if ((charas.length >= 3 || (charas.length > 0 && charas[0] === charas[1]))) {
+    // }
+    const set = new Set(charas);
+    if (set.size >= 3) {
+      return true;
+    }
+    return false;
   }
   /**
    * 最多只能有2个角色重复，并且只能重复一次
@@ -79,7 +98,7 @@ export class FilterTaskService {
       const arr = [];
       for (let bossTask_i = 0; bossTask_i < bossTask.length; bossTask_i++) {
         const task = bossTask[bossTask_i];
-        if (arr.length >= 3 || (arr.length > 0 && arr[0] === arr[1])) {
+        if (this.repeatCondition(arr)) {
           break;
         }
         for (let chara_i = 0; chara_i < task.charas.length; chara_i++) {
@@ -89,13 +108,13 @@ export class FilterTaskService {
           /// 如果长度不变，说明是重复的
           if (size === set.size) {
             arr.push(chara.prefabId);
-            if (arr.length >= 3 || (arr.length > 0 && arr[0] === arr[1])) {
+            if (this.repeatCondition(arr)) {
               break;
             }
           }
         }
       }
-      if (!(arr.length >= 3 || (arr.length > 0 && arr[0] === arr[1]))) {
+      if (!this.repeatCondition(arr)) {
         result.push(bossTask);
       }
     }
@@ -113,6 +132,7 @@ export class FilterTaskService {
       bossTasks = this.combine(bossTask, 2);
       result = this.findRepeatChara(bossTasks);
     }
+    console.log(result);
     return result;
   }
 }

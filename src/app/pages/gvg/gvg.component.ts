@@ -7,7 +7,7 @@ import { FilterTaskService, RediveService } from '@core';
 import { cloneDeep } from 'lodash';
 import { CanAutoType } from '@src/app/models';
 
-type BossTask = Task & { bossId: number };
+type BossTask = Task & { bossId: number; prefabId: number };
 
 @Component({
   selector: 'app-gvg',

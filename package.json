@@ -28,7 +28,7 @@
     "@angular/platform-browser": "~10.0.5",
     "@angular/platform-browser-dynamic": "~10.0.5",
     "@angular/router": "~10.0.5",
-    "@pcrgvg/models": "file:../pcr_models",
+    "@pcrgvg/models": "file:../models",
     "brotli": "^1.3.2",
     "lodash": "^4.17.19",
     "ng-lazyload-image": "^8.0.1",
