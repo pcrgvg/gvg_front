@@ -5,7 +5,6 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormValidateService, SnackbarService } from '@core';
 import { PcrApiService } from '@apis';
 import { CanAutoType, CanAutoName } from '@models';
-import { pipe } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 interface Link {

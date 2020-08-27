@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class I18nService {
-  locale = new BehaviorSubject<string>('cn');
+  locale = new BehaviorSubject<string>('en');
   constructor() {}
 
   changeLanguage(language: string) {

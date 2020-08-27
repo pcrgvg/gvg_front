@@ -76,14 +76,20 @@ export class FilterTaskService {
 
   /**
    *
-   * @param charas 最多只能有2个角色重复，并且只能有其中一个角色能重复2次
+   * @param charas 最多只能有2个角色重复，并且只能有其中一个角色最多重复2次
    */
-  repeatCondition(charas: any[]): boolean {
-    // if ((charas.length >= 3 || (charas.length > 0 && charas[0] === charas[1]))) {
-    // }
-    const set = new Set(charas);
-    if (set.size >= 3) {
-      return true;
+  repeatCondition(charas: number[]): boolean {
+    const map = new Map<number, number>();
+    for (const chara of charas) {
+      const charaCount = map.get(chara) ?? 0;
+      map.set(chara, charaCount + 1);
+    }
+    if (map.keys.length > 2) {
+      return false;
+    }
+    const values = map.values;
+    if (values[0] === 2 && values[1] === 2) {
+      return false;
     }
     return false;
   }
@@ -95,7 +101,7 @@ export class FilterTaskService {
     for (let i = 0; i < bossTasks.length; i++) {
       const bossTask = bossTasks[i];
       const set = new Set();
-      const arr = [];
+      const arr: number[] = [];
       for (let bossTask_i = 0; bossTask_i < bossTask.length; bossTask_i++) {
         const task = bossTask[bossTask_i];
         if (this.repeatCondition(arr)) {
@@ -132,7 +138,6 @@ export class FilterTaskService {
       bossTasks = this.combine(bossTask, 2);
       result = this.findRepeatChara(bossTasks);
     }
-    console.log(result);
     return result;
   }
 }

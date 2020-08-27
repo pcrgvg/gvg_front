@@ -12,6 +12,7 @@ export const cn = {
 
 @Pipe({
   name: 'i18n',
+  pure: false,
 })
 export class I18nPipe implements PipeTransform, OnDestroy {
   cn = {
@@ -24,10 +25,12 @@ export class I18nPipe implements PipeTransform, OnDestroy {
   sub: Subscription;
   constructor(private i18n: I18nService) {
     this.sub = this.i18n.getLanguage().subscribe((res) => {
+      console.log(res);
       this.language = res;
     });
   }
   transform(value: string, ...args: unknown[]): unknown {
+    console.log('change');
     return this[this.language][value];
   }
 
