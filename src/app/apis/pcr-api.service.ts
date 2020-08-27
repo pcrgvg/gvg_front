@@ -24,7 +24,7 @@ export class PcrApiService {
     return this.http.post<GvgTask>(pcrApis.updateGvgTask, gvgTask);
   }
 
-  gvgTaskList(): Observable<GvgTask[]> {
-    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList);
+  gvgTaskList(stage: number = 3): Observable<GvgTask[]> {
+    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, { stage });
   }
 }

@@ -77,6 +77,7 @@ export class FilterTaskService {
   /**
    *
    * @param charas 最多只能有2个角色重复，并且只能有其中一个角色最多重复2次
+   * true表示符合规则
    */
   repeatCondition(charas: number[]): boolean {
     const map = new Map<number, number>();
@@ -84,17 +85,18 @@ export class FilterTaskService {
       const charaCount = map.get(chara) ?? 0;
       map.set(chara, charaCount + 1);
     }
-    if (map.keys.length > 2) {
+    const keys = Array.from(map.keys());
+    if (keys.length > 2) {
       return false;
     }
-    const values = map.values;
+    const values = Array.from(map.values());
     if (values[0] === 2 && values[1] === 2) {
       return false;
     }
-    return false;
+    return true;
   }
   /**
-   * 最多只能有2个角色重复，并且只能重复一次
+   *
    */
   findRepeatChara(bossTasks: BossTask[][]): BossTask[][] {
     const result: BossTask[][] = [];
@@ -104,9 +106,9 @@ export class FilterTaskService {
       const arr: number[] = [];
       for (let bossTask_i = 0; bossTask_i < bossTask.length; bossTask_i++) {
         const task = bossTask[bossTask_i];
-        if (this.repeatCondition(arr)) {
-          break;
-        }
+        // if (this.repeatCondition(arr)) {
+        //   break;
+        // }
         for (let chara_i = 0; chara_i < task.charas.length; chara_i++) {
           const chara = task.charas[chara_i];
           const size = set.size;
@@ -114,13 +116,13 @@ export class FilterTaskService {
           /// 如果长度不变，说明是重复的
           if (size === set.size) {
             arr.push(chara.prefabId);
-            if (this.repeatCondition(arr)) {
-              break;
-            }
+            // if (this.repeatCondition(arr)) {
+            //   break;
+            // }
           }
         }
       }
-      if (!this.repeatCondition(arr)) {
+      if (this.repeatCondition(arr)) {
         result.push(bossTask);
       }
     }
@@ -138,6 +140,7 @@ export class FilterTaskService {
       bossTasks = this.combine(bossTask, 2);
       result = this.findRepeatChara(bossTasks);
     }
+    console.log(result);
     return result;
   }
 }

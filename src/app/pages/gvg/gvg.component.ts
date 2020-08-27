@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { Chara, Task, GvgTask } from '@pcrgvg/models';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +6,8 @@ import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { FilterTaskService, RediveService } from '@core';
 import { cloneDeep } from 'lodash';
 import { CanAutoType } from '@src/app/models';
+import html2canvas from 'html2canvas';
+import { Location } from '@angular/common';
 
 type BossTask = Task & { bossId: number; prefabId: number };
 
@@ -15,15 +17,18 @@ type BossTask = Task & { bossId: number; prefabId: number };
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
-  readonly a = 8;
+  @ViewChild('result') result: ElementRef;
+
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
     private ftSrc: FilterTaskService,
     private redive: RediveService,
+    private location: Location,
   ) {}
 
   charaList: Chara[] = [];
+  url = '';
 
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
@@ -87,6 +92,16 @@ export class GvgComponent implements OnInit {
       });
     }
     this.filterBossList = bossList;
+  }
+
+  toImage() {
+    html2canvas(document.getElementById('result'), {
+      backgroundColor: '#fff',
+      useCORS: false,
+      allowTaint: false,
+    }).then((canvas) => {
+      this.url = canvas.toDataURL('image/png');
+    });
   }
 
   trackByBossFn(_: number, boss: GvgTask): number {
