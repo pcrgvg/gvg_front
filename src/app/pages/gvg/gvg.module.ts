@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
@@ -33,6 +34,7 @@ import { AddTaskComponent } from './widgets/add-task/add-task.component';
     MatIconModule,
     MatChipsModule,
     MatMenuModule,
+    CdkScrollableModule,
   ],
   entryComponents: [AddTaskComponent],
 })

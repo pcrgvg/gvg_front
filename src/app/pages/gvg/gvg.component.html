@@ -1,8 +1,7 @@
-<button mat-button (clickStop)="getCharaList()">刷新</button>
+<button mat-button (clickStop)="getGvgTaskList()">刷新</button>
 <button mat-button (clickStop)="toggleModal()">添加</button>
 <button mat-button (clickStop)="toggleAuto()">非手动</button>
-<button mat-button (clickStop)="filter()">筛刀结果</button>
-<button mat-button (clickStop)="toImage()">截图</button>
+<button mat-button (clickStop)="filter()">筛刀</button>
 
 <button mat-button [matMenuTriggerFor]="appMenu">Menu</button>
 <mat-menu #appMenu="matMenu">
@@ -33,7 +32,7 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<div #result id="result" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+<div #result style="display: flex; flex-wrap: wrap; justify-content: space-between;">
   <div *ngFor="let bossTask of filterResult" style="margin-bottom: 20px; border-bottom: 1px solid red; width: 30%; flex-shrink: 0;">
     <div *ngFor="let task of bossTask">
       <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
@@ -44,5 +43,4 @@
     </div>
   </div>
 </div>
-
-<img [src]="url" alt="" />
+<!-- <cdk-virtual-scroll-viewport></cdk-virtual-scroll-viewport> -->

@@ -39,7 +39,7 @@ export class GvgComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGvgTaskList();
-    // this.getCharaList();
+    this.getCharaList();
   }
 
   getGvgTaskList() {
