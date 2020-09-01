@@ -141,6 +141,24 @@ export class FilterTaskService {
       result = this.findRepeatChara(bossTasks);
     }
     console.log(result);
+    result.sort((a, b) => {
+      let [aScore, bScore] = [0, 0];
+      a.forEach((task) => {
+        aScore += task.damage * xishu[task.bossId];
+      });
+      b.forEach((task) => {
+        bScore += task.damage * xishu[task.bossId];
+      });
+      return bScore - aScore;
+    });
     return result;
   }
 }
+
+const xishu = {
+  1: 3.5,
+  2: 3.5,
+  3: 3.7,
+  4: 3.8,
+  5: 4.0,
+};
