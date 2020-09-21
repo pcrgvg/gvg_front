@@ -6,27 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CoreModule } from '@app/core/core.module';
 import { PagesModule } from '@app/pages/pages.module';
-import { ShareModule } from '@app/share/share.module';
+import { ShareModule } from '@app/share';
 import { LayoutModule } from '@app/layout/layout.module';
 
-
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    PagesModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    CoreModule,
-    ShareModule,
-    LayoutModule
-  ],
-  providers: [
-
-  ],
-  bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [BrowserModule, PagesModule, BrowserAnimationsModule, HttpClientModule, CoreModule, ShareModule, LayoutModule],
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

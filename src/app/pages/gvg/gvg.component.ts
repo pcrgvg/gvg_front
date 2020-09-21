@@ -29,7 +29,8 @@ export class GvgComponent implements OnInit {
 
   charaList: Chara[] = [];
   url = '';
-
+  stage = 1;
+  stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
 
@@ -38,12 +39,17 @@ export class GvgComponent implements OnInit {
   onlyAuto: boolean = false;
 
   ngOnInit(): void {
+    this.stageOption = new Array(4).fill(1).map((r, i) => {
+      return {
+        value: i + 1,
+      };
+    });
     this.getGvgTaskList();
     this.getCharaList();
   }
 
   getGvgTaskList() {
-    this.pcrApi.gvgTaskList().subscribe((res) => {
+    this.pcrApi.gvgTaskList(this.stage).subscribe((res) => {
       this.bossList = res;
       this.filterBossList = res;
     });

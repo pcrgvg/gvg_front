@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { GvgRoutingModule } from './gvg-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ShareModule } from '@app/share/share.module';
+import { ShareModule } from '@app/share';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';

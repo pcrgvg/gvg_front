@@ -1,46 +1,46 @@
-<button mat-button (clickStop)="getGvgTaskList()">刷新</button>
-<button mat-button (clickStop)="toggleModal()">添加</button>
-<button mat-button (clickStop)="toggleAuto()">非手动</button>
-<button mat-button (clickStop)="filter()">筛刀</button>
+<div class="header">
+  <button mat-button (clickStop)="toggleModal()">添加</button>
+  <button mat-button (clickStop)="toggleAuto()">非手动</button>
+  <mat-select [(ngModel)]="stage" style="width: 80px;">
+    <mat-option *ngFor="let stage of stageOption" [value]="stage.value"> 阶段{{ stage.value }} </mat-option>
+  </mat-select>
+  <button mat-button (clickStop)="getGvgTaskList()">查询</button>
+  <button mat-button (clickStop)="filter()">筛刀</button>
+</div>
 
-<button mat-button [matMenuTriggerFor]="appMenu">Menu</button>
-<mat-menu #appMenu="matMenu">
-  <button mat-menu-item>Settings</button>
-  <button mat-menu-item>Help</button>
-</mat-menu>
+<div class="content">
+  <mat-accordion multi style="width: 66%;">
+    <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
+      <mat-expansion-panel-header>
+        <mat-panel-title> <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon></mat-panel-title>
+        <mat-panel-description>{{ boss.unitName }}</mat-panel-description>
+      </mat-expansion-panel-header>
 
-<mat-accordion multi>
-  <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
-    <mat-expansion-panel-header>
-      <mat-panel-title> <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon></mat-panel-title>
-      <mat-panel-description>{{ boss.unitName }}</mat-panel-description>
-    </mat-expansion-panel-header>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of boss.tasks">
+          <mat-expansion-panel-header (rightClick)="toggleModal(task, boss.id)">
+            <mat-panel-title>
+              <app-pcr-icon *ngFor="let chara of task.charas; trackBy: trackByCharaFn" [prefabId]="chara.prefabId"></app-pcr-icon>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span>{{ task.canAuto | canauto }} {{ task.damage }} </span>
+              <button (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let task of boss.tasks">
-        <mat-expansion-panel-header (rightClick)="toggleModal(task, boss.id)">
-          <mat-panel-title>
-            <app-pcr-icon *ngFor="let chara of task.charas; trackBy: trackByCharaFn" [prefabId]="chara.prefabId"></app-pcr-icon>
-          </mat-panel-title>
-          <mat-panel-description>
-            <span>{{ task.canAuto | canauto }} {{ task.damage }} </span>
-            <button (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-expansion-panel>
-</mat-accordion>
-
-<div #result style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-  <div *ngFor="let bossTask of filterResult" style="margin-bottom: 20px; border-bottom: 1px solid red; width: 30%; flex-shrink: 0;">
-    <div *ngFor="let task of bossTask">
-      <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
-      <div [style.backgroundColor]="task.isUsed ? 'red' : ''">
-        <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId"></app-pcr-icon>
-        <span>伤害{{ task.damage }}</span>
+  <cdk-virtual-scroll-viewport itemSize="310" style="width: 33%;">
+    <div *cdkVirtualFor="let bossTask of filterResult" style="margin-bottom: 20px; border-bottom: 1px solid red; flex-shrink: 0;">
+      <div *ngFor="let task of bossTask">
+        <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
+        <div [style.backgroundColor]="task.isUsed ? 'red' : ''">
+          <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId"></app-pcr-icon>
+          <span>伤害{{ task.damage }}</span>
+        </div>
       </div>
     </div>
-  </div>
+  </cdk-virtual-scroll-viewport>
 </div>
-<!-- <cdk-virtual-scroll-viewport></cdk-virtual-scroll-viewport> -->

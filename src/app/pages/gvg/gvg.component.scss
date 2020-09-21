@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  height: calc(100vh - 156px);
+  justify-content: space-between;
+}

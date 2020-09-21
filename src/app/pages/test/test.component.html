@@ -1,3 +1,13 @@
 <p>test works!</p>
 <button (clickStop)="isOpen = !isOpen">toggle</button>
 <div [@openClose]="isOpen ? 'open' : 'close'">BG</div>
+
+<div class="box">
+  <div *ngFor="let item of arr; index as i" @inOut class="hero">
+    <span>{{ item }}</span>
+    <button (clickStop)="addArr()">添加</button>
+    <button (clickStop)="deleteArr(i)">删除</button>
+  </div>
+</div>
+
+<span @filterAnimation>50</span>
