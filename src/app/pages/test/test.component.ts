@@ -1,6 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { trigger, style, transition, state, animate, query, stagger, keyframes } from '@angular/animations';
-import { TFn } from 'cyutil';
 
 @Component({
   selector: 'app-test',

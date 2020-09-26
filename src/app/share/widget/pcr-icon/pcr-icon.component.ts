@@ -8,7 +8,7 @@ import { RediveService } from '@core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PcrIconComponent implements OnInit {
-  private _src: string = '';
+  private _src = '';
   constructor(private redive: RediveService) {}
 
   @Input()

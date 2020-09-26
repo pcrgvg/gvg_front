@@ -8,3 +8,15 @@
   height: calc(100vh - 156px);
   justify-content: space-between;
 }
+// .scroll{
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+// }
+.scroll-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid red;
+  display: flex;
+  flex-shrink: 0;
+  // width: 40%;
+}

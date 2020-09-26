@@ -9,7 +9,8 @@
     "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "pretty-quick": "pretty-quick --staged",
-    "analyzer": "ng build --prod --statsJson && webpack-bundle-analyzer dist/pcr/stats.json"
+    "analyzer": "ng build --prod --statsJson && webpack-bundle-analyzer dist/pcr/stats.json",
+    "pre-commit": " npm run lint && npm run  pretty-quick  "
   },
   "private": true,
   "husky": {

@@ -13,7 +13,7 @@ interface FilterResult {
   task: Task;
 }
 
-type BossTask = Task & { bossId: number; prefabId: number };
+type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
 
 @Injectable({
   providedIn: 'root',
@@ -34,11 +34,15 @@ export class FilterTaskService {
     function combineSub(start: number, subResult: BossTask[]) {
       /// subResult长度符合k，放入result
       if (subResult.length === k) {
-        if (subResult.findIndex((r) => r.isUsed) > -1) {
-          result.unshift(subResult.slice(0));
-        } else {
-          result.push(subResult.slice(0));
+        // if (subResult.findIndex((r) => r.isUsed) > -1) {
+        //   result.unshift(subResult.slice(0));
+        // } else {
+        //   result.push(subResult.slice(0));
+        // }
+        if (subResult.findIndex((r) => r.disabeld) > -1) {
+          return;
         }
+        result.push(subResult.slice(0));
         return;
       }
       const len = subResult.length;
@@ -140,7 +144,7 @@ export class FilterTaskService {
       bossTasks = this.combine(bossTask, 2);
       result = this.findRepeatChara(bossTasks);
     }
-    console.log(result);
+    // console.log(result);
     result.sort((a, b) => {
       let [aScore, bScore] = [0, 0];
       a.forEach((task) => {

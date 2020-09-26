@@ -23,7 +23,7 @@ export class StateViewComponent implements OnInit {
     this.onRetry.emit();
   }
 
-  get first() {
+  get first(): boolean {
     return this.viewState === 'first';
   }
   get pending() {

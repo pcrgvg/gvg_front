@@ -9,7 +9,7 @@
 </div>
 
 <div class="content">
-  <mat-accordion multi style="width: 66%;">
+  <mat-accordion multi style="width: 40%;">
     <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
       <mat-expansion-panel-header>
         <mat-panel-title> <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon></mat-panel-title>
@@ -25,6 +25,7 @@
             <mat-panel-description>
               <span>{{ task.canAuto | canauto }} {{ task.damage }} </span>
               <button (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
+              <button (clickStop)="task.disabeld = !task.disabeld">{{ task.disabeld ? '加入' : '去除' }}</button>
             </mat-panel-description>
           </mat-expansion-panel-header>
         </mat-expansion-panel>
@@ -32,8 +33,8 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <cdk-virtual-scroll-viewport itemSize="310" style="width: 33%;">
-    <div *cdkVirtualFor="let bossTask of filterResult" style="margin-bottom: 20px; border-bottom: 1px solid red; flex-shrink: 0;">
+  <cdk-virtual-scroll-viewport itemSize="100" style="width: 60%;" class="scroll">
+    <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
       <div *ngFor="let task of bossTask">
         <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
         <div [style.backgroundColor]="task.isUsed ? 'red' : ''">

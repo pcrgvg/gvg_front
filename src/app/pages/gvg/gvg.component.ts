@@ -9,7 +9,7 @@ import { CanAutoType } from '@src/app/models';
 import html2canvas from 'html2canvas';
 import { Location } from '@angular/common';
 
-type BossTask = Task & { bossId: number; prefabId: number };
+type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
 
 @Component({
   selector: 'app-gvg',
@@ -36,7 +36,7 @@ export class GvgComponent implements OnInit {
 
   filterResult: BossTask[][] = [];
 
-  onlyAuto: boolean = false;
+  onlyAuto = false;
 
   ngOnInit(): void {
     this.stageOption = new Array(4).fill(1).map((r, i) => {

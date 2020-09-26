@@ -14,8 +14,8 @@ export class FormValidateService {
         validateForm.controls[i].markAsDirty();
         validateForm.controls[i].updateValueAndValidity();
         if (validateForm.controls[i] instanceof FormArray) {
-          for (const control of (<FormArray>validateForm.controls[i]).controls) {
-            this.formIsValid(<FormGroup>control);
+          for (const control of (validateForm.controls[i] as FormArray).controls) {
+            this.formIsValid(control as FormGroup);
           }
         }
       }
