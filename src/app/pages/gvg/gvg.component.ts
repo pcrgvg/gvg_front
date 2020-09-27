@@ -29,7 +29,7 @@ export class GvgComponent implements OnInit {
 
   charaList: Chara[] = [];
   url = '';
-  stage = 1;
+  stage = 3;
   stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];

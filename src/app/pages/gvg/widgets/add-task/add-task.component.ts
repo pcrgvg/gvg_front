@@ -72,7 +72,7 @@ export class AddTaskComponent implements OnInit {
       bossId: [this.dialogData.bossId, [Validators.required]],
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
-      stage: 1,
+      stage: this.dialogData.task?.stage ?? 3,
       server: ServerType.jp,
     });
   }
