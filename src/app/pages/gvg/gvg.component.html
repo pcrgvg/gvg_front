@@ -1,6 +1,6 @@
 <div class="header">
   <button mat-button (clickStop)="toggleModal()">添加</button>
-  <button mat-button (clickStop)="toggleAuto()">非手动</button>
+  <!-- <button mat-button (clickStop)="toggleAuto()">非手动</button> -->
   <mat-select [(ngModel)]="stage" style="width: 80px;">
     <mat-option *ngFor="let stage of stageOption" [value]="stage.value"> 阶段{{ stage.value }} </mat-option>
   </mat-select>
@@ -22,12 +22,16 @@
             <mat-panel-title>
               <app-pcr-icon *ngFor="let chara of task.charas; trackBy: trackByCharaFn" [prefabId]="chara.prefabId"></app-pcr-icon>
             </mat-panel-title>
-            <mat-panel-description>
-              <span>{{ task.canAuto | canauto }} {{ task.damage }} </span>
-              <button (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
-              <button (clickStop)="task.disabeld = !task.disabeld">{{ task.disabeld ? '加入' : '去除' }}</button>
+            <mat-panel-description style="align-items: center;">
+              <span>{{ task.canAuto | canauto }} </span>
+              <button mat-button color="primary" (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
+              <button mat-button color="warn" (clickStop)="task.disabeld = !task.disabeld">{{ task.disabeld ? '加入' : '去除' }}</button>
+              <button mat-button color="accent" (clickStop)="delelteTask(boss, task)">删除</button>
             </mat-panel-description>
           </mat-expansion-panel-header>
+          <div>
+            {{ task.damage }}
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-expansion-panel>

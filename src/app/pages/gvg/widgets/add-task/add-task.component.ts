@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Chara, ServerType, ServerName, GvgTask, Task } from '@pcrgvg/models';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormValidateService, SnackbarService } from '@core';
 import { PcrApiService } from '@apis';
-import { CanAutoType, CanAutoName } from '@models';
+import { CanAutoType, CanAutoName, Chara, GvgTask, ServerName, ServerType, Task } from '@models';
 import { finalize } from 'rxjs/operators';
 
 interface Link {
@@ -34,10 +33,6 @@ export class AddTaskComponent implements OnInit {
     {
       label: ServerName.cn,
       value: ServerType.cn,
-    },
-    {
-      label: ServerName.tw,
-      value: ServerType.tw,
     },
   ];
   autoOption = [
@@ -111,6 +106,10 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
+  isSeleted(chara: Chara) {
+    return this.dialogData.task.charas?.findIndex((r) => r.prefabId === chara.prefabId) > -1;
+  }
+
   addLink() {}
 
   removeLink(index: number) {
@@ -132,9 +131,11 @@ export class AddTaskComponent implements OnInit {
       ...this.validateForm.value,
     };
     if (confirmType === this.confirmType.server) {
+      const task = this.dialogData.task;
+      task.charas.sort((a, b) => a.searchAreaWidth - b.searchAreaWidth);
       const gvgTask: GvgTask = {
         ...value,
-        task: this.dialogData.task,
+        task: task,
       };
       this.loading = true;
       this.pcraApiSrv

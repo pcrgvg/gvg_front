@@ -6,18 +6,16 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
   HttpResponseBase,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
-import { CommonResult, ResultStatus } from '@pcrgvg/models';
-
+import { CommonResult, ResultStatus } from '@src/app/models';
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
-
-  constructor() { }
+  constructor() {}
 
   handleData(ev: HttpResponseBase): Observable<any> {
     if (ev.ok) {
@@ -29,26 +27,23 @@ export class CoreInterceptor implements HttpInterceptor {
       }
     }
     return throwError('statuscode not in range 200');
-
-
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const req = request.clone({
       headers: request.headers.set('token', 'token11111111'),
-      url: environment.baseUrl + request.url
+      url: environment.baseUrl + request.url,
     });
     return next.handle(req).pipe(
-      mergeMap(ev => {
+      mergeMap((ev) => {
         if (ev instanceof HttpResponseBase) {
           return this.handleData(ev);
         }
         return of(ev);
       }),
-      catchError(err => {
+      catchError((err) => {
         throw new Error(err);
-
-      })
+      }),
     );
   }
 }

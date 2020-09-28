@@ -54,13 +54,20 @@
       </mat-form-field>
 
       <mat-form-field>
+        <mat-label>备注</mat-label>
+        <!-- <input matInput formControlName="damage" type="number" /> -->
+        <textarea matInput style="width: 100%;" rows="5"></textarea>
+        <span matSuffix>W</span>
+      </mat-form-field>
+
+      <!-- <mat-form-field>
         <mat-label>自动</mat-label>
         <mat-select formControlName="canAuto">
           <mat-option *ngFor="let auto of autoOption" [value]="auto.value">
             {{ auto.label }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <!-- <div>
         <span style="opacity: 0.54; font-size: 12px; transform: scale(0.75);">链接</span>
@@ -85,7 +92,7 @@
         <app-pcr-icon
           class="img"
           *ngFor="let chara of front; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.task.charas?.includes(chara)"
+          [class.selected]="isSeleted(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
         ></app-pcr-icon>

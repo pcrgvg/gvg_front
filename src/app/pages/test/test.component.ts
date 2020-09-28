@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { trigger, style, transition, state, animate, query, stagger, keyframes } from '@angular/animations';
 
 @Component({

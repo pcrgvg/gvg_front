@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PcrApiService } from '@apis';
-import { Chara, Task, GvgTask } from '@pcrgvg/models';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { FilterTaskService, RediveService } from '@core';
 import { cloneDeep } from 'lodash';
-import { CanAutoType } from '@src/app/models';
+import { BossTask, CanAutoType, Chara, GvgTask, Task } from '@src/app/models';
 import html2canvas from 'html2canvas';
 import { Location } from '@angular/common';
-
-type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
 
 @Component({
   selector: 'app-gvg',
@@ -17,8 +14,6 @@ type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
-  @ViewChild('result') result: ElementRef;
-
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
@@ -83,7 +78,14 @@ export class GvgComponent implements OnInit {
       if (res) {
         const { bossId, gvgTask } = res;
         const boss = this.bossList.find((boss) => boss.id === bossId);
-        boss.tasks.push(gvgTask.tasks[0]);
+        const task = gvgTask.tasks[0];
+        const index = boss.tasks.findIndex((r) => r.id === task.id);
+
+        if (index > -1) {
+          boss.tasks[index] = task;
+        } else {
+          boss.tasks.push(task);
+        }
       }
     });
   }
@@ -116,5 +118,12 @@ export class GvgComponent implements OnInit {
 
   trackByCharaFn(_: number, chara: Chara): number {
     return chara.prefabId;
+  }
+
+  delelteTask(boss: GvgTask, task: Task) {
+    this.pcrApi.deleteTask(task.id).subscribe((res) => {
+      const index = boss.tasks.findIndex((r) => r.id === task.id);
+      boss.tasks.splice(index, 1);
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Chara, Task, GvgTask } from '@pcrgvg/models';
 import { cloneDeep } from 'lodash';
+import { Task, GvgTask } from '../models';
 
 /**
  *  bossId: number
