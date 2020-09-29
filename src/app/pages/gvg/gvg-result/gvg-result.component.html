@@ -1,0 +1,11 @@
+<cdk-virtual-scroll-viewport itemSize="100" class="scroll">
+  <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
+    <div *ngFor="let task of bossTask">
+      <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
+      <div [style.backgroundColor]="task.isUsed ? 'red' : ''">
+        <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId"></app-pcr-icon>
+        <span>伤害{{ task.damage }}</span>
+      </div>
+    </div>
+  </div>
+</cdk-virtual-scroll-viewport>

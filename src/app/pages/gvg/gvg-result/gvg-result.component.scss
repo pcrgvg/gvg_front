@@ -1,0 +1,12 @@
+.scroll {
+  min-width: 820px;
+  margin: 0 auto 0;
+  height: 100%;
+  &-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid red;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+  }
+}

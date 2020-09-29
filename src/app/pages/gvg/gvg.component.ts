@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash';
 import { BossTask, CanAutoType, Chara, GvgTask, Task } from '@src/app/models';
 import html2canvas from 'html2canvas';
 import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-gvg',
@@ -20,6 +21,7 @@ export class GvgComponent implements OnInit {
     private ftSrc: FilterTaskService,
     private redive: RediveService,
     private location: Location,
+    private router: Router,
   ) {}
 
   charaList: Chara[] = [];
@@ -58,6 +60,9 @@ export class GvgComponent implements OnInit {
 
   filter() {
     this.filterResult = this.ftSrc.filterTask(this.filterBossList);
+    // this.location.go()
+    sessionStorage.setItem('filterResult', JSON.stringify(this.filterResult));
+    window.open('/gvgresult', '');
   }
 
   toggleModal(task?: Task, bossId?: number) {

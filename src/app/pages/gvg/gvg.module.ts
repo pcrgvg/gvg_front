@@ -17,9 +17,10 @@ import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
+import { GvgResultComponent } from './gvg-result/gvg-result.component';
 
 @NgModule({
-  declarations: [GvgComponent, AddTaskComponent],
+  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent],
   imports: [
     ShareModule,
     GvgRoutingModule,
