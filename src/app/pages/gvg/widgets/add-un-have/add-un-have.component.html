@@ -1,0 +1,57 @@
+<div mat-dialog-title>
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" (clickStop)="confirm()">确定</button>
+  </mat-dialog-actions>
+  <div style="flex-grow: 1;">
+    <h3>未持有</h3>
+    <div class="chara_box">
+      <app-pcr-icon
+        class="img"
+        style="opacity: 1;"
+        *ngFor="let chara of unHaveCharas; trackBy: trackByCharaFn"
+        [prefabId]="chara.prefabId"
+        [rarity]="chara.rarity"
+        (clickStop)="toggleSelect(chara)"
+      ></app-pcr-icon>
+    </div>
+  </div>
+</div>
+
+<mat-tab-group dynamicHeight>
+  <mat-tab label="前卫">
+    <div class="chara_box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of front; trackBy: trackByCharaFn"
+        [class.selected]="unHaveCharas.includes(chara)"
+        [prefabId]="chara.prefabId"
+        [rarity]="chara.rarity"
+        (clickStop)="toggleSelect(chara)"
+      ></app-pcr-icon>
+    </div>
+  </mat-tab>
+  <mat-tab label="中卫">
+    <div class="chara_box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of middle; trackBy: trackByCharaFn"
+        [class.selected]="unHaveCharas.includes(chara)"
+        (clickStop)="toggleSelect(chara)"
+        [prefabId]="chara.prefabId"
+        [rarity]="chara.rarity"
+      ></app-pcr-icon>
+    </div>
+  </mat-tab>
+  <mat-tab label="后卫">
+    <div class="chara_box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of back; trackBy: trackByCharaFn"
+        [class.selected]="unHaveCharas.includes(chara)"
+        (clickStop)="toggleSelect(chara)"
+        [prefabId]="chara.prefabId"
+        [rarity]="chara.rarity"
+      ></app-pcr-icon>
+    </div>
+  </mat-tab>
+</mat-tab-group>

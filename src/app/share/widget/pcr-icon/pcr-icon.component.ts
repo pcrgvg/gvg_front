@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { RediveService } from '@core';
 
 @Component({
@@ -7,21 +7,31 @@ import { RediveService } from '@core';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PcrIconComponent implements OnInit {
+export class PcrIconComponent implements OnInit, OnChanges {
   private _src = '';
   constructor(private redive: RediveService) {}
 
   @Input()
   set prefabId(prefabId: number) {
-    // todo 解决星问题
     if (prefabId) {
       this._src = this.redive.addIconUrl(prefabId);
     }
   }
+
+  @Input() rarity = 3;
 
   get src() {
     return this._src;
   }
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      (changes.prefabId.previousValue !== changes.prefabId.currentValue || !changes.prefabId.firstChange) &&
+      (changes.rarity?.previousValue !== changes.rarity?.currentValue || !changes.rarity?.firstChange)
+    ) {
+      this._src = this.redive.addIconUrl(changes.prefabId.currentValue, changes.rarity?.currentValue ?? 3);
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { FormValidateService, SnackbarService } from '@core';
+import { FormValidateService, SnackbarService, RediveDataService } from '@core';
 import { PcrApiService } from '@apis';
 import { CanAutoType, CanAutoName, Chara, GvgTask, ServerName, ServerType, Task } from '@models';
 import { finalize } from 'rxjs/operators';
@@ -30,10 +30,10 @@ export class AddTaskComponent implements OnInit {
       label: ServerName.jp,
       value: ServerType.jp,
     },
-    {
-      label: ServerName.cn,
-      value: ServerType.cn,
-    },
+    // {
+    //   label: ServerName.cn,
+    //   value: ServerType.cn,
+    // },
   ];
   autoOption = [
     {
@@ -44,15 +44,10 @@ export class AddTaskComponent implements OnInit {
       label: CanAutoName.auto,
       value: CanAutoType.auto,
     },
-    {
-      label: CanAutoName.harfAuto,
-      value: CanAutoType.harfAuto,
-    },
   ];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dialogData: {
-      charaList: Chara[];
       task: Task;
       bossList: GvgTask[];
       bossId: number;
@@ -62,12 +57,13 @@ export class AddTaskComponent implements OnInit {
     private fv: FormValidateService,
     private snackbar: SnackbarService,
     private pcraApiSrv: PcrApiService,
+    private rediveDataSrv: RediveDataService,
   ) {
     this.validateForm = this.fb.group({
-      bossId: [this.dialogData.bossId, [Validators.required]],
+      bossId: [{ value: this.dialogData.bossId, disabled: !!this.dialogData.bossId }, [Validators.required]],
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
-      stage: this.dialogData.task?.stage ?? 3,
+      stage: this.dialogData.task?.stage ?? 4,
       server: ServerType.jp,
     });
   }
@@ -84,24 +80,27 @@ export class AddTaskComponent implements OnInit {
     this.dialogData.task.charas = [];
   }
 
+  isError(controlName: string): boolean {
+    return (
+      this.validateForm.controls[controlName].dirty ||
+      (this.validateForm.controls[controlName].touched && this.validateForm.controls[controlName].invalid)
+    );
+  }
+
   get front(): Chara[] {
-    return this.dialogData.charaList?.filter((chara) => {
+    return this.rediveDataSrv.charaList?.filter((chara) => {
       return chara.searchAreaWidth < 300;
     });
   }
 
-  isError(controlName: string): boolean {
-    return this.validateForm.controls[controlName].dirty && this.validateForm.controls[controlName].invalid;
-  }
-
   get middle(): Chara[] {
-    return this.dialogData.charaList?.filter((chara) => {
+    return this.rediveDataSrv.charaList?.filter((chara) => {
       return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
     });
   }
 
   get back(): Chara[] {
-    return this.dialogData.charaList.filter((chara) => {
+    return this.rediveDataSrv.charaList.filter((chara) => {
       return chara.searchAreaWidth > 600;
     });
   }
@@ -128,7 +127,7 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     const value = {
-      ...this.validateForm.value,
+      ...this.validateForm.getRawValue(),
     };
     if (confirmType === this.confirmType.server) {
       const task = this.dialogData.task;
@@ -153,14 +152,16 @@ export class AddTaskComponent implements OnInit {
   }
 
   toggleSelect(chara: Chara): void {
-    const charas = [];
-    if (this.dialogData.task?.charas?.findIndex((r) => r.prefabId === chara.prefabId) === -1) {
-      if (this.dialogData.task.charas?.length < 5) {
-        this.dialogData.task.charas.push(chara);
+    let charas = [...this.dialogData.task?.charas];
+    if (charas?.findIndex((r) => r.prefabId === chara.prefabId) === -1) {
+      if (charas?.length < 5) {
+        charas.push(chara);
       }
     } else {
-      this.dialogData.task.charas = this.dialogData.task.charas?.filter((r) => r.prefabId !== chara.prefabId);
+      charas = charas?.filter((r) => r.prefabId !== chara.prefabId);
     }
+    charas = charas.sort((a, b) => a.searchAreaWidth - b.searchAreaWidth);
+    this.dialogData.task.charas = charas;
   }
 
   trackByCharaFn(_: number, chara: Chara): number {

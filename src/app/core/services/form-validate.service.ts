@@ -12,6 +12,7 @@ export class FormValidateService {
       if (validateForm.controls.hasOwnProperty(i) && !validateForm.controls[i].disabled) {
         // validateForm.controls[i].clearAsyncValidators();
         validateForm.controls[i].markAsDirty();
+        validateForm.controls[i].markAsTouched();
         validateForm.controls[i].updateValueAndValidity();
         if (validateForm.controls[i] instanceof FormArray) {
           for (const control of (validateForm.controls[i] as FormArray).controls) {

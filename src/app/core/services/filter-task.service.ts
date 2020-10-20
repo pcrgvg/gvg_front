@@ -1,25 +1,15 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep } from 'lodash';
-import { Task, GvgTask } from '../models';
+import { cloneDeep, values } from 'lodash';
+import { Task, GvgTask, Chara } from '../../models';
+import { RediveDataService } from './redive-data.service';
 
-/**
- *  bossId: number
- * bossName?: string;
- *  task: Task
- */
-interface FilterResult {
-  bossId: number;
-  bossName?: string;
-  task: Task;
-}
-
-type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
+type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; borrowChara?: Chara };
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterTaskService {
-  constructor() {}
+  constructor(private rediveDataSrv: RediveDataService) {}
 
   /**
    *
@@ -34,11 +24,6 @@ export class FilterTaskService {
     function combineSub(start: number, subResult: BossTask[]) {
       /// subResult长度符合k，放入result
       if (subResult.length === k) {
-        // if (subResult.findIndex((r) => r.isUsed) > -1) {
-        //   result.unshift(subResult.slice(0));
-        // } else {
-        //   result.push(subResult.slice(0));
-        // }
         if (subResult.findIndex((r) => r.disabeld) > -1) {
           return;
         }
@@ -77,56 +62,89 @@ export class FilterTaskService {
     });
     return tasks;
   }
+  /**
+   * 处理未拥有角色
+   */
+  filterUnHaveCharas(charas: Chara[]): number[] {
+    const unHaveCharaPrefabIds: number[] = [];
+    for (const chara of this.rediveDataSrv.unHaveCharas) {
+      if (charas.findIndex((c) => c.prefabId === chara.prefabId) > -1) {
+        unHaveCharaPrefabIds.push(chara.prefabId);
+      }
+    }
+
+    return unHaveCharaPrefabIds;
+  }
 
   /**
    *
-   * @param charas 最多只能有2个角色重复，并且只能有其中一个角色最多重复2次
-   * true表示符合规则
+   * @param charas
+   * 重复几次代表要借几次, 借完才符合
    */
-  repeatCondition(charas: number[]): boolean {
+  repeatCondition(prefabIds: number[], bossTasks: BossTask[]): boolean {
     const map = new Map<number, number>();
-    for (const chara of charas) {
-      const charaCount = map.get(chara) ?? 0;
-      map.set(chara, charaCount + 1);
+    for (const prefabId of prefabIds) {
+      const charaCount = map.get(prefabId) ?? 0;
+      map.set(prefabId, charaCount + 1);
     }
-    const keys = Array.from(map.keys());
-    if (keys.length > 2) {
-      return false;
+
+    for (const bossTask of bossTasks) {
+      const keys = [...map.keys()];
+      if (keys.length > 2) {
+        return false;
+      }
+      let boolCondition = false;
+      let repeatChara: Chara;
+      for (const k of keys) {
+        repeatChara = bossTask.charas.find((chara) => chara.prefabId === k);
+        if (repeatChara) {
+          const charaCount = map.get(k);
+          if (charaCount > 0 && !bossTask.borrowChara) {
+            bossTask.borrowChara = repeatChara;
+            map.set(k, charaCount - 1);
+            boolCondition = true;
+          }
+        }
+      }
+      // if (!repeatChara) {
+      //   boolCondition = true;
+      // }
+      // if (repeatChara && !bossTask.borrowChara) {
+      //   boolCondition = false;
+      // }
+      // if (!boolCondition) {
+      //   return false;
+      // }
     }
-    const values = Array.from(map.values());
-    if (values[0] === 2 && values[1] === 2) {
-      return false;
-    }
-    return true;
+    const values = [...map.values()];
+    return values.every((v) => v === 0);
   }
+
   /**
-   *
+   * 筛选结果
    */
-  findRepeatChara(bossTasks: BossTask[][]): BossTask[][] {
+  fliterResult(bossTasks: BossTask[][]): BossTask[][] {
     const result: BossTask[][] = [];
-    for (let i = 0; i < bossTasks.length; i++) {
-      const bossTask = bossTasks[i];
+    for (const bossTask of bossTasks) {
       const set = new Set();
       const arr: number[] = [];
-      for (let bossTask_i = 0; bossTask_i < bossTask.length; bossTask_i++) {
-        const task = bossTask[bossTask_i];
+      const charas = [];
+      for (const task of bossTask) {
         // if (this.repeatCondition(arr)) {
         //   break;
         // }
-        for (let chara_i = 0; chara_i < task.charas.length; chara_i++) {
-          const chara = task.charas[chara_i];
+        for (const chara of task.charas) {
           const size = set.size;
+          charas.push(chara);
           set.add(chara.prefabId);
           /// 如果长度不变，说明是重复的
           if (size === set.size) {
             arr.push(chara.prefabId);
-            // if (this.repeatCondition(arr)) {
-            //   break;
-            // }
           }
         }
       }
-      if (this.repeatCondition(arr)) {
+      const unHaves = this.filterUnHaveCharas(charas);
+      if (this.repeatCondition([...arr, ...unHaves], bossTask)) {
         result.push(bossTask);
       }
     }
@@ -134,16 +152,21 @@ export class FilterTaskService {
     return result;
   }
 
-  // 开始筛刀 15/10个角色
+  // 开始筛刀
   filterTask(bossList: GvgTask[]): BossTask[][] {
     const bossTask: BossTask[] = this.flatTask(bossList);
     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
-    let result: BossTask[][] = this.findRepeatChara(bossTasks);
+    let result: BossTask[][] = this.fliterResult(bossTasks);
     /// 一般来说肯定会有3刀的情况
     if (!result.length) {
       bossTasks = this.combine(bossTask, 2);
-      result = this.findRepeatChara(bossTasks);
+      result = this.fliterResult(bossTasks);
     }
+
+    // if (!result.length) {
+    //   bossTasks = this.combine(bossTask, 1);
+    //   result = this.fliterResult(bossTasks);
+    // }
     // console.log(result);
     result.sort((a, b) => {
       let [aScore, bScore] = [0, 0];

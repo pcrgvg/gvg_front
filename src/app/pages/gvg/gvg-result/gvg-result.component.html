@@ -3,8 +3,9 @@
     <div *ngFor="let task of bossTask">
       <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
       <div [style.backgroundColor]="task.isUsed ? 'red' : ''">
-        <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId"></app-pcr-icon>
+        <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId" [rarity]="chara.rarity"></app-pcr-icon>
         <span>伤害{{ task.damage }}</span>
+        <span *ngIf="task.borrowChara">借 <app-pcr-icon [prefabId]="task.borrowChara.prefabId"></app-pcr-icon></span>
       </div>
     </div>
   </div>

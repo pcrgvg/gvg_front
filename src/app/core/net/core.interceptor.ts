@@ -12,10 +12,11 @@ import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
 import { CommonResult, ResultStatus } from '@src/app/models';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private snackbarSrv: SnackbarService) {}
 
   handleData(ev: HttpResponseBase): Observable<any> {
     if (ev.ok) {
@@ -23,6 +24,8 @@ export class CoreInterceptor implements HttpInterceptor {
         const body: CommonResult<any> = ev.body;
         if (body.code === ResultStatus.success) {
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
+        } else {
+          this.snackbarSrv.openSnackBar(body.msg);
         }
       }
     }

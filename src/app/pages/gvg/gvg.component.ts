@@ -1,39 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
-import { FilterTaskService, RediveService } from '@core';
+import { FilterTaskService, RediveDataService } from '@core';
 import { cloneDeep } from 'lodash';
 import { BossTask, CanAutoType, Chara, GvgTask, Task } from '@src/app/models';
-import html2canvas from 'html2canvas';
-import { Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 
 @Component({
   selector: 'app-gvg',
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent implements OnInit {
+export class GvgComponent implements OnInit, OnDestroy {
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
-    private ftSrc: FilterTaskService,
-    private redive: RediveService,
-    private location: Location,
-    private router: Router,
+    private ftSrv: FilterTaskService,
+    private rediveDataSrv: RediveDataService,
   ) {}
 
   charaList: Chara[] = [];
-  url = '';
-  stage = 3;
+  stage = 4;
   stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
-
   filterResult: BossTask[][] = [];
-
+  unHaveChara: Chara[] = [];
+  OnDestroySub = new Subject();
   onlyAuto = false;
+  loading = false;
 
   ngOnInit(): void {
     this.stageOption = new Array(4).fill(1).map((r, i) => {
@@ -43,6 +41,17 @@ export class GvgComponent implements OnInit {
     });
     this.getGvgTaskList();
     this.getCharaList();
+    this.rediveDataSrv
+      .getUnHaveCharaOb()
+      .pipe(takeUntil(this.OnDestroySub))
+      .subscribe((res) => {
+        this.unHaveChara = res;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.OnDestroySub.next();
+    this.OnDestroySub.complete();
   }
 
   getGvgTaskList() {
@@ -54,12 +63,12 @@ export class GvgComponent implements OnInit {
 
   getCharaList() {
     this.pcrApi.charaList().subscribe((res) => {
-      this.charaList = res;
+      this.rediveDataSrv.setCharaList(res);
     });
   }
 
   filter() {
-    this.filterResult = this.ftSrc.filterTask(this.filterBossList);
+    this.filterResult = this.ftSrv.filterTask(this.filterBossList);
     // this.location.go()
     sessionStorage.setItem('filterResult', JSON.stringify(this.filterResult));
     window.open('/gvgresult', '');
@@ -68,7 +77,6 @@ export class GvgComponent implements OnInit {
   toggleModal(task?: Task, bossId?: number) {
     const dialogRef = this.matDialog.open(AddTaskComponent, {
       data: {
-        charaList: this.charaList,
         task: task
           ? cloneDeep(task)
           : {
@@ -81,6 +89,7 @@ export class GvgComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
+        // this.getGvgTaskList();
         const { bossId, gvgTask } = res;
         const boss = this.bossList.find((boss) => boss.id === bossId);
         const task = gvgTask.tasks[0];
@@ -92,6 +101,12 @@ export class GvgComponent implements OnInit {
           boss.tasks.push(task);
         }
       }
+    });
+  }
+
+  openUnHaveModal() {
+    this.matDialog.open(AddUnHaveComponent, {
+      closeOnNavigation: true,
     });
   }
 
@@ -107,16 +122,6 @@ export class GvgComponent implements OnInit {
     this.filterBossList = bossList;
   }
 
-  toImage() {
-    html2canvas(document.getElementById('result'), {
-      backgroundColor: '#fff',
-      useCORS: false,
-      allowTaint: false,
-    }).then((canvas) => {
-      this.url = canvas.toDataURL('image/png');
-    });
-  }
-
   trackByBossFn(_: number, boss: GvgTask): number {
     return boss.id;
   }
@@ -126,9 +131,13 @@ export class GvgComponent implements OnInit {
   }
 
   delelteTask(boss: GvgTask, task: Task) {
-    this.pcrApi.deleteTask(task.id).subscribe((res) => {
-      const index = boss.tasks.findIndex((r) => r.id === task.id);
-      boss.tasks.splice(index, 1);
-    });
+    this.loading = true;
+    this.pcrApi
+      .deleteTask(task.id)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((res) => {
+        const index = boss.tasks.findIndex((r) => r.id === task.id);
+        boss.tasks.splice(index, 1);
+      });
   }
 }

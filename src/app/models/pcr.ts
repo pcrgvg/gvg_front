@@ -12,6 +12,7 @@ export interface Task {
   stage: number;
   damage: number;
   charas: Chara[];
+  remarks: string;
   isUsed?: boolean;
   disabeld?: boolean;
 }

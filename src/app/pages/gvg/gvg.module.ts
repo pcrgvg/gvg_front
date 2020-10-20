@@ -18,9 +18,10 @@ import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { GvgResultComponent } from './gvg-result/gvg-result.component';
+import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 
 @NgModule({
-  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent],
+  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent],
   imports: [
     ShareModule,
     GvgRoutingModule,

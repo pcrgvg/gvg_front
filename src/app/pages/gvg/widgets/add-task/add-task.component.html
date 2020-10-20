@@ -4,15 +4,17 @@
     <div class="chara_box" style="height: 42px;">
       <app-pcr-icon
         *ngFor="let chara of dialogData.task.charas; trackBy: trackByCharaFn"
+        class="img"
+        style="opacity: 1;"
         [prefabId]="chara.prefabId"
+        [rarity]="chara.rarity"
         (clickStop)="toggleSelect(chara)"
       ></app-pcr-icon>
     </div>
   </div>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" (clickStop)="reset()">重新选择</button>
-    <button mat-button color="accent" (clickStop)="confirm(confirmType.unServer)">仅保存到本地</button>
-    <button mat-button color="accent" (clickStop)="confirm(confirmType.server)">确定</button>
+    <app-loading-button [loading]="loading" (clickStop)="confirm(confirmType.server)">确定</app-loading-button>
   </mat-dialog-actions>
 </div>
 <mat-dialog-content>
@@ -54,35 +56,18 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>备注</mat-label>
-        <!-- <input matInput formControlName="damage" type="number" /> -->
-        <textarea matInput style="width: 100%;" rows="5"></textarea>
-        <span matSuffix>W</span>
-      </mat-form-field>
-
-      <!-- <mat-form-field>
         <mat-label>自动</mat-label>
         <mat-select formControlName="canAuto">
           <mat-option *ngFor="let auto of autoOption" [value]="auto.value">
             {{ auto.label }}
           </mat-option>
         </mat-select>
-      </mat-form-field> -->
+      </mat-form-field>
 
-      <!-- <div>
-        <span style="opacity: 0.54; font-size: 12px; transform: scale(0.75);">链接</span>
-        <div style="display: flex; align-items: center;">
-          <mat-chip-list aria-label="Fish selection">
-            <mat-chip selected color="accent" *ngFor="let link of links; index as i" removable 
-            (removed)="removeLink(i)">{{link.name}}
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip>
-          </mat-chip-list>
-          <button mat-icon-button color="accent" (clickStop)="addLink()">
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
-      </div> -->
+      <mat-form-field>
+        <mat-label>备注</mat-label>
+        <textarea matInput style="width: 100%;" rows="5"></textarea>
+      </mat-form-field>
     </form>
   </div>
 
@@ -95,6 +80,7 @@
           [class.selected]="isSeleted(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
+          [rarity]="chara.rarity"
         ></app-pcr-icon>
       </div>
     </mat-tab>
@@ -105,6 +91,7 @@
           *ngFor="let chara of middle; trackBy: trackByCharaFn"
           [class.selected]="dialogData.task.charas?.includes(chara)"
           (clickStop)="toggleSelect(chara)"
+          [rarity]="chara.rarity"
           [prefabId]="chara.prefabId"
         ></app-pcr-icon>
       </div>
