@@ -1,11 +1,15 @@
-<cdk-virtual-scroll-viewport itemSize="100" class="scroll">
+<cdk-virtual-scroll-viewport itemSize="150" class="scroll">
   <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
-    <div *ngFor="let task of bossTask">
-      <div>boss {{ task.bossId }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
-      <div [style.backgroundColor]="task.isUsed ? 'red' : ''">
+    <div *ngFor="let task of bossTask" [style.backgroundColor]="task.isUsed ? '#ff4081' : ''">
+      <div>boss {{ task.index }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
+      <div>
         <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId" [rarity]="chara.rarity"></app-pcr-icon>
-        <span>伤害{{ task.damage }}</span>
-        <span *ngIf="task.borrowChara">借 <app-pcr-icon [prefabId]="task.borrowChara.prefabId"></app-pcr-icon></span>
+      </div>
+      <div style="height: 50px;">
+        <span>伤害{{ task.damage }}w</span>
+        <span style="margin-left: 20px;" *ngIf="task.borrowChara"
+          >借 <app-pcr-icon [prefabId]="task.borrowChara.prefabId" [rarity]="task.borrowChara.rarity"></app-pcr-icon
+        ></span>
       </div>
     </div>
   </div>

@@ -65,6 +65,7 @@ export class AddTaskComponent implements OnInit {
       damage: this.dialogData.task?.damage,
       stage: this.dialogData.task?.stage ?? 4,
       server: ServerType.jp,
+      remarks: this.dialogData.task?.remarks ?? '',
     });
   }
 
@@ -134,7 +135,7 @@ export class AddTaskComponent implements OnInit {
       task.charas.sort((a, b) => a.searchAreaWidth - b.searchAreaWidth);
       const gvgTask: GvgTask = {
         ...value,
-        task: task,
+        task,
       };
       this.loading = true;
       this.pcraApiSrv

@@ -1,7 +1,10 @@
 <div style="width: 700px; margin: 0 auto;">
   <div class="header">
     <div class="heder-left">
-      <button mat-button (clickStop)="toggleAuto()">{{ onlyAuto ? '自动' : '全部' }}</button>
+      <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
+        <mat-option [value]="false"> 全部 </mat-option>
+        <mat-option [value]="true"> 自动 </mat-option>
+      </mat-select>
       <mat-select [(ngModel)]="stage" style="width: 80px;">
         <mat-option *ngFor="let stage of stageOption" [value]="stage.value"> 阶段{{ stage.value }} </mat-option>
       </mat-select>
@@ -18,7 +21,11 @@
   <div class="content">
     <div>
       <h3>未持有角色</h3>
-      <app-pcr-icon *ngFor="let chara of unHaveChara; trackBy: trackByCharaFn" [prefabId]="chara.prefabId"></app-pcr-icon>
+      <app-pcr-icon
+        *ngFor="let chara of unHaveChara; trackBy: trackByCharaFn"
+        [rarity]="chara.rarity"
+        [prefabId]="chara.prefabId"
+      ></app-pcr-icon>
     </div>
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
@@ -46,7 +53,8 @@
                 <app-loading-button [loading]="loading" (clickStop)="delelteTask(boss, task)">删除</app-loading-button>
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <div>伤害:{{ task.damage }}</div>
+            <div>伤害:{{ task.damage }}w</div>
+            <div>备注: {{ task.remarks }}</div>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-expansion-panel>

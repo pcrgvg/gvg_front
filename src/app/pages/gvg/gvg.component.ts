@@ -111,7 +111,6 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   toggleAuto() {
-    this.onlyAuto = !this.onlyAuto;
     const bossList = cloneDeep(this.bossList);
     if (this.onlyAuto) {
       bossList.forEach((gvgtask) => {

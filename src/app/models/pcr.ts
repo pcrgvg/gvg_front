@@ -32,6 +32,7 @@ export interface GvgTask {
   prefabId: number;
   unitName: string;
   server: string;
+  index: number;
   tasks: Task[];
 }
 

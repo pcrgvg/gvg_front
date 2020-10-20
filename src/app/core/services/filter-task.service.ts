@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, values } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara } from '../../models';
 import { RediveDataService } from './redive-data.service';
 
-type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; borrowChara?: Chara };
+type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; borrowChara?: Chara; index: number };
 
 @Injectable({
   providedIn: 'root',
@@ -56,6 +56,7 @@ export class FilterTaskService {
         tasks.push({
           bossId: boss.id,
           prefabId: boss.prefabId,
+          index: boss.index,
           ...task,
         });
       });
@@ -81,20 +82,21 @@ export class FilterTaskService {
    * @param charas
    * 重复几次代表要借几次, 借完才符合
    */
-  repeatCondition(prefabIds: number[], bossTasks: BossTask[]): boolean {
+  repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, BossTask[]] {
     const map = new Map<number, number>();
     for (const prefabId of prefabIds) {
       const charaCount = map.get(prefabId) ?? 0;
       map.set(prefabId, charaCount + 1);
     }
-
-    for (const bossTask of bossTasks) {
+    /// 解决 bossTask.borrowChara引用问题
+    const bossTasksTemp = cloneDeep(bossTasks);
+    for (const bossTask of bossTasksTemp) {
       const keys = [...map.keys()];
       if (keys.length > 2) {
-        return false;
+        return [false, []];
       }
       let boolCondition = false;
-      let repeatChara: Chara;
+      let repeatChara: Chara = null;
       for (const k of keys) {
         repeatChara = bossTask.charas.find((chara) => chara.prefabId === k);
         if (repeatChara) {
@@ -106,18 +108,10 @@ export class FilterTaskService {
           }
         }
       }
-      // if (!repeatChara) {
-      //   boolCondition = true;
-      // }
-      // if (repeatChara && !bossTask.borrowChara) {
-      //   boolCondition = false;
-      // }
-      // if (!boolCondition) {
-      //   return false;
-      // }
     }
+
     const values = [...map.values()];
-    return values.every((v) => v === 0);
+    return [values.every((v) => v === 0), bossTasksTemp];
   }
 
   /**
@@ -130,9 +124,6 @@ export class FilterTaskService {
       const arr: number[] = [];
       const charas = [];
       for (const task of bossTask) {
-        // if (this.repeatCondition(arr)) {
-        //   break;
-        // }
         for (const chara of task.charas) {
           const size = set.size;
           charas.push(chara);
@@ -144,8 +135,9 @@ export class FilterTaskService {
         }
       }
       const unHaves = this.filterUnHaveCharas(charas);
-      if (this.repeatCondition([...arr, ...unHaves], bossTask)) {
-        result.push(bossTask);
+      const [b, t] = this.repeatCondition([...arr, ...unHaves], bossTask);
+      if (b) {
+        result.push(t);
       }
     }
 
