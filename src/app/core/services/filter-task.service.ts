@@ -92,9 +92,9 @@ export class FilterTaskService {
     const bossTasksTemp = cloneDeep(bossTasks);
     for (const bossTask of bossTasksTemp) {
       const keys = [...map.keys()];
-      if (keys.length > 2) {
-        return [false, []];
-      }
+      // if (keys.length > 2) {
+      //   return [false, []];
+      // }
       let boolCondition = false;
       let repeatChara: Chara = null;
       for (const k of keys) {
