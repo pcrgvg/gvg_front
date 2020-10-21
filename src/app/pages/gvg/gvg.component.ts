@@ -8,6 +8,7 @@ import { BossTask, CanAutoType, Chara, GvgTask, Task } from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
+import { InstructionsComponent } from './widgets/instructions/instructions.component';
 
 @Component({
   selector: 'app-gvg',
@@ -108,6 +109,10 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.matDialog.open(AddUnHaveComponent, {
       closeOnNavigation: true,
     });
+  }
+
+  openInstructions() {
+    this.matDialog.open(InstructionsComponent);
   }
 
   toggleAuto() {

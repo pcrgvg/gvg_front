@@ -19,9 +19,10 @@ import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { GvgResultComponent } from './gvg-result/gvg-result.component';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
+import { InstructionsComponent } from './widgets/instructions/instructions.component';
 
 @NgModule({
-  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent],
+  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent, InstructionsComponent],
   imports: [
     ShareModule,
     GvgRoutingModule,
