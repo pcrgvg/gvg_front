@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep } from 'lodash';
+import { clone, cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara } from '../../models';
 import { RediveDataService } from './redive-data.service';
 
@@ -80,7 +80,7 @@ export class FilterTaskService {
   /**
    *
    * @param charas
-   * 重复几次代表要借几次, 借完才符合
+   * 重复几次代表要借几次, 借完符合
    */
   repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, BossTask[]] {
     const map = new Map<number, number>();
@@ -115,10 +115,12 @@ export class FilterTaskService {
   }
 
   /**
-   * 筛选结果
+   * 筛选结果按照分数从高到低排序，已使用的在前
    */
   fliterResult(bossTasks: BossTask[][]): BossTask[][] {
     const result: BossTask[][] = [];
+    let usedArr: BossTask[][] = [];
+    let unUsedArr: BossTask[][] = [];
     for (const bossTask of bossTasks) {
       const set = new Set();
       const arr: number[] = [];
@@ -137,11 +139,67 @@ export class FilterTaskService {
       const unHaves = this.filterUnHaveCharas(charas);
       const [b, t] = this.repeatCondition([...arr, ...unHaves], bossTask);
       if (b) {
-        result.push(t);
+        if (t.findIndex((item) => item.isUsed) > -1) {
+          usedArr.push(t);
+        } else {
+          unUsedArr.push(t);
+        }
       }
     }
 
-    return result;
+    usedArr = this.sortByScore(usedArr);
+    unUsedArr = this.sortByScore(unUsedArr);
+
+    return [...usedArr, ...unUsedArr];
+  }
+  /**
+   *
+   * @param arr 按照分数排序，暂时分数系数为4阶段
+   */
+  sortByScore(arr: BossTask[][]) {
+    const tempArr = cloneDeep(arr);
+    // TODO 修改 1,2,3,4阶段的系数
+    const scoreFactor = {
+      1: {
+        1: 1.2,
+        2: 1.2,
+        3: 1.3,
+        4: 1.4,
+        5: 1.5,
+      },
+      2: {
+        1: 1.6,
+        2: 1.6,
+        3: 1.8,
+        4: 1.9,
+        5: 2,
+      },
+      3: {
+        1: 2,
+        2: 2,
+        3: 2.4,
+        4: 2.4,
+        5: 2.6,
+      },
+      4: {
+        1: 3.5,
+        2: 3.5,
+        3: 3.7,
+        4: 3.8,
+        5: 4.0,
+      },
+    };
+    tempArr.sort((a, b) => {
+      let [aScore, bScore] = [0, 0];
+      a.forEach((task) => {
+        aScore += task.damage * scoreFactor[task.stage][task.index];
+      });
+      b.forEach((task) => {
+        bScore += task.damage * scoreFactor[task.stage][task.index];
+      });
+      return bScore - aScore;
+    });
+    return tempArr;
   }
 
   // 开始筛刀
@@ -160,24 +218,7 @@ export class FilterTaskService {
     //   result = this.fliterResult(bossTasks);
     // }
     // console.log(result);
-    result.sort((a, b) => {
-      let [aScore, bScore] = [0, 0];
-      a.forEach((task) => {
-        aScore += task.damage * xishu[task.bossId];
-      });
-      b.forEach((task) => {
-        bScore += task.damage * xishu[task.bossId];
-      });
-      return bScore - aScore;
-    });
+
     return result;
   }
 }
-
-const xishu = {
-  1: 3.5,
-  2: 3.5,
-  3: 3.7,
-  4: 3.8,
-  5: 4.0,
-};
