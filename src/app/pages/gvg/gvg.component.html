@@ -1,10 +1,6 @@
 <div style="width: 700px; margin: 0 auto;">
   <div class="header">
     <div class="heder-left">
-      <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
-        <mat-option [value]="false"> 全部 </mat-option>
-        <mat-option [value]="true"> 自动 </mat-option>
-      </mat-select>
       <mat-select [(ngModel)]="serverType" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
         <mat-option *ngFor="let server of serverOption" [value]="server.value">{{ server.label }} </mat-option>
       </mat-select>
@@ -16,6 +12,10 @@
     <div class="heder-right">
       <button mat-button (clickStop)="toggleModal()">添加作业</button>
       <button mat-button (clickStop)="openUnHaveModal()">添加未用有box</button>
+      <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
+        <mat-option [value]="false"> 全部 </mat-option>
+        <mat-option [value]="true"> 自动 </mat-option>
+      </mat-select>
       <button mat-button (clickStop)="filter()">筛刀</button>
       <button mat-button (clickStop)="openInstructions()">说明</button>
       <!-- <button mat-button (clickStop)="filter()">sh</button> -->

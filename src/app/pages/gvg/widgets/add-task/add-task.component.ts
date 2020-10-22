@@ -52,6 +52,7 @@ export class AddTaskComponent implements OnInit {
       bossList: GvgTask[];
       bossId: number;
       serverType: string;
+      stage: number;
     },
     private modalRef: MatDialogRef<AddTaskComponent>,
     private fb: FormBuilder,
@@ -64,8 +65,8 @@ export class AddTaskComponent implements OnInit {
       bossId: [{ value: this.dialogData.bossId, disabled: !!this.dialogData.bossId }, [Validators.required]],
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
-      stage: this.dialogData.task?.stage ?? 4,
-      server: [{ value: this.dialogData.serverType ?? ServerType.jp, disabled: true }],
+      stage: this.dialogData.stage ?? 4,
+      server: this.dialogData.serverType ?? ServerType.jp,
       remarks: this.dialogData.task?.remarks ?? '',
     });
   }

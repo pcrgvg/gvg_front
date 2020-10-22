@@ -97,25 +97,26 @@ export class GvgComponent implements OnInit, OnDestroy {
         bossList: this.bossList,
         bossId,
         serverType: this.serverType,
+        stage: this.stage,
       },
       closeOnNavigation: true,
     });
     dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
-        // this.getGvgTaskList();
-        const { bossId, gvgTask } = res;
-        const task = gvgTask.tasks[0];
-        if (task.stage !== this.stage || task.server !== this.serverType) {
-          return;
-        }
-        const boss = this.bossList.find((boss) => boss.id === bossId);
-        const index = boss.tasks.findIndex((r) => r.id === task.id);
+        this.getGvgTaskList();
+        // const { bossId, gvgTask } = res;
+        // const task = gvgTask.tasks[0];
+        // if (task.stage !== this.stage || task.server !== this.serverType) {
+        //   return;
+        // }
+        // const boss = this.bossList.find((boss) => boss.id === bossId);
+        // const index = boss.tasks.findIndex((r) => r.id === task.id);
 
-        if (index > -1) {
-          boss.tasks[index] = task;
-        } else {
-          boss.tasks.push(task);
-        }
+        // if (index > -1) {
+        //   boss.tasks[index] = task;
+        // } else {
+        //   boss.tasks.push(task);
+        // }
       }
     });
   }
