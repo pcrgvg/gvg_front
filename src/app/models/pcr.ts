@@ -15,16 +15,19 @@ export interface Task {
   remarks: string;
   isUsed?: boolean;
   disabeld?: boolean;
+  server?: string;
 }
 
 export enum ServerType {
   jp = 'jp',
   cn = 'cn',
+  tw = 'tw',
 }
 
 export enum ServerName {
   jp = '日服',
   cn = '国服',
+  tw = '台服',
 }
 
 export interface GvgTask {

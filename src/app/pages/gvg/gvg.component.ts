@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { FilterTaskService, RediveDataService } from '@core';
 import { cloneDeep } from 'lodash';
-import { BossTask, CanAutoType, Chara, GvgTask, Task } from '@src/app/models';
+import { BossTask, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
@@ -33,6 +33,17 @@ export class GvgComponent implements OnInit, OnDestroy {
   OnDestroySub = new Subject();
   onlyAuto = false;
   loading = false;
+  serverType = ServerType.jp;
+  serverOption = [
+    {
+      label: ServerName.jp,
+      value: ServerType.jp,
+    },
+    {
+      label: ServerName.tw,
+      value: ServerType.tw,
+    },
+  ];
 
   ngOnInit(): void {
     this.stageOption = new Array(4).fill(1).map((r, i) => {
@@ -56,7 +67,7 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   getGvgTaskList() {
-    this.pcrApi.gvgTaskList(this.stage).subscribe((res) => {
+    this.pcrApi.gvgTaskList(this.stage, this.serverType).subscribe((res) => {
       this.bossList = res;
       this.filterBossList = res;
     });
@@ -85,6 +96,7 @@ export class GvgComponent implements OnInit, OnDestroy {
             },
         bossList: this.bossList,
         bossId,
+        serverType: this.serverType,
       },
       closeOnNavigation: true,
     });
@@ -92,8 +104,11 @@ export class GvgComponent implements OnInit, OnDestroy {
       if (res) {
         // this.getGvgTaskList();
         const { bossId, gvgTask } = res;
-        const boss = this.bossList.find((boss) => boss.id === bossId);
         const task = gvgTask.tasks[0];
+        if (task.stage !== this.stage || task.server !== this.serverType) {
+          return;
+        }
+        const boss = this.bossList.find((boss) => boss.id === bossId);
         const index = boss.tasks.findIndex((r) => r.id === task.id);
 
         if (index > -1) {

@@ -30,10 +30,10 @@ export class AddTaskComponent implements OnInit {
       label: ServerName.jp,
       value: ServerType.jp,
     },
-    // {
-    //   label: ServerName.cn,
-    //   value: ServerType.cn,
-    // },
+    {
+      label: ServerName.tw,
+      value: ServerType.tw,
+    },
   ];
   autoOption = [
     {
@@ -51,6 +51,7 @@ export class AddTaskComponent implements OnInit {
       task: Task;
       bossList: GvgTask[];
       bossId: number;
+      serverType: string;
     },
     private modalRef: MatDialogRef<AddTaskComponent>,
     private fb: FormBuilder,
@@ -64,7 +65,7 @@ export class AddTaskComponent implements OnInit {
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
       stage: this.dialogData.task?.stage ?? 4,
-      server: ServerType.jp,
+      server: [{ value: this.dialogData.serverType ?? ServerType.jp, disabled: true }],
       remarks: this.dialogData.task?.remarks ?? '',
     });
   }
