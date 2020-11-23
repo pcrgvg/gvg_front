@@ -9,6 +9,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-gvg',
@@ -44,6 +45,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       value: ServerType.tw,
     },
   ];
+  operate: boolean = environment.operate;
 
   ngOnInit(): void {
     this.stageOption = new Array(4).fill(1).map((r, i) => {
@@ -69,7 +71,12 @@ export class GvgComponent implements OnInit, OnDestroy {
   getGvgTaskList() {
     this.pcrApi.gvgTaskList(this.stage, this.serverType).subscribe((res) => {
       this.bossList = res;
-      this.filterBossList = res;
+      this.filterBossList = res.map((r) => {
+        return {
+          ...r,
+          checked: true,
+        };
+      });
     });
   }
 
@@ -80,7 +87,7 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    this.filterResult = this.ftSrv.filterTask(this.filterBossList);
+    this.filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
     // this.location.go()
     sessionStorage.setItem('filterResult', JSON.stringify(this.filterResult));
     window.open('/gvgresult', '');

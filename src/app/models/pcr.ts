@@ -36,6 +36,7 @@ export interface GvgTask {
   unitName: string;
   server: string;
   index: number;
+  checked: boolean;
   tasks: Task[];
 }
 

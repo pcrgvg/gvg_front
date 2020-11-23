@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "admin": "ng build -c=admin",
     "test": "ng test",
     "lint": "ng lint --fix",
     "e2e": "ng e2e",

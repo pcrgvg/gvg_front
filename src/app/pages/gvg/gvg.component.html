@@ -10,7 +10,7 @@
       <!-- <button mat-button (clickStop)="getGvgTaskList()">查询</button> -->
     </div>
     <div class="heder-right">
-      <button mat-button (clickStop)="toggleModal()">添加作业</button>
+      <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
       <button mat-button (clickStop)="openUnHaveModal()">添加未用有box</button>
       <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
         <mat-option [value]="false"> 全部 </mat-option>
@@ -34,7 +34,10 @@
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
         <mat-expansion-panel-header>
-          <mat-panel-title> <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon></mat-panel-title>
+          <mat-panel-title style="align-items: center;">
+            <mat-checkbox style="margin-right: 15px;" [checked]="boss.checked" (clickStop)="boss.checked = !boss.checked"></mat-checkbox>
+            <app-pcr-icon [prefabId]="boss.prefabId"> </app-pcr-icon>
+          </mat-panel-title>
           <mat-panel-description>{{ boss.unitName }}</mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -53,8 +56,8 @@
                 <span>{{ task.canAuto | canauto }} </span>
                 <button mat-button color="primary" (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
                 <button mat-button color="warn" (clickStop)="task.disabeld = !task.disabeld">{{ task.disabeld ? '加入' : '去除' }}</button>
-                <button mat-button color="warn" (clickStop)="toggleModal(task, boss.id)">修改</button>
-                <app-loading-button [loading]="loading" (clickStop)="delelteTask(boss, task)">删除</app-loading-button>
+                <button mat-button color="warn" *ngIf="operate" (clickStop)="toggleModal(task, boss.id)">修改</button>
+                <app-loading-button *ngIf="operate" [loading]="loading" (clickStop)="delelteTask(boss, task)">删除</app-loading-button>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div>伤害:{{ task.damage }}w</div>
