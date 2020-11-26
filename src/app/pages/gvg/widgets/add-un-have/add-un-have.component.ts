@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RediveDataService } from '@core';
+import { RediveDataService, StorageService, unHaveCharas } from '@core';
 import { Chara } from '@src/app/models';
 
 @Component({
@@ -11,7 +11,11 @@ import { Chara } from '@src/app/models';
 export class AddUnHaveComponent implements OnInit {
   unHaveCharas: Chara[] = [];
 
-  constructor(private rediveDataSrv: RediveDataService, private modalRef: MatDialogRef<AddUnHaveComponent>) {}
+  constructor(
+    private rediveDataSrv: RediveDataService,
+    private modalRef: MatDialogRef<AddUnHaveComponent>,
+    private storageSrv: StorageService,
+  ) {}
 
   ngOnInit(): void {
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas;
@@ -30,6 +34,7 @@ export class AddUnHaveComponent implements OnInit {
 
   confirm() {
     this.rediveDataSrv.setUnHaveChara(this.unHaveCharas);
+    this.storageSrv.localSet(unHaveCharas, this.unHaveCharas);
     this.modalRef.close();
   }
 

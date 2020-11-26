@@ -11,7 +11,7 @@
     </div>
     <div class="heder-right">
       <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
-      <button mat-button (clickStop)="openUnHaveModal()">添加未用有box</button>
+      <button mat-button (clickStop)="openUnHaveModal()">添加未拥有box</button>
       <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
         <mat-option [value]="false"> 全部 </mat-option>
         <mat-option [value]="true"> 自动 </mat-option>

@@ -1,15 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
-import { AddTaskComponent } from './widgets/add-task/add-task.component';
-import { FilterTaskService, RediveDataService } from '@core';
+import { FilterTaskService, RediveDataService, StorageService } from '@core';
 import { cloneDeep } from 'lodash';
 import { BossTask, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { environment } from '@src/environments/environment';
+
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
-import { environment } from '@src/environments/environment';
+import { AddTaskComponent } from './widgets/add-task/add-task.component';
+import { Constants } from './constant/constant';
 
 @Component({
   selector: 'app-gvg',
@@ -22,6 +24,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private ftSrv: FilterTaskService,
     private rediveDataSrv: RediveDataService,
+    private storageSrv: StorageService,
   ) {}
 
   charaList: Chara[] = [];
@@ -70,13 +73,13 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   getGvgTaskList() {
     this.pcrApi.gvgTaskList(this.stage, this.serverType).subscribe((res) => {
-      this.bossList = res;
-      this.filterBossList = res.map((r) => {
+      this.bossList = res.map((r) => {
         return {
           ...r,
           checked: true,
         };
       });
+      this.filterBossList = this.bossList;
     });
   }
 
@@ -88,8 +91,7 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   filter() {
     this.filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
-    // this.location.go()
-    sessionStorage.setItem('filterResult', JSON.stringify(this.filterResult));
+    this.storageSrv.sessionSet(Constants.filterResult, this.filterResult);
     window.open('/gvgresult', '');
   }
 

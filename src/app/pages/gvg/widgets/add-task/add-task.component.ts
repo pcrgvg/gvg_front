@@ -30,10 +30,10 @@ export class AddTaskComponent implements OnInit {
       label: ServerName.jp,
       value: ServerType.jp,
     },
-    {
-      label: ServerName.tw,
-      value: ServerType.tw,
-    },
+    // {
+    //   label: ServerName.tw,
+    //   value: ServerType.tw,
+    // },
   ];
   autoOption = [
     {

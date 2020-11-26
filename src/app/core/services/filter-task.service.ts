@@ -204,6 +204,9 @@ export class FilterTaskService {
 
   // 开始筛刀
   filterTask(bossList: GvgTask[]): BossTask[][] {
+    if (!bossList.length) {
+      return [];
+    }
     const bossTask: BossTask[] = this.flatTask(bossList);
     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
     let result: BossTask[][] = this.fliterResult(bossTasks);

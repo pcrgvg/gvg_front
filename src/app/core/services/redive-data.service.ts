@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Chara } from '@models';
+import { StorageService } from './storage.service';
+
+export const unHaveCharas = 'unHaveCharas';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +11,13 @@ import { Chara } from '@models';
 export class RediveDataService {
   private unHaveCharaSub = new BehaviorSubject<Chara[]>([]);
   private charaListSub = new BehaviorSubject<Chara[]>([]);
-  constructor() {
-    // this.unHaveCharaSub.subscribe(charas => {
-    //   this._unHaveChara = charas;
-    // })
+  constructor(private storageSrv: StorageService) {
+    this._init();
+  }
+
+  _init() {
+    const data = this.storageSrv.localGet(unHaveCharas);
+    this.setUnHaveChara(data ?? []);
   }
 
   setUnHaveChara(charas: Chara[]) {

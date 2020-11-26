@@ -79,11 +79,11 @@
                 }
               ]
             },
-            "admin": {
+            "adminJp": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.admin.ts"
+                  "with": "src/environments/environment.admin.jp.ts"
                 }
               ],
               "optimization": true,

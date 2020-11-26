@@ -7,6 +7,7 @@
       </div>
       <div style="height: 50px;">
         <span>伤害{{ task.damage }}w</span>
+        <span style="margin-left: 20px;">{{ task.canAuto | canauto }} </span>
         <span style="margin-left: 20px;" *ngIf="task.borrowChara"
           >借 <app-pcr-icon [prefabId]="task.borrowChara.prefabId" [rarity]="task.borrowChara.rarity"></app-pcr-icon
         ></span>

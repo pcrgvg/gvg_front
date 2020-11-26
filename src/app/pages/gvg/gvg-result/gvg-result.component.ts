@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BossTask } from '@src/app/models';
+import { StorageService } from '@core';
+
+import { Constants } from '../constant/constant';
 
 @Component({
   selector: 'app-gvg-result',
@@ -7,11 +10,10 @@ import { BossTask } from '@src/app/models';
   styleUrls: ['./gvg-result.component.scss'],
 })
 export class GvgResultComponent implements OnInit {
-  constructor() {}
+  constructor(private storageSrv: StorageService) {}
   filterResult: BossTask[][] = [];
 
   ngOnInit(): void {
-    console.log('res init');
-    this.filterResult = JSON.parse(sessionStorage.getItem('filterResult'));
+    this.filterResult = this.storageSrv.sessionGet(Constants.filterResult);
   }
 }
