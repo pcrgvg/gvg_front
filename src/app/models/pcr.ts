@@ -2,9 +2,13 @@ export interface Chara {
   prefabId: number;
   unitName: string;
   rarity: number;
+  maxRarity?: number;
+  rank: number;
   searchAreaWidth: number;
   iconUrl?: string;
 }
+
+export type Links = { name: string; link: string }[];
 
 export interface Task {
   id: number;
@@ -16,6 +20,7 @@ export interface Task {
   isUsed?: boolean;
   disabeld?: boolean;
   server?: string;
+  links: Links;
 }
 
 export enum ServerType {

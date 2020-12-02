@@ -12,3 +12,17 @@ body {
 .errorSnackBar {
   color: $primary;
 }
+
+.g {
+  @mixin flex {
+    display: flex;
+    align-items: center;
+  }
+  &-flex {
+    @include flex();
+    &-between {
+      @include flex();
+      justify-content: space-between;
+    }
+  }
+}

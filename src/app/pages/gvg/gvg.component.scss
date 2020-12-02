@@ -1,3 +1,9 @@
+:host {
+  // ::ng-deep .mat-expansion-panel-header {
+  //   height: 96px;
+  // }
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -15,4 +21,12 @@
   display: flex;
   flex-shrink: 0;
   // width: 40%;
+}
+
+.chara-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  justify-content: space-between;
+  height: 42px;
 }

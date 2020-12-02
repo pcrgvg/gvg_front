@@ -23,7 +23,7 @@
       <app-pcr-icon
         class="img"
         *ngFor="let chara of front; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        [class.selected]="isSelected(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"
         (clickStop)="toggleSelect(chara)"
@@ -35,7 +35,7 @@
       <app-pcr-icon
         class="img"
         *ngFor="let chara of middle; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"
@@ -47,7 +47,7 @@
       <app-pcr-icon
         class="img"
         *ngFor="let chara of back; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"

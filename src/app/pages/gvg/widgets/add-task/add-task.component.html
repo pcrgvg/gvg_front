@@ -1,15 +1,24 @@
 <div mat-dialog-title style="display: flex;">
   <div style="flex-grow: 1;">
     <span>阵容</span>
-    <div class="chara_box" style="height: 42px;">
-      <app-pcr-icon
-        *ngFor="let chara of dialogData.task.charas; trackBy: trackByCharaFn"
-        class="img"
-        style="opacity: 1;"
-        [prefabId]="chara.prefabId"
-        [rarity]="chara.rarity"
-        (clickStop)="toggleSelect(chara)"
-      ></app-pcr-icon>
+    <div class="chara_box">
+      <div *ngFor="let chara of selectCharas; trackBy: trackByCharaFn" style="width: 70px;">
+        <app-pcr-icon
+          class="img"
+          style="opacity: 1;"
+          [prefabId]="chara.prefabId"
+          [rarity]="chara.rarity"
+          (clickStop)="toggleSelect(chara)"
+        ></app-pcr-icon>
+        <app-rarity-select [maxRarity]="chara.maxRarity" [(ngModel)]="chara.rarity"></app-rarity-select>
+        <mat-form-field style="width: 70px;">
+          <mat-select [(ngModel)]="chara.rank">
+            <mat-option *ngFor="let rank of rankOption" [value]="rank">
+              {{ rank }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <mat-dialog-actions align="end">
@@ -64,6 +73,12 @@
         </mat-select>
       </mat-form-field>
 
+      <div style="display: flex; align-items: center;">
+        <span>链接: </span>
+        <mat-icon color="primary" style="margin-right: 10px; cursor: pointer;" (clickStop)="toggleAddLink()">add</mat-icon>
+        <span style="margin-right: 10px; color: -webkit-link;" *ngFor="let item of links; index as i">{{ item.name || '链接' + i }}</span>
+      </div>
+
       <mat-form-field>
         <mat-label>备注</mat-label>
         <textarea formControlName="remarks" matInput style="width: 100%;" rows="5"></textarea>
@@ -77,7 +92,7 @@
         <app-pcr-icon
           class="img"
           *ngFor="let chara of front; trackBy: trackByCharaFn"
-          [class.selected]="isSeleted(chara)"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
           [rarity]="chara.rarity"
@@ -89,7 +104,7 @@
         <app-pcr-icon
           class="img"
           *ngFor="let chara of middle; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.task.charas?.includes(chara)"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [rarity]="chara.rarity"
           [prefabId]="chara.prefabId"
@@ -101,7 +116,7 @@
         <app-pcr-icon
           class="img"
           *ngFor="let chara of back; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.task.charas?.includes(chara)"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
         ></app-pcr-icon>
@@ -109,3 +124,26 @@
     </mat-tab>
   </mat-tab-group>
 </mat-dialog-content>
+
+<ng-template #addLinks>
+  <mat-dialog-content class="link">
+    <div class="link-grid">
+      <span>名称</span>
+      <span>链接</span>
+      <button mat-icon-button (clickStop)="addLink()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="link-grid" *ngFor="let item of links; index as i">
+      <mat-form-field>
+        <input matInput [(ngModel)]="item.name" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="item.link" />
+      </mat-form-field>
+      <button mat-icon-button (clickStop)="removeLink(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-dialog-content>
+</ng-template>

@@ -1,7 +1,10 @@
-<cdk-virtual-scroll-viewport itemSize="150" class="scroll">
+<cdk-virtual-scroll-viewport itemSize="190" class="scroll">
   <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
     <div *ngFor="let task of bossTask" [style.backgroundColor]="task.isUsed ? '#ff4081' : ''">
-      <div>boss {{ task.index }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
+      <div class="g-flex-between">
+        <div>boss {{ task.index }} <app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon></div>
+        <button mat-button [matTooltipHideDelay]="100000" [matTooltip]="task.remarks">备注</button>
+      </div>
       <div>
         <app-pcr-icon *ngFor="let chara of task.charas" [prefabId]="chara.prefabId" [rarity]="chara.rarity"></app-pcr-icon>
       </div>
@@ -11,6 +14,14 @@
         <span style="margin-left: 20px;" *ngIf="task.borrowChara"
           >借 <app-pcr-icon [prefabId]="task.borrowChara.prefabId" [rarity]="task.borrowChara.rarity"></app-pcr-icon
         ></span>
+      </div>
+      <div>
+        <div>
+          <span>链接:</span>
+          <a style="padding: 0 5px;" *ngFor="let item of task.links; index as i" [href]="item.link" target="_blank">{{
+            item.name || '链接' + i + 1
+          }}</a>
+        </div>
       </div>
     </div>
   </div>

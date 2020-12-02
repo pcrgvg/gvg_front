@@ -18,6 +18,7 @@ export class AddUnHaveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.rediveDataSrv.unHaveCharas);
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas;
   }
 
@@ -54,6 +55,10 @@ export class AddUnHaveComponent implements OnInit {
     return this.rediveDataSrv.charaList.filter((chara) => {
       return chara.searchAreaWidth > 600;
     });
+  }
+
+  isSelected(chara: Chara) {
+    return this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1;
   }
 
   trackByCharaFn(_: number, chara: Chara): number {

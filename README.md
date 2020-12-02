@@ -7,3 +7,5 @@
 - 删除: 是会真的删除,注意手滑
 
 ##### 资源使用的干炸里脊,所有功能还在测试中,有问题提 [issue](https://github.com/pcrgvg/gvg_front/issues)
+
+todo 星级和 rank 视频链接结果页面显示备注已使用和去除的缓存清楚缓存按钮

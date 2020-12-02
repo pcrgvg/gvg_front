@@ -9,6 +9,7 @@ export const pcrApis = {
   gvgTaskList: '/pcr/gvgTask',
   updateGvgTask: '/pcr/updateGvgTask',
   deleteTask: '/pcr/deleteTask',
+  getRank: '/pcr/rank',
 };
 
 @Injectable({
@@ -31,5 +32,9 @@ export class PcrApiService {
 
   deleteTask(id: number): Observable<boolean> {
     return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString() } });
+  }
+
+  getRank(): Observable<number[]> {
+    return this.http.Get<number[]>(pcrApis.getRank);
   }
 }

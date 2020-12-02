@@ -1,4 +1,4 @@
-<div style="width: 700px; margin: 0 auto;">
+<div style="max-width: 700px; margin: 0 auto;">
   <div class="header">
     <div class="heder-left">
       <mat-select [(ngModel)]="serverType" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
@@ -9,7 +9,7 @@
       </mat-select>
       <!-- <button mat-button (clickStop)="getGvgTaskList()">查询</button> -->
     </div>
-    <div class="heder-right">
+    <div>
       <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
       <button mat-button (clickStop)="openUnHaveModal()">添加未拥有box</button>
       <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
@@ -21,7 +21,6 @@
       <!-- <button mat-button (clickStop)="filter()">sh</button> -->
     </div>
   </div>
-
   <div class="content">
     <div>
       <h3>未持有角色</h3>
@@ -43,14 +42,15 @@
 
         <mat-accordion>
           <mat-expansion-panel *ngFor="let task of boss.tasks">
-            <!-- (rightClick)="toggleModal(task, boss.id)" -->
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header style="height: 96px;">
               <mat-panel-title>
-                <app-pcr-icon
-                  *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
-                  [rarity]="chara.rarity"
-                  [prefabId]="chara.prefabId"
-                ></app-pcr-icon>
+                <div class="g-flex" style="margin-right: 2px;" *ngFor="let chara of task.charas; trackBy: trackByCharaFn">
+                  <app-pcr-icon [rarity]="chara.rarity" [prefabId]="chara.prefabId"></app-pcr-icon>
+                  <div class="chara-info">
+                    <div class="g-flex"><img style="width: 6px; height: 6px;" src="/assets/images/star.png" /> {{ chara.rarity }}</div>
+                    <span>{{ chara.rank }}</span>
+                  </div>
+                </div>
               </mat-panel-title>
               <mat-panel-description style="align-items: center;">
                 <span>{{ task.canAuto | canauto }} </span>
@@ -61,7 +61,15 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div>伤害:{{ task.damage }}w</div>
-            <div>备注: {{ task.remarks }}</div>
+            <div>
+              <div>
+                <span>视频:</span>
+                <a style="padding: 0 5px;" *ngFor="let item of task.links; index as i" [href]="item.link" target="_blank">{{
+                  item.name || '链接' + i
+                }}</a>
+              </div>
+            </div>
+            <pre>备注: {{ task.remarks }}</pre>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-expansion-panel>

@@ -11,6 +11,7 @@ export const unHaveCharas = 'unHaveCharas';
 export class RediveDataService {
   private unHaveCharaSub = new BehaviorSubject<Chara[]>([]);
   private charaListSub = new BehaviorSubject<Chara[]>([]);
+  private rankListSub = new BehaviorSubject<number[]>([]);
   constructor(private storageSrv: StorageService) {
     this._init();
   }
@@ -42,5 +43,17 @@ export class RediveDataService {
 
   get charaList() {
     return this.charaListSub.getValue();
+  }
+
+  setRankList(rankList: number[]) {
+    this.rankListSub.next(rankList);
+  }
+
+  getRankListOb(): Observable<number[]> {
+    return this.rankListSub.asObservable();
+  }
+
+  get rankList() {
+    return this.rankListSub.getValue();
   }
 }

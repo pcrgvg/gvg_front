@@ -58,6 +58,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     });
     this.getGvgTaskList();
     this.getCharaList();
+    this.getRank();
     this.rediveDataSrv
       .getUnHaveCharaOb()
       .pipe(takeUntil(this.OnDestroySub))
@@ -71,6 +72,12 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.OnDestroySub.complete();
   }
 
+  getRank() {
+    this.pcrApi.getRank().subscribe((res) => {
+      this.rediveDataSrv.setRankList(res);
+    });
+  }
+
   getGvgTaskList() {
     this.pcrApi.gvgTaskList(this.stage, this.serverType).subscribe((res) => {
       this.bossList = res.map((r) => {
@@ -79,7 +86,7 @@ export class GvgComponent implements OnInit, OnDestroy {
           checked: true,
         };
       });
-      this.filterBossList = this.bossList;
+      this.toggleAuto();
     });
   }
 
