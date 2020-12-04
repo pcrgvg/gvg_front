@@ -174,7 +174,7 @@ export class AddTaskComponent implements OnInit {
         charas.push(
           cloneDeep({
             ...chara,
-            maxRarity: chara.rarity,
+            currentRarity: chara.rarity,
             rank: this.rankOption[0],
           }),
         );

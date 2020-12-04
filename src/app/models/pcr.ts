@@ -2,7 +2,7 @@ export interface Chara {
   prefabId: number;
   unitName: string;
   rarity: number;
-  maxRarity?: number;
+  currentRarity?: number;
   rank: number;
   searchAreaWidth: number;
   iconUrl?: string;

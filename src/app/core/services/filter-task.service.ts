@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { clone, cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara } from '../../models';
 import { RediveDataService } from './redive-data.service';
+import { StorageService } from './storage.service';
+import { storageNames } from '@app/constants';
 
 type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; borrowChara?: Chara; index: number };
 
@@ -9,8 +11,18 @@ type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; b
   providedIn: 'root',
 })
 export class FilterTaskService {
-  constructor(private rediveDataSrv: RediveDataService) {}
+  usedList = [];
+  removedList = [];
+  constructor(private rediveDataSrv: RediveDataService, private storageSrv: StorageService) {}
 
+  haveRemoved(arr: BossTask[]): boolean {
+    for (const item of arr) {
+      if (this.removedList.includes(item.id)) {
+        return true;
+      }
+    }
+    return false;
+  }
   /**
    *
    * @param bossList
@@ -21,10 +33,10 @@ export class FilterTaskService {
     const result: BossTask[][] = [];
     const subResult: BossTask[] = [];
 
-    function combineSub(start: number, subResult: BossTask[]) {
+    const combineSub = (start: number, subResult: BossTask[]) => {
       /// subResult长度符合k，放入result
       if (subResult.length === k) {
-        if (subResult.findIndex((r) => r.disabeld) > -1) {
+        if (this.haveRemoved(subResult)) {
           return;
         }
         result.push(subResult.slice(0));
@@ -38,10 +50,11 @@ export class FilterTaskService {
         combineSub(i + 1, subResult);
         subResult.pop();
       }
-    }
+    };
     combineSub(0, subResult);
     return result;
   }
+
   /**
    *
    * @param bossList
@@ -79,7 +92,8 @@ export class FilterTaskService {
 
   /**
    *
-   * @param charas
+   * @param prefabIds  重复的角色
+   * @param bossTasks
    * 重复几次代表要借几次, 借完符合
    */
   repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, BossTask[]] {
@@ -92,10 +106,7 @@ export class FilterTaskService {
     const bossTasksTemp = cloneDeep(bossTasks);
     for (const bossTask of bossTasksTemp) {
       const keys = [...map.keys()];
-      // if (keys.length > 2) {
-      //   return [false, []];
-      // }
-      let boolCondition = false;
+
       let repeatChara: Chara = null;
       for (const k of keys) {
         repeatChara = bossTask.charas.find((chara) => chara.prefabId === k);
@@ -104,7 +115,6 @@ export class FilterTaskService {
           if (charaCount > 0 && !bossTask.borrowChara) {
             bossTask.borrowChara = repeatChara;
             map.set(k, charaCount - 1);
-            boolCondition = true;
           }
         }
       }
@@ -113,18 +123,41 @@ export class FilterTaskService {
     const values = [...map.values()];
     return [values.every((v) => v === 0), bossTasksTemp];
   }
+  /**
+   * 是否包含已使用的作业
+   */
+  haveUsed(t: BossTask[]): boolean {
+    for (const temp of t) {
+      if (this.usedList.includes(temp.id)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  /**
+   * 处理一组作业中已使用的作业数，无返回0
+   */
+  countUsed(t: BossTask[]): number {
+    return t.reduce((prev, current) => {
+      if (this.usedList.includes(current.id)) {
+        return prev + 1;
+      }
+      return prev;
+    }, 0);
+  }
 
   /**
+   *  处理已使用最多的排在前面
    * 筛选结果按照分数从高到低排序，已使用的在前
    */
   fliterResult(bossTasks: BossTask[][]): BossTask[][] {
-    const result: BossTask[][] = [];
-    let usedArr: BossTask[][] = [];
-    let unUsedArr: BossTask[][] = [];
+    let tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
+
     for (const bossTask of bossTasks) {
       const set = new Set();
-      const arr: number[] = [];
+      const arr: number[] = []; // 重复的角色
       const charas = [];
+      /// 查重
       for (const task of bossTask) {
         for (const chara of task.charas) {
           const size = set.size;
@@ -136,22 +169,21 @@ export class FilterTaskService {
           }
         }
       }
+      /// 未拥有的算作重复
       const unHaves = this.filterUnHaveCharas(charas);
       const [b, t] = this.repeatCondition([...arr, ...unHaves], bossTask);
       if (b) {
-        if (t.findIndex((item) => item.isUsed) > -1) {
-          usedArr.push(t);
-        } else {
-          unUsedArr.push(t);
-        }
+        const usedCount = this.countUsed(t);
+        tempArr[usedCount].push(t);
       }
     }
 
-    usedArr = this.sortByScore(usedArr);
-    unUsedArr = this.sortByScore(unUsedArr);
-
-    return [...usedArr, ...unUsedArr];
+    const r = tempArr.map((r) => this.sortByScore(r));
+    r.reverse();
+    const res = r.flat();
+    return res;
   }
+
   /**
    *
    * @param arr 按照分数排序，暂时分数系数为4阶段
@@ -207,6 +239,8 @@ export class FilterTaskService {
     if (!bossList.length) {
       return [];
     }
+    this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+    this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     const bossTask: BossTask[] = this.flatTask(bossList);
     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
     let result: BossTask[][] = this.fliterResult(bossTasks);

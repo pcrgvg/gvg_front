@@ -1,4 +1,4 @@
-<div mat-dialog-title style="display: flex;">
+<div mat-dialog-title style="height: 188px; display: flex;">
   <div style="flex-grow: 1;">
     <span>阵容</span>
     <div class="chara_box">
@@ -7,10 +7,10 @@
           class="img"
           style="opacity: 1;"
           [prefabId]="chara.prefabId"
-          [rarity]="chara.rarity"
+          [rarity]="chara.currentRarity"
           (clickStop)="toggleSelect(chara)"
         ></app-pcr-icon>
-        <app-rarity-select [maxRarity]="chara.maxRarity" [(ngModel)]="chara.rarity"></app-rarity-select>
+        <app-rarity-select [maxRarity]="chara.rarity" [(ngModel)]="chara.currentRarity"></app-rarity-select>
         <mat-form-field style="width: 70px;">
           <mat-select [(ngModel)]="chara.rank">
             <mat-option *ngFor="let rank of rankOption" [value]="rank">

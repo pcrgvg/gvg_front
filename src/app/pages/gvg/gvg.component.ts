@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterTaskService, RediveDataService, StorageService } from '@core';
 import { cloneDeep } from 'lodash';
-import { BossTask, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@src/app/models';
+import { BossTask, CanAutoName, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@src/environments/environment';
@@ -12,6 +12,8 @@ import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component'
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { Constants } from './constant/constant';
+import { MatAccordion } from '@angular/material/expansion';
+import { storageNames } from '@app/constants';
 
 @Component({
   selector: 'app-gvg',
@@ -19,6 +21,7 @@ import { Constants } from './constant/constant';
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit, OnDestroy {
+  @ViewChild(MatAccordion) matAccordion: MatAccordion;
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
@@ -32,11 +35,12 @@ export class GvgComponent implements OnInit, OnDestroy {
   stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
-  filterResult: BossTask[][] = [];
   unHaveChara: Chara[] = [];
   OnDestroySub = new Subject();
-  onlyAuto = false;
+  autoSetting: CanAutoType = CanAutoType.all;
   loading = false;
+  clanBattleList = [];
+  clanBattleId = null;
   serverType = ServerType.jp;
   serverOption = [
     {
@@ -48,7 +52,31 @@ export class GvgComponent implements OnInit, OnDestroy {
       value: ServerType.tw,
     },
   ];
+  autoOption = [
+    {
+      label: CanAutoName.all,
+      value: CanAutoType.all,
+    },
+    {
+      label: CanAutoName.unAuto,
+      value: CanAutoType.unAuto,
+    },
+    {
+      label: CanAutoName.harfAuto,
+      value: CanAutoType.harfAuto,
+    },
+    {
+      label: CanAutoName.auto,
+      value: CanAutoType.auto,
+    },
+  ];
+  /**
+   * 是否可修改/删除/添加作业
+   */
   operate: boolean = environment.operate;
+
+  usedList: number[] = [];
+  removedList: number[] = [];
 
   ngOnInit(): void {
     this.stageOption = new Array(4).fill(1).map((r, i) => {
@@ -56,7 +84,10 @@ export class GvgComponent implements OnInit, OnDestroy {
         value: i + 1,
       };
     });
-    this.getGvgTaskList();
+    this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+    this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
+    this.getClanBattleList();
+
     this.getCharaList();
     this.getRank();
     this.rediveDataSrv
@@ -78,8 +109,16 @@ export class GvgComponent implements OnInit, OnDestroy {
     });
   }
 
+  getClanBattleList() {
+    this.pcrApi.getClanBattleList().subscribe((res) => {
+      this.clanBattleList = res;
+      this.clanBattleId = this.clanBattleList[0].clanBattleId;
+      this.getGvgTaskList();
+    });
+  }
+
   getGvgTaskList() {
-    this.pcrApi.gvgTaskList(this.stage, this.serverType).subscribe((res) => {
+    this.pcrApi.gvgTaskList(this.stage, this.serverType, this.clanBattleId).subscribe((res) => {
       this.bossList = res.map((r) => {
         return {
           ...r,
@@ -97,8 +136,8 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    this.filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
-    this.storageSrv.sessionSet(Constants.filterResult, this.filterResult);
+    const filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
+    this.storageSrv.sessionSet(Constants.filterResult, filterResult);
     window.open('/gvgresult', '');
   }
 
@@ -120,19 +159,6 @@ export class GvgComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
         this.getGvgTaskList();
-        // const { bossId, gvgTask } = res;
-        // const task = gvgTask.tasks[0];
-        // if (task.stage !== this.stage || task.server !== this.serverType) {
-        //   return;
-        // }
-        // const boss = this.bossList.find((boss) => boss.id === bossId);
-        // const index = boss.tasks.findIndex((r) => r.id === task.id);
-
-        // if (index > -1) {
-        //   boss.tasks[index] = task;
-        // } else {
-        //   boss.tasks.push(task);
-        // }
       }
     });
   }
@@ -149,10 +175,10 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   toggleAuto() {
     const bossList = cloneDeep(this.bossList);
-    if (this.onlyAuto) {
+    if (this.autoSetting !== CanAutoType.all) {
       bossList.forEach((gvgtask) => {
         const tasks = cloneDeep(gvgtask.tasks);
-        gvgtask.tasks = tasks.filter((task) => task.canAuto !== CanAutoType.unAuto);
+        gvgtask.tasks = tasks.filter((task) => task.canAuto === this.autoSetting);
       });
     }
     this.filterBossList = bossList;
@@ -175,5 +201,37 @@ export class GvgComponent implements OnInit, OnDestroy {
         const index = boss.tasks.findIndex((r) => r.id === task.id);
         boss.tasks.splice(index, 1);
       });
+  }
+  /**
+   * 清除缓存
+   */
+  storageClear() {
+    this.storageSrv.clearAll();
+    location.reload();
+  }
+
+  /**
+   * 切换是否已使用,并保存到localstorage
+   */
+  toggleUsed(task: Task) {
+    const index = this.usedList.findIndex((r) => r === task.id);
+    if (index > -1) {
+      this.usedList.splice(index, 1);
+    } else {
+      this.usedList.push(task.id);
+    }
+    this.storageSrv.localSet(storageNames.usedList, this.usedList);
+  }
+  /**
+   * 切换是否加入筛选,并保存到localstorage
+   */
+  toggleRemoved(task: Task) {
+    const index = this.removedList.findIndex((r) => r === task.id);
+    if (index > -1) {
+      this.removedList.splice(index, 1);
+    } else {
+      this.removedList.push(task.id);
+    }
+    this.storageSrv.localSet(storageNames.removedList, this.removedList);
   }
 }

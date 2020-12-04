@@ -10,6 +10,7 @@ export const pcrApis = {
   updateGvgTask: '/pcr/updateGvgTask',
   deleteTask: '/pcr/deleteTask',
   getRank: '/pcr/rank',
+  getClanBattleList: '/pcr/clanBattleList',
 };
 
 @Injectable({
@@ -26,8 +27,8 @@ export class PcrApiService {
     return this.http.post<GvgTask>(pcrApis.updateGvgTask, gvgTask);
   }
 
-  gvgTaskList(stage: number = 3, serverType: string): Observable<GvgTask[]> {
-    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, { stage, server: serverType });
+  gvgTaskList(stage: number = 3, serverType: string, clanBattleId: number): Observable<GvgTask[]> {
+    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, { stage, server: serverType, clanBattleId });
   }
 
   deleteTask(id: number): Observable<boolean> {
@@ -36,5 +37,19 @@ export class PcrApiService {
 
   getRank(): Observable<number[]> {
     return this.http.Get<number[]>(pcrApis.getRank);
+  }
+
+  getClanBattleList(): Observable<
+    {
+      clanBattleId: number;
+      startTime: string;
+    }[]
+  > {
+    return this.http.Get<
+      {
+        clanBattleId: number;
+        startTime: string;
+      }[]
+    >(pcrApis.getClanBattleList);
   }
 }
