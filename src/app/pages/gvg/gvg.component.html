@@ -15,7 +15,7 @@
       <div>
         <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
         <button mat-button (clickStop)="openUnHaveModal()">添加未拥有box</button>
-        <mat-select [(ngModel)]="autoSetting" (ngModelChange)="toggleAuto()" style="width: 80px;">
+        <mat-select [(ngModel)]="autoSetting" multiple (ngModelChange)="toggleAuto()" style="width: 80px;">
           <mat-option *ngFor="let auto of autoOption" [value]="auto.value">
             {{ auto.label }}
           </mat-option>

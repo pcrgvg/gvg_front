@@ -37,7 +37,7 @@ export class GvgComponent implements OnInit, OnDestroy {
   filterBossList: GvgTask[] = [];
   unHaveChara: Chara[] = [];
   OnDestroySub = new Subject();
-  autoSetting: CanAutoType = CanAutoType.all;
+  autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.unAuto];
   loading = false;
   clanBattleList = [];
   clanBattleId = null;
@@ -53,10 +53,6 @@ export class GvgComponent implements OnInit, OnDestroy {
     },
   ];
   autoOption = [
-    {
-      label: CanAutoName.all,
-      value: CanAutoType.all,
-    },
     {
       label: CanAutoName.unAuto,
       value: CanAutoType.unAuto,
@@ -137,7 +133,8 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   filter() {
     const filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
-    this.storageSrv.sessionSet(Constants.filterResult, filterResult);
+    /// 结果可能很多比如超过1500条，没必要都展示，还可能超出storage的大小限制5M
+    this.storageSrv.sessionSet(Constants.filterResult, filterResult.slice(0, 200));
     window.open('/gvgresult', '');
   }
 
@@ -175,12 +172,10 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   toggleAuto() {
     const bossList = cloneDeep(this.bossList);
-    if (this.autoSetting !== CanAutoType.all) {
-      bossList.forEach((gvgtask) => {
-        const tasks = cloneDeep(gvgtask.tasks);
-        gvgtask.tasks = tasks.filter((task) => task.canAuto === this.autoSetting);
-      });
-    }
+    bossList.forEach((gvgtask) => {
+      const tasks = cloneDeep(gvgtask.tasks);
+      gvgtask.tasks = tasks.filter((task) => this.autoSetting.includes(task.canAuto));
+    });
     this.filterBossList = bossList;
   }
 
