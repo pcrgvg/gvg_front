@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
-    "admin": "ng build -c=adminJp --outputPath=dist/pcr-jp",
+    "build": "ng build --prod && ng build -c=adminJp --outputPath=dist/pcr-jp",
+    "adminJp": "ng build -c=adminJp --outputPath=dist/pcr-jp",
     "test": "ng test",
     "lint": "ng lint --fix",
     "e2e": "ng e2e",

@@ -11,7 +11,6 @@ interface FilterTaskParams {
 }
 
 addEventListener('message', ({ data }) => {
-  console.log(data, 'data');
   const res = filterTask(data);
   postMessage(res);
 });
