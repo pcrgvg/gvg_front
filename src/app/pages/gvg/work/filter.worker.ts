@@ -142,7 +142,7 @@ function fliterResult(
   unHaveCharas: Chara[],
   usedList: number[],
 ): BossTask[][] {
-  let tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
+  const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
 
   for (const bossTask of bossTasks) {
     const set = new Set();

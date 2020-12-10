@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const SELECT_VALUE_ACCESSOR: any = {
@@ -15,7 +22,7 @@ export const SELECT_VALUE_ACCESSOR: any = {
   providers: [SELECT_VALUE_ACCESSOR],
 })
 export class RaritySelectComponent implements OnInit, ControlValueAccessor {
-  @Input() maxRarity: number = 5;
+  @Input() maxRarity = 5;
 
   @Input() _value;
   disabeld = false;

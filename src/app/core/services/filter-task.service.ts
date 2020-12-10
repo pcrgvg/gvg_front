@@ -157,7 +157,7 @@ export class FilterTaskService {
    * 筛选结果按照分数从高到低排序，已使用的在前
    */
   fliterResult(bossTasks: BossTask[][]): BossTask[][] {
-    let tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
+    const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
     for (const bossTask of bossTasks) {
       const set = new Set();
       const arr: number[] = []; // 重复的角色

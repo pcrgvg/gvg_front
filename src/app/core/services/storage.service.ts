@@ -50,7 +50,7 @@ export class StorageService {
    */
   sessionGet(key: string) {
     const value = sessionStorage.getItem(key);
-    let [data, err] = this.parse(value);
+    const [data, err] = this.parse(value);
     return data;
   }
 
@@ -78,7 +78,7 @@ export class StorageService {
    */
   localGet(key: string) {
     const value = localStorage.getItem(key);
-    let [data] = this.parse(value);
+    const [data] = this.parse(value);
     return data;
   }
 
