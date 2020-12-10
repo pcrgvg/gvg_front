@@ -10,7 +10,10 @@
           [rarity]="chara.currentRarity"
           (clickStop)="toggleSelect(chara)"
         ></app-pcr-icon>
-        <app-rarity-select [maxRarity]="chara.rarity" [(ngModel)]="chara.currentRarity"></app-rarity-select>
+        <app-rarity-select
+          [maxRarity]="chara.rarity"
+          [(ngModel)]="chara.currentRarity"
+        ></app-rarity-select>
         <mat-form-field style="width: 70px;">
           <mat-select [(ngModel)]="chara.rank">
             <mat-option *ngFor="let rank of rankOption" [value]="rank">
@@ -23,7 +26,9 @@
   </div>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" (clickStop)="reset()">重新选择</button>
-    <app-loading-button [loading]="loading" (clickStop)="confirm(confirmType.server)">确定</app-loading-button>
+    <app-loading-button [loading]="loading" (clickStop)="confirm(confirmType.server)"
+      >确定</app-loading-button
+    >
   </mat-dialog-actions>
 </div>
 <mat-dialog-content>
@@ -75,13 +80,28 @@
 
       <div style="display: flex; align-items: center;">
         <span>链接: </span>
-        <mat-icon color="primary" style="margin-right: 10px; cursor: pointer;" (clickStop)="toggleAddLink()">add</mat-icon>
-        <span style="margin-right: 10px; color: -webkit-link;" *ngFor="let item of links; index as i">{{ item.name || '链接' + i }}</span>
+        <mat-icon
+          color="primary"
+          style="margin-right: 10px; cursor: pointer;"
+          (clickStop)="toggleAddLink()"
+          >add</mat-icon
+        >
+        <span
+          style="margin-right: 10px; color: -webkit-link;"
+          *ngFor="let item of links; index as i"
+          >{{ item.name || '链接' + i }}</span
+        >
       </div>
 
       <mat-form-field>
         <mat-label>备注</mat-label>
-        <textarea formControlName="remarks" matInput style="width: 100%;" rows="5"></textarea>
+        <textarea
+          formControlName="remarks"
+          matInput
+          style="width: 100%;"
+          rows="5"
+          placeholder="可用回车换行"
+        ></textarea>
       </mat-form-field>
     </form>
   </div>
@@ -139,7 +159,8 @@
         <input matInput [(ngModel)]="item.name" />
       </mat-form-field>
       <mat-form-field>
-        <input matInput [(ngModel)]="item.link" />
+        <input matInput [(ngModel)]="item.link" placeholder="链接需要以http/https开头" />
+        <!-- <mat-error *ngIf="linkError(itme.link)">链接需要以http/https开头</mat-error> -->
       </mat-form-field>
       <button mat-icon-button (clickStop)="removeLink(i)">
         <mat-icon>delete</mat-icon>

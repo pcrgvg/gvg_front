@@ -3,7 +3,16 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormValidateService, SnackbarService, RediveDataService } from '@core';
 import { PcrApiService } from '@apis';
-import { CanAutoType, CanAutoName, Chara, GvgTask, ServerName, ServerType, Task, Links } from '@models';
+import {
+  CanAutoType,
+  CanAutoName,
+  Chara,
+  GvgTask,
+  ServerName,
+  ServerType,
+  Task,
+  Links,
+} from '@models';
 import { finalize } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -69,7 +78,10 @@ export class AddTaskComponent implements OnInit {
     private matDialog: MatDialog,
   ) {
     this.validateForm = this.fb.group({
-      bossId: [{ value: this.dialogData.bossId, disabled: !!this.dialogData.bossId }, [Validators.required]],
+      bossId: [
+        { value: this.dialogData.bossId, disabled: !!this.dialogData.bossId },
+        [Validators.required],
+      ],
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
       stage: this.dialogData.stage ?? 4,
@@ -104,7 +116,8 @@ export class AddTaskComponent implements OnInit {
   isError(controlName: string): boolean {
     return (
       this.validateForm.controls[controlName].dirty ||
-      (this.validateForm.controls[controlName].touched && this.validateForm.controls[controlName].invalid)
+      (this.validateForm.controls[controlName].touched &&
+        this.validateForm.controls[controlName].invalid)
     );
   }
 
@@ -211,4 +224,10 @@ export class AddTaskComponent implements OnInit {
   removeLink(index: number) {
     this.links.splice(index, 1);
   }
+
+  // linkError(link: string) {
+  //   if (link){
+  //     return link.trim().startsWith()
+  //   }
+  // }
 }

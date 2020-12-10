@@ -3,7 +3,16 @@ import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterTaskService, RediveDataService, StorageService } from '@core';
 import { cloneDeep } from 'lodash';
-import { BossTask, CanAutoName, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@src/app/models';
+import {
+  BossTask,
+  CanAutoName,
+  CanAutoType,
+  Chara,
+  GvgTask,
+  ServerName,
+  ServerType,
+  Task,
+} from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { environment } from '@src/environments/environment';
@@ -38,7 +47,8 @@ export class GvgComponent implements OnInit, OnDestroy {
   unHaveChara: Chara[] = [];
   OnDestroySub = new Subject();
   autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.unAuto];
-  loading = false;
+  loading = false; // 删除loading
+  filterLoading = false; // 筛选loading
   clanBattleList = [];
   clanBattleId = null;
   serverType = ServerType.jp;
@@ -67,6 +77,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     },
   ];
   /**
+   * TODO 账号模式
    * 是否可修改/删除/添加作业
    */
   operate: boolean = environment.operate;
@@ -132,10 +143,35 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    const filterResult = this.ftSrv.filterTask(this.filterBossList.filter((boss) => boss.checked));
-    /// 结果可能很多比如超过1500条，没必要都展示，还可能超出storage的大小限制5M
-    this.storageSrv.sessionSet(Constants.filterResult, filterResult.slice(0, 200));
-    window.open('/gvgresult', '');
+    if (this.filterLoading) {
+      return;
+    }
+    this.filterLoading = true;
+    if (typeof Worker !== 'undefined') {
+      const worker = new Worker('./work/filter.worker', { type: 'module' });
+      worker.onmessage = ({ data }) => {
+        console.log(`page got message: ${data.length}`);
+        this.filterLoading = false;
+        this.storageSrv.sessionSet(Constants.filterResult, data.slice(0, 200));
+        window.open('/gvgresult', '');
+        worker.terminate();
+      };
+      worker.postMessage({
+        bossList: this.filterBossList.filter((boss) => boss.checked),
+        removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
+        usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
+        unHaveCharas: this.rediveDataSrv.unHaveCharas,
+      });
+    } else {
+      const filterResult = this.ftSrv.filterTask(
+        this.filterBossList.filter((boss) => boss.checked),
+      );
+      /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
+      console.log(filterResult.length);
+      this.filterLoading = false;
+      this.storageSrv.sessionSet(Constants.filterResult, filterResult.slice(0, 200));
+      window.open('/gvgresult', '');
+    }
   }
 
   toggleModal(task?: Task, bossId?: number) {

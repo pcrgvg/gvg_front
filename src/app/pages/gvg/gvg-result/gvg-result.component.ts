@@ -36,8 +36,8 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
-
-    this.filterResult = this.storageSrv.sessionGet(Constants.filterResult);
+    this.filterResult = this.storageSrv.sessionGet(Constants.filterResult) ?? [];
+    console.log(this.filterResult.length);
   }
 
   ngOnDestroy(): void {

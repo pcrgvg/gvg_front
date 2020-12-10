@@ -1,0 +1,15 @@
+:host {
+  display: inline-flex;
+  width: 90px;
+}
+.ellipsis {
+  overflow: hidden;
+  width: 100%;
+
+  &-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}

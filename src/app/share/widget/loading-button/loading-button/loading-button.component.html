@@ -1,4 +1,5 @@
-<button mat-button [color]="color" style="display: flex; align-items: center; justify-content: center;">
+<button mat-button [color]="color" class="loading-button">
   <ng-content *ngIf="!loading"></ng-content>
-  <mat-progress-spinner *ngIf="loading" diameter="25" [color]="color" mode="indeterminate"> </mat-progress-spinner>
+  <mat-progress-spinner *ngIf="loading" diameter="25" [color]="color" mode="indeterminate">
+  </mat-progress-spinner>
 </button>

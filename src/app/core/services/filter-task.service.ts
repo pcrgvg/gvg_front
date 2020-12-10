@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { clone, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara } from '../../models';
 import { RediveDataService } from './redive-data.service';
 import { StorageService } from './storage.service';
 import { storageNames } from '@app/constants';
 
-type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean; borrowChara?: Chara; index: number };
+type BossTask = Task & {
+  bossId: number;
+  prefabId: number;
+  disabeld?: boolean;
+  borrowChara?: Chara;
+  index: number;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -152,12 +158,13 @@ export class FilterTaskService {
    */
   fliterResult(bossTasks: BossTask[][]): BossTask[][] {
     let tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
-
     for (const bossTask of bossTasks) {
       const set = new Set();
       const arr: number[] = []; // 重复的角色
       const charas = [];
       /// 查重
+      // let total = 0;
+      // const startTime = new Date().getTime();
       for (const task of bossTask) {
         for (const chara of task.charas) {
           const size = set.size;
@@ -176,8 +183,10 @@ export class FilterTaskService {
         const usedCount = this.countUsed(t);
         tempArr[usedCount].push(t);
       }
+      // const endTime = new Date().getTime();
+      // total = total + (endTime - startTime)
+      // console.log(total, 'total');
     }
-
     const r = tempArr.map((r) => this.sortByScore(r));
     r.reverse();
     const res = r.flat();
@@ -239,6 +248,21 @@ export class FilterTaskService {
     if (!bossList.length) {
       return [];
     }
+
+    //  return new Promise((resolve, reject) => {
+    //     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+    //     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
+    //     const bossTask: BossTask[] = this.flatTask(bossList);
+    //     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
+    //     let result: BossTask[][] = this.fliterResult(bossTasks);
+    //     /// 一般来说肯定会有3刀的情况
+    //     if (!result.length) {
+    //       bossTasks = this.combine(bossTask, 2);
+    //       result = this.fliterResult(bossTasks);
+    //     }
+    //     resolve(result)
+    //   })
+
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     const bossTask: BossTask[] = this.flatTask(bossList);

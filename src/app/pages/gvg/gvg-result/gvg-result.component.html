@@ -1,14 +1,24 @@
 <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
   <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
-    <div *ngFor="let task of bossTask" [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''">
+    <div
+      *ngFor="let task of bossTask"
+      [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''"
+    >
       <div class="g-flex-between">
         <div class="g-flex">
           <div class="g-flex">
-            <span>boss {{ task.index }} </span><app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon>
+            <span>boss {{ task.index }} </span
+            ><app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon>
           </div>
           <span style="margin-left: 15px;">伤害{{ task.damage }}w</span>
         </div>
-        <a nz-tooltip nzTooltipTrigger="click" [nzTooltipMouseLeaveDelay]="10000000" [nzTooltipTitle]="titleTemplate">备注</a>
+        <a
+          nz-tooltip
+          nzTooltipTrigger="click"
+          [nzTooltipMouseLeaveDelay]="10000000"
+          [nzTooltipTitle]="titleTemplate"
+          >备注</a
+        >
         <ng-template #titleTemplate>
           <pre class="remarks">{{ task.remarks }}</pre>
         </ng-template>
@@ -17,7 +27,10 @@
         <div class="g-flex" style="margin-right: 2px;" *ngFor="let chara of task.charas">
           <app-pcr-icon [rarity]="chara.currentRarity" [prefabId]="chara.prefabId"></app-pcr-icon>
           <div class="g-flex-column" style="font-size: 12px; height: 42px;">
-            <div class="g-flex"><img style="width: 6px; height: 6px;" src="/assets/images/star.png" /> {{ chara.currentRarity }}</div>
+            <div class="g-flex">
+              <img style="width: 6px; height: 6px;" src="/assets/images/star.png" />
+              {{ chara.currentRarity }}
+            </div>
             <span>{{ chara.rank }}</span>
           </div>
         </div>
@@ -25,15 +38,26 @@
       <div style="height: 50px;" class="g-flex">
         <span>{{ task.canAuto | canauto }} </span>
         <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
-          <span>借 </span><app-pcr-icon [prefabId]="task.borrowChara.prefabId" [rarity]="task.borrowChara.rarity"></app-pcr-icon>
+          <span>借 </span
+          ><app-pcr-icon
+            [prefabId]="task.borrowChara.prefabId"
+            [rarity]="task.borrowChara.rarity"
+          ></app-pcr-icon>
         </div>
       </div>
       <div class="scroll-item-link">
         <div>
           <span>链接:</span>
-          <a style="padding: 0 5px;" *ngFor="let item of task.links; index as i" [href]="item.link" target="_blank">{{
-            item.name || '链接' + i + 1
-          }}</a>
+          <a
+            style="padding: 0 5px;"
+            *ngFor="let item of task.links; index as i"
+            [href]="item.link"
+            target="_blank"
+          >
+            <app-ellipsis-text style="width: 50px;" [text]="item.name || '链接' + i + 1">
+              {{ item.name || '链接' + i + 1 }}</app-ellipsis-text
+            >
+          </a>
         </div>
       </div>
     </div>
