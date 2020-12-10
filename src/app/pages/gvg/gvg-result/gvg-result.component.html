@@ -2,6 +2,7 @@
   <div *cdkVirtualFor="let bossTask of filterResult" class="scroll-item">
     <div
       *ngFor="let task of bossTask"
+      style="padding: 0 5px;"
       [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''"
     >
       <div class="g-flex-between">
@@ -54,9 +55,7 @@
             [href]="item.link"
             target="_blank"
           >
-            <app-ellipsis-text style="width: 50px;" [text]="item.name || '链接' + i + 1">
-              {{ item.name || '链接' + i + 1 }}</app-ellipsis-text
-            >
+            <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
           </a>
         </div>
       </div>

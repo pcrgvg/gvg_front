@@ -3,10 +3,11 @@ import {
   Input,
   OnInit,
   ViewChild,
-  AfterViewChecked,
+  AfterContentInit,
   AfterViewInit,
   ElementRef,
   Renderer2,
+  ContentChild,
 } from '@angular/core';
 import { NzTooltipTrigger } from 'ng-zorro-antd/tooltip';
 
@@ -43,7 +44,6 @@ export class EllipsisTextComponent implements OnInit, AfterViewInit {
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
     ctx.font = font;
     const textMetrics = ctx.measureText(value);
-    console.log(textMetrics.width, 'getTextWidth');
     return textMetrics.width;
   }
 
@@ -57,7 +57,6 @@ export class EllipsisTextComponent implements OnInit, AfterViewInit {
       } else {
         this.showTip = false;
       }
-      console.log(this.showTip, 'showTip');
     }, 0);
   }
 }

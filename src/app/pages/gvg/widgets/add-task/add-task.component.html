@@ -86,11 +86,15 @@
           (clickStop)="toggleAddLink()"
           >add</mat-icon
         >
-        <span
-          style="margin-right: 10px; color: -webkit-link;"
+
+        <a
+          style="margin-right: 10px;"
           *ngFor="let item of links; index as i"
-          >{{ item.name || '链接' + i }}</span
+          [href]="item.link"
+          target="_blank"
         >
+          <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+        </a>
       </div>
 
       <mat-form-field>
