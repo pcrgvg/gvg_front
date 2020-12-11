@@ -150,7 +150,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     if (typeof Worker !== 'undefined') {
       const worker = new Worker('./work/filter.worker', { type: 'module' });
       worker.onmessage = ({ data }) => {
-        console.log(`page got message: ${data.length}`);
+        console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
         this.storageSrv.sessionSet(Constants.filterResult, data.slice(0, 200));
         window.open('/gvgresult', '');

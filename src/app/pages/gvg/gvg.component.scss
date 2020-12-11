@@ -37,6 +37,10 @@
     }
   }
 
+  .g-flex-between {
+    flex-wrap: wrap;
+  }
+
   :host {
     ::ng-deep {
       .mat-expansion-panel-header {
