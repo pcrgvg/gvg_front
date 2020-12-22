@@ -56,4 +56,22 @@ export class RediveDataService {
   get rankList() {
     return this.rankListSub.getValue();
   }
+
+  get front(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth < 300;
+    });
+  }
+
+  get middle(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
+    });
+  }
+
+  get back(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth > 600;
+    });
+  }
 }

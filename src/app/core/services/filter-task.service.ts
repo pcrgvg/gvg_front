@@ -249,20 +249,6 @@ export class FilterTaskService {
       return [];
     }
 
-    //  return new Promise((resolve, reject) => {
-    //     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
-    //     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
-    //     const bossTask: BossTask[] = this.flatTask(bossList);
-    //     let bossTasks: BossTask[][] = this.combine(bossTask, 3);
-    //     let result: BossTask[][] = this.fliterResult(bossTasks);
-    //     /// 一般来说肯定会有3刀的情况
-    //     if (!result.length) {
-    //       bossTasks = this.combine(bossTask, 2);
-    //       result = this.fliterResult(bossTasks);
-    //     }
-    //     resolve(result)
-    //   })
-
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     const bossTask: BossTask[] = this.flatTask(bossList);
@@ -274,11 +260,11 @@ export class FilterTaskService {
       result = this.fliterResult(bossTasks);
     }
 
-    // if (!result.length) {
-    //   bossTasks = this.combine(bossTask, 1);
-    //   result = this.fliterResult(bossTasks);
-    // }
-    // console.log(result);
+    if (!result.length) {
+      bossTasks = this.combine(bossTask, 1);
+      result = this.fliterResult(bossTasks);
+    }
+    console.log(result);
 
     return result;
   }

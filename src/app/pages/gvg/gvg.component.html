@@ -2,9 +2,11 @@
   <header>
     <div class="g-flex-between">
       <div class="g-flex">
-        <!-- <mat-select [(ngModel)]="serverType" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
-          <mat-option *ngFor="let server of serverOption" [value]="server.value">{{ server.label }} </mat-option>
-        </mat-select> -->
+        <mat-select [(ngModel)]="serverType" (ngModelChange)="toggleServer()" style="width: 80px;">
+          <mat-option *ngFor="let server of serverOption" [value]="server.value"
+            >{{ server.label }}
+          </mat-option>
+        </mat-select>
         <mat-select
           [(ngModel)]="clanBattleId"
           (ngModelChange)="getGvgTaskList()"

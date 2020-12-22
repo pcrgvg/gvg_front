@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilterTaskService, RediveDataService, StorageService } from '@core';
 import { cloneDeep } from 'lodash';
 import {
-  BossTask,
   CanAutoName,
   CanAutoType,
   Chara,
@@ -23,6 +22,7 @@ import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { Constants } from './constant/constant';
 import { MatAccordion } from '@angular/material/expansion';
 import { storageNames } from '@app/constants';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-gvg',
@@ -37,10 +37,11 @@ export class GvgComponent implements OnInit, OnDestroy {
     private ftSrv: FilterTaskService,
     private rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
+    private route: ActivatedRoute,
   ) {}
 
   charaList: Chara[] = [];
-  stage = 4;
+  stage = 1;
   stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
@@ -58,8 +59,8 @@ export class GvgComponent implements OnInit, OnDestroy {
       value: ServerType.jp,
     },
     {
-      label: ServerName.tw,
-      value: ServerType.tw,
+      label: ServerName.cn,
+      value: ServerType.cn,
     },
   ];
   autoOption = [
@@ -80,12 +81,13 @@ export class GvgComponent implements OnInit, OnDestroy {
    * TODO 账号模式
    * 是否可修改/删除/添加作业
    */
-  operate: boolean = environment.operate;
+  operate: boolean = false;
 
   usedList: number[] = [];
   removedList: number[] = [];
 
   ngOnInit(): void {
+    this.dealServerType();
     this.stageOption = new Array(4).fill(1).map((r, i) => {
       return {
         value: i + 1,
@@ -93,10 +95,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
-    this.getClanBattleList();
-
-    this.getCharaList();
-    this.getRank();
+    this.toggleServer();
     this.rediveDataSrv
       .getUnHaveCharaOb()
       .pipe(takeUntil(this.OnDestroySub))
@@ -110,14 +109,68 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.OnDestroySub.complete();
   }
 
+  dealServerType() {
+    const serverType = this.route.snapshot.queryParams.serverType;
+    switch (serverType) {
+      case '114':
+        {
+          this.operate = true;
+          this.serverType = ServerType.cn;
+          this.serverOption = [
+            {
+              label: ServerName.cn,
+              value: ServerType.cn,
+            },
+          ];
+        }
+        break;
+      case '142':
+        {
+          this.operate = true;
+          this.serverType = ServerType.jp;
+          this.serverOption = [
+            {
+              label: ServerName.jp,
+              value: ServerType.jp,
+            },
+          ];
+        }
+        break;
+
+      default: {
+        this.operate = false;
+        this.serverType = ServerType.jp;
+        this.serverOption = [
+          {
+            label: ServerName.jp,
+            value: ServerType.jp,
+          },
+          {
+            label: ServerName.cn,
+            value: ServerType.cn,
+          },
+        ];
+      }
+    }
+  }
+
+  toggleServer() {
+    this.getClanBattleList();
+    this.getCharaList();
+    this.getRank();
+  }
+
   getRank() {
-    this.pcrApi.getRank().subscribe((res) => {
+    this.pcrApi.getRank(this.serverType).subscribe((res) => {
       this.rediveDataSrv.setRankList(res);
     });
   }
 
+  /**
+   * 获取会战期次
+   */
   getClanBattleList() {
-    this.pcrApi.getClanBattleList().subscribe((res) => {
+    this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
       this.getGvgTaskList();
@@ -137,7 +190,7 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
 
   getCharaList() {
-    this.pcrApi.charaList().subscribe((res) => {
+    this.pcrApi.charaList(this.serverType).subscribe((res) => {
       this.rediveDataSrv.setCharaList(res);
     });
   }

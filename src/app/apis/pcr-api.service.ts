@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@core';
 import { Observable } from 'rxjs';
-import { Chara, GvgTask } from '../models';
+import { Chara, GvgTask, ServerType } from '../models';
 
 export const pcrApis = {
   // 获取角色列表
@@ -19,8 +19,8 @@ export const pcrApis = {
 export class PcrApiService {
   constructor(private http: HttpService) {}
 
-  charaList(): Observable<Chara[]> {
-    return this.http.Get<Chara[]>(pcrApis.charaList);
+  charaList(serverType: ServerType): Observable<Chara[]> {
+    return this.http.Get<Chara[]>(pcrApis.charaList, { server: serverType });
   }
 
   updateTask(gvgTask: GvgTask): Observable<GvgTask> {
@@ -28,18 +28,26 @@ export class PcrApiService {
   }
 
   gvgTaskList(stage: number = 3, serverType: string, clanBattleId: number): Observable<GvgTask[]> {
-    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, { stage, server: serverType, clanBattleId });
+    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, {
+      stage,
+      server: serverType,
+      clanBattleId,
+    });
   }
 
   deleteTask(id: number): Observable<boolean> {
     return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString() } });
   }
 
-  getRank(): Observable<number[]> {
-    return this.http.Get<number[]>(pcrApis.getRank);
+  getRank(server: ServerType): Observable<number[]> {
+    return this.http.Get<number[]>(pcrApis.getRank, { server });
   }
-
-  getClanBattleList(): Observable<
+  /**
+   * 获取会战期次
+   */
+  getClanBattleList(
+    server: ServerType,
+  ): Observable<
     {
       clanBattleId: number;
       startTime: string;
@@ -50,6 +58,6 @@ export class PcrApiService {
         clanBattleId: number;
         startTime: string;
       }[]
-    >(pcrApis.getClanBattleList);
+    >(pcrApis.getClanBattleList, { server });
   }
 }

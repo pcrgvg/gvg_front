@@ -12,7 +12,7 @@ export class AddUnHaveComponent implements OnInit {
   unHaveCharas: Chara[] = [];
 
   constructor(
-    private rediveDataSrv: RediveDataService,
+    public rediveDataSrv: RediveDataService,
     private modalRef: MatDialogRef<AddUnHaveComponent>,
     private storageSrv: StorageService,
   ) {}
@@ -37,24 +37,6 @@ export class AddUnHaveComponent implements OnInit {
     this.rediveDataSrv.setUnHaveChara(this.unHaveCharas);
     this.storageSrv.localSet(unHaveCharas, this.unHaveCharas);
     this.modalRef.close();
-  }
-
-  get front(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth < 300;
-    });
-  }
-
-  get middle(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
-    });
-  }
-
-  get back(): Chara[] {
-    return this.rediveDataSrv.charaList.filter((chara) => {
-      return chara.searchAreaWidth > 600;
-    });
   }
 
   isSelected(chara: Chara) {

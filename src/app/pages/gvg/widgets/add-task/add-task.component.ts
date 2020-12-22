@@ -41,10 +41,10 @@ export class AddTaskComponent implements OnInit {
       label: ServerName.jp,
       value: ServerType.jp,
     },
-    // {
-    //   label: ServerName.tw,
-    //   value: ServerType.tw,
-    // },
+    {
+      label: ServerName.cn,
+      value: ServerType.cn,
+    },
   ];
   autoOption = [
     {
@@ -74,7 +74,7 @@ export class AddTaskComponent implements OnInit {
     private fv: FormValidateService,
     private snackbar: SnackbarService,
     private pcraApiSrv: PcrApiService,
-    private rediveDataSrv: RediveDataService,
+    public rediveDataSrv: RediveDataService,
     private matDialog: MatDialog,
   ) {
     this.validateForm = this.fb.group({
@@ -85,7 +85,7 @@ export class AddTaskComponent implements OnInit {
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
       damage: this.dialogData.task?.damage,
       stage: this.dialogData.stage ?? 4,
-      server: this.dialogData.serverType ?? ServerType.jp,
+      server: { value: this.dialogData.serverType ?? ServerType.jp, disabled: true },
       remarks: this.dialogData.task?.remarks ?? '',
     });
     this.selectCharas = cloneDeep(
@@ -121,24 +121,6 @@ export class AddTaskComponent implements OnInit {
     );
   }
 
-  get front(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth < 300;
-    });
-  }
-
-  get middle(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
-    });
-  }
-
-  get back(): Chara[] {
-    return this.rediveDataSrv.charaList.filter((chara) => {
-      return chara.searchAreaWidth > 600;
-    });
-  }
-
   confirm(confirmType: number) {
     if (!this.selectCharas.length) {
       this.snackbar.openSnackBar('至少选择一个角色');
@@ -162,7 +144,8 @@ export class AddTaskComponent implements OnInit {
       task.charas = this.selectCharas;
       const gvgTask = {
         ...value,
-        task,
+        id: task.id,
+        charas: this.selectCharas,
         links: this.links,
       };
       this.loading = true;

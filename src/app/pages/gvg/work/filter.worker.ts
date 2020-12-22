@@ -249,11 +249,11 @@ const filterTask = ({
     result = fliterResult(bossTasks, unHaveCharas, usedList);
   }
 
-  // if (!result.length) {
-  //   bossTasks = this.combine(bossTask, 1);
-  //   result = this.fliterResult(bossTasks);
-  // }
-  // console.log(result);
+  if (!result.length) {
+    bossTasks = combine(bossTask, 1, removedList);
+    result = fliterResult(bossTasks, unHaveCharas, usedList);
+  }
+  console.log(result.length);
 
   return result;
 };
