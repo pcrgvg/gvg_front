@@ -14,7 +14,6 @@ import {
 } from '@src/app/models';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { environment } from '@src/environments/environment';
 
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
@@ -23,6 +22,7 @@ import { Constants } from './constant/constant';
 import { MatAccordion } from '@angular/material/expansion';
 import { storageNames } from '@app/constants';
 import { ActivatedRoute } from '@angular/router';
+import { filterTask } from './util/filterTask';
 
 @Component({
   selector: 'app-gvg',
@@ -34,7 +34,6 @@ export class GvgComponent implements OnInit, OnDestroy {
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
-    private ftSrv: FilterTaskService,
     private rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
     private route: ActivatedRoute,
@@ -216,9 +215,16 @@ export class GvgComponent implements OnInit, OnDestroy {
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
       });
     } else {
-      const filterResult = this.ftSrv.filterTask(
-        this.filterBossList.filter((boss) => boss.checked),
-      );
+      const filterResult = filterTask({
+        bossList: this.filterBossList.filter((boss) => boss.checked),
+        removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
+        usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
+        unHaveCharas: this.rediveDataSrv.unHaveCharas,
+      });
+
+      // const filterResult = this.ftSrv.filterTask(
+      //   this.filterBossList.filter((boss) => boss.checked),
+      // );
       /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
       console.log(filterResult.length);
       this.filterLoading = false;
