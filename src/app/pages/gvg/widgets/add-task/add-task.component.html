@@ -67,6 +67,7 @@
         <mat-label>伤害</mat-label>
         <input matInput formControlName="damage" type="number" />
         <span matSuffix>W</span>
+        <mat-error *ngIf="isError('damage')">输入伤害</mat-error>
       </mat-form-field>
 
       <mat-form-field>

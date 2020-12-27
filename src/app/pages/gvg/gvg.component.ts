@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterTaskService, RediveDataService, StorageService } from '@core';
@@ -30,7 +30,7 @@ import { filterTask } from './util/filterTask';
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit, OnDestroy {
-  @ViewChild(MatAccordion) matAccordion: MatAccordion;
+  @ViewChildren(MatAccordion) matAccordions: MatAccordion[];
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
@@ -40,7 +40,7 @@ export class GvgComponent implements OnInit, OnDestroy {
   ) {}
 
   charaList: Chara[] = [];
-  stage = 1;
+  stage = null;
   stageOption = [];
   bossList: GvgTask[] = [];
   filterBossList: GvgTask[] = [];
@@ -87,7 +87,7 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dealServerType();
-    this.stageOption = new Array(4).fill(1).map((r, i) => {
+    this.stageOption = new Array(5).fill(1).map((r, i) => {
       return {
         value: i + 1,
       };
@@ -172,7 +172,10 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
-      this.getGvgTaskList();
+      if (this.stage) {
+        this.getGvgTaskList();
+      }
+      // this.getGvgTaskList();
     });
   }
 
@@ -323,5 +326,12 @@ export class GvgComponent implements OnInit, OnDestroy {
       this.removedList.push(task.id);
     }
     this.storageSrv.localSet(storageNames.removedList, this.removedList);
+  }
+
+  openAll() {
+    this.matAccordions.forEach((accordion) => accordion.openAll());
+  }
+  closeAll() {
+    this.matAccordions.forEach((accordion) => accordion.closeAll());
   }
 }

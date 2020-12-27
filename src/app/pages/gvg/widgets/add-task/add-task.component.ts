@@ -83,7 +83,7 @@ export class AddTaskComponent implements OnInit {
         [Validators.required],
       ],
       canAuto: this.dialogData.task?.canAuto ?? CanAutoType.auto,
-      damage: this.dialogData.task?.damage,
+      damage: [this.dialogData.task?.damage, [Validators.required]],
       stage: this.dialogData.stage ?? 4,
       server: { value: this.dialogData.serverType ?? ServerType.jp, disabled: true },
       remarks: this.dialogData.task?.remarks ?? '',

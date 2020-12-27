@@ -16,7 +16,12 @@
             {{ item.startTime | date: 'yyyy/MM' }}
           </mat-option>
         </mat-select>
-        <mat-select [(ngModel)]="stage" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
+        <mat-select
+          placeholder="选择阶段"
+          [(ngModel)]="stage"
+          (ngModelChange)="getGvgTaskList()"
+          style="width: 80px;"
+        >
           <mat-option *ngFor="let stage of stageOption" [value]="stage.value">
             阶段{{ stage.value }}
           </mat-option>
@@ -44,8 +49,8 @@
 
     <div class="g-flex-between">
       <div>
-        <button mat-button (clickStop)="matAccordion.openAll()">展开所有</button>
-        <button mat-button (clickStop)="matAccordion.closeAll()">关闭所有</button>
+        <button mat-button (clickStop)="openAll()">展开所有</button>
+        <button mat-button (clickStop)="closeAll()">关闭所有</button>
       </div>
       <div>
         <button mat-button (clickStop)="storageClear()">清除缓存</button>
@@ -62,6 +67,10 @@
         [prefabId]="chara.prefabId"
       ></app-pcr-icon>
     </div>
+    <div *ngIf="!filterBossList.length" style="color: #f44336; font-size: 40px; line-height: 40px;">
+      请选择阶段,服务器,如果如果图片显示不出,可尝试谷歌浏览器
+    </div>
+
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
         <mat-expansion-panel-header>
@@ -80,8 +89,7 @@
             </button></mat-panel-description
           >
         </mat-expansion-panel-header>
-
-        <mat-accordion>
+        <mat-accordion multi>
           <mat-expansion-panel *ngFor="let task of boss.tasks">
             <mat-expansion-panel-header class="panner">
               <div class="panner-header">
@@ -106,6 +114,7 @@
                 </mat-panel-title>
                 <mat-panel-description class="panner-description" style="align-items: center;">
                   <span>{{ task.canAuto | canauto }} </span>
+                  <div style="padding: 0 10px; color: #f44336;">{{ task.damage }}w</div>
                   <button mat-button color="primary" (clickStop)="toggleUsed(task)">
                     {{ usedList.includes(task.id) ? '已使用' : '未使用' }}
                   </button>
@@ -129,7 +138,7 @@
                 </mat-panel-description>
               </div>
             </mat-expansion-panel-header>
-            <div>伤害:{{ task.damage }}w</div>
+
             <div>
               <div>
                 <span>视频:</span>
