@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Chara } from '@models';
+import { StorageService } from './storage.service';
+
+export const unHaveCharas = 'unHaveCharas';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +11,14 @@ import { Chara } from '@models';
 export class RediveDataService {
   private unHaveCharaSub = new BehaviorSubject<Chara[]>([]);
   private charaListSub = new BehaviorSubject<Chara[]>([]);
-  constructor() {
-    // this.unHaveCharaSub.subscribe(charas => {
-    //   this._unHaveChara = charas;
-    // })
+  private rankListSub = new BehaviorSubject<number[]>([]);
+  constructor(private storageSrv: StorageService) {
+    this._init();
+  }
+
+  _init() {
+    const data = this.storageSrv.localGet(unHaveCharas);
+    this.setUnHaveChara(data ?? []);
   }
 
   setUnHaveChara(charas: Chara[]) {
@@ -36,5 +43,35 @@ export class RediveDataService {
 
   get charaList() {
     return this.charaListSub.getValue();
+  }
+
+  setRankList(rankList: number[]) {
+    this.rankListSub.next(rankList);
+  }
+
+  getRankListOb(): Observable<number[]> {
+    return this.rankListSub.asObservable();
+  }
+
+  get rankList() {
+    return this.rankListSub.getValue();
+  }
+
+  get front(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth < 300;
+    });
+  }
+
+  get middle(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
+    });
+  }
+
+  get back(): Chara[] {
+    return this.charaList?.filter((chara) => {
+      return chara.searchAreaWidth > 600;
+    });
   }
 }

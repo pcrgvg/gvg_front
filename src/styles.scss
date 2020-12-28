@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import './theme.scss';
+@import '~ng-zorro-antd/style/index.min.css'; /* 引入基本样式 */
+@import '~ng-zorro-antd/tooltip/style/index.min.css'; /* 引入组件样式 */
+
+@import './normal.scss';
 
 html,
 body {
@@ -9,6 +13,11 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+a {
+  text-decoration: underline;
+}
+
 .errorSnackBar {
   color: $primary;
 }

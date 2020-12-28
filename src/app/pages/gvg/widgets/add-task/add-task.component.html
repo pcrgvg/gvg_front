@@ -1,20 +1,34 @@
-<div mat-dialog-title style="display: flex;">
+<div mat-dialog-title style="height: 188px; display: flex;">
   <div style="flex-grow: 1;">
     <span>阵容</span>
-    <div class="chara_box" style="height: 42px;">
-      <app-pcr-icon
-        *ngFor="let chara of dialogData.task.charas; trackBy: trackByCharaFn"
-        class="img"
-        style="opacity: 1;"
-        [prefabId]="chara.prefabId"
-        [rarity]="chara.rarity"
-        (clickStop)="toggleSelect(chara)"
-      ></app-pcr-icon>
+    <div class="chara_box">
+      <div *ngFor="let chara of selectCharas; trackBy: trackByCharaFn" style="width: 70px;">
+        <app-pcr-icon
+          class="img"
+          style="opacity: 1;"
+          [prefabId]="chara.prefabId"
+          [rarity]="chara.currentRarity"
+          (clickStop)="toggleSelect(chara)"
+        ></app-pcr-icon>
+        <app-rarity-select
+          [maxRarity]="chara.rarity"
+          [(ngModel)]="chara.currentRarity"
+        ></app-rarity-select>
+        <mat-form-field style="width: 70px;">
+          <mat-select [(ngModel)]="chara.rank">
+            <mat-option *ngFor="let rank of rankOption" [value]="rank">
+              {{ rank }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" (clickStop)="reset()">重新选择</button>
-    <app-loading-button [loading]="loading" (clickStop)="confirm(confirmType.server)">确定</app-loading-button>
+    <app-loading-button [loading]="loading" (clickStop)="confirm(confirmType.server)"
+      >确定</app-loading-button
+    >
   </mat-dialog-actions>
 </div>
 <mat-dialog-content>
@@ -53,6 +67,7 @@
         <mat-label>伤害</mat-label>
         <input matInput formControlName="damage" type="number" />
         <span matSuffix>W</span>
+        <mat-error *ngIf="isError('damage')">输入伤害</mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -64,9 +79,34 @@
         </mat-select>
       </mat-form-field>
 
+      <div style="display: flex; align-items: center;">
+        <span>链接: </span>
+        <mat-icon
+          color="primary"
+          style="margin-right: 10px; cursor: pointer;"
+          (clickStop)="toggleAddLink()"
+          >add</mat-icon
+        >
+
+        <a
+          style="margin-right: 10px;"
+          *ngFor="let item of links; index as i"
+          [href]="item.link"
+          target="_blank"
+        >
+          <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+        </a>
+      </div>
+
       <mat-form-field>
         <mat-label>备注</mat-label>
-        <textarea formControlName="remarks" matInput style="width: 100%;" rows="5"></textarea>
+        <textarea
+          formControlName="remarks"
+          matInput
+          style="width: 100%;"
+          rows="5"
+          placeholder="可用回车换行"
+        ></textarea>
       </mat-form-field>
     </form>
   </div>
@@ -76,8 +116,8 @@
       <div class="chara_box">
         <app-pcr-icon
           class="img"
-          *ngFor="let chara of front; trackBy: trackByCharaFn"
-          [class.selected]="isSeleted(chara)"
+          *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
           [rarity]="chara.rarity"
@@ -88,8 +128,8 @@
       <div class="chara_box">
         <app-pcr-icon
           class="img"
-          *ngFor="let chara of middle; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.task.charas?.includes(chara)"
+          *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [rarity]="chara.rarity"
           [prefabId]="chara.prefabId"
@@ -100,8 +140,8 @@
       <div class="chara_box">
         <app-pcr-icon
           class="img"
-          *ngFor="let chara of back; trackBy: trackByCharaFn"
-          [class.selected]="dialogData.task.charas?.includes(chara)"
+          *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
+          [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [prefabId]="chara.prefabId"
         ></app-pcr-icon>
@@ -109,3 +149,27 @@
     </mat-tab>
   </mat-tab-group>
 </mat-dialog-content>
+
+<ng-template #addLinks>
+  <mat-dialog-content class="link">
+    <div class="link-grid">
+      <span>名称</span>
+      <span>链接</span>
+      <button mat-icon-button (clickStop)="addLink()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="link-grid" *ngFor="let item of links; index as i">
+      <mat-form-field>
+        <input matInput [(ngModel)]="item.name" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="item.link" placeholder="链接需要以http/https开头" />
+        <!-- <mat-error *ngIf="linkError(itme.link)">链接需要以http/https开头</mat-error> -->
+      </mat-form-field>
+      <button mat-icon-button (clickStop)="removeLink(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-dialog-content>
+</ng-template>

@@ -1,12 +1,30 @@
 .scroll {
-  width: 820px;
+  max-width: 950px;
   margin: 0 auto 0;
   height: 100%;
   &-item {
     margin-bottom: 20px;
     border-bottom: 1px solid red;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    > div {
+      flex-shrink: 0;
+    }
+    .remarks {
+      height: 500px;
+      overflow: auto;
+    }
+    &-link {
+      height: 50px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .scroll-item {
+    grid-template-columns: auto;
+    &-link {
+      border-bottom: 1px solid rgba($color: #000000, $alpha: 0.5);
+    }
   }
 }

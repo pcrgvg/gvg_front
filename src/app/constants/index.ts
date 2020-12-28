@@ -5,3 +5,8 @@ export const en = {
 export const cn = {
   confirm: '确定',
 };
+
+export const storageNames = {
+  usedList: 'usedList',
+  removedList: 'removedList',
+};

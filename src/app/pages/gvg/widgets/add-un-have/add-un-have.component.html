@@ -22,8 +22,8 @@
     <div class="chara_box">
       <app-pcr-icon
         class="img"
-        *ngFor="let chara of front; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"
         (clickStop)="toggleSelect(chara)"
@@ -34,8 +34,8 @@
     <div class="chara_box">
       <app-pcr-icon
         class="img"
-        *ngFor="let chara of middle; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"
@@ -46,8 +46,8 @@
     <div class="chara_box">
       <app-pcr-icon
         class="img"
-        *ngFor="let chara of back; trackBy: trackByCharaFn"
-        [class.selected]="unHaveCharas.includes(chara)"
+        *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [prefabId]="chara.prefabId"
         [rarity]="chara.rarity"

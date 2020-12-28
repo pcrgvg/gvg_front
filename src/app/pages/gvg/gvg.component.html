@@ -1,26 +1,62 @@
-<div style="width: 700px; margin: 0 auto;">
-  <div class="header">
-    <div class="heder-left">
-      <mat-select [(ngModel)]="serverType" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
-        <mat-option *ngFor="let server of serverOption" [value]="server.value">{{ server.label }} </mat-option>
-      </mat-select>
-      <mat-select [(ngModel)]="stage" (ngModelChange)="getGvgTaskList()" style="width: 80px;">
-        <mat-option *ngFor="let stage of stageOption" [value]="stage.value"> 阶段{{ stage.value }} </mat-option>
-      </mat-select>
-      <!-- <button mat-button (clickStop)="getGvgTaskList()">查询</button> -->
+<div style="max-width: 800px; margin: 0 auto;">
+  <header>
+    <div class="g-flex-between">
+      <div class="g-flex">
+        <mat-select [(ngModel)]="serverType" (ngModelChange)="toggleServer()" style="width: 80px;">
+          <mat-option *ngFor="let server of serverOption" [value]="server.value"
+            >{{ server.label }}
+          </mat-option>
+        </mat-select>
+        <mat-select
+          [(ngModel)]="clanBattleId"
+          (ngModelChange)="getGvgTaskList()"
+          style="width: 80px;"
+        >
+          <mat-option *ngFor="let item of clanBattleList" [value]="item.clanBattleId">
+            {{ item.startTime | date: 'yyyy/MM' }}
+          </mat-option>
+        </mat-select>
+        <mat-select
+          placeholder="选择阶段"
+          [(ngModel)]="stage"
+          (ngModelChange)="getGvgTaskList()"
+          style="width: 80px;"
+        >
+          <mat-option *ngFor="let stage of stageOption" [value]="stage.value">
+            阶段{{ stage.value }}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="g-flex">
+        <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
+        <button mat-button (clickStop)="openUnHaveModal()">添加未拥有box</button>
+        <mat-select
+          [(ngModel)]="autoSetting"
+          multiple
+          (ngModelChange)="toggleAuto()"
+          style="width: 80px;"
+        >
+          <mat-option *ngFor="let auto of autoOption" [value]="auto.value">
+            {{ auto.label }}
+          </mat-option>
+        </mat-select>
+        <app-loading-button [loading]="filterLoading" (clickStop)="filter()"
+          >筛刀</app-loading-button
+        >
+        <button mat-button (clickStop)="openInstructions()">说明</button>
+      </div>
     </div>
-    <div class="heder-right">
-      <button *ngIf="operate" mat-button (clickStop)="toggleModal()">添加作业</button>
-      <button mat-button (clickStop)="openUnHaveModal()">添加未用有box</button>
-      <mat-select [(ngModel)]="onlyAuto" (ngModelChange)="toggleAuto()" style="width: 80px;">
-        <mat-option [value]="false"> 全部 </mat-option>
-        <mat-option [value]="true"> 自动 </mat-option>
-      </mat-select>
-      <button mat-button (clickStop)="filter()">筛刀</button>
-      <button mat-button (clickStop)="openInstructions()">说明</button>
-      <!-- <button mat-button (clickStop)="filter()">sh</button> -->
+
+    <div class="g-flex-between">
+      <div>
+        <button mat-button (clickStop)="openAll()">展开所有</button>
+        <button mat-button (clickStop)="closeAll()">关闭所有</button>
+      </div>
+      <div>
+        <button mat-button (clickStop)="storageClear()">清除缓存</button>
+      </div>
     </div>
-  </div>
+  </header>
 
   <div class="content">
     <div>
@@ -31,37 +67,92 @@
         [prefabId]="chara.prefabId"
       ></app-pcr-icon>
     </div>
+    <div *ngIf="!filterBossList.length" style="color: #f44336; font-size: 40px; line-height: 40px;">
+      请选择阶段,服务器,如果如果图片显示不出,可尝试谷歌浏览器
+    </div>
+
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let boss of filterBossList; index as i; trackBy: trackByBossFn">
         <mat-expansion-panel-header>
           <mat-panel-title style="align-items: center;">
-            <mat-checkbox style="margin-right: 15px;" [checked]="boss.checked" (clickStop)="boss.checked = !boss.checked"></mat-checkbox>
+            <mat-checkbox
+              style="margin-right: 15px;"
+              [checked]="boss.checked"
+              (clickStop)="boss.checked = !boss.checked"
+            ></mat-checkbox>
             <app-pcr-icon [prefabId]="boss.prefabId"> </app-pcr-icon>
           </mat-panel-title>
-          <mat-panel-description>{{ boss.unitName }}</mat-panel-description>
+          <mat-panel-description class="g-flex-between">
+            <span>{{ boss.unitName }} </span>
+            <button *ngIf="operate" mat-button (clickStop)="toggleModal(null, boss.id)">
+              添加作业
+            </button></mat-panel-description
+          >
         </mat-expansion-panel-header>
-
-        <mat-accordion>
+        <mat-accordion multi>
           <mat-expansion-panel *ngFor="let task of boss.tasks">
-            <!-- (rightClick)="toggleModal(task, boss.id)" -->
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <app-pcr-icon
-                  *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
-                  [rarity]="chara.rarity"
-                  [prefabId]="chara.prefabId"
-                ></app-pcr-icon>
-              </mat-panel-title>
-              <mat-panel-description style="align-items: center;">
-                <span>{{ task.canAuto | canauto }} </span>
-                <button mat-button color="primary" (clickStop)="task.isUsed = !task.isUsed">{{ task.isUsed ? '已使用' : '未使用' }}</button>
-                <button mat-button color="warn" (clickStop)="task.disabeld = !task.disabeld">{{ task.disabeld ? '加入' : '去除' }}</button>
-                <button mat-button color="warn" *ngIf="operate" (clickStop)="toggleModal(task, boss.id)">修改</button>
-                <app-loading-button *ngIf="operate" [loading]="loading" (clickStop)="delelteTask(boss, task)">删除</app-loading-button>
-              </mat-panel-description>
+            <mat-expansion-panel-header class="panner">
+              <div class="panner-header">
+                <mat-panel-title>
+                  <div
+                    class="g-flex"
+                    style="margin-right: 2px;"
+                    *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
+                  >
+                    <app-pcr-icon
+                      [rarity]="chara.currentRarity"
+                      [prefabId]="chara.prefabId"
+                    ></app-pcr-icon>
+                    <div class="chara-info">
+                      <div class="g-flex">
+                        <img style="width: 6px; height: 6px;" src="/assets/images/star.png" />
+                        {{ chara.currentRarity }}
+                      </div>
+                      <span>{{ chara.rank }}</span>
+                    </div>
+                  </div>
+                </mat-panel-title>
+                <mat-panel-description class="panner-description" style="align-items: center;">
+                  <span>{{ task.canAuto | canauto }} </span>
+                  <div style="padding: 0 10px; color: #f44336;">{{ task.damage }}w</div>
+                  <button mat-button color="primary" (clickStop)="toggleUsed(task)">
+                    {{ usedList.includes(task.id) ? '已使用' : '未使用' }}
+                  </button>
+                  <button mat-button color="warn" (clickStop)="toggleRemoved(task)">
+                    {{ removedList.includes(task.id) ? '加入' : '去除' }}
+                  </button>
+                  <button
+                    mat-button
+                    color="warn"
+                    *ngIf="operate"
+                    (clickStop)="toggleModal(task, boss.id)"
+                  >
+                    修改
+                  </button>
+                  <app-loading-button
+                    *ngIf="operate"
+                    [loading]="loading"
+                    (clickStop)="delelteTask(boss, task)"
+                    >删除</app-loading-button
+                  >
+                </mat-panel-description>
+              </div>
             </mat-expansion-panel-header>
-            <div>伤害:{{ task.damage }}w</div>
-            <div>备注: {{ task.remarks }}</div>
+
+            <div>
+              <div>
+                <span>视频:</span>
+                <a
+                  style="padding: 0 5px;"
+                  *ngFor="let item of task.links; index as i"
+                  [href]="item.link"
+                  target="_blank"
+                >
+                  <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+                </a>
+              </div>
+            </div>
+            <pre>备注: {{ task.remarks }}</pre>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-expansion-panel>

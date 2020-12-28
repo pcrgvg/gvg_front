@@ -33,3 +33,13 @@
     }
   }
 }
+
+.link {
+  min-width: 500px;
+  &-grid {
+    display: grid;
+    align-items: center;
+    gap: 20px;
+    grid-template-columns: 1fr 2.5fr 0.5fr;
+  }
+}

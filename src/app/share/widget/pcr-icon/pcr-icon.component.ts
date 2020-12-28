@@ -9,12 +9,14 @@ import { RediveService } from '@core';
 })
 export class PcrIconComponent implements OnInit, OnChanges {
   private _src = '';
+  private _prefabId = 3;
   constructor(private redive: RediveService) {}
 
   @Input()
   set prefabId(prefabId: number) {
     if (prefabId) {
-      this._src = this.redive.addIconUrl(prefabId);
+      this._prefabId = prefabId;
+      this._src = this.redive.addIconUrl(this._prefabId);
     }
   }
 
@@ -28,10 +30,10 @@ export class PcrIconComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      (changes.prefabId.previousValue !== changes.prefabId.currentValue || !changes.prefabId.firstChange) &&
+      (changes.prefabId?.previousValue !== changes.prefabId?.currentValue || !changes.prefabId?.firstChange) &&
       (changes.rarity?.previousValue !== changes.rarity?.currentValue || !changes.rarity?.firstChange)
     ) {
-      this._src = this.redive.addIconUrl(changes.prefabId.currentValue, changes.rarity?.currentValue ?? 3);
+      this._src = this.redive.addIconUrl(this._prefabId, this.rarity);
     }
   }
 }

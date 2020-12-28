@@ -1,0 +1,10 @@
+<div>
+  <img
+    *ngFor="let _ of starArray; index as i"
+    (click)="changeRarity(i + 1)"
+    class="star"
+    [style]="{ filter: _value >= 6 && i === 5 ? 'hue-rotate(270deg)' : '' }"
+    [src]="starSrc(i)"
+    alt=""
+  />
+</div>

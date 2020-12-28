@@ -11,19 +11,22 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { GvgComponent } from './gvg.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
 import { GvgResultComponent } from './gvg-result/gvg-result.component';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
+import { RaritySelectComponent } from './widgets/rarity-select/rarity-select.component';
 
 @NgModule({
-  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent, InstructionsComponent],
+  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent, InstructionsComponent, RaritySelectComponent],
   imports: [
     ShareModule,
     GvgRoutingModule,
@@ -36,10 +39,12 @@ import { InstructionsComponent } from './widgets/instructions/instructions.compo
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatChipsModule,
     MatMenuModule,
     CdkScrollableModule,
     MatCheckboxModule,
+    LayoutModule,
+    NzToolTipModule,
+    NzButtonModule,
   ],
   entryComponents: [AddTaskComponent],
 })

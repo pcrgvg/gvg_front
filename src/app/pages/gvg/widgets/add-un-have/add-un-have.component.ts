@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RediveDataService } from '@core';
+import { RediveDataService, StorageService, unHaveCharas } from '@core';
 import { Chara } from '@src/app/models';
 
 @Component({
@@ -11,9 +11,14 @@ import { Chara } from '@src/app/models';
 export class AddUnHaveComponent implements OnInit {
   unHaveCharas: Chara[] = [];
 
-  constructor(private rediveDataSrv: RediveDataService, private modalRef: MatDialogRef<AddUnHaveComponent>) {}
+  constructor(
+    public rediveDataSrv: RediveDataService,
+    private modalRef: MatDialogRef<AddUnHaveComponent>,
+    private storageSrv: StorageService,
+  ) {}
 
   ngOnInit(): void {
+    console.log(this.rediveDataSrv.unHaveCharas);
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas;
   }
 
@@ -30,25 +35,12 @@ export class AddUnHaveComponent implements OnInit {
 
   confirm() {
     this.rediveDataSrv.setUnHaveChara(this.unHaveCharas);
+    this.storageSrv.localSet(unHaveCharas, this.unHaveCharas);
     this.modalRef.close();
   }
 
-  get front(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth < 300;
-    });
-  }
-
-  get middle(): Chara[] {
-    return this.rediveDataSrv.charaList?.filter((chara) => {
-      return chara.searchAreaWidth > 300 && chara.searchAreaWidth < 600;
-    });
-  }
-
-  get back(): Chara[] {
-    return this.rediveDataSrv.charaList.filter((chara) => {
-      return chara.searchAreaWidth > 600;
-    });
+  isSelected(chara: Chara) {
+    return this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1;
   }
 
   trackByCharaFn(_: number, chara: Chara): number {
