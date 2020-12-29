@@ -209,6 +209,13 @@ function sortByScore(arr: BossTask[][]) {
       4: 3.8,
       5: 4.0,
     },
+    5: {
+      1: 3.5,
+      2: 3.5,
+      3: 3.7,
+      4: 3.8,
+      5: 4.0,
+    },
   };
   tempArr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
