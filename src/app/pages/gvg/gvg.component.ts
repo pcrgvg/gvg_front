@@ -80,7 +80,7 @@ export class GvgComponent implements OnInit, OnDestroy {
    * TODO 账号模式
    * 是否可修改/删除/添加作业
    */
-  operate: boolean = false;
+  operate = false;
 
   usedList: number[] = [];
   removedList: number[] = [];
@@ -225,9 +225,6 @@ export class GvgComponent implements OnInit, OnDestroy {
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
       });
 
-      // const filterResult = this.ftSrv.filterTask(
-      //   this.filterBossList.filter((boss) => boss.checked),
-      // );
       /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
       console.log(filterResult.length);
       this.filterLoading = false;
