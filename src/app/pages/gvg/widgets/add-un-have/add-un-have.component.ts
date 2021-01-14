@@ -18,7 +18,6 @@ export class AddUnHaveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.rediveDataSrv.unHaveCharas);
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas;
   }
 

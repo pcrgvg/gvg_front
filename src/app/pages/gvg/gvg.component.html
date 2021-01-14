@@ -52,26 +52,24 @@
         <button mat-button (clickStop)="openAll()">展开所有</button>
         <button mat-button (clickStop)="closeAll()">关闭所有</button>
         <button mat-button>查看公告</button>
+        <button mat-button (clickStop)="toggleImgSource()">切换图片源</button>
       </div>
       <div>
-        <button mat-button (clickStop)="storageClear()">清除缓存</button>
+        <button mat-button (clickStop)="openClear()">清除缓存</button>
       </div>
     </div>
   </header>
-
   <div class="content">
     <div>
       <h3>未持有角色</h3>
       <app-pcr-icon
         *ngFor="let chara of unHaveChara; trackBy: trackByCharaFn"
-        [rarity]="chara.rarity"
-        [prefabId]="chara.prefabId"
+        [unit]="chara"
       ></app-pcr-icon>
     </div>
     <div *ngIf="!filterBossList.length" style="color: #f44336; font-size: 30px; line-height: 30px;">
       请选择阶段,服务器, <br />
-      如果如果图片显示不出,可尝试谷歌浏览器 <br />
-      5阶段无法筛刀已解决,图片问题下期我会换成自己的源
+      如果图片显示不出,可尝试谷歌浏览器,或者点击切换图片源 <br />
     </div>
 
     <mat-accordion multi>
@@ -83,7 +81,7 @@
               [checked]="boss.checked"
               (clickStop)="boss.checked = !boss.checked"
             ></mat-checkbox>
-            <app-pcr-icon [prefabId]="boss.prefabId"> </app-pcr-icon>
+            <app-pcr-icon [unit]="boss"> </app-pcr-icon>
           </mat-panel-title>
           <mat-panel-description class="g-flex-between">
             <span>{{ boss.unitName }} </span>
@@ -102,10 +100,7 @@
                     style="margin-right: 2px;"
                     *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
                   >
-                    <app-pcr-icon
-                      [rarity]="chara.currentRarity"
-                      [prefabId]="chara.prefabId"
-                    ></app-pcr-icon>
+                    <app-pcr-icon [unit]="chara"></app-pcr-icon>
                     <div class="chara-info">
                       <div class="g-flex">
                         <img style="width: 6px; height: 6px;" src="/assets/images/star.png" />
@@ -162,3 +157,17 @@
     </mat-accordion>
   </div>
 </div>
+
+<ng-template #cacheRef>
+  <mat-dialog-content>
+    <div>
+      清除本地缓存(localstorage),包括去除/已使用/未拥有角色
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="action">
+      <button mat-raised-button color="warn" (clickStop)="storageClear(1)">清除所有</button>
+      <button mat-raised-button color="accent" (clickStop)="storageClear(2)">不包含未拥有</button>
+    </div>
+  </mat-dialog-actions>
+</ng-template>

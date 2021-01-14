@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, TemplateRef } from '@angular/core';
 import { PcrApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterTaskService, RediveDataService, StorageService } from '@core';
+import { RediveService, RediveDataService, StorageService, unHaveCharas } from '@core';
 import { cloneDeep } from 'lodash';
 import {
   CanAutoName,
@@ -31,10 +31,12 @@ import { filterTask } from './util/filterTask';
 })
 export class GvgComponent implements OnInit, OnDestroy {
   @ViewChildren(MatAccordion) matAccordions: MatAccordion[];
+  @ViewChild('cacheRef') cacheRef: TemplateRef<any>;
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
     private rediveDataSrv: RediveDataService,
+    private rediveSrv: RediveService,
     private storageSrv: StorageService,
     private route: ActivatedRoute,
   ) {}
@@ -196,7 +198,9 @@ export class GvgComponent implements OnInit, OnDestroy {
       this.rediveDataSrv.setCharaList(res);
     });
   }
-
+  /**
+   * 筛刀
+   */
   filter() {
     if (this.filterLoading) {
       return;
@@ -295,8 +299,22 @@ export class GvgComponent implements OnInit, OnDestroy {
   /**
    * 清除缓存
    */
-  storageClear() {
-    this.storageSrv.clearAll();
+
+  openClear() {
+    this.matDialog.open(this.cacheRef);
+  }
+  /**
+   *
+   * @param type 1所有 2 不包含未拥有
+   */
+  storageClear(type: number) {
+    if (type === 1) {
+      this.storageSrv.clearAll();
+    } else {
+      const unCharas = this.storageSrv.localGet(unHaveCharas);
+      this.storageSrv.clearAll();
+      this.storageSrv.localSet(unHaveCharas, unCharas);
+    }
     location.reload();
   }
 
@@ -330,5 +348,9 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
   closeAll() {
     this.matAccordions.forEach((accordion) => accordion.closeAll());
+  }
+
+  toggleImgSource() {
+    this.rediveSrv.changeImgSource();
   }
 }

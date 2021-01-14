@@ -8,8 +8,7 @@
       <div class="g-flex-between">
         <div class="g-flex">
           <div class="g-flex">
-            <span>boss {{ task.index }} </span
-            ><app-pcr-icon [prefabId]="task.prefabId"></app-pcr-icon>
+            <span>boss {{ task.index }} </span><app-pcr-icon [unit]="task"></app-pcr-icon>
           </div>
           <span style="margin-left: 15px;">伤害{{ task.damage }}w</span>
         </div>
@@ -27,7 +26,7 @@
       </div>
       <div class="g-flex">
         <div class="g-flex" style="margin-right: 2px;" *ngFor="let chara of task.charas">
-          <app-pcr-icon [rarity]="chara.currentRarity" [prefabId]="chara.prefabId"></app-pcr-icon>
+          <app-pcr-icon [unit]="chara"></app-pcr-icon>
           <div class="g-flex-column" style="font-size: 12px; height: 42px;">
             <div class="g-flex">
               <img style="width: 6px; height: 6px;" src="/assets/images/star.png" />
@@ -40,11 +39,7 @@
       <div style="height: 50px;" class="g-flex">
         <span>{{ task.canAuto | canauto }} </span>
         <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
-          <span>借 </span
-          ><app-pcr-icon
-            [prefabId]="task.borrowChara.prefabId"
-            [rarity]="task.borrowChara.rarity"
-          ></app-pcr-icon>
+          <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
         </div>
       </div>
       <div class="scroll-item-link">

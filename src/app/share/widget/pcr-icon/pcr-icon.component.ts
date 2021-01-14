@@ -1,39 +1,83 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  SimpleChanges,
+  OnDestroy,
+} from '@angular/core';
 import { RediveService } from '@core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+interface Unit {
+  prefabId: number;
+  currentRarity?: number;
+  rarity: number;
+  [propName: string]: any;
+}
 
 @Component({
   selector: 'app-pcr-icon',
-  template: ` <img style="height: 42px; width: 42px;" defaultImage="/assets/images/000001.webp" [lazyLoad]="src" /> `,
+  template: `
+    <img
+      style="height: 42px; width: 42px;"
+      defaultImage="/assets/images/000001.webp"
+      [lazyLoad]="src"
+    />
+  `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PcrIconComponent implements OnInit, OnChanges {
-  private _src = '';
-  private _prefabId = 3;
-  constructor(private redive: RediveService) {}
-
-  @Input()
-  set prefabId(prefabId: number) {
-    if (prefabId) {
-      this._prefabId = prefabId;
-      this._src = this.redive.addIconUrl(this._prefabId);
-    }
+export class PcrIconComponent implements OnInit, OnDestroy {
+  _unit: Unit;
+  _src: string;
+  onDestory$ = new Subject();
+  constructor(public redive: RediveService, private cdr: ChangeDetectorRef) {
+    this.redive
+      .baseUrlOb()
+      .pipe(takeUntil(this.onDestory$))
+      .subscribe((_) => {
+        if (this._unit) {
+          this.setIconUrl();
+          this.cdr.markForCheck();
+        }
+      });
   }
 
-  @Input() rarity = 3;
+  @Input()
+  set unit(val: Unit) {
+    this._unit = val;
+    this.setIconUrl();
+  }
+
+  @Input() rarity: number;
 
   get src() {
-    return this._src;
+    return this._src ?? '/assets/images/000001.webp';
+  }
+
+  setIconUrl() {
+    this._src = this.redive.addIconUrl(
+      this._unit.prefabId,
+      this._unit.currentRarity ?? this._unit.rarity,
+    );
   }
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (
-      (changes.prefabId?.previousValue !== changes.prefabId?.currentValue || !changes.prefabId?.firstChange) &&
-      (changes.rarity?.previousValue !== changes.rarity?.currentValue || !changes.rarity?.firstChange)
-    ) {
-      this._src = this.redive.addIconUrl(this._prefabId, this.rarity);
-    }
+  ngOnDestroy(): void {
+    this.onDestory$.next();
+    this.onDestory$.complete();
   }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (
+  //     (changes.prefabId?.previousValue !== changes.prefabId?.currentValue || !changes.prefabId?.firstChange) &&
+  //     (changes.rarity?.previousValue !== changes.rarity?.currentValue || !changes.rarity?.firstChange)
+  //   ) {
+  //     this._src = this.redive.addIconUrl(this._prefabId, this.rarity);
+  //   }
+  // }
 }

@@ -6,8 +6,7 @@
         <app-pcr-icon
           class="img"
           style="opacity: 1;"
-          [prefabId]="chara.prefabId"
-          [rarity]="chara.currentRarity"
+          [unit]="chara"
           (clickStop)="toggleSelect(chara)"
         ></app-pcr-icon>
         <app-rarity-select
@@ -47,7 +46,7 @@
         <mat-label>boss</mat-label>
         <mat-select formControlName="bossId" required>
           <mat-option *ngFor="let boss of dialogData.bossList" [value]="boss.id">
-            <app-pcr-icon [prefabId]="boss.prefabId"></app-pcr-icon>
+            <app-pcr-icon [unit]="boss"></app-pcr-icon>
             <span>{{ boss.unitName }}</span>
           </mat-option>
         </mat-select>
@@ -119,8 +118,7 @@
           *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
-          [prefabId]="chara.prefabId"
-          [rarity]="chara.rarity"
+          [unit]="chara"
         ></app-pcr-icon>
       </div>
     </mat-tab>
@@ -131,8 +129,7 @@
           *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
-          [rarity]="chara.rarity"
-          [prefabId]="chara.prefabId"
+          [unit]="chara"
         ></app-pcr-icon>
       </div>
     </mat-tab>
@@ -143,7 +140,7 @@
           *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
-          [prefabId]="chara.prefabId"
+          [unit]="chara"
         ></app-pcr-icon>
       </div>
     </mat-tab>
