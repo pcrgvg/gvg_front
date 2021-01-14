@@ -76,10 +76,10 @@ export class StorageService {
    *  return null or value
    * @param key
    */
-  localGet(key: string) {
+  localGet(key: string, defaultValue: any = null) {
     const value = localStorage.getItem(key);
     const [data] = this.parse(value);
-    return data;
+    return data ?? defaultValue;
   }
 
   localRemove(key: string) {

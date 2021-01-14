@@ -21,11 +21,7 @@ interface Unit {
 @Component({
   selector: 'app-pcr-icon',
   template: `
-    <img
-      style="height: 42px; width: 42px;"
-      defaultImage="/assets/images/000001.webp"
-      [lazyLoad]="src"
-    />
+    <img style="height: 42px; width: 42px;" loading="lazy" (error)="onError()" [src]="src" />
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +37,6 @@ export class PcrIconComponent implements OnInit, OnDestroy {
       .subscribe((_) => {
         if (this._unit) {
           this.setIconUrl();
-          this.cdr.markForCheck();
         }
       });
   }
@@ -63,6 +58,7 @@ export class PcrIconComponent implements OnInit, OnDestroy {
       this._unit.prefabId,
       this._unit.currentRarity ?? this._unit.rarity,
     );
+    this.cdr.markForCheck();
   }
 
   ngOnInit(): void {}
@@ -70,6 +66,10 @@ export class PcrIconComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  onError() {
+    this._src = '/assets/images/000001.webp';
   }
 
   // ngOnChanges(changes: SimpleChanges) {
