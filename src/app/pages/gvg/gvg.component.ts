@@ -1,7 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, TemplateRef } from '@angular/core';
-import { PcrApiService } from '@apis';
+import { PcrApiService, ChangelogServiceApi } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
-import { RediveService, RediveDataService, StorageService, unHaveCharas } from '@core';
+import {
+  RediveService,
+  RediveDataService,
+  StorageService,
+  unHaveCharas,
+  SnackbarService,
+} from '@core';
 import { cloneDeep } from 'lodash';
 import {
   CanAutoName,
@@ -23,6 +29,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { storageNames } from '@app/constants';
 import { ActivatedRoute } from '@angular/router';
 import { filterTask } from './util/filterTask';
+import { NoticeComponent } from './widgets/notice/notice.component';
 
 @Component({
   selector: 'app-gvg',
@@ -39,6 +46,8 @@ export class GvgComponent implements OnInit, OnDestroy {
     private rediveSrv: RediveService,
     private storageSrv: StorageService,
     private route: ActivatedRoute,
+    private changelogApi: ChangelogServiceApi,
+    private snackbarSrc: SnackbarService,
   ) {}
 
   charaList: Chara[] = [];
@@ -87,6 +96,8 @@ export class GvgComponent implements OnInit, OnDestroy {
   usedList: number[] = [];
   removedList: number[] = [];
 
+  changelog: string = '';
+
   ngOnInit(): void {
     this.dealServerType();
     this.stageOption = new Array(5).fill(1).map((r, i) => {
@@ -103,6 +114,9 @@ export class GvgComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.unHaveChara = res;
       });
+    this.changelogApi.getChangeLog().subscribe((r) => {
+      this.changelog = r.content;
+    });
   }
 
   ngOnDestroy(): void {
@@ -221,6 +235,10 @@ export class GvgComponent implements OnInit, OnDestroy {
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
       });
+      worker.onerror = (err) => {
+        this.filterLoading = false;
+        this.snackbarSrc.openSnackBar(err.message);
+      };
     } else {
       const filterResult = filterTask({
         bossList: this.filterBossList.filter((boss) => boss.checked),
@@ -352,5 +370,11 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   toggleImgSource() {
     this.rediveSrv.changeImgSource();
+  }
+
+  toggleNotice() {
+    this.matDialog.open(NoticeComponent, {
+      data: {},
+    });
   }
 }

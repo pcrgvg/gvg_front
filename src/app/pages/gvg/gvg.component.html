@@ -51,8 +51,9 @@
       <div>
         <button mat-button (clickStop)="openAll()">展开所有</button>
         <button mat-button (clickStop)="closeAll()">关闭所有</button>
-        <!-- <button mat-button>查看公告</button> -->
         <button mat-button (clickStop)="toggleImgSource()">切换图片源</button>
+        <button mat-button (clickStop)="toggleNotice()">查看公告</button>
+        <button mat-button *ngIf="operate" (clickStop)="toggleNotice()">修改公告</button>
       </div>
       <div>
         <button mat-button (clickStop)="openClear()">清除缓存</button>
@@ -70,6 +71,7 @@
     <div *ngIf="!filterBossList.length" style="color: #f44336; font-size: 30px; line-height: 30px;">
       请选择阶段,服务器, <br />
       如果图片显示不出,可尝试谷歌浏览器,或者点击切换图片源 <br />
+      <div [innerHtml]="changelog | domSanitizer"></div>
     </div>
 
     <mat-accordion multi>

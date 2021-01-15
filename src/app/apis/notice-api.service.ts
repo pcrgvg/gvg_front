@@ -13,8 +13,8 @@ interface Notice {
 }
 
 const NoticeApis = {
-  getNotice: 'getNotice',
-  updateNotice: 'updateNotice',
+  getNotice: '/pcr/getNotice',
+  updateNotice: '/pcr/updateNotice',
 };
 
 @Injectable({

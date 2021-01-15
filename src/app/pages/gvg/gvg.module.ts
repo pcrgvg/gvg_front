@@ -24,9 +24,18 @@ import { GvgResultComponent } from './gvg-result/gvg-result.component';
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
 import { RaritySelectComponent } from './widgets/rarity-select/rarity-select.component';
+import { NoticeComponent } from './widgets/notice/notice.component';
 
 @NgModule({
-  declarations: [GvgComponent, AddTaskComponent, GvgResultComponent, AddUnHaveComponent, InstructionsComponent, RaritySelectComponent],
+  declarations: [
+    GvgComponent,
+    AddTaskComponent,
+    GvgResultComponent,
+    AddUnHaveComponent,
+    InstructionsComponent,
+    RaritySelectComponent,
+    NoticeComponent,
+  ],
   imports: [
     ShareModule,
     GvgRoutingModule,
