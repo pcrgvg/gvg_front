@@ -115,7 +115,7 @@ export class GvgComponent implements OnInit, OnDestroy {
         this.unHaveChara = res;
       });
     this.changelogApi.getChangeLog().subscribe((r) => {
-      this.changelog = r.content;
+      this.changelog = r.content ?? '';
     });
   }
 
