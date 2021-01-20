@@ -79,8 +79,9 @@
     </div>
     <div *ngIf="!filterBossList.length" style="color: #f44336; font-size: 30px; line-height: 30px;">
       请选择阶段,服务器, <br />
-      如果图片显示不出,可尝试谷歌浏览器,或者点击切换图片源 <br />
+      如果图片显示不出,可尝试谷歌浏览器,或者点击关闭所有旁边的图片源切换 <br />
       <div [innerHtml]="changelog | domSanitizer"></div>
+      <div [innerHtml]="notice?.content | domSanitizer"></div>
     </div>
 
     <mat-accordion multi>

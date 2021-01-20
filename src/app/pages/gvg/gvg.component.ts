@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, TemplateRef } from '@angular/core';
-import { PcrApiService, ChangelogServiceApi } from '@apis';
+import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
 import {
   RediveService,
@@ -14,6 +14,7 @@ import {
   CanAutoType,
   Chara,
   GvgTask,
+  Notice,
   ServerName,
   ServerType,
   Task,
@@ -48,6 +49,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private changelogApi: ChangelogServiceApi,
     private snackbarSrc: SnackbarService,
+    private noticeApiSrv: NoticeApiService,
   ) {}
 
   charaList: Chara[] = [];
@@ -101,6 +103,8 @@ export class GvgComponent implements OnInit, OnDestroy {
   imgSource: string = '';
   imgSourceOption = [];
 
+  notice: Notice;
+
   ngOnInit(): void {
     this.dealServerType();
     this.stageOption = new Array(5).fill(1).map((r, i) => {
@@ -120,6 +124,27 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.changelogApi.getChangeLog().subscribe((r) => {
       this.changelog = r.content ?? '';
     });
+
+    this.initImamgeSouce();
+  }
+
+  ngOnDestroy(): void {
+    this.OnDestroySub.next();
+    this.OnDestroySub.complete();
+  }
+
+  getNotice() {
+    this.noticeApiSrv
+      .getNotice({
+        server: this.serverType,
+        clanBattleId: this.clanBattleId,
+      })
+      .subscribe((r) => {
+        this.notice = r;
+      });
+  }
+
+  initImamgeSouce() {
     this.imgSourceOption = [
       {
         label: '干炸里脊',
@@ -135,11 +160,6 @@ export class GvgComponent implements OnInit, OnDestroy {
       },
     ];
     this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
-  }
-
-  ngOnDestroy(): void {
-    this.OnDestroySub.next();
-    this.OnDestroySub.complete();
   }
 
   dealServerType() {
@@ -209,6 +229,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       if (this.stage) {
         this.getGvgTaskList();
       }
+      this.getNotice();
       // this.getGvgTaskList();
     });
   }
