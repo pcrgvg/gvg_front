@@ -25,6 +25,7 @@ import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component'
 import { InstructionsComponent } from './widgets/instructions/instructions.component';
 import { RaritySelectComponent } from './widgets/rarity-select/rarity-select.component';
 import { NoticeComponent } from './widgets/notice/notice.component';
+import { NgxWigModule } from 'ngx-wig';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NoticeComponent } from './widgets/notice/notice.component';
     LayoutModule,
     NzToolTipModule,
     NzButtonModule,
+    NgxWigModule,
   ],
   entryComponents: [AddTaskComponent],
 })

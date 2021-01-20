@@ -51,9 +51,18 @@
       <div>
         <button mat-button (clickStop)="openAll()">展开所有</button>
         <button mat-button (clickStop)="closeAll()">关闭所有</button>
-        <button mat-button (clickStop)="toggleImgSource()">切换图片源</button>
-        <!-- <button mat-button (clickStop)="toggleNotice()">查看公告</button> -->
-        <!-- <button mat-button *ngIf="operate" (clickStop)="toggleNotice()">修改公告</button> -->
+        <mat-select
+          placeholder="切换图片源"
+          [(ngModel)]="imgSource"
+          (ngModelChange)="toggleImgSource($event)"
+          style="width: 80px;"
+        >
+          <mat-option *ngFor="let stage of imgSourceOption" [value]="stage.value">
+            {{ stage.label }}
+          </mat-option>
+        </mat-select>
+        <button mat-button *ngIf="!operate" (clickStop)="toggleNotice()">查看公告</button>
+        <button mat-button *ngIf="operate" (clickStop)="toggleNotice()">修改公告</button>
       </div>
       <div>
         <button mat-button (clickStop)="openClear()">清除缓存</button>

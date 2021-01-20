@@ -98,6 +98,9 @@ export class GvgComponent implements OnInit, OnDestroy {
 
   changelog: string = '';
 
+  imgSource: string = '';
+  imgSourceOption = [];
+
   ngOnInit(): void {
     this.dealServerType();
     this.stageOption = new Array(5).fill(1).map((r, i) => {
@@ -117,6 +120,21 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.changelogApi.getChangeLog().subscribe((r) => {
       this.changelog = r.content ?? '';
     });
+    this.imgSourceOption = [
+      {
+        label: '干炸里脊',
+        value: this.rediveSrv.winSource,
+      },
+      {
+        label: 'oss',
+        value: this.rediveSrv.ossSource,
+      },
+      {
+        label: '小水管',
+        value: '/oss/',
+      },
+    ];
+    this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
   }
 
   ngOnDestroy(): void {
@@ -368,13 +386,17 @@ export class GvgComponent implements OnInit, OnDestroy {
     this.matAccordions.forEach((accordion) => accordion.closeAll());
   }
 
-  toggleImgSource() {
-    this.rediveSrv.changeImgSource();
+  toggleImgSource(url: string) {
+    this.rediveSrv.changeImgSource(url);
   }
 
   toggleNotice() {
     this.matDialog.open(NoticeComponent, {
-      data: {},
+      data: {
+        server: this.serverType,
+        clanBattleId: this.clanBattleId,
+      },
+      width: '600px',
     });
   }
 }

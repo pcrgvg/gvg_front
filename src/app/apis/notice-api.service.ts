@@ -1,16 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@core';
 import { Observable } from 'rxjs';
-import { ServerType } from '../models';
-
-interface Notice {
-  id: number;
-  content: string;
-  clanBattleId: number;
-  server: string;
-  createTime: number;
-  updateTime: number;
-}
+import { Notice, ServerType } from '../models';
 
 const NoticeApis = {
   getNotice: '/pcr/getNotice',

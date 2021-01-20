@@ -22,13 +22,10 @@ export class RediveService {
     return this.baseUrlSub.getValue() + this.iconBase.replace('{0}', prefabId.toString());
   }
 
-  changeImgSource() {
-    if (this.baseUrlSub.getValue() === this.winSource) {
-      this.baseUrlSub.next(this.ossSource);
-      this.storageSrc.localSet('imageBase', this.ossSource);
-    } else {
-      this.baseUrlSub.next(this.winSource);
-      this.storageSrc.localSet('imageBase', this.winSource);
+  changeImgSource(url: string) {
+    if (this.baseUrlSub.getValue() !== url) {
+      this.baseUrlSub.next(url);
+      this.storageSrc.localSet('imageBase', url);
     }
   }
 
