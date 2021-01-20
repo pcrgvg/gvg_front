@@ -9,28 +9,28 @@ interface FilterTaskParams {
   unHaveCharas: Chara[];
 }
 
-function flatTask(bossList: GvgTask[]): BossTask[] {
+function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
   const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
   list.forEach((boss) => {
     boss.tasks.forEach((task) => {
-      tasks.push({
-        bossId: boss.id,
-        prefabId: boss.prefabId,
-        index: boss.index,
-        ...task,
-      });
+      if (!haveRemoved(task, removedList)) {
+        tasks.push({
+          bossId: boss.id,
+          prefabId: boss.prefabId,
+          index: boss.index,
+          ...task,
+        });
+      }
     });
   });
   return tasks;
 }
 
-function haveRemoved(arr: BossTask[], removedList: number[]): boolean {
-  for (const item of arr) {
-    if (removedList.includes(item.id)) {
-      return true;
-    }
+function haveRemoved(task: Task, removedList: number[]): boolean {
+  if (removedList.includes(task.id)) {
+    return true;
   }
   return false;
 }
@@ -41,16 +41,13 @@ function haveRemoved(arr: BossTask[], removedList: number[]): boolean {
  * 返回所有长度为k的组合 BossTask[]
  * Array<Array<BossTask>>
  */
-function combine(bossTask: BossTask[], k: number, removedList: number[]): BossTask[][] {
+function combine(bossTask: BossTask[], k: number): BossTask[][] {
   const result: BossTask[][] = [];
   const subResult: BossTask[] = [];
 
   const combineSub = (start: number, subResult: BossTask[]) => {
     /// subResult长度符合k，放入result
     if (subResult.length === k) {
-      if (haveRemoved(subResult, removedList)) {
-        return;
-      }
       result.push(subResult.slice(0));
       return;
     }
@@ -240,18 +237,18 @@ export const filterTask = ({
     return [];
   }
 
-  const bossTask: BossTask[] = flatTask(bossList);
-  let bossTasks: BossTask[][] = combine(bossTask, 3, removedList);
+  const bossTask: BossTask[] = flatTask(bossList, removedList);
+  let bossTasks: BossTask[][] = combine(bossTask, 3);
 
   let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList);
   /// 一般来说肯定会有3刀的情况
   if (!result.length) {
-    bossTasks = combine(bossTask, 2, removedList);
+    bossTasks = combine(bossTask, 2);
     result = fliterResult(bossTasks, unHaveCharas, usedList);
   }
 
   if (!result.length) {
-    bossTasks = combine(bossTask, 1, removedList);
+    bossTasks = combine(bossTask, 1);
     result = fliterResult(bossTasks, unHaveCharas, usedList);
   }
   console.log(result.length);

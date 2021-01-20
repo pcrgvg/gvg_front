@@ -131,7 +131,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       },
       {
         label: '小水管',
-        value: '/oss/',
+        value: '/',
       },
     ];
     this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
