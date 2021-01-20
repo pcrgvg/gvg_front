@@ -1,13 +1,20 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
-import { PcrApiService } from '@apis';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, TemplateRef } from '@angular/core';
+import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@apis';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterTaskService, RediveDataService, StorageService } from '@core';
+import {
+  RediveService,
+  RediveDataService,
+  StorageService,
+  unHaveCharas,
+  SnackbarService,
+} from '@core';
 import { cloneDeep } from 'lodash';
 import {
   CanAutoName,
   CanAutoType,
   Chara,
   GvgTask,
+  Notice,
   ServerName,
   ServerType,
   Task,
@@ -23,6 +30,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { storageNames } from '@app/constants';
 import { ActivatedRoute } from '@angular/router';
 import { filterTask } from './util/filterTask';
+import { NoticeComponent } from './widgets/notice/notice.component';
 
 @Component({
   selector: 'app-gvg',
@@ -31,12 +39,17 @@ import { filterTask } from './util/filterTask';
 })
 export class GvgComponent implements OnInit, OnDestroy {
   @ViewChildren(MatAccordion) matAccordions: MatAccordion[];
+  @ViewChild('cacheRef') cacheRef: TemplateRef<any>;
   constructor(
     private pcrApi: PcrApiService,
     private matDialog: MatDialog,
     private rediveDataSrv: RediveDataService,
+    private rediveSrv: RediveService,
     private storageSrv: StorageService,
     private route: ActivatedRoute,
+    private changelogApi: ChangelogServiceApi,
+    private snackbarSrc: SnackbarService,
+    private noticeApiSrv: NoticeApiService,
   ) {}
 
   charaList: Chara[] = [];
@@ -80,10 +93,17 @@ export class GvgComponent implements OnInit, OnDestroy {
    * TODO 账号模式
    * 是否可修改/删除/添加作业
    */
-  operate: boolean = false;
+  operate = false;
 
   usedList: number[] = [];
   removedList: number[] = [];
+
+  changelog: string = '';
+
+  imgSource: string = '';
+  imgSourceOption = [];
+
+  notice: Notice;
 
   ngOnInit(): void {
     this.dealServerType();
@@ -101,11 +121,45 @@ export class GvgComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.unHaveChara = res;
       });
+    this.changelogApi.getChangeLog().subscribe((r) => {
+      this.changelog = r.content ?? '';
+    });
+
+    this.initImamgeSouce();
   }
 
   ngOnDestroy(): void {
     this.OnDestroySub.next();
     this.OnDestroySub.complete();
+  }
+
+  getNotice() {
+    this.noticeApiSrv
+      .getNotice({
+        server: this.serverType,
+        clanBattleId: this.clanBattleId,
+      })
+      .subscribe((r) => {
+        this.notice = r;
+      });
+  }
+
+  initImamgeSouce() {
+    this.imgSourceOption = [
+      {
+        label: '干炸里脊',
+        value: this.rediveSrv.winSource,
+      },
+      {
+        label: 'oss',
+        value: this.rediveSrv.ossSource,
+      },
+      {
+        label: '小水管',
+        value: '/',
+      },
+    ];
+    this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
   }
 
   dealServerType() {
@@ -175,6 +229,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       if (this.stage) {
         this.getGvgTaskList();
       }
+      this.getNotice();
       // this.getGvgTaskList();
     });
   }
@@ -196,7 +251,9 @@ export class GvgComponent implements OnInit, OnDestroy {
       this.rediveDataSrv.setCharaList(res);
     });
   }
-
+  /**
+   * 筛刀
+   */
   filter() {
     if (this.filterLoading) {
       return;
@@ -217,6 +274,10 @@ export class GvgComponent implements OnInit, OnDestroy {
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
       });
+      worker.onerror = (err) => {
+        this.filterLoading = false;
+        this.snackbarSrc.openSnackBar(err.message);
+      };
     } else {
       const filterResult = filterTask({
         bossList: this.filterBossList.filter((boss) => boss.checked),
@@ -225,9 +286,6 @@ export class GvgComponent implements OnInit, OnDestroy {
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
       });
 
-      // const filterResult = this.ftSrv.filterTask(
-      //   this.filterBossList.filter((boss) => boss.checked),
-      // );
       /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
       console.log(filterResult.length);
       this.filterLoading = false;
@@ -298,8 +356,22 @@ export class GvgComponent implements OnInit, OnDestroy {
   /**
    * 清除缓存
    */
-  storageClear() {
-    this.storageSrv.clearAll();
+
+  openClear() {
+    this.matDialog.open(this.cacheRef);
+  }
+  /**
+   *
+   * @param type 1所有 2 不包含未拥有
+   */
+  storageClear(type: number) {
+    if (type === 1) {
+      this.storageSrv.clearAll();
+    } else {
+      const unCharas = this.storageSrv.localGet(unHaveCharas);
+      this.storageSrv.clearAll();
+      this.storageSrv.localSet(unHaveCharas, unCharas);
+    }
     location.reload();
   }
 
@@ -333,5 +405,19 @@ export class GvgComponent implements OnInit, OnDestroy {
   }
   closeAll() {
     this.matAccordions.forEach((accordion) => accordion.closeAll());
+  }
+
+  toggleImgSource(url: string) {
+    this.rediveSrv.changeImgSource(url);
+  }
+
+  toggleNotice() {
+    this.matDialog.open(NoticeComponent, {
+      data: {
+        server: this.serverType,
+        clanBattleId: this.clanBattleId,
+      },
+      width: '600px',
+    });
   }
 }

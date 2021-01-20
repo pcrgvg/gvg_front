@@ -4,7 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreInterceptor } from './net/core.interceptor';
 import { CoreErrorHandler } from './core-error-handler';
 import { environment } from '@src/environments/environment';
-import * as localForage from 'localforage';
+// import * as localForage from 'localforage';
 
 @NgModule({
   declarations: [],
@@ -18,9 +18,9 @@ import * as localForage from 'localforage';
 })
 export class CoreModule {
   constructor() {
-    localForage.config({
-      driver: [localForage.INDEXEDDB, localForage.LOCALSTORAGE],
-      name: 'myNgApp',
-    });
+    // localForage.config({
+    //   driver: [localForage.INDEXEDDB, localForage.LOCALSTORAGE],
+    //   name: 'myNgApp',
+    // });
   }
 }

@@ -46,3 +46,12 @@ export interface GvgTask {
 }
 
 export type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };
+
+export interface Notice {
+  id: number;
+  content: string;
+  clanBattleId: number;
+  server: string;
+  createTime: number;
+  updateTime: number;
+}
