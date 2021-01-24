@@ -219,6 +219,13 @@ export class GvgComponent implements OnInit, OnDestroy {
     });
   }
 
+  getStageScore() {
+    this.pcrApi.stageScore(this.serverType, this.clanBattleId).subscribe((res) => {
+      // this.rediveDataSrv.setRankList(res);
+      console.log(res);
+    });
+  }
+
   /**
    * 获取会战期次
    */
@@ -229,6 +236,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       if (this.stage) {
         this.getGvgTaskList();
       }
+      this.getStageScore();
       this.getNotice();
       // this.getGvgTaskList();
     });

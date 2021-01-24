@@ -11,6 +11,7 @@ export const pcrApis = {
   deleteTask: '/pcr/deleteTask',
   getRank: '/pcr/rank',
   getClanBattleList: '/pcr/clanBattleList',
+  stageScore: '/pcr/getStageScore',
 };
 
 @Injectable({
@@ -59,5 +60,9 @@ export class PcrApiService {
         startTime: string;
       }[]
     >(pcrApis.getClanBattleList, { server });
+  }
+
+  stageScore(server: string, clanBattleId: number) {
+    return this.http.Get<number[]>(pcrApis.stageScore, { server, clanBattleId });
   }
 }
