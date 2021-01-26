@@ -236,7 +236,7 @@ export class GvgComponent implements OnInit, OnDestroy {
       if (this.stage) {
         this.getGvgTaskList();
       }
-      this.getStageScore();
+      // this.getStageScore();
       this.getNotice();
       // this.getGvgTaskList();
     });
@@ -319,6 +319,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
+        // TODO 删除
         this.getGvgTaskList();
       }
     });

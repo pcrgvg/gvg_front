@@ -45,7 +45,8 @@ export class CoreInterceptor implements HttpInterceptor {
         return of(ev);
       }),
       catchError((err) => {
-        throw new Error(err);
+        this.snackbarSrv.openSnackBar(err.message);
+        throw err;
       }),
     );
   }
