@@ -25,11 +25,12 @@ export class CoreInterceptor implements HttpInterceptor {
         if (body.code === ResultStatus.success) {
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
         } else {
-          this.snackbarSrv.openSnackBar(body.msg);
+          return throwError(new Error(body.msg));
         }
       }
+    } else {
+      return throwError(new Error('statuscode not in range 200'));
     }
-    return throwError('statuscode not in range 200');
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
