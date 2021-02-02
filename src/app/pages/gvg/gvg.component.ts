@@ -281,6 +281,7 @@ export class GvgComponent implements OnInit, OnDestroy {
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
+        server: this.serverType,
       });
       worker.onerror = (err) => {
         this.filterLoading = false;
@@ -292,6 +293,7 @@ export class GvgComponent implements OnInit, OnDestroy {
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
         unHaveCharas: this.rediveDataSrv.unHaveCharas,
+        server: this.serverType,
       });
 
       /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制

@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { Task, GvgTask, Chara } from '../../../models';
+import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
 type BossTask = Task & { bossId: number; prefabId: number; borrowChara?: Chara; index: number };
 interface FilterTaskParams {
@@ -7,6 +7,7 @@ interface FilterTaskParams {
   usedList: number[];
   removedList: number[];
   unHaveCharas: Chara[];
+  server: ServerType;
 }
 
 function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
@@ -132,6 +133,7 @@ function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
+  server: ServerType,
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
 
@@ -164,7 +166,7 @@ function fliterResult(
     // total = total + (endTime - startTime)
     // console.log(total, 'total');
   }
-  const r = tempArr.map((r) => sortByScore(r));
+  const r = tempArr.map((r) => sortByScore(r, server));
   r.reverse();
   const res = r.flat();
   return res;
@@ -174,7 +176,7 @@ function fliterResult(
  *
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
-function sortByScore(arr: BossTask[][]) {
+function sortByScore(arr: BossTask[][], server: ServerType) {
   const tempArr = cloneDeep(arr);
   // TODO 修改 1,2,3,4阶段的系数
   const scoreFactor = {
@@ -214,13 +216,52 @@ function sortByScore(arr: BossTask[][]) {
       5: 4.0,
     },
   };
+
+  const cnscoreFactor = {
+    1: {
+      1: 1,
+      2: 1,
+      3: 1.3,
+      4: 1.3,
+      5: 1.5,
+    },
+    2: {
+      1: 1.4,
+      2: 1.4,
+      3: 1.8,
+      4: 1.8,
+      5: 2,
+    },
+    3: {
+      1: 2,
+      2: 2,
+      3: 2.5,
+      4: 2.5,
+      5: 3,
+    },
+    4: {
+      1: 3.5,
+      2: 3.5,
+      3: 3.7,
+      4: 3.8,
+      5: 4.0,
+    },
+    5: {
+      1: 3.5,
+      2: 3.5,
+      3: 3.7,
+      4: 3.8,
+      5: 4.0,
+    },
+  };
+  const scoreF = server === ServerType.jp ? scoreFactor : cnscoreFactor;
   tempArr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
     a.forEach((task) => {
-      aScore += task.damage * scoreFactor[task.stage][task.index];
+      aScore += task.damage * scoreF[task.stage][task.index];
     });
     b.forEach((task) => {
-      bScore += task.damage * scoreFactor[task.stage][task.index];
+      bScore += task.damage * scoreF[task.stage][task.index];
     });
     return bScore - aScore;
   });
@@ -232,6 +273,7 @@ export const filterTask = ({
   usedList,
   removedList,
   unHaveCharas,
+  server,
 }: FilterTaskParams): BossTask[][] => {
   if (!bossList.length) {
     return [];
@@ -240,16 +282,16 @@ export const filterTask = ({
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
-  let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList);
+  let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList, server);
   /// 一般来说肯定会有3刀的情况
   if (!result.length) {
     bossTasks = combine(bossTask, 2);
-    result = fliterResult(bossTasks, unHaveCharas, usedList);
+    result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
 
   if (!result.length) {
     bossTasks = combine(bossTask, 1);
-    result = fliterResult(bossTasks, unHaveCharas, usedList);
+    result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
   console.log(result.length);
 

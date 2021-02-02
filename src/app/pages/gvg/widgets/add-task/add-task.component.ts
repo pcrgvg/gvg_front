@@ -98,7 +98,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stageOption = new Array(4).fill(1).map((r, i) => {
+    this.stageOption = new Array(5).fill(1).map((r, i) => {
       return {
         value: i + 1,
       };
