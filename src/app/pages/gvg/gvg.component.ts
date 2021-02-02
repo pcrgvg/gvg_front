@@ -322,7 +322,7 @@ export class GvgComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res: { bossId: number; gvgTask: GvgTask }) => {
       if (res) {
         // TODO 删除
-        this.getGvgTaskList();
+        // this.getGvgTaskList();
       }
     });
   }

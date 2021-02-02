@@ -14,9 +14,8 @@ export class SnackbarService {
   constructor(private snackBar: MatSnackBar) {}
 
   openSnackBar(msg: string) {
-    console.log(msg);
     this.snackBar.open(msg, '', {
-      duration: 30000,
+      duration: 3000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       panelClass: 'errorSnackBar',
