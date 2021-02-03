@@ -7,10 +7,11 @@ export const pcrApis = {
   // 获取角色列表
   charaList: '/pcr/charaList',
   gvgTaskList: '/pcr/gvgTask',
-  updateGvgTask: '/pcr/updateGvgTask',
-  deleteTask: '/pcr/deleteTask',
+  updateGvgTask: '/unpcr/updateGvgTask',
+  deleteTask: '/unpcr/deleteTask',
   getRank: '/pcr/rank',
   getClanBattleList: '/pcr/clanBattleList',
+  stageScore: '/pcr/getStageScore',
 };
 
 @Injectable({
@@ -59,5 +60,9 @@ export class PcrApiService {
         startTime: string;
       }[]
     >(pcrApis.getClanBattleList, { server });
+  }
+
+  stageScore(server: string, clanBattleId: number) {
+    return this.http.Get<number[]>(pcrApis.stageScore, { server, clanBattleId });
   }
 }

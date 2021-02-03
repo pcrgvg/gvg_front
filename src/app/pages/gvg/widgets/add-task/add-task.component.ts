@@ -98,7 +98,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stageOption = new Array(4).fill(1).map((r, i) => {
+    this.stageOption = new Array(5).fill(1).map((r, i) => {
       return {
         value: i + 1,
       };
@@ -153,10 +153,11 @@ export class AddTaskComponent implements OnInit {
         .updateTask(gvgTask)
         .pipe(finalize(() => (this.loading = false)))
         .subscribe((res) => {
-          this.modalRef.close({
-            bossId: res.id,
-            gvgTask: res,
-          });
+          this.snackbar.openSnackBar('添加成功');
+          // this.modalRef.close({
+          //   bossId: res.id,
+          //   gvgTask: res,
+          // });
         });
     } else {
       // 仅本地
