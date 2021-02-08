@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'pcr-root',
   template: `
-    <router-outlet></router-outlet>
+  <app-default></app-default>
+    <!-- <router-outlet></router-outlet> -->
   `,
   styles: []
 })

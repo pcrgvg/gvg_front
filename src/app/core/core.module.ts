@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreInterceptor } from './net/core.interceptor';
@@ -11,7 +11,6 @@ const Configfactory = (config: ConfigService) => {
   return () => config.init();
 };
 
-// import * as localForage from 'localforage';
 
 @NgModule({
   declarations: [],
@@ -24,10 +23,9 @@ const Configfactory = (config: ConfigService) => {
   ],
 })
 export class CoreModule {
-  constructor() {
-    // localForage.config({
-    //   driver: [localForage.INDEXEDDB, localForage.LOCALSTORAGE],
-    //   name: 'myNgApp',
-    // });
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error(`CoreModule has already been loaded. Import Core modules in the AppModule only.`);
+    }
   }
 }

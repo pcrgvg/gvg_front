@@ -14,7 +14,7 @@ export class GvgComponent implements OnInit {
 
   ngOnInit(): void {
     this.ChangelogServiceApi.getChangeLog().subscribe(r => {
-      
+      console.log(r)
     })
   }
 

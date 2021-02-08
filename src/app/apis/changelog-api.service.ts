@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '@app/core';
-import { Observable } from 'rxjs';
-import { ServerType } from '../models';
+import { HttpService } from '@app/core/net';
+import { ChangelogApis } from '../constants/apiUrls';
 
 interface Changelog {
   content: string;
 }
 
-const ChangelogApis = {
-  getChangeLog: '/pcr/getChangeLog',
-};
 
 @Injectable({
   providedIn: 'root',

@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '@app/core';
+import { HttpService } from '@app/core/net';
 import { Observable } from 'rxjs';
+import { pcrApis } from '../constants/apiUrls';
 import { Chara, GvgTask, ServerType } from '../models';
 
-export const pcrApis = {
-  // 获取角色列表
-  charaList: '/pcr/charaList',
-  gvgTaskList: '/pcr/gvgTask',
-  updateGvgTask: '/unpcr/updateGvgTask',
-  deleteTask: '/unpcr/deleteTask',
-  getRank: '/pcr/rank',
-  getClanBattleList: '/pcr/clanBattleList',
-  stageScore: '/pcr/getStageScore',
-};
+
 
 @Injectable({
   providedIn: 'root',

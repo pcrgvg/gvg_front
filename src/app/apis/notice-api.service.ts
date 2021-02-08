@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '@app/core';
+import { HttpService } from '@app/core/net';
 import { Observable } from 'rxjs';
+import { NoticeApis } from '../constants/apiUrls';
 import { Notice, ServerType } from '../models';
 
-const NoticeApis = {
-  getNotice: '/pcr/getNotice',
-  updateNotice: '/pcr/updateNotice',
-};
 
 @Injectable({
   providedIn: 'root',

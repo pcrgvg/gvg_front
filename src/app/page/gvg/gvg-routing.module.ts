@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: GvgComponent,
     data: {
-      keepAlive: true,
+      // keepAlive: true,
     },
   },
   {
