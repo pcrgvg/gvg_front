@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/// 全局公用样式
+.g {
+  @mixin flex {
+    display: flex;
+    align-items: center;
+  }
+  &-flex {
+    @include flex();
+    &-between {
+      @include flex();
+      justify-content: space-between;
+    }
+    &-column {
+      @include flex();
+      flex-direction: column;
+    }
+  }
+}
