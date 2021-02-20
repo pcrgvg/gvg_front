@@ -6,7 +6,6 @@ import { StorageService } from './storage.service';
   providedIn: 'root',
 })
 export class RediveService {
-  // baseUrl = 'https://redive.estertion.win/';
   baseUrlSub: BehaviorSubject<string> = new BehaviorSubject('https://redive.estertion.win/');
   winSource = 'https://redive.estertion.win/';
   ossSource = 'https://pcr-icon.oss-cn-beijing.aliyuncs.com/';

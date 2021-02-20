@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { NoticeApis } from '../constants/apiUrls';
 import { Notice, ServerType } from '../models';
 
-
 @Injectable({
   providedIn: 'root',
 })

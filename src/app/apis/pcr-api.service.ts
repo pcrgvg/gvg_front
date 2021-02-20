@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { pcrApis } from '../constants/apiUrls';
 import { Chara, GvgTask, ServerType } from '../models';
 
-
-
 @Injectable({
   providedIn: 'root',
 })

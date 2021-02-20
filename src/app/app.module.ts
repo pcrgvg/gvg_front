@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -14,14 +13,12 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share';
 import { LayoutModule } from './layout/layout.module';
 
-import { AppRoutingModule } from './app-routing.module'
+import { AppRoutingModule } from './app-routing.module';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -30,10 +27,9 @@ registerLocaleData(zh);
     CoreModule,
     ShareModule,
     LayoutModule,
-    FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

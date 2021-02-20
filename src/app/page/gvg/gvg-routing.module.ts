@@ -14,7 +14,6 @@ const routes: Routes = [
   {
     path: 'addTask',
     component: AddTaskComponent,
-   
   },
 ];
 

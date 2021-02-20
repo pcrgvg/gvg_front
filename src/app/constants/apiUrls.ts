@@ -15,3 +15,7 @@ export const pcrApis = {
   getClanBattleList: '/pcr/clanBattleList',
   stageScore: '/pcr/getStageScore',
 };
+
+export const DbApis = {
+  versions: '/db/versions',
+};

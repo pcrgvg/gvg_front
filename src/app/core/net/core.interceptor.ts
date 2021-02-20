@@ -17,7 +17,6 @@ import { RequestCacheService } from './request-cache.service';
 import { StorageService } from '../services/storage.service';
 import { storageNames } from '@src/app/constants';
 
-
 interface Token {
   d: string; // 日期 ms
   l: number; // 取时间的长度
@@ -35,7 +34,6 @@ export class CoreInterceptor implements HttpInterceptor {
         if (body.code === ResultStatus.success) {
           if (isCache) {
             this.requestCacheSrv.put(req, ev);
-            
           }
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
         } else {
@@ -51,16 +49,16 @@ export class CoreInterceptor implements HttpInterceptor {
     const token = this.storageSrv.sessionGet<Token>(storageNames.token);
     const req = request.clone({
       setHeaders: {
-        d: token.d,
-        l: `${token.l}`,
-        t: token.t,
+        d: token?.d ?? '',
+        l: `${token?.l}`,
+        t: token?.t ?? '',
       },
       url: environment.baseUrl + request.url,
     });
     const isCache = this.requestCacheSrv.isCacheable(request);
-    if (!isCache) {
-      return next.handle(req);
-    }
+    // if (!isCache) {
+    //   return next.handle(req);
+    // }
     const cachedResponse = this.requestCacheSrv.get(req);
     if (cachedResponse) {
       return of(cachedResponse);

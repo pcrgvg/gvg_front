@@ -1,3 +1,11 @@
 section {
   height: calc(100vh - 60px);
+  display: grid;
+  overflow-y: auto;
+  overflow-x: hidden;
+  grid-template-columns: 1fr auto 1fr;
+
+  .center {
+    border: 1px solid pink;
+  }
 }

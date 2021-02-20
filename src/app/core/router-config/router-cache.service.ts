@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { DetachedRouteHandle } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RouterCacheService {
   cacheRouters: { [key: string]: any } = {};
-  constructor() { }
+  constructor() {}
 
-  
   clear() {
     this.cacheRouters = {};
   }

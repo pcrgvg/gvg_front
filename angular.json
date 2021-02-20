@@ -3,12 +3,10 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pcrGvg": {
+    "pcr-gvg": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "inlineTemplate": false,
-          "inlineStyle": false,
           "style": "scss",
           "skipTests": true
         },
@@ -41,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pcrGvg",
+            "outputPath": "dist/pcr-gvg",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -57,14 +55,12 @@
               }
             ],
             "styles": [
-              "src/theme.less",
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.scss"
             ],
             "scripts": [],
             "webWorkerTsConfig": "tsconfig.worker.json",
-            "allowedCommonJsDependencies": [
-              "crypto-js"
-           ]
+            "allowedCommonJsDependencies": ["crypto-js"]
           },
           "configurations": {
             "production": {
@@ -100,23 +96,67 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pcrGvg:build",
+            "browserTarget": "pcr-gvg:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pcrGvg:build:production"
+              "browserTarget": "pcr-gvg:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pcrGvg:build"
+            "browserTarget": "pcr-gvg:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json",
+              "tsconfig.worker.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "pcr-gvg:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "pcr-gvg:serve:production"
+            }
           }
         }
       }
     }
   },
-  "defaultProject": "pcrGvg"
+  "defaultProject": "pcr-gvg"
 }

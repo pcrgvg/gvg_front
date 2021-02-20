@@ -1,5 +1,5 @@
-<p>home works3!</p>
+<div [innerHtml]="changelog | domSanitizer"></div>
 
-<input type="text">
+<div (click)="jumpTo('cn')">国服</div>
+<div (click)="jumpTo('jp')">日服</div>
 
-<a [routerLink]="['/gvg']"> addtask</a>

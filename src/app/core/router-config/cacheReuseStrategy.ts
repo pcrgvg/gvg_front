@@ -1,8 +1,4 @@
-import {
-  RouteReuseStrategy,
-  ActivatedRouteSnapshot,
-  DetachedRouteHandle,
-} from '@angular/router';
+import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { Injectable, Injector } from '@angular/core';
 import { RouterCacheService } from './router-cache.service';
 
@@ -11,7 +7,7 @@ import { RouterCacheService } from './router-cache.service';
  * 所以需要在监听路由事件中去手动调用初始化方法，
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CacheReuseStrategy implements RouteReuseStrategy {
   constructor(private routerCacheSrv: RouterCacheService) {}

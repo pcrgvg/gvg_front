@@ -4,7 +4,7 @@ import { LoadingButtonComponent } from './loading-button/loading-button.componen
 
 @NgModule({
   declarations: [LoadingButtonComponent],
-  imports: [CommonModule, ],
+  imports: [CommonModule],
   exports: [LoadingButtonComponent],
 })
 export class LoadingButtonModule {}

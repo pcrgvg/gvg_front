@@ -6,7 +6,6 @@ interface Changelog {
   content: string;
 }
 
-
 @Injectable({
   providedIn: 'root',
 })
