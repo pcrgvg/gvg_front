@@ -1,5 +1,19 @@
-<div [innerHtml]="changelog | domSanitizer"></div>
+<div class="g-card">
+  <h3 class="g-card-title">更新日志</h3>
+  <div [innerHtml]="changelog | domSanitizer"></div>
+</div>
 
-<div (click)="jumpTo('cn')">国服</div>
-<div (click)="jumpTo('jp')">日服</div>
-
+<div class="g-card" style="margin-top: 30px">
+  <h3 class="g-card-title">服务器</h3>
+  <div class="g-flex">
+    <button
+      nz-button
+      class="g-btn"
+      style="margin-right: 16px"
+      (click)="jumpTo('cn')"
+    >
+      国服
+    </button>
+    <button nz-button class="g-btn" (click)="jumpTo('jp')">日服</button>
+  </div>
+</div>

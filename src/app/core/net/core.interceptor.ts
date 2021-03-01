@@ -29,6 +29,7 @@ export class CoreInterceptor implements HttpInterceptor {
 
   handleData(req: HttpRequest<any>, ev: HttpResponseBase, isCache: boolean): Observable<any> {
     if (ev.ok) {
+      console.log(ev, 'ev')
       if (ev instanceof HttpResponse) {
         const body: CommonResult<any> = ev.body;
         if (body.code === ResultStatus.success) {
@@ -46,6 +47,7 @@ export class CoreInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log(request.urlWithParams)
     const token = this.storageSrv.sessionGet<Token>(storageNames.token);
     const req = request.clone({
       setHeaders: {
@@ -59,12 +61,19 @@ export class CoreInterceptor implements HttpInterceptor {
     // if (!isCache) {
     //   return next.handle(req);
     // }
-    const cachedResponse = this.requestCacheSrv.get(req);
+    const cachedResponse: HttpResponse<any> = this.requestCacheSrv.get(req);
     if (cachedResponse) {
-      return of(cachedResponse);
+      return of(new HttpResponse({
+        body: cachedResponse.body,
+        headers: cachedResponse.headers,
+        status: cachedResponse.status,
+        statusText: cachedResponse.statusText,
+        url: cachedResponse.url
+      }));
     } else {
       return next.handle(req).pipe(
         mergeMap((ev) => {
+          console.log(ev instanceof HttpResponseBase)
           if (ev instanceof HttpResponseBase) {
             return this.handleData(req, ev, isCache);
           }

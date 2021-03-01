@@ -1,0 +1,15 @@
+.form{
+    display: flex;
+    flex-wrap: wrap;
+    &-action {
+         justify-content: flex-end;
+         flex-grow: 1;
+         .ant-btn:not(:first-child) {
+             margin-left: 10px;
+         }
+    }
+
+    .ant-form-item {
+        margin-right: 16px;
+    }
+}

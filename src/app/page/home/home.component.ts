@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.dealServerType();
     this.changelogApi.getChangeLog().subscribe((r) => {
-      this.changelog = r.content ?? '';
+      this.changelog = r.content ?? '暂无';
     });
   }
 

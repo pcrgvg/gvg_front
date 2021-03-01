@@ -1,11 +1,16 @@
-section {
-  height: calc(100vh - 60px);
-  display: grid;
-  overflow-y: auto;
-  overflow-x: hidden;
-  grid-template-columns: 1fr auto 1fr;
 
-  .center {
-    border: 1px solid pink;
+
+.default{
+  background: url('/assets/images/bg.png') no-repeat;
+  background-size: cover;
+
+  section {
+    height: calc(100vh - 60px);
+    display: grid;
+    overflow-y: auto;
+    overflow-x: hidden;
+    grid-template-columns: 1fr 990px 1fr;
+    padding: 30px 0;
+  
   }
 }

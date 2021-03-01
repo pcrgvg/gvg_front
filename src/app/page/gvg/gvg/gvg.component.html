@@ -1,1 +1,83 @@
-<p>gvg work33s!</p>
+<div class="g-card">
+	<div class="g-flex-between">
+		<h3 class="g-card-title">未拥有角色</h3>
+		<button nz-button class="g-btn">添加</button>
+	</div>
+  <div>
+    <app-pcr-icon></app-pcr-icon>
+  </div>
+</div>
+
+<div class="g-card" style="margin-top: 16px;">
+  <h3 class="g-card-title">工会战作业查询</h3>
+  <form nz-form class="form">
+    <nz-form-item>
+      <nz-form-label>服务器</nz-form-label>
+      <nz-form-control>
+        <nz-select [(ngModel)]="serverType" name="serverType">
+          <nz-option
+            *ngFor="let item of serverOption"
+            [nzLabel]="item.label"
+            [nzValue]="item.value"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>期次</nz-form-label>
+      <nz-form-control>
+        <nz-select [(ngModel)]="clanBattleId" name="clanBattleId">
+          <nz-option
+            *ngFor="let item of clanBattleList"
+            [nzValue]="item.clanBattleId"
+            [nzLabel]="item.startTime | date: 'yyyy/MM'"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>自动</nz-form-label>
+      <nz-form-control>
+        <nz-select
+          [(ngModel)]="autoSetting"
+          nzMode="multiple"
+          name="autoSetting"
+          nzPlaceHolder="请选择"
+          style="min-width: 80px"
+        >
+          <nz-option
+            *ngFor="let item of autoOption"
+            [nzValue]="item.value"
+            [nzLabel]="item.label"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>阶段</nz-form-label>
+      <nz-form-control>
+        <nz-select
+          [(ngModel)]="stage"
+          name="stage"
+          nzPlaceHolder="请选择"
+          style="min-width: 90px"
+        >
+          <nz-option
+            *ngFor="let item of stageOption"
+            [nzValue]="item"
+            [nzLabel]="item"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <div class="g-flex form-action">
+      <button class="g-btn" nz-button>搜索</button>
+      <button  class="g-btn" nz-button>添加作业</button>
+      <button  class="g-btn" nz-button>筛刀</button>
+    </div>
+  </form>
+</div>

@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Microsoft YaHei;
 }
 
 ul,
@@ -9,12 +10,11 @@ ol {
   list-style: none;
 }
 
+@mixin flex {
+  display: flex;
+}
 /// 全局公用样式
 .g {
-  @mixin flex {
-    display: flex;
-    align-items: center;
-  }
   &-flex {
     @include flex();
     &-between {
@@ -26,4 +26,6 @@ ol {
       flex-direction: column;
     }
   }
+
+
 }

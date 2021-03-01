@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@app/apis';
 import { storageNames } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
-import { CanAutoName, CanAutoType, Chara, GvgTask, ServerType } from '@app/models';
+import { CanAutoName, CanAutoType, Chara, GvgTask, ServerName, ServerType } from '@app/models';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -50,11 +51,21 @@ export class GvgComponent implements OnInit {
   clanBattleList = []; // 会战期次
   clanBattleId = null; // 当前会战期次
   serverType= ServerType.jp;
-  serverOption = [];
+  serverOption = [
+    {
+      label: ServerName.jp,
+      value: ServerType.jp,
+    },
+    {
+      label: ServerName.cn,
+      value: ServerType.cn,
+    },
+  ];
   usedList: number[] = []; // 已使用的作业
   removedList: number[] = []; // 去除
   imgSource: string = ''; // 图片源
   imgSourceOption = [];
+
 
   ngOnInit(): void {
     this.dealServerType();
@@ -67,6 +78,8 @@ export class GvgComponent implements OnInit {
     .subscribe((res) => {
       this.unHaveChara = res;
     });
+
+    this.toggleServer();
   }
 
   dealServerType() {
@@ -81,6 +94,7 @@ export class GvgComponent implements OnInit {
       }
     }
   }
+
 
   initImamgeSouce() {
     this.imgSourceOption = [
@@ -98,5 +112,37 @@ export class GvgComponent implements OnInit {
       },
     ];
     this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
+  }
+
+  // 切换服务器触发
+  toggleServer() {
+    this.getClanBattleList();
+    this.getCharaList();
+    this.getRank();
+  }
+
+
+    /**
+   * 获取会战期次
+   */
+  getClanBattleList() {
+    console.log('getClanBattleList')
+    this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
+      this.clanBattleList = res;
+      this.clanBattleId = this.clanBattleList[0].clanBattleId;
+    });
+  }
+
+
+  getCharaList() {
+    this.pcrApi.charaList(this.serverType).subscribe((res) => {
+      this.rediveDataSrv.setCharaList(res);
+    });
+  }
+
+  getRank() {
+    this.pcrApi.getRank(this.serverType).subscribe((res) => {
+      this.rediveDataSrv.setRankList(res);
+    });
   }
 }

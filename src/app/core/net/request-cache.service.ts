@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as localforage from 'localforage';
-import { pcrApis, ChangelogApis } from '@src/app/constants/apiUrls';
+import { pcrApis, ChangelogApis, DbApis } from '@src/app/constants/apiUrls';
 import { localforageName } from '@src/app/constants';
 
 @Injectable({
