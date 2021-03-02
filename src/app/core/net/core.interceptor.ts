@@ -16,6 +16,8 @@ import { CommonResult, ResultStatus } from '@src/app/models';
 import { RequestCacheService } from './request-cache.service';
 import { StorageService } from '../services/storage.service';
 import { storageNames } from '@src/app/constants';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 
 interface Token {
   d: string; // 日期 ms
@@ -25,17 +27,17 @@ interface Token {
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
-  constructor(private requestCacheSrv: RequestCacheService, private storageSrv: StorageService) {}
+  constructor(private requestCacheSrv: RequestCacheService,private notificationSrc: NzNotificationService, private storageSrv: StorageService) {}
 
   handleData(req: HttpRequest<any>, ev: HttpResponseBase, isCache: boolean): Observable<any> {
     if (ev.ok) {
-      console.log(ev, 'ev')
       if (ev instanceof HttpResponse) {
         const body: CommonResult<any> = ev.body;
         if (body.code === ResultStatus.success) {
           if (isCache) {
-            this.requestCacheSrv.put(req, ev);
+            this.requestCacheSrv.put(req, new HttpResponse(Object.assign(ev, { body: body.data })));
           }
+          
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
         } else {
           return throwError(new Error(body.msg));
@@ -47,7 +49,6 @@ export class CoreInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(request.urlWithParams)
     const token = this.storageSrv.sessionGet<Token>(storageNames.token);
     const req = request.clone({
       setHeaders: {
@@ -58,9 +59,6 @@ export class CoreInterceptor implements HttpInterceptor {
       url: environment.baseUrl + request.url,
     });
     const isCache = this.requestCacheSrv.isCacheable(request);
-    // if (!isCache) {
-    //   return next.handle(req);
-    // }
     const cachedResponse: HttpResponse<any> = this.requestCacheSrv.get(req);
     if (cachedResponse) {
       return of(new HttpResponse({
@@ -73,14 +71,13 @@ export class CoreInterceptor implements HttpInterceptor {
     } else {
       return next.handle(req).pipe(
         mergeMap((ev) => {
-          console.log(ev instanceof HttpResponseBase)
           if (ev instanceof HttpResponseBase) {
             return this.handleData(req, ev, isCache);
           }
           return of(ev);
         }),
         catchError((err) => {
-          // this.snackbarSrv.openSnackBar(err.message);
+          this.notificationSrc.error('', err.message);
           throw err;
         }),
       );

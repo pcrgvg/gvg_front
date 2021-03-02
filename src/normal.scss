@@ -25,7 +25,10 @@ ol {
       @include flex();
       flex-direction: column;
     }
+    &-center {
+      @include flex();
+      justify-content: center;
+    }
   }
-
 
 }

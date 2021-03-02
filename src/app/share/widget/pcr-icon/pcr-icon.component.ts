@@ -21,9 +21,9 @@ interface Unit {
 @Component({
   selector: 'app-pcr-icon',
   template: `
-    <img style="height: 42px; width: 42px;" loading="lazy" (error)="onError()" [src]="src" />
+    <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
   `,
-  styles: [],
+  styleUrls:  ['./pcr-icon.component.scss'], 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PcrIconComponent implements OnInit, OnDestroy {

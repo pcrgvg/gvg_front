@@ -1,0 +1,215 @@
+<h3 class="g-card-title">阵容</h3>
+<div class="chara-box" style="margin-bottom: 16px; height: 100px">
+  <div
+    class="g-flex-column"
+    *ngFor="let chara of selectCharas; trackBy: trackByCharaFn"
+  >
+    <app-pcr-icon
+      class="img"
+      style="border: none"
+      [class.selected]="isSelected(chara)"
+      [unit]="chara"
+      (clickStop)="toggleSelect(chara)"
+    ></app-pcr-icon>
+    <app-rarity-select
+      [maxRarity]="chara.rarity"
+      [(ngModel)]="chara.currentRarity"
+    ></app-rarity-select>
+
+    <nz-select [(ngModel)]="chara.rank" nzPlaceHolder="请选择">
+      <nz-option
+        *ngFor="let item of rankOption"
+        [nzValue]="item"
+        [nzLabel]="item"
+      ></nz-option>
+    </nz-select>
+  </div>
+</div>
+
+<form class="g-flex" *ngIf="validateForm" nz-form [formGroup]="validateForm">
+  <nz-form-item>
+    <nz-form-label>BOSS</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="bossId"
+        [nzCustomTemplate]="defaultTemplate"
+        name="bossId"
+        nzPlaceHolder="请选择"
+        style="min-width: 200px"
+      >
+        <nz-option
+          *ngFor="let item of bossList"
+          [nzValue]="item.id"
+          nzCustomContent
+          [nzLabel]="item.unitName"
+        >
+        <div class="g-flex" style="align-items: center;">
+          <app-pcr-icon style=" flex-shrink: 0;" [unit]="item"></app-pcr-icon>
+          <span style="margin-left: 5px;">{{item.unitName}}</span>
+        </div>
+      </nz-option>
+      </nz-select>
+      <ng-template #defaultTemplate let-selected>
+        <div class="g-flex" style="align-items: center;">
+          <app-pcr-icon style="width: 20px; height: 20px; flex-shrink: 0;" [unit]="currentBoss"></app-pcr-icon>
+          <span style="margin-left: 5px;"> {{ selected.nzLabel }}</span>
+        </div>
+        
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>阶段</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="stage"
+        name="stage"
+        nzPlaceHolder="请选择"
+        style="min-width: 90px"
+      >
+        <nz-option
+          *ngFor="let item of stageOption"
+          [nzValue]="item.value"
+          [nzLabel]="item.value"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>自动</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="canAuto"
+        name="canAuto"
+        nzPlaceHolder="请选择"
+        style="min-width: 90px"
+      >
+        <nz-option
+          *ngFor="let item of autoOption"
+          [nzValue]="item.value"
+          [nzLabel]="item.label"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>伤害</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSuffix="W" style="width: 80px">
+        <input name="damage" formControlName="damage" type="number" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<div class="g-flex" style="align-items: center">
+  <span class="g-card-title">链接</span>
+  <i
+    nz-icon
+    (clickStop)="openAddLink()"
+    nzType="plus-circle"
+    nzTheme="outline"
+    style="color: #68b9ff; font-size: 20px; cursor: pointer"
+  ></i>
+</div>
+
+<div class="g-flex" style="align-items: center; height: 50px; padding: 10px 0">
+  <a
+    style="margin-right: 10px"
+    *ngFor="let item of links; index as i"
+    [href]="item.link"
+    target="_blank"
+  >
+    <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+  </a>
+</div>
+
+<div>
+  <div class="g-card-title">备注</div>
+  <textarea
+    style="margin: 16px 0"
+    [(ngModel)]="remarks"
+    nz-input
+    placeholder="可以回车换行"
+    [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+  ></textarea>
+</div>
+
+<nz-tabset>
+  <nz-tab nzTitle="前卫">
+    <div class="chara-box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
+        [unit]="chara"
+        (clickStop)="toggleSelect(chara)"
+      ></app-pcr-icon>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="中卫">
+    <div class="chara-box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
+        (clickStop)="toggleSelect(chara)"
+        [unit]="chara"
+      ></app-pcr-icon>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="后卫">
+    <div class="chara-box">
+      <app-pcr-icon
+        class="img"
+        *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
+        [class.selected]="isSelected(chara)"
+        (clickStop)="toggleSelect(chara)"
+        [unit]="chara"
+      ></app-pcr-icon>
+    </div>
+  </nz-tab>
+</nz-tabset>
+
+<div class="g-flex-center" style="margin-top: 30px">
+  <button
+    style="color: #f55291; border-color: #f55291"
+    (clickStop)="reset()"
+    nz-button
+    class="g-btn"
+  >
+    重新选择
+  </button>
+  <button
+    style="margin-left: 30px"
+    [nzLoading]="loading"
+    (clickStop)="confirm()"
+    nz-button
+    class="g-btn"
+  >
+    确定
+  </button>
+</div>
+
+<ng-template #addLinks>
+  <div class="link-grid" style="color: #68b9ff">
+    <span>名称</span>
+    <span>链接</span>
+  </div>
+  <div class="link-grid" *ngFor="let item of links; index as i">
+    <input nz-input [(ngModel)]="item.name" />
+    <input
+      nz-input
+      [(ngModel)]="item.link"
+      placeholder="链接需要以http/https开头"
+    />
+    <button nz-button class="g-btn" (clickStop)="removeLink(i)">删除</button>
+  </div>
+
+  <div class="g-flex-center" style="margin-top: 20px">
+    <button nz-button class="g-btn" (clickStop)="addLink()">添加</button>
+  </div>
+</ng-template>

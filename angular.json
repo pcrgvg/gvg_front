@@ -59,7 +59,7 @@
             ],
             "scripts": [],
             "webWorkerTsConfig": "tsconfig.worker.json",
-            "allowedCommonJsDependencies": ["crypto-js"]
+            "allowedCommonJsDependencies": ["crypto-js", "lodash"]
           },
           "configurations": {
             "production": {

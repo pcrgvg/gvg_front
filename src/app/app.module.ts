@@ -13,7 +13,12 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share';
 import { LayoutModule } from './layout/layout.module';
 
+
+
 import { AppRoutingModule } from './app-routing.module';
+
+
+
 
 registerLocaleData(zh);
 
@@ -27,7 +32,7 @@ registerLocaleData(zh);
     CoreModule,
     ShareModule,
     LayoutModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent],

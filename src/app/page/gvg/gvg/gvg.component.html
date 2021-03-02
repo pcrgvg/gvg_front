@@ -1,20 +1,45 @@
 <div class="g-card">
-	<div class="g-flex-between">
-		<h3 class="g-card-title">未拥有角色</h3>
-		<button nz-button class="g-btn">添加</button>
-	</div>
-  <div>
-    <app-pcr-icon></app-pcr-icon>
+  <div class="g-flex-between">
+    <h3 class="g-card-title">未拥有角色</h3>
+    <button nz-button class="g-btn" (clickStop)="addUnHave()">添加</button>
+  </div>
+  <div class="chara-box">
+    <app-pcr-icon
+      *ngFor="let chara of unHaveChara; trackBy: trackByCharaFn"
+      [unit]="chara"
+    ></app-pcr-icon>
   </div>
 </div>
 
-<div class="g-card" style="margin-top: 16px;">
+<div class="g-card" style="margin-top: 16px">
   <h3 class="g-card-title">工会战作业查询</h3>
   <form nz-form class="form">
     <nz-form-item>
+      <nz-form-label>图源</nz-form-label>
+      <nz-form-control>
+        <nz-select
+          [(ngModel)]="imgSource"
+          name="imgSource"
+          nzPlaceHolder="请选择"
+          style="min-width: 90px"
+        >
+          <nz-option
+            *ngFor="let item of imgSourceOption"
+            [nzValue]="item.value"
+            [nzLabel]="item.label"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label>服务器</nz-form-label>
       <nz-form-control>
-        <nz-select [(ngModel)]="serverType" name="serverType">
+        <nz-select
+          [(ngModel)]="serverType"
+          name="serverType"
+          (ngModelChange)="toggleServer()"
+        >
           <nz-option
             *ngFor="let item of serverOption"
             [nzLabel]="item.label"
@@ -42,6 +67,7 @@
       <nz-form-control>
         <nz-select
           [(ngModel)]="autoSetting"
+          (ngModelChange)="toggleAuto()"
           nzMode="multiple"
           name="autoSetting"
           nzPlaceHolder="请选择"
@@ -75,9 +101,139 @@
     </nz-form-item>
 
     <div class="g-flex form-action">
-      <button class="g-btn" nz-button>搜索</button>
-      <button  class="g-btn" nz-button>添加作业</button>
-      <button  class="g-btn" nz-button>筛刀</button>
+      <button
+        class="g-btn"
+        nz-button
+        [nzLoading]="searchLoading"
+        (clickStop)="getGvgTaskList()"
+      >
+        搜索
+      </button>
+      <button (clickStop)="addTask()" class="g-btn" nz-button>添加作业</button>
+      <button class="g-btn filter" [nzLoading]="filterLoading" nz-button>
+        筛刀
+      </button>
     </div>
   </form>
+
+  <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
+    <nz-collapse-panel
+      [nzActive]="true"
+     
+      class="custom-panel"
+      *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
+      [nzHeader]="headerTpl"
+     
+    >
+      <ng-template #headerTpl>
+        <div class="g-flex-between">
+          <div class="g-flex" style="align-items: center">
+            <label
+              nz-checkbox
+              [ngModel]="isSelected(bossTask.id)"
+              (ngModelChange)="selectedBossChange($event, bossTask.id)"
+            ></label>
+            <app-pcr-icon style="margin: 0 40px" [unit]="bossTask">
+            </app-pcr-icon>
+            <div>{{ bossTask.unitName }}</div>
+          </div>
+        </div>
+      </ng-template>
+
+      <div *ngIf="bossTask.tasks.length">
+        <nz-collapse [nzBordered]="false"  nzExpandIconPosition="right">
+          <nz-collapse-panel
+            [nzActive]="true"
+            style="border-top: 1px solid #64b8ff; background: rgba(255, 255, 255, 0.5);"
+            *ngFor="let task of bossTask.tasks; trackBy: trackByBossFn"
+            [nzHeader]="childHeaderTpl"
+          >
+            <ng-template #childHeaderTpl>
+              <div class="g-flex" style="align-items: center">
+                <div
+                  class="g-flex-column"
+                  style="margin-right: 25px"
+                  *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
+                >
+                  <app-pcr-icon [unit]="chara"></app-pcr-icon>
+                  <div class="g-flex-between" style="font-size: 12px">
+                    <div style="color: #ff8a00">{{ chara.currentRarity }}X</div>
+                    <div style="color: #ff2277">R{{ chara.rank }}</div>
+                  </div>
+                </div>
+
+                <div
+                  [ngStyle]="{
+                    color: autoColor(task.canAuto),
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    width: '60px'
+                  }"
+                >
+                  {{ task.canAuto | canauto }}
+                </div>
+                <div style="margin-left: 15px; color: #ff2277">
+                  {{ task.damage }}W
+                </div>
+                <label
+                  style="margin-left: 15px; color: #68b9ff"
+                  (clickStop)="clickStop()"
+                  nz-checkbox
+                  [ngModel]="usedList.includes(task.id)"
+                  (ngModelChange)="toggleUsed($event, task)"
+                  >使用</label
+                >
+                <label
+                  style="margin-left: 15px; color: #f55291"
+                  nz-checkbox
+                  (clickStop)="clickStop()"
+                  [ngModel]="removedList.includes(task.id)"
+                  (ngModelChange)="toggleRemoved($event, task)"
+                  >去除</label
+                >
+                <button
+                  class="g-btn"
+                  style="margin-left: 15px;color: #f55291;border-color: #f55291;"
+                  (clickStop)="addTask(task, bossTask.id)"
+                  nz-button
+                >
+                  修改
+                </button>
+                <button
+                  nz-button
+                  class="g-btn"
+                  style="
+                    margin-left: 15px;
+                    color: #f55291;
+                    border-color: #f55291;
+                  "
+                  (clickStop)="delelteTask(bossTask, task)"
+                  [nzLoading]="loading"
+                >
+                  删除
+                </button>
+              </div>
+            </ng-template>
+
+            <div>
+              <div>
+                <span>视频:</span>
+                <a
+                  style="padding: 0 5px"
+                  *ngFor="let item of task.links; index as i"
+                  [href]="item.link"
+                  target="_blank"
+                >
+                  <app-ellipsis-text
+                    [text]="item.name || '链接' + i + 1"
+                  ></app-ellipsis-text>
+                </a>
+              </div>
+              <pre>备注: {{ task.remarks }}</pre>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>

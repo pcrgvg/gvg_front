@@ -1,0 +1,52 @@
+.chara {
+  &-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    grid-gap: 10px;
+
+    .img {
+      cursor: pointer;
+      border: 1px solid transparent;
+      opacity: 0.5;
+      transition: opacity 0.2s linear;
+    }
+    .selected {
+      border-color: #ffd2d2;
+      opacity: 1;
+    }
+  }
+}
+
+.ant-form-item {
+  margin-right: 16px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.g-card-title {
+  width: 63px;
+  height: 28px;
+  background: #64b8ff;
+  border-radius: 6px;
+  color: #fff;
+  text-align: center;
+  margin-right: 16px;
+  line-height: 28px;
+}
+
+.link {
+  min-width: 500px;
+  &-grid {
+    display: grid;
+    align-items: center;
+    gap: 20px;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 2.5fr 0.5fr;
+    margin-bottom: 16px;
+  }
+}

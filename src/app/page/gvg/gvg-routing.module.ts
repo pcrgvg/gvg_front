@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddTaskComponent } from './add-task/add-task.component';
 import { GvgComponent } from './gvg/gvg.component';
 
 const routes: Routes = [
@@ -8,12 +7,8 @@ const routes: Routes = [
     path: '',
     component: GvgComponent,
     data: {
-      // keepAlive: true,
+      keepAlive: true,
     },
-  },
-  {
-    path: 'addTask',
-    component: AddTaskComponent,
   },
 ];
 
