@@ -15,15 +15,23 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 import { AddUnHaveComponent } from './widgets/add-un-have/add-un-have.component';
 import { AddTaskComponent } from './widgets/add-task/add-task.component';
+import { GvgResultComponent } from './gvg-result/gvg-result.component';
+import { DeleteComfirmComponent } from './widgets/delete-comfirm/delete-comfirm.component';
 
 
 
 
 @NgModule({
-  declarations: [GvgComponent, AddUnHaveComponent, AddTaskComponent],
-  imports: [ShareModule, NzIconModule, NzModalModule, NzInputNumberModule, NzInputModule, CdkScrollableModule, NzTabsModule, GvgRoutingModule, NzSelectModule, NzCollapseModule, NzButtonModule, NzFormModule, NzCheckboxModule],
+  declarations: [GvgComponent, AddUnHaveComponent, AddTaskComponent, GvgResultComponent, DeleteComfirmComponent],
+  imports: [
+    ShareModule,
+    NzIconModule, NzToolTipModule,
+    NzModalModule, NzInputNumberModule,
+    NzInputModule, CdkScrollableModule, NzTabsModule, GvgRoutingModule, NzSelectModule, NzCollapseModule, NzButtonModule, NzFormModule, NzCheckboxModule
+  ],
 })
 export class GvgModule { }

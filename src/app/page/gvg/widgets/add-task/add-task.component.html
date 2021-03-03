@@ -43,14 +43,14 @@
           nzCustomContent
           [nzLabel]="item.unitName"
         >
-        <div class="g-flex" style="align-items: center;">
+        <div class="g-flex" >
           <app-pcr-icon style=" flex-shrink: 0;" [unit]="item"></app-pcr-icon>
           <span style="margin-left: 5px;">{{item.unitName}}</span>
         </div>
       </nz-option>
       </nz-select>
       <ng-template #defaultTemplate let-selected>
-        <div class="g-flex" style="align-items: center;">
+        <div class="g-flex">
           <app-pcr-icon style="width: 20px; height: 20px; flex-shrink: 0;" [unit]="currentBoss"></app-pcr-icon>
           <span style="margin-left: 5px;"> {{ selected.nzLabel }}</span>
         </div>
@@ -116,7 +116,7 @@
   ></i>
 </div>
 
-<div class="g-flex" style="align-items: center; height: 50px; padding: 10px 0">
+<div class="g-flex" style="height: 50px; padding: 10px 0">
   <a
     style="margin-right: 10px"
     *ngFor="let item of links; index as i"
@@ -176,10 +176,9 @@
 
 <div class="g-flex-center" style="margin-top: 30px">
   <button
-    style="color: #f55291; border-color: #f55291"
     (clickStop)="reset()"
     nz-button
-    class="g-btn"
+    class="g-btn-danger"
   >
     重新选择
   </button>
@@ -206,7 +205,7 @@
       [(ngModel)]="item.link"
       placeholder="链接需要以http/https开头"
     />
-    <button nz-button class="g-btn" (clickStop)="removeLink(i)">删除</button>
+    <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
   </div>
 
   <div class="g-flex-center" style="margin-top: 20px">

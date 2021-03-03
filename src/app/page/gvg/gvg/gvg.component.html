@@ -19,6 +19,7 @@
       <nz-form-control>
         <nz-select
           [(ngModel)]="imgSource"
+          (ngModelChange)="toggleImgSource($event)"
           name="imgSource"
           nzPlaceHolder="请选择"
           style="min-width: 90px"
@@ -38,6 +39,7 @@
         <nz-select
           [(ngModel)]="serverType"
           name="serverType"
+          [nzDisabled]="operate"
           (ngModelChange)="toggleServer()"
         >
           <nz-option
@@ -109,8 +111,8 @@
       >
         搜索
       </button>
-      <button (clickStop)="addTask()" class="g-btn" nz-button>添加作业</button>
-      <button class="g-btn filter" [nzLoading]="filterLoading" nz-button>
+      <button (clickStop)="addTask()" *ngIf="operate" class="g-btn" nz-button>添加作业</button>
+      <button class="g-btn filter" [nzLoading]="filterLoading" nz-button (clickStop)="filter()">
         筛刀
       </button>
     </div>
@@ -192,23 +194,23 @@
                   >去除</label
                 >
                 <button
-                  class="g-btn"
-                  style="margin-left: 15px;color: #f55291;border-color: #f55291;"
+                *ngIf="operate"
+                  class="g-btn-danger"
+                  style="margin-left: 15px;"
                   (clickStop)="addTask(task, bossTask.id)"
                   nz-button
                 >
                   修改
                 </button>
                 <button
+                *ngIf="operate"
                   nz-button
-                  class="g-btn"
+                  class="g-btn-danger"
                   style="
                     margin-left: 15px;
-                    color: #f55291;
-                    border-color: #f55291;
                   "
-                  (clickStop)="delelteTask(bossTask, task)"
                   [nzLoading]="loading"
+                  (clickStop)="delelteTask(bossTask, task)"
                 >
                   删除
                 </button>
@@ -237,3 +239,13 @@
     </nz-collapse-panel>
   </nz-collapse>
 </div>
+
+
+
+<ng-template #deleteConfirmTpl>
+  <h5 style="color: #f55291;">是否删除?</h5>
+  <div class="g-flex-center">
+    <button nz-button class="g-btn" (clickStop)="delteCancel()">取消</button>
+    <button nz-button class="g-btn-danger" style="margin-left: 30px;" (clickStop)="delteConfirm()">确定</button>
+  </div>
+</ng-template>

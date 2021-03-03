@@ -42,15 +42,24 @@ a {
     }
   }
 
-  &-btn {
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(100, 184, 255, 0.5);
+  @mixin btn {
     border-radius: 6px;
     text-align: center;
     padding: 0 18px;
     height: 28px;
     line-height: 28px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  &-btn {
+    @include btn();
+    border: 1px solid rgba(100, 184, 255, 0.5);
     color: #68BAFF;
+    &-danger {
+      @include btn();
+      color: #f55291;
+      border-color: #f55291;
+    }
   }
 }
 

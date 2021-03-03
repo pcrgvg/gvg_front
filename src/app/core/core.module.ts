@@ -42,7 +42,7 @@ const nzConfigFactory = (
       deps: [Injector, ComponentFactoryResolver]
     },
     { provide: HTTP_INTERCEPTORS, useClass: CoreInterceptor, multi: true },
-    // { provide: ErrorHandler, useClass: CoreErrorHandler },
+    { provide: ErrorHandler, useClass: CoreErrorHandler },
     { provide: APP_INITIALIZER, useFactory: Configfactory, multi: true, deps: [ConfigService] },
     { provide: APP_INITIALIZER, useFactory: Cachefactory, multi: true, deps: [RequestCacheService] },
     { provide: RouteReuseStrategy, useClass: CacheReuseStrategy },

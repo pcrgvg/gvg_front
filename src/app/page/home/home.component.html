@@ -7,13 +7,13 @@
   <h3 class="g-card-title">服务器</h3>
   <div class="g-flex">
     <button
+    *ngFor="let btn of btnList"
       nz-button
       class="g-btn"
       style="margin-right: 16px"
-      (click)="jumpTo('cn')"
+      (click)="jumpTo(btn.value)"
     >
-      国服
+      {{btn.label}}
     </button>
-    <button nz-button class="g-btn" (click)="jumpTo('jp')">日服</button>
   </div>
 </div>

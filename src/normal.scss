@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Microsoft YaHei;
+  user-select: none;
 }
 
 ul,
@@ -12,6 +13,7 @@ ol {
 
 @mixin flex {
   display: flex;
+  align-items: center;
 }
 /// 全局公用样式
 .g {

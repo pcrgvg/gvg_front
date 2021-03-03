@@ -11,6 +11,7 @@ import { ServerType } from '@src/app/models';
 export class HomeComponent implements OnInit {
   changelog: string = '';
   serverType = '';
+  btnList = [];
 
   constructor(
     private changelogApi: ChangelogServiceApi,
@@ -28,21 +29,32 @@ export class HomeComponent implements OnInit {
   dealServerType() {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
-      case '114':
+      case '114': {
+        this.btnList = [{value: 'cn', label: '国服'}]
         this.serverType = ServerType.cn;
+      }
         break;
-      case '142':
+      case '142': {
+        this.btnList = [{value: 'jp', label: '日服'}]
         this.serverType = ServerType.jp;
+      }
         break;
-      default:
+      default: {
+        this.btnList = [
+          {value: 'cn', label: '国服'},
+          {value: 'jp', label: '日服'}
+        ]
         this.serverType = '';
+      }
     }
+   
   }
 
   jumpTo(serverType: keyof typeof ServerType) {
+    const serve = this.route.snapshot.queryParams.serverType;
     this.router.navigate(['gvg', {serverType}], {
       queryParams: {
-        serverType: this.serverType,
+        serverType: serve,
       },
     });
   }

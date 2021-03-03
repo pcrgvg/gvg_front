@@ -17,7 +17,7 @@ export class RequestCacheService {
   async init() {
     const r = await localforage.getItem<string>(localforageName.cacheHttp);
     this.cache = r ? JSON.parse(r) : {};
-    console.log('cache init');
+    // console.log('cache init');
   }
 
   clear() {

@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PcrApiService } from '@src/app/apis';
 import { FormValidateService, RediveDataService } from '@src/app/core';
-import { Links, Chara, CanAutoName, CanAutoType, Task, GvgTask } from '@src/app/models';
+import { Links, Chara, CanAutoName, CanAutoType, Task, GvgTask, ServerType } from '@src/app/models';
 import { cloneDeep } from 'lodash';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -24,6 +25,7 @@ export class AddTaskComponent implements OnInit {
   links: Links = [];
   selectCharas: Chara[] = [];
   remarks = '';
+  serverType:ServerType = ServerType.jp;
   autoOption = [
     {
       label: CanAutoName.unAuto,
@@ -46,9 +48,11 @@ export class AddTaskComponent implements OnInit {
     public rediveDataSrv: RediveDataService,
     private notificationSrc: NzNotificationService,
     private pcraApiSrv: PcrApiService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.dealServer();
     this.stageOption = new Array(5).fill(1).map((r, i) => {
       return {
         value: i + 1,
@@ -59,7 +63,7 @@ export class AddTaskComponent implements OnInit {
       bossId:[{value: this.bossId, disabled: !!this.bossId}, [Validators.required]],
       canAuto: this.task?.canAuto ?? CanAutoType.auto,
       damage: [this.task?.damage, [Validators.required]],
-      stage: this.task?.stage ?? 4,
+      stage: this.task?.stage ?? null,
    
     });
     this.remarks = this.task?.remarks ?? '',
@@ -70,8 +74,25 @@ export class AddTaskComponent implements OnInit {
       })) :[],
     );
     this.links = this.task?.links ?? [];
-    console.log(this.bossList);
   }
+
+
+  dealServer() {
+    const serverType = this.route.snapshot.queryParams.serverType;
+    console.log(serverType)
+    switch (serverType) {
+      case '114':
+        this.serverType = ServerType.cn;
+        break;
+      case '142':
+        this.serverType = ServerType.jp;
+        break;
+      default:
+        this.serverType = ServerType.jp;
+    }
+  }
+
+
 
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;
@@ -140,14 +161,15 @@ export class AddTaskComponent implements OnInit {
       id: task?.id,
       charas: this.selectCharas,
       links: this.links,
-      remarks: this.remarks
+      remarks: this.remarks,
+      server:this.serverType
     };
     this.loading = true;
     this.pcraApiSrv
       .updateTask(gvgTask)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
-        this.notificationSrc.success('', '添加成功');
+        this.notificationSrc.success('添加成功', '可以继续添加,不用关闭');
         if (task?.id) {
           this.modalSrc.closeAll()
         }
