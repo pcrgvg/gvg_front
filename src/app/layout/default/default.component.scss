@@ -1,9 +1,9 @@
 
 
 .default{
-  background: url('/assets/images/bg.png') no-repeat;
+  background: url('https://pcr-icon.oss-cn-beijing.aliyuncs.com/common/bg.png') no-repeat;
   background-size: cover;
-
+  background-position: center;
   section {
     height: calc(100vh - 60px);
     display: grid;
