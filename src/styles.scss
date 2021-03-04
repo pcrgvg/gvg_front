@@ -12,6 +12,7 @@
 @import "~ng-zorro-antd/notification/style/index.min.css"; /* 引入组件样式 */
 @import "~ng-zorro-antd/icon/style/index.min.css"; /* 引入组件样式 */
 @import "~ng-zorro-antd/tooltip/style/index.min.css"; /* 引入组件样式 */
+@import "~ng-zorro-antd/popconfirm/style/index.min.css"; /* 引入组件样式 */
 
 @import "./normal.scss";
 @import "./variables.scss";
@@ -30,6 +31,15 @@ a {
   text-decoration: underline;
 }
 
+@mixin btn {
+  border-radius: 6px;
+  text-align: center;
+  padding: 0 18px;
+  height: 28px;
+  line-height: 28px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
 .g {
   &-card {
     background: rgba(255, 255, 255, 0.8);
@@ -42,14 +52,7 @@ a {
     }
   }
 
-  @mixin btn {
-    border-radius: 6px;
-    text-align: center;
-    padding: 0 18px;
-    height: 28px;
-    line-height: 28px;
-    background: rgba(255, 255, 255, 0.5);
-  }
+
 
   &-btn {
     @include btn();
@@ -110,6 +113,23 @@ a {
   &-input-number {
     border-color: rgba(100, 184, 255, 0.5);
     border-radius: 6px;
+  }
+
+  &-popover-inner {
+    box-shadow: 0 0 2px 2px var(--primary);
+  }
+  &-popover-buttons {
+   
+    .ant-btn-sm{
+      @include btn();
+      color: #f55291;
+      border-color: #f55291;
+    }
+    .ant-btn-primary {
+      @include btn();
+      border: 1px solid rgba(100, 184, 255, 0.5);
+      color: #68BAFF;
+    }
   }
 }
 

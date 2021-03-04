@@ -14,7 +14,9 @@
   flex-wrap: wrap;
   margin-bottom: 15px;
   &-action {
-    justify-content: flex-end;
+    // justify-content: flex-end;
+    justify-content: space-between;
+    width: 100%;
     flex-grow: 1;
     .ant-btn:not(:first-child) {
       margin-left: 10px;

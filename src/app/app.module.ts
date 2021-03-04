@@ -12,11 +12,16 @@ import zh from '@angular/common/locales/zh';
 import { CoreModule } from './core/core.module';
 import { ShareModule } from './share';
 import { LayoutModule } from './layout/layout.module';
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 import { AppRoutingModule } from './app-routing.module';
+import { IconDefinition } from '@ant-design/icons-angular';
 
+
+import { PlusCircleOutline,} from '@ant-design/icons-angular/icons';
+
+const icons: IconDefinition[] = [ PlusCircleOutline ];
 
 
 
@@ -32,7 +37,8 @@ registerLocaleData(zh);
     CoreModule,
     ShareModule,
     LayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NzIconModule.forRoot(icons)
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent],

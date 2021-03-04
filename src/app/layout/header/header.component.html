@@ -1,11 +1,23 @@
 <header class="header">
     <div class="g-flex" (click)="toHome()">
-        <img class="header-img" src="" alt="">
+        <!-- <img class="header-img" src="" alt=""> -->
         <div class="header-title">PCRGVG</div>
     </div>
 
     <div class="g-flex">
-        <div class="header-btn" style="color: #F55291; margin-right: 16px;">清除缓存</div>
-        <div class="header-btn">帮助</div>
+        <div class="header-btn" (clickStop)="clearStorage()" style="color: #F55291; margin-right: 16px;">清除缓存</div>
+        <div class="header-btn" (clickStop)="toAbout()">帮助</div>
     </div>
 </header>
+
+
+<ng-template #clearTpl>
+    <h3 class="g-card-title">清除本地缓存</h3>
+    <div style="margin: 16px 0">
+        清除部分不会清除未拥有角色
+    </div>
+    <div class="g-flex-between">
+        <button nz-button class="g-btn-danger" (clickStop)="storageClear(1)">清除所有</button>
+        <button style="margin-left: 16px;" nz-button class="g-btn" (clickStop)="storageClear(2)">清除部分</button>
+    </div>
+</ng-template>

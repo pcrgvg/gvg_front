@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@app/apis';
 import { storageNames } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
-import { CanAutoName, CanAutoType, Chara, GvgTask, ServerName, ServerType, Task } from '@app/models';
+import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerName, ServerType, Task } from '@app/models';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { cloneDeep, reject } from 'lodash';
@@ -13,6 +13,7 @@ import { AddUnHaveComponent } from '../widgets/add-un-have/add-un-have.component
 import { AddTaskComponent } from '../widgets/add-task/add-task.component';
 import { filterTask } from '../services/filterTask';
 import { FilterResultService } from '../services/filter-result.service';
+import { NoticeComponent } from '../widgets/notice/notice.component';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class GvgComponent implements OnInit {
   @ViewChild('deleteConfirmTpl') deleteConfirmTpl: TemplateRef<any>;
 
   charaList: Chara[] = []; // 角色列表
-  stage = null; // 阶段
+  stage = 1; // 阶段
   stageOption = [1, 2, 3, 4, 5]; // 阶段option
   gvgTaskList: GvgTask[] = []; // 初始作业列表
   filterGvgTaskList: GvgTask[] = []; // 根据筛选条件显示的列表
@@ -80,6 +81,7 @@ export class GvgComponent implements OnInit {
   bossIdSet = new Set<number>(); // 选中的boss
   deleteRef: NzModalRef;
   operate = false;
+  notice: Notice;
 
 
   ngOnInit(): void {
@@ -96,6 +98,7 @@ export class GvgComponent implements OnInit {
       });
 
     this.toggleServer();
+    
   }
 
   dealServerOperate() {
@@ -148,6 +151,9 @@ export class GvgComponent implements OnInit {
 
   // 切换服务器触发
   toggleServer() {
+    this.filterGvgTaskList = [];
+    this.gvgTaskList = [];
+    this.bossIdSet.clear();
     this.getClanBattleList();
     this.getCharaList();
     this.getRank();
@@ -158,11 +164,23 @@ export class GvgComponent implements OnInit {
  * 获取会战期次
  */
   getClanBattleList() {
-
+  
     this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
+      this.getNotice();
     });
+  }
+
+  getNotice() {
+    this.noticeApiSrv
+      .getNotice({
+        server: this.serverType,
+        clanBattleId: this.clanBattleId,
+      })
+      .subscribe((r) => {
+        this.notice = r;
+      });
   }
 
 
@@ -283,8 +301,18 @@ export class GvgComponent implements OnInit {
     })
   }
 
-  delteConfirm() {
-    this.deleteRef.triggerOk()
+  delteConfirm(boss: GvgTask, task: Task) {
+    // this.deleteRef.triggerOk()
+    this.loading = true;
+    this.pcrApi
+      .deleteTask(task.id)
+      .pipe(
+        finalize(() => this.loading = false)
+      )
+      .subscribe((res) => {
+        const index = boss.tasks.findIndex((r) => r.id === task.id);
+        boss.tasks.splice(index, 1);
+      });
   }
 
   delteCancel() {
@@ -319,6 +347,20 @@ export class GvgComponent implements OnInit {
     })
   }
 
+  openNotice() {
+    this.modalSrc.create({
+      nzContent: NoticeComponent,
+      nzComponentParams: {
+        operate: this.operate,
+        notice:this.notice,
+        server: this.serverType,
+        clanBattleId: this.clanBattleId
+      },
+      nzFooter: null,
+      nzWidth: '80%',
+      nzMaskClosable: false
+    })
+  }
   /**
  * 筛刀
  */
@@ -380,4 +422,6 @@ export class GvgComponent implements OnInit {
       // window.open('/gvgresult', '');
     }
   }
+
+
 }

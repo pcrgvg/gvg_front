@@ -24,6 +24,7 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "ng-zorro-antd": "^10.2.2",
+    "ngx-wig": "^11.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

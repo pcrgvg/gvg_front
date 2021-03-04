@@ -103,7 +103,12 @@
     </nz-form-item>
 
     <div class="g-flex form-action">
-      <button
+      <div>
+        <button (clickStop)="openNotice()"  class="g-btn" nz-button>查看公告</button>
+      </div>
+
+      <div class="g-flex">
+        <button
         class="g-btn"
         nz-button
         [nzLoading]="searchLoading"
@@ -112,11 +117,15 @@
         搜索
       </button>
       <button (clickStop)="addTask()" *ngIf="operate" class="g-btn" nz-button>添加作业</button>
+    
       <button class="g-btn filter" [nzLoading]="filterLoading" nz-button (clickStop)="filter()">
         筛刀
       </button>
+      </div>
     </div>
   </form>
+
+  <div *ngIf="!filterGvgTaskList.length" [innerHtml]="notice?.content | domSanitizer"></div>
 
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
@@ -210,7 +219,11 @@
                     margin-left: 15px;
                   "
                   [nzLoading]="loading"
-                  (clickStop)="delelteTask(bossTask, task)"
+                  nz-popconfirm
+                  nzPopconfirmTitle="是否删除?"
+                  (nzOnConfirm)="delteConfirm(bossTask, task)"
+                  nzPopconfirmPlacement="topLeft"
+                  (clickStop)="clickStop()"
                 >
                   删除
                 </button>

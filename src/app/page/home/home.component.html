@@ -1,9 +1,4 @@
 <div class="g-card">
-  <h3 class="g-card-title">更新日志</h3>
-  <div [innerHtml]="changelog | domSanitizer"></div>
-</div>
-
-<div class="g-card" style="margin-top: 30px">
   <h3 class="g-card-title">服务器</h3>
   <div class="g-flex">
     <button
@@ -17,3 +12,16 @@
     </button>
   </div>
 </div>
+
+<div class="g-card">
+  <h3 class="g-card-title">说明</h3>
+  <div>如果图片显示不出,可切换图源,其他更多说明查看帮助</div>
+</div>
+
+
+
+<div class="g-card">
+  <h3 class="g-card-title">更新日志</h3>
+  <div [innerHtml]="changelog | domSanitizer"></div>
+</div>
+

@@ -28,6 +28,9 @@ const nzConfigFactory = (
   return {
     select: {
       nzSuffixIcon: nzSelectSuffix
+    },
+    notification: {
+      nzMaxStack: 3
     }
   };
 };
