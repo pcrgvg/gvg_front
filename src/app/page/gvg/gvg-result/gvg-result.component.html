@@ -24,6 +24,7 @@
           <div
             *ngFor="let task of bossTask"
             style="padding: 0 5px;"
+            class="task-item"
             [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''"
           >
             <div class="g-flex-between">

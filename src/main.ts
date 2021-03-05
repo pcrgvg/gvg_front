@@ -6,6 +6,9 @@ import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
+  window.console.log = function () {};
+  window.console.info = function () {};
+  window.console.warn = function () {};
 }
 
 platformBrowserDynamic()

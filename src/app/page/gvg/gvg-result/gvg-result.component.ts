@@ -18,7 +18,19 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private storageSrv: StorageService,
     private filterResultSrv: FilterResultService
-  ) { }
+  ) { 
+    breakpointObserver
+    .observe([Breakpoints.XSmall, Breakpoints.Handset])
+    .pipe(takeUntil(this.onDestroySub))
+    .subscribe((res) => {
+      console.log(res);
+      if (res.matches) {
+        // this.itemSize = 190 * 3;
+      } else {
+        this.itemSize = 190;
+      }
+    });
+  }
 
   filterResult: BossTask[][] = [];
   taskList: BossTask[][] = [];
@@ -39,8 +51,6 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     this.bossList = this.filterResultSrv.bosslist;
   }
   ngOnDestroy(): void {
-    this.filterResultSrv.setFilterResult([]);
-    this.filterResultSrv.setBosslist([]);
     this.onDestroySub.next();
     this.onDestroySub.complete();
   }

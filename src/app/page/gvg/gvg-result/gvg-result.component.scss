@@ -17,7 +17,12 @@
       &-link {
         height: 50px;
       }
+      .task-item {
+        position: relative;
+      }
     }
+
+   
   }
 
   .divide {
@@ -30,4 +35,26 @@
     &:not(:last-child) {
       margin-right: 10px;
     }
+  }
+
+  @media (min-width:577px) {
+    .task-item{
+      &:not(:last-child) {
+        &::after {
+          display: block;
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          height: 80%;
+          width: 1px;
+          transform: translateY(-50%);
+          background: var(--primary);
+        }
+      }
+    }
+  }
+
+  @media (max-width:577px) {
+
   }
