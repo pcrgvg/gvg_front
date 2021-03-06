@@ -63,7 +63,7 @@ export class AddTaskComponent implements OnInit {
       bossId:[{value: this.bossId, disabled: !!this.bossId}, [Validators.required]],
       canAuto: this.task?.canAuto ?? CanAutoType.auto,
       damage: [this.task?.damage, [Validators.required]],
-      stage: this.task?.stage ?? null,
+      stage: [this.task?.stage ?? null, [Validators.required]] ,
    
     });
     this.remarks = this.task?.remarks ?? '',
