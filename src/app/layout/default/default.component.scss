@@ -6,11 +6,16 @@
   background-position: center;
   section {
     height: calc(100vh - 60px);
-    display: grid;
+    // display: grid;
     overflow-y: auto;
     overflow-x: hidden;
-    grid-template-columns: 1fr 990px 1fr;
+    // grid-template-columns: 1fr 990px 1fr;
+    margin: 0 auto;
+    max-width: 900px;
     padding: 20px 0;
   
   }
 }
+
+
+

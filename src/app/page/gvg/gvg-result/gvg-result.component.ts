@@ -25,9 +25,9 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     .subscribe((res) => {
       console.log(res);
       if (res.matches) {
-        // this.itemSize = 190 * 3;
+        this.itemSize = 240 * 3;
       } else {
-        this.itemSize = 190;
+        this.itemSize = 240;
       }
     });
   }
@@ -38,7 +38,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   countList = [1,2,3];
   bossIdset = new Set<number>()
 
-  itemSize = 190;
+  itemSize = 240;
   onDestroySub = new Subject();
   usedList = [];
 

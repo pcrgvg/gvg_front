@@ -1,3 +1,4 @@
+
 .scroll {
     width: 100%;
     margin: 0 auto 0;
@@ -56,5 +57,10 @@
   }
 
   @media (max-width:577px) {
-
+    .boss {
+      flex-wrap: wrap;
+    }
+    .scroll-item {
+      grid-template-columns: auto;
+    }
   }

@@ -1,6 +1,6 @@
 <div class="g-card">
     <h3 class="g-card-title">可以选择3刀组合包含的boss数,比如B1 1刀,B2 1刀,则选中B1和B2</h3>
-    <div class="g-flex">
+    <div class="g-flex boss">
         <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
             <label nz-checkbox [(ngModel)]="boss.checked"></label>
             <app-pcr-icon style="margin:0 16px" [unit]="boss"></app-pcr-icon>

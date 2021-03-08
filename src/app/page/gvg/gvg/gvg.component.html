@@ -1,6 +1,6 @@
 <div class="g-card">
-  <div class="g-flex-between">
-    <h3 class="g-card-title">未拥有角色</h3>
+  <div class="g-flex-between" style="margin-bottom: 16px;">
+    <div class="g-card-title">未拥有角色</div>
     <button nz-button class="g-btn" (clickStop)="addUnHave()">添加</button>
   </div>
   <div class="chara-box">
@@ -160,10 +160,10 @@
             [nzHeader]="childHeaderTpl"
           >
             <ng-template #childHeaderTpl>
-              <div class="g-flex" style="align-items: center">
-                <div
-                  class="g-flex-column"
-                  style="margin-right: 25px"
+              <div class="g-flex task" style="align-items: center">
+                <div class="g-flex">
+                  <div
+                  class="g-flex-column chara-item"
                   *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
                 >
                   <app-pcr-icon [unit]="chara"></app-pcr-icon>
@@ -172,61 +172,64 @@
                     <div style="color: #ff2277">R{{ chara.rank }}</div>
                   </div>
                 </div>
+                </div>
 
+               <div class="g-flex">
                 <div
-                  [ngStyle]="{
-                    color: autoColor(task.canAuto),
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    width: '60px'
-                  }"
-                >
-                  {{ task.canAuto | canauto }}
-                </div>
-                <div style="margin-left: 15px; color: #ff2277">
-                  {{ task.damage }}W
-                </div>
-                <label
-                  style="margin-left: 15px; color: #68b9ff"
-                  (clickStop)="clickStop()"
-                  nz-checkbox
-                  [ngModel]="usedList.includes(task.id)"
-                  (ngModelChange)="toggleUsed($event, task)"
-                  >使用</label
-                >
-                <label
-                  style="margin-left: 15px; color: #f55291"
-                  nz-checkbox
-                  (clickStop)="clickStop()"
-                  [ngModel]="removedList.includes(task.id)"
-                  (ngModelChange)="toggleRemoved($event, task)"
-                  >去除</label
-                >
-                <button
-                *ngIf="operate"
-                  class="g-btn-danger"
-                  style="margin-left: 15px;"
-                  (clickStop)="addTask(task, bossTask.id)"
-                  nz-button
-                >
-                  修改
-                </button>
-                <button
-                *ngIf="operate"
-                  nz-button
-                  class="g-btn-danger"
-                  style="
-                    margin-left: 15px;
-                  "
-                  [nzLoading]="loading"
-                  nz-popconfirm
-                  nzPopconfirmTitle="是否删除?"
-                  (nzOnConfirm)="delteConfirm(bossTask, task)"
-                  nzPopconfirmPlacement="topLeft"
-                  (clickStop)="clickStop()"
-                >
-                  删除
-                </button>
+                [ngStyle]="{
+                  color: autoColor(task.canAuto),
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  width: '60px'
+                }"
+              >
+                {{ task.canAuto | canauto }}
+              </div>
+              <div style="margin-left: 15px; color: #ff2277">
+                {{ task.damage }}W
+              </div>
+              <label
+                style="margin-left: 15px; color: #68b9ff"
+                (clickStop)="clickStop()"
+                nz-checkbox
+                [ngModel]="usedList.includes(task.id)"
+                (ngModelChange)="toggleUsed($event, task)"
+                >使用</label
+              >
+              <label
+                style="margin-left: 15px; color: #f55291"
+                nz-checkbox
+                (clickStop)="clickStop()"
+                [ngModel]="removedList.includes(task.id)"
+                (ngModelChange)="toggleRemoved($event, task)"
+                >去除</label
+              >
+              <button
+              *ngIf="operate"
+                class="g-btn-danger"
+                style="margin-left: 15px;"
+                (clickStop)="addTask(task, bossTask.id)"
+                nz-button
+              >
+                修改
+              </button>
+              <button
+              *ngIf="operate"
+                nz-button
+                class="g-btn-danger"
+                style="
+                  margin-left: 15px;
+                "
+                [nzLoading]="loading"
+                nz-popconfirm
+                nzPopconfirmTitle="是否删除?"
+                (nzOnConfirm)="delteConfirm(bossTask, task)"
+                nzPopconfirmPlacement="topLeft"
+                (clickStop)="clickStop()"
+              >
+                删除
+              </button>
+               </div>
               </div>
             </ng-template>
 

@@ -43,3 +43,17 @@
     border-radius: 10px;
   }
 }
+
+.chara-item {
+  margin-right: 25px;
+}
+
+
+@media (max-width: 576px) {
+  .task{
+    flex-direction: column;
+  }
+  .chara-item {
+    margin-right: 5px;
+  }
+}
