@@ -7,7 +7,7 @@
             <nz-select [(ngModel)]="boss.count" name="value">
               <nz-option
                 *ngFor="let item of countList"
-                [nzLabel]="item"
+                [nzLabel]="item + ''"
                 [nzValue]="item">
               </nz-option>
             </nz-select>
@@ -20,7 +20,7 @@
     <div class="divide"></div>
 
     <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
-        <div *cdkVirtualFor="let bossTask of filterResult; trackBy: trackByTaskFn" class="scroll-item">
+        <div *cdkVirtualFor="let bossTask of filterResult;" class="scroll-item">
           <div
             *ngFor="let task of bossTask"
             style="padding: 0 5px;"

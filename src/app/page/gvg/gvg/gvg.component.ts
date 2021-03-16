@@ -34,7 +34,6 @@ export class GvgComponent implements OnInit {
     private filterResultSrv: FilterResultService
   ) { }
 
-  @ViewChild('deleteConfirmTpl') deleteConfirmTpl: TemplateRef<any>;
 
   charaList: Chara[] = []; // 角色列表
   stage = 1; // 阶段
@@ -281,25 +280,6 @@ export class GvgComponent implements OnInit {
 
   clickStop() { }
 
-  delelteTask(boss: GvgTask, task: Task) {
-
-    this.deleteRef = this.modalSrc.create({
-      nzContent: this.deleteConfirmTpl,
-      nzFooter: null,
-      nzOnOk: (r) => {
-        this.loading = true;
-        this.pcrApi
-          .deleteTask(task.id)
-          .pipe(
-            finalize(() => this.loading = false)
-          )
-          .subscribe((res) => {
-            const index = boss.tasks.findIndex((r) => r.id === task.id);
-            boss.tasks.splice(index, 1);
-          });
-      }
-    })
-  }
 
   delteConfirm(boss: GvgTask, task: Task) {
     // this.deleteRef.triggerOk()

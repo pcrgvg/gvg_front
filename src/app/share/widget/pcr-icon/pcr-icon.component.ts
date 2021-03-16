@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 interface Unit {
   prefabId: number;
   currentRarity?: number;
-  rarity: number;
+  rarity?: number;
   [propName: string]: any;
 }
 
@@ -47,7 +47,6 @@ export class PcrIconComponent implements OnInit, OnDestroy {
     this.setIconUrl();
   }
 
-  @Input() rarity: number;
 
   get src() {
     return this._src ?? '/assets/images/000001.webp';
