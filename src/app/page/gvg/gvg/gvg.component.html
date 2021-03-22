@@ -125,7 +125,7 @@
     </div>
   </form>
 
-  <div *ngIf="!filterGvgTaskList.length" [innerHtml]="notice?.content | domSanitizer"></div>
+  <div style="overflow: auto;" *ngIf="!filterGvgTaskList.length" [innerHtml]="notice?.content | domSanitizer"></div>
 
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
