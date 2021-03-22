@@ -104,7 +104,9 @@
 
     <div class="g-flex form-action">
       <div>
-        <button (clickStop)="openNotice()"  class="g-btn" nz-button>查看公告</button>
+        <button (clickStop)="openNotice()"  class="g-btn-danger" nz-button>查看公告</button>
+        <button (clickStop)="openAll()"  class="g-btn" nz-button>展开所有</button>
+        <button (clickStop)="closeAll()"  class="g-btn" nz-button>关闭所有</button>
       </div>
 
       <div class="g-flex">

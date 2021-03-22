@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@app/apis';
@@ -14,6 +14,7 @@ import { AddTaskComponent } from '../widgets/add-task/add-task.component';
 import { filterTask } from '../services/filterTask';
 import { FilterResultService } from '../services/filter-result.service';
 import { NoticeComponent } from '../widgets/notice/notice.component';
+import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { NoticeComponent } from '../widgets/notice/notice.component';
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
+  @ViewChildren(NzCollapsePanelComponent) nzCollapsePanels: NzCollapsePanelComponent[]
   constructor(
     private router: Router,
     private pcrApi: PcrApiService,
@@ -403,5 +405,17 @@ export class GvgComponent implements OnInit {
     }
   }
 
+  openAll() {
+    this.nzCollapsePanels.forEach(r => {
+      r.nzActive = true;
+      r.markForCheck()
+    });
+  }
 
+  closeAll() {
+    this.nzCollapsePanels.forEach(r => {
+      r.nzActive = false;
+      r.markForCheck()
+    });
+  }
 }
