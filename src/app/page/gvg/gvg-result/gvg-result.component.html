@@ -1,5 +1,5 @@
 <div class="g-card">
-    <h3 class="g-card-title">可以选择3刀组合包含的boss数,比如B1 1刀,B2 1刀,则选中B1和B2</h3>
+    <h3 class="g-card-title">可以选择3刀组合包含的boss数,比如B1 1刀,B2 1刀,则选中B1和B2, 一个都不选中默认显示所有</h3>
     <div class="g-flex boss">
         <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
             <label nz-checkbox [(ngModel)]="boss.checked"></label>
@@ -14,13 +14,13 @@
             
         </div>
 
-        <button class="g-btn" [nzLoading]="loading" nz-button (click)="search()">筛选</button>
+        <button class="g-btn"  nz-button (click)="search()">筛选</button>
     </div>
 
     <div class="divide"></div>
 
-    <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
-        <div *cdkVirtualFor="let bossTask of filterResult;" class="scroll-item">
+    <cdk-virtual-scroll-viewport  [itemSize]="itemSize" class="scroll">
+        <div *cdkVirtualFor="let bossTask of ds;" class="scroll-item">
           <div
             *ngFor="let task of bossTask"
             style="padding: 0 5px;"

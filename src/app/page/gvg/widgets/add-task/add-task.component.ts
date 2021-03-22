@@ -79,7 +79,6 @@ export class AddTaskComponent implements OnInit {
 
   dealServer() {
     const serverType = this.route.snapshot.queryParams.serverType;
-    console.log(serverType)
     switch (serverType) {
       case '114':
         this.serverType = ServerType.cn;

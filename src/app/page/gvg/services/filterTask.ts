@@ -291,7 +291,6 @@ export const filterTask = ({
     bossTasks = combine(bossTask, 1);
     result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
-  console.log(result.length);
 
   return result;
 };
