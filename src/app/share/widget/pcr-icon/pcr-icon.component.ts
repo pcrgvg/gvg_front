@@ -23,7 +23,7 @@ interface Unit {
   template: `
     <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
   `,
-  styleUrls:  ['./pcr-icon.component.scss'], 
+  styleUrls:  ['./pcr-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PcrIconComponent implements OnInit, OnDestroy {

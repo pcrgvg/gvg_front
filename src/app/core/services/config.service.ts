@@ -23,7 +23,7 @@ export class ConfigService {
     this.configToken();
     const versions = (await localforage.getItem(localforageName.dbVersion)) ?? {};
     const res = await this.dbApiSrv.getVersion().toPromise();
-    localforage.setItem(localforageName.dbVersion, res)
+    localforage.setItem(localforageName.dbVersion, res);
     for (const server in res) {
       if (res[server] !== versions[server]) {
         this.requestCacheSrv.clear();

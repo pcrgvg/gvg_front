@@ -18,13 +18,13 @@ export class RequestCacheService {
     return new Promise((resolve, reject) => {
       localforage.getItem<string>(localforageName.cacheHttp).then(r => {
         this.cache = r ? JSON.parse(r) : {};
-       
+
         setTimeout(() => {
-          resolve(true)
+          resolve(true);
         }, 1000);
-      })
-    })
-  
+      });
+    });
+
     // console.log('cache init');
   }
 

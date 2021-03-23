@@ -15,13 +15,13 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
   styleUrls: ['./gvg-result.component.scss']
 })
 export class GvgResultComponent implements OnInit, OnDestroy {
-  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport 
-  
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private storageSrv: StorageService,
     private filterResultSrv: FilterResultService
-  ) { 
+  ) {
     breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Handset])
     .pipe(takeUntil(this.onDestroySub))
@@ -37,18 +37,18 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
 
   bossList: GvgTask[];
-  countList = [1,2,3];
+  countList = [1, 2, 3];
 
   itemSize = 250;
   onDestroySub = new Subject();
   usedList = [];
 
-  ds = new TaskDataSource(this.filterResultSrv)
+  ds = new TaskDataSource(this.filterResultSrv);
 
   ngOnInit(): void {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
 
- 
+
     this.bossList = this.filterResultSrv.bosslist;
   }
   ngOnDestroy(): void {
@@ -61,9 +61,9 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   search() {
     this.virtualScroll.scrollTo({
       top: 0
-    })
+    });
     this.ds.onSearch( this.bossList);
-  
+
   }
 
 
@@ -90,10 +90,10 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     return this.dataStream;
   }
 
-  private setup(collectionViewer: CollectionViewer): void { 
+  private setup(collectionViewer: CollectionViewer): void {
     // 初始化
     this.fetchData(0);
-   
+
 
     collectionViewer.viewChange.pipe(
       takeUntil(this.disconnect$)
@@ -105,22 +105,22 @@ export class TaskDataSource extends DataSource<BossTask[]> {
         const endPage = this.getPageForIndex(range.end);
         this.fetchData(endPage + 1);
       }
-    })
+    });
   }
 
   setTaskList( bossList?: GvgTask[]) {
     if (bossList) {
-      const arr = bossList.filter(r =>r.checked === true);
+      const arr = bossList.filter(r => r.checked === true);
       if (arr.length) {
         const total = arr.reduce((count, boss) => {
-          return count +boss.count
+          return count + boss.count;
         }, 0);
-        if(total >3) {
-          throw new Error("选中boss的总数大于3");
-        };
+        if (total > 3) {
+          throw new Error('选中boss的总数大于3');
+        }
         const res = [];
         this.filterResultSrv.filterResult.forEach(r => {
-          const bossMap = new Map<number, number>()
+          const bossMap = new Map<number, number>();
           arr.forEach(boss => {
             bossMap.set(boss.prefabId, boss.count);
           });
@@ -129,12 +129,12 @@ export class TaskDataSource extends DataSource<BossTask[]> {
             if (bossMap.has(prefabId)) {
               bossMap.set(prefabId, bossMap.get(prefabId) - 1);
             }
-          })
+          });
           if ([...bossMap.values()].every(r => r  === 0)){
             res.push(r);
           }
-        })
-  
+        });
+
         this.taskList = res;
       } else {
         this.taskList = this.filterResultSrv.filterResult;
@@ -157,11 +157,11 @@ export class TaskDataSource extends DataSource<BossTask[]> {
 
 
   fetchData(start: number) {
-    if(this.fetchedPagesSet.has(start)) {
+    if (this.fetchedPagesSet.has(start)) {
       return;
     }
     this.fetchedPagesSet.add(start);
-    const  arr = this.taskList.slice(start * this.pageSize, (start+ 1) * this.pageSize);
+    const  arr = this.taskList.slice(start * this.pageSize, (start + 1) * this.pageSize);
     this.cachedData.splice(start * this.pageSize, this.pageSize, ...arr);
     this.dataStream.next(this.cachedData);
   }
@@ -170,5 +170,5 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     this.disconnect$.next();
     this.disconnect$.complete();
   }
-} 
+}
 

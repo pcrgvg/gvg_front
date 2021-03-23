@@ -33,11 +33,11 @@ export class NoticeComponent implements OnInit {
       this.noticeApiSrv
         .updateNotice({
           ...this.notice,
-          server:this.server,
-          clanBattleId:this.clanBattleId
+          server: this.server,
+          clanBattleId: this.clanBattleId
         })
         .pipe(
-          finalize(() =>this.loading = true)
+          finalize(() => this.loading = true)
         )
         .subscribe((r) => {
           this.nzModalSrc.closeAll();

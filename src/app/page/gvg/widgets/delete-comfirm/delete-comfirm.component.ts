@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./delete-comfirm.component.scss']
 })
 export class DeleteComfirmComponent implements OnInit {
-  
+
   constructor() { }
 
   ngOnInit(): void {

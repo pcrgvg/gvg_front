@@ -27,7 +27,7 @@ interface Token {
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
-  constructor(private requestCacheSrv: RequestCacheService,private notificationSrc: NzNotificationService, private storageSrv: StorageService) {}
+  constructor(private requestCacheSrv: RequestCacheService, private notificationSrc: NzNotificationService, private storageSrv: StorageService) {}
 
   handleData(req: HttpRequest<any>, ev: HttpResponseBase, isCache: boolean): Observable<any> {
     if (ev.ok) {
@@ -37,7 +37,7 @@ export class CoreInterceptor implements HttpInterceptor {
           if (isCache) {
             this.requestCacheSrv.put(req, new HttpResponse(Object.assign(ev, { body: body.data })));
           }
-          
+
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
         } else {
           return throwError(new Error(body.msg));

@@ -25,7 +25,7 @@ export class AddTaskComponent implements OnInit {
   links: Links = [];
   selectCharas: Chara[] = [];
   remarks = '';
-  serverType:ServerType = ServerType.jp;
+  serverType: ServerType = ServerType.jp;
   autoOption = [
     {
       label: CanAutoName.unAuto,
@@ -60,18 +60,18 @@ export class AddTaskComponent implements OnInit {
     });
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
-      bossId:[{value: this.bossId, disabled: !!this.bossId}, [Validators.required]],
+      bossId: [{value: this.bossId, disabled: !!this.bossId}, [Validators.required]],
       canAuto: this.task?.canAuto ?? CanAutoType.auto,
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]] ,
-   
+
     });
     this.remarks = this.task?.remarks ?? '',
-    this.selectCharas = cloneDeep( this.task? 
+    this.selectCharas = cloneDeep( this.task ?
       this.task.charas.map((r) => ({
         ...r,
         maxRarity: r.rarity,
-      })) :[],
+      })) : [],
     );
     this.links = this.task?.links ?? [];
   }
@@ -95,7 +95,7 @@ export class AddTaskComponent implements OnInit {
 
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;
-    return this.bossList.find(r => r.id === bossId)
+    return this.bossList.find(r => r.id === bossId);
   }
 
     /**
@@ -138,12 +138,12 @@ export class AddTaskComponent implements OnInit {
 
   confirm() {
     if (!this.selectCharas.length) {
-      this.notificationSrc.error('', '至少选择一个角色')
+      this.notificationSrc.error('', '至少选择一个角色');
       return;
     }
     const invalidateLinks = this.links.filter((r) => !r.link);
     if (this.links.length && invalidateLinks.length) {
-      this.notificationSrc.error('', '有视频链接为空')
+      this.notificationSrc.error('', '有视频链接为空');
       return;
     }
     const valid = this.fv.formIsValid(this.validateForm);
@@ -161,7 +161,7 @@ export class AddTaskComponent implements OnInit {
       charas: this.selectCharas,
       links: this.links,
       remarks: this.remarks,
-      server:this.serverType
+      server: this.serverType
     };
     this.loading = true;
     this.pcraApiSrv
@@ -170,7 +170,7 @@ export class AddTaskComponent implements OnInit {
       .subscribe((res) => {
         this.notificationSrc.success('添加成功', '可以继续添加,不用关闭');
         if (task?.id) {
-          this.modalSrc.closeAll()
+          this.modalSrc.closeAll();
         }
       });
   }
@@ -188,8 +188,8 @@ export class AddTaskComponent implements OnInit {
 
   openAddLink() {
     this.modalSrc.create({
-      nzContent:this.addLinkRef,
-      nzFooter:null,
-    })
+      nzContent: this.addLinkRef,
+      nzFooter: null,
+    });
   }
 }

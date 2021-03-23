@@ -23,7 +23,7 @@ import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
-  @ViewChildren(NzCollapsePanelComponent) nzCollapsePanels: NzCollapsePanelComponent[]
+  @ViewChildren(NzCollapsePanelComponent) nzCollapsePanels: NzCollapsePanelComponent[];
   constructor(
     private router: Router,
     private pcrApi: PcrApiService,
@@ -77,7 +77,7 @@ export class GvgComponent implements OnInit {
   ];
   usedList: number[] = []; // 已使用的作业
   removedList: number[] = []; // 去除
-  imgSource: string = ''; // 图片源
+  imgSource = ''; // 图片源
   imgSourceOption = [];
   bossIdSet = new Set<number>(); // 选中的boss
   deleteRef: NzModalRef;
@@ -88,7 +88,7 @@ export class GvgComponent implements OnInit {
   ngOnInit(): void {
     this.dealServerType();
     this.initImamgeSouce();
-    this.dealServerOperate()
+    this.dealServerOperate();
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.rediveDataSrv
@@ -99,7 +99,7 @@ export class GvgComponent implements OnInit {
       });
 
     this.toggleServer();
-    
+
   }
 
   dealServerOperate() {
@@ -122,11 +122,11 @@ export class GvgComponent implements OnInit {
     const serverType = this.route.snapshot.paramMap.get('serverType');
     switch (serverType) {
       case ServerType.cn: {
-        this.serverType = ServerType.cn
-      } break;
+        this.serverType = ServerType.cn;
+      }                   break;
       case ServerType.jp:
       default: {
-        this.serverType = ServerType.jp
+        this.serverType = ServerType.jp;
       }
     }
   }
@@ -165,7 +165,7 @@ export class GvgComponent implements OnInit {
  * 获取会战期次
  */
   getClanBattleList() {
-  
+
     this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
@@ -207,8 +207,8 @@ export class GvgComponent implements OnInit {
 
         this.bossIdSet.add(r.id);
         r.tasks.forEach(t => {
-          t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth)
-        })
+          t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
+        });
       });
       this.gvgTaskList = res;
       this.toggleAuto();
@@ -234,7 +234,7 @@ export class GvgComponent implements OnInit {
 
   selectedBossChange(check: boolean, id: number) {
     if (check) {
-      this.bossIdSet.add(id)
+      this.bossIdSet.add(id);
     } else {
       this.bossIdSet.delete(id);
     }
@@ -264,7 +264,7 @@ export class GvgComponent implements OnInit {
       case CanAutoType.auto: return '#68B9FF';
       case CanAutoType.harfAuto: return '#1cbbb4';
       case CanAutoType.unAuto:
-      default: return '#FF2277'
+      default: return '#FF2277';
     }
   }
 
@@ -307,7 +307,7 @@ export class GvgComponent implements OnInit {
       nzFooter: null,
       nzWidth: '80%',
       nzMaskClosable: false
-    })
+    });
   }
 
   addTask(task?: Task, bossId?: number) {
@@ -326,7 +326,7 @@ export class GvgComponent implements OnInit {
       nzFooter: null,
       nzWidth: '80%',
       nzMaskClosable: false
-    })
+    });
   }
 
   openNotice() {
@@ -334,14 +334,14 @@ export class GvgComponent implements OnInit {
       nzContent: NoticeComponent,
       nzComponentParams: {
         operate: this.operate,
-        notice:this.notice,
+        notice: this.notice,
         server: this.serverType,
         clanBattleId: this.clanBattleId
       },
       nzFooter: null,
       nzWidth: '80%',
       nzMaskClosable: false
-    })
+    });
   }
   /**
  * 筛刀
@@ -356,11 +356,11 @@ export class GvgComponent implements OnInit {
           prefabId: r.prefabId,
           id: r.id,
           count: 1
-        })
+        });
       }
     });
     if (!taskList.length) {
-      throw new Error("选择至少一个boss");
+      throw new Error('选择至少一个boss');
     }
     this.filterLoading = true;
     if (typeof Worker !== 'undefined') {
@@ -372,7 +372,7 @@ export class GvgComponent implements OnInit {
         // window.open('/gvgresult', '');
         this.filterResultSrv.setFilterResult(data);
         this.filterResultSrv.setBosslist(bossList);
-        this.router.navigate(['/gvg/result'])
+        this.router.navigate(['/gvg/result']);
         worker.terminate();
       };
 
@@ -399,7 +399,7 @@ export class GvgComponent implements OnInit {
       this.filterLoading = false;
       this.filterResultSrv.setFilterResult(filterResult);
       this.filterResultSrv.setBosslist(bossList);
-      this.router.navigate(['/gvg/result'])
+      this.router.navigate(['/gvg/result']);
       // this.storageSrv.sessionSet(Constants.filterResult, filterResult.slice(0, 200));
       // window.open('/gvgresult', '');
     }
@@ -408,14 +408,14 @@ export class GvgComponent implements OnInit {
   openAll() {
     this.nzCollapsePanels.forEach(r => {
       r.nzActive = true;
-      r.markForCheck()
+      r.markForCheck();
     });
   }
 
   closeAll() {
     this.nzCollapsePanels.forEach(r => {
       r.nzActive = false;
-      r.markForCheck()
+      r.markForCheck();
     });
   }
 }

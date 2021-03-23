@@ -14,7 +14,7 @@ export class AddUnHaveComponent implements OnInit {
   constructor(
     public rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
-    private modalSrc:NzModalService
+    private modalSrc: NzModalService
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class AddUnHaveComponent implements OnInit {
     return chara.prefabId;
   }
 
-  toggleSelect(chara:Chara) {
+  toggleSelect(chara: Chara) {
     let charas = [...this.unHaveCharas];
     if (charas?.findIndex((r) => r.prefabId === chara.prefabId) === -1) {
       charas.push(chara);
@@ -36,7 +36,7 @@ export class AddUnHaveComponent implements OnInit {
     this.unHaveCharas = charas;
   }
 
-  isSelected(chara:Chara) {
+  isSelected(chara: Chara) {
     return this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1;
   }
 

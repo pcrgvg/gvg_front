@@ -9,7 +9,7 @@ import { ServerType } from '@src/app/models';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  changelog: string = '';
+  changelog = '';
   serverType = '';
   btnList = [];
 
@@ -30,24 +30,24 @@ export class HomeComponent implements OnInit {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
       case '114': {
-        this.btnList = [{value: 'cn', label: '国服'}]
+        this.btnList = [{value: 'cn', label: '国服'}];
         this.serverType = ServerType.cn;
       }
-        break;
+                  break;
       case '142': {
-        this.btnList = [{value: 'jp', label: '日服'}]
+        this.btnList = [{value: 'jp', label: '日服'}];
         this.serverType = ServerType.jp;
       }
-        break;
+                  break;
       default: {
         this.btnList = [
           {value: 'cn', label: '国服'},
           {value: 'jp', label: '日服'}
-        ]
+        ];
         this.serverType = '';
       }
     }
-   
+
   }
 
   jumpTo(serverType: keyof typeof ServerType) {

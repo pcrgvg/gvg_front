@@ -6,8 +6,8 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {
     path: '',
-    data:{
-      keepAlive:true
+    data: {
+      keepAlive: true
     },
     component: HomeComponent,
   },

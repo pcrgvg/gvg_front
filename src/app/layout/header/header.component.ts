@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService} from 'ng-zorro-antd/modal';
 import * as localforage from 'localforage';
-import { StorageService, unHaveCharas } from '@app/core/services'
+import { StorageService, unHaveCharas } from '@app/core/services';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { StorageService, unHaveCharas } from '@app/core/services'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('clearTpl') clearTpl:TemplateRef<any>
+  @ViewChild('clearTpl') clearTpl: TemplateRef<any>;
   constructor(
     private router: Router,
     private nzModalSrc: NzModalService,
@@ -21,11 +21,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   toHome() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 
   toAbout() {
-    this.router.navigate(['/about'])
+    this.router.navigate(['/about']);
   }
 
   clearStorage() {
@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit {
       nzContent: this.clearTpl,
       nzFooter: null,
       nzWidth: 300,
-      
-    })
+
+    });
   }
 
    /**
@@ -44,11 +44,11 @@ export class HeaderComponent implements OnInit {
   storageClear(type: number) {
     if (type === 1) {
       this.storageSrv.clearAll();
-      localforage.clear()
+      localforage.clear();
     } else {
       const unCharas = this.storageSrv.localGet(unHaveCharas);
       this.storageSrv.clearAll();
-      localforage.clear()
+      localforage.clear();
       this.storageSrv.localSet(unHaveCharas, unCharas);
     }
     location.reload();
