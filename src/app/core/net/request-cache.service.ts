@@ -10,7 +10,7 @@ import { localforageName } from '@src/app/constants';
 export class RequestCacheService {
   urlList = [pcrApis.charaList, pcrApis.getRank, pcrApis.stageScore, pcrApis.getClanBattleList];
   // urlList = [pcrApis.getRank];
-  private cache: Object = {};
+  private cache: { [key: string]: HttpResponse<any> } = {};
 
   constructor() {}
 
