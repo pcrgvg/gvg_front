@@ -17,6 +17,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { NgxWigModule } from 'ngx-wig';
 
@@ -57,6 +58,7 @@ import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
     NzButtonModule,
     NzFormModule,
     NzCheckboxModule,
+    NzSpinModule,
     NzIconModule.forChild([PlusCircleOutline])
   ],
 })

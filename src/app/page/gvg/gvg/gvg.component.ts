@@ -83,6 +83,7 @@ export class GvgComponent implements OnInit {
   deleteRef: NzModalRef;
   operate = false;
   notice: Notice;
+  isSpinning = true;
 
 
   ngOnInit(): void {
@@ -152,6 +153,8 @@ export class GvgComponent implements OnInit {
 
   // 切换服务器触发
   toggleServer() {
+    this.isSpinning = true;
+
     this.filterGvgTaskList = [];
     this.gvgTaskList = [];
     this.bossIdSet.clear();
@@ -169,6 +172,7 @@ export class GvgComponent implements OnInit {
     this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
+      this.isSpinning = false;
       this.getNotice();
     });
   }
