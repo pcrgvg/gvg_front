@@ -5,6 +5,7 @@ import { SHA1 } from 'crypto-js';
 import { localforageName, storageNames } from '@src/app/constants';
 import { RequestCacheService } from '../net/request-cache.service';
 import { DbApiService } from '@app/apis';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,18 +19,22 @@ export class ConfigService {
     private requestCacheSrv: RequestCacheService,
   ) {}
 
-  async init() {
+   init() {
     this.configLocalforage();
     this.configToken();
+    this.checkVersion()
+    console.log('config init');
+  }
+
+  async checkVersion() {
     const versions = (await localforage.getItem(localforageName.dbVersion)) ?? {};
-    const res = await this.dbApiSrv.getVersion().toPromise();
+    const res = await this.dbApiSrv.getVersion().pipe(timeout(10000)).toPromise();
     localforage.setItem(localforageName.dbVersion, res);
     for (const server in res) {
       if (res[server] !== versions[server]) {
         this.requestCacheSrv.clear();
       }
     }
-    console.log('config init');
   }
 
   configLocalforage() {

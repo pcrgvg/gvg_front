@@ -10,7 +10,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { map, catchError, mergeMap, timeout } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
 import { CommonResult, ResultStatus } from '@src/app/models';
 import { RequestCacheService } from './request-cache.service';
@@ -70,6 +70,7 @@ export class CoreInterceptor implements HttpInterceptor {
       }));
     } else {
       return next.handle(req).pipe(
+        timeout(10000),
         mergeMap((ev) => {
           if (ev instanceof HttpResponseBase) {
             return this.handleData(req, ev, isCache);

@@ -6,7 +6,7 @@ import { storageNames } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
 import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerName, ServerType, Task } from '@app/models';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { catchError, finalize, takeUntil, timeout } from 'rxjs/operators';
 import { cloneDeep, reject } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AddUnHaveComponent } from '../widgets/add-un-have/add-un-have.component';
@@ -169,10 +169,12 @@ export class GvgComponent implements OnInit {
  */
   getClanBattleList() {
 
-    this.pcrApi.getClanBattleList(this.serverType).subscribe((res) => {
+    this.pcrApi.getClanBattleList(this.serverType).pipe(
+      finalize(() => this.isSpinning = false),
+    ).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
-      this.isSpinning = false;
+      
       this.getNotice();
     });
   }
