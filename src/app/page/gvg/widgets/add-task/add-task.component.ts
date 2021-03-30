@@ -24,6 +24,10 @@ export class AddTaskComponent implements OnInit {
   rankOption = [];
   links: Links = [];
   selectCharas: Chara[] = [];
+  /**
+   * 用于关闭后传值
+   */
+  gvgTaskList: GvgTask[] = []; 
   remarks = '';
   serverType: ServerType = ServerType.jp;
   autoOption = [
@@ -131,7 +135,7 @@ export class AddTaskComponent implements OnInit {
     } else {
       charas = charas?.filter((r) => r.prefabId !== chara.prefabId);
     }
-    charas = charas.sort((a, b) => a.searchAreaWidth - b.searchAreaWidth);
+    charas = charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
     this.selectCharas = charas;
   }
 
@@ -154,7 +158,7 @@ export class AddTaskComponent implements OnInit {
       ...this.validateForm.getRawValue(),
     };
     const task = this.task;
-    this.selectCharas.sort((a, b) => a.searchAreaWidth - b.searchAreaWidth);
+    this.selectCharas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
     const gvgTask = {
       ...value,
       id: task?.id,
@@ -169,6 +173,7 @@ export class AddTaskComponent implements OnInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.notificationSrc.success('添加成功', '可以继续添加,不用关闭');
+        this.gvgTaskList = res;
         if (task?.id) {
           this.modalSrc.closeAll();
         }

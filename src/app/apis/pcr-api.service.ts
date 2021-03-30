@@ -11,15 +11,15 @@ export class PcrApiService {
   constructor(private http: HttpService) {}
 
   charaList(serverType: ServerType): Observable<Chara[]> {
-    return this.http.Get<Chara[]>(pcrApis.charaList, { server: serverType });
+    return this.http.post<Chara[]>(pcrApis.charaList, { server: serverType });
   }
 
-  updateTask(gvgTask: GvgTask): Observable<GvgTask> {
-    return this.http.post<GvgTask>(pcrApis.updateGvgTask, gvgTask);
+  updateTask(gvgTask: GvgTask): Observable<GvgTask[]> {
+    return this.http.post<GvgTask[]>(pcrApis.updateGvgTask, gvgTask);
   }
 
   gvgTaskList(stage: number = 3, serverType: string, clanBattleId: number): Observable<GvgTask[]> {
-    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, {
+    return this.http.post<GvgTask[]>(pcrApis.gvgTaskList, {
       stage,
       server: serverType,
       clanBattleId,
@@ -31,7 +31,7 @@ export class PcrApiService {
   }
 
   getRank(server: ServerType): Observable<number[]> {
-    return this.http.Get<number[]>(pcrApis.getRank, { server });
+    return this.http.post<number[]>(pcrApis.getRank, { server });
   }
   /**
    * 获取会战期次
@@ -44,7 +44,7 @@ export class PcrApiService {
       startTime: string;
     }[]
   > {
-    return this.http.Get<
+    return this.http.post<
       {
         clanBattleId: number;
         startTime: string;

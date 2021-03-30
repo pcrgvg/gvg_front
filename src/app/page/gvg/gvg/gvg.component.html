@@ -136,7 +136,6 @@
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
       [nzActive]="true"
-     
       class="custom-panel"
       *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
       [nzHeader]="headerTpl"
@@ -160,7 +159,7 @@
       <div *ngIf="bossTask.tasks.length">
         <nz-collapse [nzBordered]="false"  nzExpandIconPosition="right">
           <nz-collapse-panel
-            [nzActive]="true"
+            [nzActive]="false"
             style="border-top: 1px solid #64b8ff; background: rgba(255, 255, 255, 0.5);"
             *ngFor="let task of bossTask.tasks; trackBy: trackByTaskFn"
             [nzHeader]="childHeaderTpl"

@@ -78,7 +78,7 @@ export class CoreInterceptor implements HttpInterceptor {
           return of(ev);
         }),
         catchError((err) => {
-          this.notificationSrc.error('', err.message);
+          // this.notificationSrc.error('', err.message);
           throw err;
         }),
       );

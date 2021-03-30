@@ -11,7 +11,7 @@ export class NoticeApiService {
   constructor(private http: HttpService) {}
 
   getNotice(params: { server: ServerType; clanBattleId: number }) {
-    return this.http.Get<Notice>(NoticeApis.getNotice, params);
+    return this.http.post<Notice>(NoticeApis.getNotice, params);
   }
 
   updateNotice(notice: Notice) {

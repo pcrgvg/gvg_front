@@ -124,7 +124,7 @@ export class GvgComponent implements OnInit {
     switch (serverType) {
       case ServerType.cn: {
         this.serverType = ServerType.cn;
-      }                   break;
+      } break;
       case ServerType.jp:
       default: {
         this.serverType = ServerType.jp;
@@ -143,10 +143,10 @@ export class GvgComponent implements OnInit {
         label: 'oss',
         value: this.rediveSrv.ossSource,
       },
-      {
-        label: '小水管',
-        value: '/',
-      },
+      // {
+      //   label: '小水管',
+      //   value: '/',
+      // },
     ];
     this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
   }
@@ -154,7 +154,6 @@ export class GvgComponent implements OnInit {
   // 切换服务器触发
   toggleServer() {
     this.isSpinning = true;
-
     this.filterGvgTaskList = [];
     this.gvgTaskList = [];
     this.bossIdSet.clear();
@@ -174,7 +173,6 @@ export class GvgComponent implements OnInit {
     ).subscribe((res) => {
       this.clanBattleList = res;
       this.clanBattleId = this.clanBattleList[0].clanBattleId;
-      
       this.getNotice();
     });
   }
@@ -208,18 +206,24 @@ export class GvgComponent implements OnInit {
     this.pcrApi.gvgTaskList(this.stage, this.serverType, this.clanBattleId).pipe(
       finalize(() => this.searchLoading = false)
     ).subscribe((res) => {
-      this.bossIdSet.clear();
-      res.forEach(r => {
-
-        this.bossIdSet.add(r.id);
-        r.tasks.forEach(t => {
-          t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
-        });
-      });
-      this.gvgTaskList = res;
-      this.toggleAuto();
+     
+      this.dealGvgTaskList(res);
     });
   }
+
+  dealGvgTaskList(arr: GvgTask[]) {
+    this.bossIdSet.clear();
+    arr.forEach(r => {
+      this.bossIdSet.add(r.id);
+      r.tasks.forEach(t => {
+        t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
+      });
+    });
+    this.gvgTaskList = arr;
+    this.toggleAuto();
+  }
+
+
 
   toggleAuto() {
     const bossList = cloneDeep(this.gvgTaskList);
@@ -322,7 +326,7 @@ export class GvgComponent implements OnInit {
       prefabId: r.prefabId,
       unitName: r.unitName
     }));
-    this.modalSrc.create({
+   const modalRef =  this.modalSrc.create({
       nzContent: AddTaskComponent,
       nzComponentParams: {
         bossId,
@@ -331,8 +335,17 @@ export class GvgComponent implements OnInit {
       },
       nzFooter: null,
       nzWidth: '80%',
-      nzMaskClosable: false
-    });
+      nzMaskClosable: false,
+     
+    })
+    modalRef.afterClose.subscribe(r => {
+      const contentRef =  modalRef.getContentComponent();
+      if (contentRef.gvgTaskList.length) {
+        this.dealGvgTaskList(contentRef.gvgTaskList);
+        this.stage = contentRef.validateForm.getRawValue().stage;
+      }
+    })
+    
   }
 
   openNotice() {
