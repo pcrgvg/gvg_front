@@ -11,7 +11,7 @@ export class PcrApiService {
   constructor(private http: HttpService) {}
 
   charaList(serverType: ServerType): Observable<Chara[]> {
-    return this.http.post<Chara[]>(pcrApis.charaList, { server: serverType });
+    return this.http.Get<Chara[]>(pcrApis.charaList, { server: serverType });
   }
 
   updateTask(gvgTask: GvgTask): Observable<GvgTask[]> {
@@ -31,7 +31,7 @@ export class PcrApiService {
   }
 
   getRank(server: ServerType): Observable<number[]> {
-    return this.http.post<number[]>(pcrApis.getRank, { server });
+    return this.http.Get<number[]>(pcrApis.getRank, { server });
   }
   /**
    * 获取会战期次
@@ -44,7 +44,7 @@ export class PcrApiService {
       startTime: string;
     }[]
   > {
-    return this.http.post<
+    return this.http.Get<
       {
         clanBattleId: number;
         startTime: string;
