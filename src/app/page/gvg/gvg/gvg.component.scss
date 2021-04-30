@@ -8,6 +8,12 @@
     margin-bottom: 5px;
   }
 }
+.notice{
+  width: 100%;
+  ::ng-deep img {
+    max-width: 100%;
+  }
+}
 
 .form {
   display: flex;

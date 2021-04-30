@@ -1,10 +1,23 @@
 import { Component, OnInit, ViewChildren } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PcrApiService, ChangelogServiceApi, NoticeApiService } from '@app/apis';
+import {
+  PcrApiService,
+  ChangelogServiceApi,
+  NoticeApiService,
+} from '@app/apis';
 import { storageNames } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
-import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerName, ServerType, Task } from '@app/models';
+import {
+  CanAutoName,
+  CanAutoType,
+  Chara,
+  GvgTask,
+  Notice,
+  ServerName,
+  ServerType,
+  Task,
+} from '@app/models';
 import { Subject } from 'rxjs';
 import { catchError, finalize, takeUntil, timeout } from 'rxjs/operators';
 import { cloneDeep, reject } from 'lodash';
@@ -16,14 +29,14 @@ import { FilterResultService } from '../services/filter-result.service';
 import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 
-
 @Component({
   selector: 'pcr-gvg',
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent implements OnInit {
-  @ViewChildren(NzCollapsePanelComponent) nzCollapsePanels: NzCollapsePanelComponent[];
+  @ViewChildren(NzCollapsePanelComponent)
+  nzCollapsePanels: NzCollapsePanelComponent[];
   constructor(
     private router: Router,
     private pcrApi: PcrApiService,
@@ -34,17 +47,20 @@ export class GvgComponent implements OnInit {
     private noticeApiSrv: NoticeApiService,
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService
-  ) { }
-
+  ) {}
 
   charaList: Chara[] = []; // 角色列表
   stage = 1; // 阶段
-  stageOption = [1, 2, 3, 4, 5]; // 阶段option
+  stageOption = []; // 阶段option
   gvgTaskList: GvgTask[] = []; // 初始作业列表
   filterGvgTaskList: GvgTask[] = []; // 根据筛选条件显示的列表
   unHaveChara: Chara[] = []; // 未拥有角色
   OnDestroySub = new Subject();
-  autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.unAuto];
+  autoSetting: CanAutoType[] = [
+    CanAutoType.auto,
+    CanAutoType.harfAuto,
+    CanAutoType.unAuto,
+  ];
   autoOption = [
     {
       label: CanAutoName.unAuto,
@@ -85,7 +101,6 @@ export class GvgComponent implements OnInit {
   notice: Notice;
   isSpinning = true;
 
-
   ngOnInit(): void {
     this.dealServerType();
     this.initImamgeSouce();
@@ -100,7 +115,6 @@ export class GvgComponent implements OnInit {
       });
 
     this.toggleServer();
-
   }
 
   dealServerOperate() {
@@ -117,21 +131,20 @@ export class GvgComponent implements OnInit {
     }
   }
 
-
-
   dealServerType() {
     const serverType = this.route.snapshot.paramMap.get('serverType');
     switch (serverType) {
-      case ServerType.cn: {
-        this.serverType = ServerType.cn;
-      } break;
+      case ServerType.cn:
+        {
+          this.serverType = ServerType.cn;
+        }
+        break;
       case ServerType.jp:
       default: {
         this.serverType = ServerType.jp;
       }
     }
   }
-
 
   initImamgeSouce() {
     this.imgSourceOption = [
@@ -148,7 +161,10 @@ export class GvgComponent implements OnInit {
       //   value: '/',
       // },
     ];
-    this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
+    this.imgSource = this.storageSrv.localGet(
+      'imageBase',
+      this.rediveSrv.winSource
+    );
   }
 
   // 切换服务器触发
@@ -162,19 +178,19 @@ export class GvgComponent implements OnInit {
     this.getRank();
   }
 
-
   /**
- * 获取会战期次
- */
+   * 获取会战期次
+   */
   getClanBattleList() {
-
-    this.pcrApi.getClanBattleList(this.serverType).pipe(
-      finalize(() => this.isSpinning = false),
-    ).subscribe((res) => {
-      this.clanBattleList = res;
-      this.clanBattleId = this.clanBattleList[0].clanBattleId;
-      this.getNotice();
-    });
+    this.pcrApi
+      .getClanBattleList(this.serverType)
+      .pipe(finalize(() => (this.isSpinning = false)))
+      .subscribe((res) => {
+        this.clanBattleList = res;
+        this.clanBattleId = this.clanBattleList[0].clanBattleId;
+        this.battleIdChange(this.clanBattleId);
+        this.getNotice();
+      });
   }
 
   getNotice() {
@@ -187,7 +203,6 @@ export class GvgComponent implements OnInit {
         this.notice = r;
       });
   }
-
 
   getCharaList() {
     this.pcrApi.charaList(this.serverType).subscribe((res) => {
@@ -203,19 +218,19 @@ export class GvgComponent implements OnInit {
 
   getGvgTaskList() {
     this.searchLoading = true;
-    this.pcrApi.gvgTaskList(this.stage, this.serverType, this.clanBattleId).pipe(
-      finalize(() => this.searchLoading = false)
-    ).subscribe((res) => {
-     
-      this.dealGvgTaskList(res);
-    });
+    this.pcrApi
+      .gvgTaskList(this.stage, this.serverType, this.clanBattleId)
+      .pipe(finalize(() => (this.searchLoading = false)))
+      .subscribe((res) => {
+        this.dealGvgTaskList(res);
+      });
   }
 
   dealGvgTaskList(arr: GvgTask[]) {
     this.bossIdSet.clear();
-    arr.forEach(r => {
+    arr.forEach((r) => {
       this.bossIdSet.add(r.id);
-      r.tasks.forEach(t => {
+      r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });
     });
@@ -223,13 +238,13 @@ export class GvgComponent implements OnInit {
     this.toggleAuto();
   }
 
-
-
   toggleAuto() {
     const bossList = cloneDeep(this.gvgTaskList);
     bossList.forEach((gvgtask) => {
       const tasks = cloneDeep(gvgtask.tasks);
-      gvgtask.tasks = tasks.filter((task) => this.autoSetting.includes(task.canAuto));
+      gvgtask.tasks = tasks.filter((task) =>
+        this.autoSetting.includes(task.canAuto)
+      );
     });
     this.filterGvgTaskList = bossList;
   }
@@ -271,10 +286,13 @@ export class GvgComponent implements OnInit {
 
   autoColor(canAuto: number) {
     switch (canAuto) {
-      case CanAutoType.auto: return '#68B9FF';
-      case CanAutoType.harfAuto: return '#1cbbb4';
+      case CanAutoType.auto:
+        return '#68B9FF';
+      case CanAutoType.harfAuto:
+        return '#1cbbb4';
       case CanAutoType.unAuto:
-      default: return '#FF2277';
+      default:
+        return '#FF2277';
     }
   }
 
@@ -290,17 +308,14 @@ export class GvgComponent implements OnInit {
     return chara.prefabId;
   }
 
-  clickStop() { }
-
+  clickStop() {}
 
   delteConfirm(boss: GvgTask, task: Task) {
     // this.deleteRef.triggerOk()
     this.loading = true;
     this.pcrApi
       .deleteTask(task.id)
-      .pipe(
-        finalize(() => this.loading = false)
-      )
+      .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         const index = boss.tasks.findIndex((r) => r.id === task.id);
         boss.tasks.splice(index, 1);
@@ -316,36 +331,35 @@ export class GvgComponent implements OnInit {
       nzContent: AddUnHaveComponent,
       nzFooter: null,
       nzWidth: '80%',
-      nzMaskClosable: false
+      nzMaskClosable: false,
     });
   }
 
   addTask(task?: Task, bossId?: number) {
-    const bossList = this.gvgTaskList.map(r => ({
+    const bossList = this.gvgTaskList.map((r) => ({
       id: r.id,
       prefabId: r.prefabId,
-      unitName: r.unitName
+      unitName: r.unitName,
     }));
-   const modalRef =  this.modalSrc.create({
+    const modalRef = this.modalSrc.create({
       nzContent: AddTaskComponent,
       nzComponentParams: {
         bossId,
         task,
-        bossList
+        bossList,
+        stageOption: this.stageOption
       },
       nzFooter: null,
       nzWidth: '80%',
       nzMaskClosable: false,
-     
-    })
-    modalRef.afterClose.subscribe(r => {
-      const contentRef =  modalRef.getContentComponent();
+    });
+    modalRef.afterClose.subscribe((r) => {
+      const contentRef = modalRef.getContentComponent();
       if (contentRef.gvgTaskList.length) {
         this.dealGvgTaskList(contentRef.gvgTaskList);
         this.stage = contentRef.validateForm.getRawValue().stage;
       }
-    })
-    
+    });
   }
 
   openNotice() {
@@ -355,26 +369,25 @@ export class GvgComponent implements OnInit {
         operate: this.operate,
         notice: this.notice,
         server: this.serverType,
-        clanBattleId: this.clanBattleId
+        clanBattleId: this.clanBattleId,
       },
       nzFooter: null,
       nzWidth: '80%',
-      nzMaskClosable: false
+      nzMaskClosable: false,
     });
   }
   /**
- * 筛刀
- */
+   * 筛刀
+   */
   filter() {
-
     const [bossList, taskList] = [[], []];
-    this.filterGvgTaskList.forEach(r => {
+    this.filterGvgTaskList.forEach((r) => {
       if (this.bossIdSet.has(r.id)) {
         taskList.push(r);
         bossList.push({
           prefabId: r.prefabId,
           id: r.id,
-          count: 1
+          count: 1,
         });
       }
     });
@@ -425,16 +438,21 @@ export class GvgComponent implements OnInit {
   }
 
   openAll() {
-    this.nzCollapsePanels.forEach(r => {
+    this.nzCollapsePanels.forEach((r) => {
       r.nzActive = true;
       r.markForCheck();
     });
   }
 
   closeAll() {
-    this.nzCollapsePanels.forEach(r => {
+    this.nzCollapsePanels.forEach((r) => {
       r.nzActive = false;
       r.markForCheck();
     });
+  }
+
+  battleIdChange(id: number) {
+    this.stageOption = this.rediveSrv.initStateOption(id);
+    this.stage = 1;
   }
 }

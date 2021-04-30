@@ -1,9 +1,23 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PcrApiService } from '@src/app/apis';
 import { FormValidateService, RediveDataService } from '@src/app/core';
-import { Links, Chara, CanAutoName, CanAutoType, Task, GvgTask, ServerType } from '@src/app/models';
+import {
+  Links,
+  Chara,
+  CanAutoName,
+  CanAutoType,
+  Task,
+  GvgTask,
+  ServerType,
+} from '@src/app/models';
 import { cloneDeep } from 'lodash';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -12,14 +26,14 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'pcr-add-task',
   templateUrl: './add-task.component.html',
-  styleUrls: ['./add-task.component.scss']
+  styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
   @Input() bossId: number;
   @Input() task: Task;
-  @Input() bossList: {id: number, prefabId: number, unitName: string}[];
+  @Input() bossList: { id: number; prefabId: number; unitName: string }[];
   validateForm: FormGroup;
-  stageOption = [];
+  @Input() stageOption = [];
   loading = false;
   rankOption = [];
   links: Links = [];
@@ -27,7 +41,7 @@ export class AddTaskComponent implements OnInit {
   /**
    * 用于关闭后传值
    */
-  gvgTaskList: GvgTask[] = []; 
+  gvgTaskList: GvgTask[] = [];
   remarks = '';
   serverType: ServerType = ServerType.jp;
   autoOption = [
@@ -52,34 +66,32 @@ export class AddTaskComponent implements OnInit {
     public rediveDataSrv: RediveDataService,
     private notificationSrc: NzNotificationService,
     private pcraApiSrv: PcrApiService,
-    private route: ActivatedRoute,
-  ) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.dealServer();
-    this.stageOption = new Array(5).fill(1).map((r, i) => {
-      return {
-        value: i + 1,
-      };
-    });
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
-      bossId: [{value: this.bossId, disabled: !!this.bossId}, [Validators.required]],
+      bossId: [
+        { value: this.bossId, disabled: !!this.bossId },
+        [Validators.required],
+      ],
       canAuto: this.task?.canAuto ?? CanAutoType.auto,
       damage: [this.task?.damage, [Validators.required]],
-      stage: [this.task?.stage ?? null, [Validators.required]] ,
-
+      stage: [this.task?.stage ?? null, [Validators.required]],
     });
-    this.remarks = this.task?.remarks ?? '',
-    this.selectCharas = cloneDeep( this.task ?
-      this.task.charas.map((r) => ({
-        ...r,
-        maxRarity: r.rarity,
-      })) : [],
+    this.remarks = this.task?.remarks ?? '';
+    this.selectCharas = cloneDeep(
+      this.task
+        ? this.task.charas.map((r) => ({
+            ...r,
+            maxRarity: r.rarity,
+          }))
+        : []
     );
     this.links = this.task?.links ?? [];
   }
-
 
   dealServer() {
     const serverType = this.route.snapshot.queryParams.serverType;
@@ -95,25 +107,25 @@ export class AddTaskComponent implements OnInit {
     }
   }
 
-
-
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;
-    return this.bossList.find(r => r.id === bossId);
+    return this.bossList.find((r) => r.id === bossId);
   }
 
-    /**
+  /**
    * 重新选择
    */
   reset(): void {
     this.selectCharas = [];
   }
 
-    /**
+  /**
    * icon 是否选中
    */
   isSelected(chara: Chara) {
-    return this.selectCharas?.findIndex((r) => r.prefabId === chara.prefabId) > -1;
+    return (
+      this.selectCharas?.findIndex((r) => r.prefabId === chara.prefabId) > -1
+    );
   }
 
   trackByCharaFn(_: number, chara: Chara): number {
@@ -129,7 +141,7 @@ export class AddTaskComponent implements OnInit {
             ...chara,
             currentRarity: chara.rarity,
             rank: this.rankOption[0],
-          }),
+          })
         );
       }
     } else {
@@ -138,7 +150,6 @@ export class AddTaskComponent implements OnInit {
     charas = charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
     this.selectCharas = charas;
   }
-
 
   confirm() {
     if (!this.selectCharas.length) {
@@ -165,7 +176,7 @@ export class AddTaskComponent implements OnInit {
       charas: this.selectCharas,
       links: this.links,
       remarks: this.remarks,
-      server: this.serverType
+      server: this.serverType,
     };
     this.loading = true;
     this.pcraApiSrv

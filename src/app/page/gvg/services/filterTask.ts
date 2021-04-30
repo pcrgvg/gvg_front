@@ -176,7 +176,7 @@ function fliterResult(
  */
 function sortByScore(arr: BossTask[][], server: ServerType) {
   const tempArr = cloneDeep(arr);
-  // TODO 修改 1,2,3,4阶段的系数
+
   const scoreFactor = {
     1: {
       1: 1.2,
@@ -213,53 +213,24 @@ function sortByScore(arr: BossTask[][], server: ServerType) {
       4: 3.8,
       5: 4.0,
     },
+    6: {
+      1: 3.5,
+      2: 3.5,
+      3: 3.7,
+      4: 3.8,
+      5: 4.0,
+    },
   };
 
-  const cnscoreFactor = {
-    1: {
-      1: 1,
-      2: 1,
-      3: 1.3,
-      4: 1.3,
-      5: 1.5,
-    },
-    2: {
-      1: 1.4,
-      2: 1.4,
-      3: 1.8,
-      4: 1.8,
-      5: 2,
-    },
-    3: {
-      1: 2,
-      2: 2,
-      3: 2.5,
-      4: 2.5,
-      5: 3,
-    },
-    4: {
-      1: 3.5,
-      2: 3.5,
-      3: 3.7,
-      4: 3.8,
-      5: 4.0,
-    },
-    5: {
-      1: 3.5,
-      2: 3.5,
-      3: 3.7,
-      4: 3.8,
-      5: 4.0,
-    },
-  };
-  const scoreF = server === ServerType.jp ? scoreFactor : cnscoreFactor;
+
+
   tempArr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
     a.forEach((task) => {
-      aScore += task.damage * scoreF[task.stage][task.index];
+      aScore += task.damage * scoreFactor[task.stage][task.index];
     });
     b.forEach((task) => {
-      bScore += task.damage * scoreF[task.stage][task.index];
+      bScore += task.damage * scoreFactor[task.stage][task.index];
     });
     return bScore - aScore;
   });
