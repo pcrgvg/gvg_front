@@ -131,7 +131,11 @@
 
   </nz-spin>
 
-  <div class="notice" style="overflow: auto;" *ngIf="!filterGvgTaskList.length" [innerHtml]="notice?.content | domSanitizer"></div>
+
+  <div class="notice" style="overflow: auto;" *ngIf="!filterGvgTaskList.length">
+    日服作业问题反馈➡ <a href="http://123.56.13.25/board/" target="_blank">简易留言板</a> 
+    <div  [innerHtml]="notice?.content | domSanitizer"></div>
+  </div>
 
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
