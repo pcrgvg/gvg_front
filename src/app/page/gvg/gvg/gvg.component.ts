@@ -189,7 +189,6 @@ export class GvgComponent implements OnInit {
         this.clanBattleList = res;
         this.clanBattleId = this.clanBattleList[0].clanBattleId;
         this.battleIdChange(this.clanBattleId);
-        this.getNotice();
       });
   }
 
@@ -432,8 +431,6 @@ export class GvgComponent implements OnInit {
       this.filterResultSrv.setFilterResult(filterResult);
       this.filterResultSrv.setBosslist(bossList);
       this.router.navigate(['/gvg/result']);
-      // this.storageSrv.sessionSet(Constants.filterResult, filterResult.slice(0, 200));
-      // window.open('/gvgresult', '');
     }
   }
 

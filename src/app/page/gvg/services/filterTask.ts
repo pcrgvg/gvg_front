@@ -1,7 +1,12 @@
 import { cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
-type BossTask = Task & { bossId: number; prefabId: number; borrowChara?: Chara; index: number };
+type BossTask = Task & {
+  bossId: number;
+  prefabId: number;
+  borrowChara?: Chara;
+  index: number;
+};
 interface FilterTaskParams {
   bossList: GvgTask[];
   usedList: number[];
@@ -71,7 +76,10 @@ function combine(bossTask: BossTask[], k: number): BossTask[][] {
  * @param bossTasks
  * 重复几次代表要借几次, 借完符合
  */
-function repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, BossTask[]] {
+function repeatCondition(
+  prefabIds: number[],
+  bossTasks: BossTask[]
+): [boolean, BossTask[]] {
   const map = new Map<number, number>();
   for (const prefabId of prefabIds) {
     const charaCount = map.get(prefabId) ?? 0;
@@ -79,10 +87,39 @@ function repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, 
   }
   /// 解决 bossTask.borrowChara引用问题
   const bossTasksTemp = cloneDeep(bossTasks);
-  for (const bossTask of bossTasksTemp) {
-    const keys = [...map.keys()];
+  const keys = [...map.keys()];
+  // new
+    // 先找特殊
+    for (const key of keys) {
+       let count = 0;
+       let taskTemp: BossTask = null;
+       let repeatChara: Chara = null;
+      for (const bossTask of bossTasksTemp) {
+        const repeat = bossTask.charas.find(chara => chara.prefabId === key)
+        if (repeat) {
+          taskTemp = bossTask;
+          count += 1;
+          if (count <= 1) {
+            repeatChara = repeat;
+          }
+        } 
+      }
+      if (count <= 1) {
+        const charaCount = map.get(key);
+        if (charaCount > 0 && !taskTemp.borrowChara) {
+          taskTemp.borrowChara = repeatChara;
+          map.set(key, charaCount - 1);
+        }
+      
+      }
+    }
+  // new end
 
+
+  // old
+  for (const bossTask of bossTasksTemp) {
     let repeatChara: Chara = null;
+    //
     for (const k of keys) {
       repeatChara = bossTask.charas.find((chara) => chara.prefabId === k);
       if (repeatChara) {
@@ -94,7 +131,7 @@ function repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, 
       }
     }
   }
-
+  // old end
   const values = [...map.values()];
   return [values.every((v) => v === 0), bossTasksTemp];
 }
@@ -102,7 +139,10 @@ function repeatCondition(prefabIds: number[], bossTasks: BossTask[]): [boolean, 
 /**
  * 处理未拥有角色
  */
-const filterUnHaveCharas = (charas: Chara[], unHaveCharas: Chara[]): number[] => {
+const filterUnHaveCharas = (
+  charas: Chara[],
+  unHaveCharas: Chara[]
+): number[] => {
   const unHaveCharaPrefabIds: number[] = [];
   for (const chara of unHaveCharas) {
     if (charas.findIndex((c) => c.prefabId === chara.prefabId) > -1) {
@@ -133,14 +173,14 @@ function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
-  server: ServerType,
+  server: ServerType
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
 
   for (const bossTask of bossTasks) {
-    const set = new Set();
+    const set = new Set(); // 查重
     const arr: number[] = []; // 重复的角色
-    const charas = [];
+    const charas = []; // 当前组合使用的角色
     /// 查重
     // let total = 0;
     // const startTime = new Date().getTime();
@@ -162,7 +202,6 @@ function fliterResult(
       const usedCount = countUsed(t, usedList);
       tempArr[usedCount].push(t);
     }
-
   }
   const r = tempArr.map((r) => sortByScore(r, server));
   r.reverse();
@@ -222,8 +261,6 @@ function sortByScore(arr: BossTask[][], server: ServerType) {
     },
   };
 
-
-
   tempArr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
     a.forEach((task) => {
@@ -251,7 +288,12 @@ export const filterTask = ({
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
-  let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList, server);
+  let result: BossTask[][] = fliterResult(
+    bossTasks,
+    unHaveCharas,
+    usedList,
+    server
+  );
   /// 一般来说肯定会有3刀的情况
   if (!result.length) {
     bossTasks = combine(bossTask, 2);
@@ -265,3 +307,5 @@ export const filterTask = ({
 
   return result;
 };
+
+
