@@ -60,6 +60,7 @@ export class CoreInterceptor implements HttpInterceptor {
     });
     const isCache = this.requestCacheSrv.isCacheable(request);
     const cachedResponse: HttpResponse<any> = this.requestCacheSrv.get(req);
+   
     if (cachedResponse) {
       return of(new HttpResponse({
         body: cachedResponse.body,

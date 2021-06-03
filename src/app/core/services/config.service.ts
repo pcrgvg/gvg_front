@@ -6,6 +6,7 @@ import { localforageName, storageNames } from '@src/app/constants';
 import { RequestCacheService } from '../net/request-cache.service';
 import { DbApiService } from '@app/apis';
 import { timeout } from 'rxjs/operators';
+import { unHaveCharas } from './redive-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,23 +17,33 @@ export class ConfigService {
   constructor(
     private storageSrv: StorageService,
     private dbApiSrv: DbApiService,
-    private requestCacheSrv: RequestCacheService,
+    private requestCacheSrv: RequestCacheService
   ) {}
 
    init() {
     this.configLocalforage();
     this.configToken();
-    this.checkVersion()
+    this.checkVersion();
     console.log('config init');
   }
 
   async checkVersion() {
-    const versions = (await localforage.getItem(localforageName.dbVersion)) ?? {};
-    const res = await this.dbApiSrv.getVersion().pipe(timeout(10000)).toPromise();
+    const dbVersion =
+      (await localforage.getItem(localforageName.dbVersion)) ?? {};
+    const res = await this.dbApiSrv
+      .getVersion()
+      .pipe(timeout(10000))
+      .toPromise();
     localforage.setItem(localforageName.dbVersion, res);
     for (const server in res) {
-      if (res[server] !== versions[server]) {
+      if (res[server]?.version !== dbVersion[server]?.version) {
         this.requestCacheSrv.clear();
+      }
+      if (res[server]?.clanBattleId !== dbVersion[server]?.clanBattleId) {
+        const unCharas = this.storageSrv.localGet(unHaveCharas);
+        this.storageSrv.localClear();
+        localforage.clear();
+        this.storageSrv.localSet(unHaveCharas, unCharas);
       }
     }
   }

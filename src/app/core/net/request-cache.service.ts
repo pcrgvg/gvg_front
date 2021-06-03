@@ -15,10 +15,10 @@ export class RequestCacheService {
   constructor() {}
 
    init() {
+   
     return new Promise((resolve, reject) => {
       localforage.getItem<string>(localforageName.cacheHttp).then(r => {
         this.cache = r ? JSON.parse(r) : {};
-
         setTimeout(() => {
           resolve(true);
         }, 1000);

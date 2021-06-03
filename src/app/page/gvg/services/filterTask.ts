@@ -89,7 +89,7 @@ function repeatCondition(
   const bossTasksTemp = cloneDeep(bossTasks);
   const keys = [...map.keys()];
   // new
-    // 先找特殊
+    // 先找特殊, 某个重复的角色只在一个队伍中出现(缺少的角色)
     for (const key of keys) {
        let count = 0;
        let taskTemp: BossTask = null;

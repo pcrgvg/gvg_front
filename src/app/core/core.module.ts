@@ -13,7 +13,7 @@ import { SelectSuffixComponent } from './template/select-suffix/select-suffix.co
 
 
 const Configfactory = (config: ConfigService) => {
-  return () => config.init();
+  return  () =>   config.init();
 };
 const Cachefactory = (cache: RequestCacheService) => {
   return () => cache.init();
