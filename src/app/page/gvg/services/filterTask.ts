@@ -77,67 +77,58 @@ function combine(bossTask: BossTask[], k: number): BossTask[][] {
  * 重复几次代表要借几次, 借完符合
  */
 function repeatCondition(
-  prefabIds: number[],
+  repeateCharas: number[],
+  unHaveCharas: number[],
   bossTasks: BossTask[]
 ): [boolean, BossTask[]] {
   const map = new Map<number, number>();
-  for (const prefabId of prefabIds) {
+  for (const prefabId of [...repeateCharas, ...unHaveCharas]) {
     const charaCount = map.get(prefabId) ?? 0;
     map.set(prefabId, charaCount + 1);
   }
   /// 解决 bossTask.borrowChara引用问题
   const bossTasksTemp = cloneDeep(bossTasks);
-  const keys = [...map.keys()];
-  // new
-    // 先找特殊, 某个重复的角色只在一个队伍中出现(缺少的角色)
-    for (const key of keys) {
-       let count = 0;
-       let taskTemp: BossTask = null;
-       let repeatChara: Chara = null;
-      for (const bossTask of bossTasksTemp) {
-        const repeat = bossTask.charas.find(chara => chara.prefabId === key)
-        if (repeat) {
-          taskTemp = bossTask;
-          count += 1;
-          if (count <= 1) {
-            repeatChara = repeat;
-          }
-        } 
-      }
-      if (count <= 1) {
-        const charaCount = map.get(key);
-        if (charaCount > 0 && !taskTemp.borrowChara) {
-          taskTemp.borrowChara = repeatChara;
-          map.set(key, charaCount - 1);
-        }
-      
+
+  for (const bossTask of bossTasksTemp) {
+     // 若包含未拥有角色，该作业必定要借该角色
+    let unHaveChara: Chara = null;
+    for (const k of unHaveCharas) {
+      unHaveChara = bossTask.charas.find((chara) => chara.prefabId === k);
+      if (unHaveChara) {
+        break;
       }
     }
-  // new end
 
-
-  // old
-  for (const bossTask of bossTasksTemp) {
+    if (unHaveChara) {
+      const charaCount = map.get(unHaveChara.prefabId);
+      if (charaCount > 0 && !bossTask.borrowChara) {
+        bossTask.borrowChara = unHaveChara;
+        map.set(unHaveChara.prefabId, charaCount - 1);
+        continue;
+      }
+    }
+    // UNHAVE END
     let repeatChara: Chara = null;
     //
-    for (const k of keys) {
+    for (const k of repeateCharas) {
       repeatChara = bossTask.charas.find((chara) => chara.prefabId === k);
       if (repeatChara) {
         const charaCount = map.get(k);
         if (charaCount > 0 && !bossTask.borrowChara) {
           bossTask.borrowChara = repeatChara;
           map.set(k, charaCount - 1);
+          break;
         }
       }
     }
   }
-  // old end
+
   const values = [...map.values()];
   return [values.every((v) => v === 0), bossTasksTemp];
 }
 
 /**
- * 处理未拥有角色
+ * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
 const filterUnHaveCharas = (
   charas: Chara[],
@@ -179,7 +170,7 @@ function fliterResult(
 
   for (const bossTask of bossTasks) {
     const set = new Set(); // 查重
-    const arr: number[] = []; // 重复的角色
+    const repeateChara: number[] = []; // 重复的角色
     const charas = []; // 当前组合使用的角色
     /// 查重
     // let total = 0;
@@ -191,13 +182,13 @@ function fliterResult(
         set.add(chara.prefabId);
         /// 如果长度不变，说明是重复的
         if (size === set.size) {
-          arr.push(chara.prefabId);
+          repeateChara.push(chara.prefabId);
         }
       }
     }
     /// 未拥有的算作重复
     const unHaves = filterUnHaveCharas(charas, unHaveCharas);
-    const [b, t] = repeatCondition([...arr, ...unHaves], bossTask);
+    const [b, t] = repeatCondition(repeateChara, unHaves, bossTask);
     if (b) {
       const usedCount = countUsed(t, usedList);
       tempArr[usedCount].push(t);
@@ -307,5 +298,3 @@ export const filterTask = ({
 
   return result;
 };
-
-

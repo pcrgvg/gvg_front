@@ -313,7 +313,7 @@ export class GvgComponent implements OnInit {
     // this.deleteRef.triggerOk()
     this.loading = true;
     this.pcrApi
-      .deleteTask(task.id)
+      .deleteTask(task.id, this.serverType)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         const index = boss.tasks.findIndex((r) => r.id === task.id);
