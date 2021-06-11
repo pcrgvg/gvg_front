@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WidgetModule } from './widget/widget.module';
 import { PipesModule } from './pipes/pipes.module';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
-const commonModule = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatSnackBarModule, OverlayModule];
+
+const commonModule = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule,  OverlayModule, NzNotificationModule];
 
 const exportModuel = [WidgetModule, DirectivesModule, PipesModule];
 

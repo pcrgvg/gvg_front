@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CanAutoType, CanAutoName } from '@models';
+import { CanAutoType, CanAutoName } from '@app/models';
 @Pipe({
   name: 'canauto',
 })

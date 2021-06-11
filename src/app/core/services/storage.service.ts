@@ -48,7 +48,7 @@ export class StorageService {
    *  return null or value
    * @param key
    */
-  sessionGet(key: string) {
+  sessionGet<T>(key: string): T {
     const value = sessionStorage.getItem(key);
     const [data, err] = this.parse(value);
     return data;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Chara } from '@models';
+import { Chara } from '@app/models';
 import { StorageService } from './storage.service';
 
 export const unHaveCharas = 'unHaveCharas';

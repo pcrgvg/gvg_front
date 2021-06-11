@@ -1,0 +1,21 @@
+.select-suffix {
+  width: 18px;
+  height: 32px;
+  background: #d9ebf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  &-arrow {
+      border: 6px solid transparent;;
+      border-top-color: #797979;
+      margin-top: 6px;
+      
+  }
+}

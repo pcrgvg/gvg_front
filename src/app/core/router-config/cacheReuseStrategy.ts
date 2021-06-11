@@ -1,25 +1,21 @@
-import {
-  RouteReuseStrategy,
-  DefaultUrlSerializer,
-  ActivatedRouteSnapshot,
-  DetachedRouteHandle,
-  ActivatedRoute,
-  Params,
-} from '@angular/router';
+import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { Injectable, Injector } from '@angular/core';
-import { CacheRoutersService, cacheRoutersService } from './cache-routers.service';
+import { RouterCacheService } from './router-cache.service';
 
 /**
  * @description 要服用的路由的组件只会执行一次OnInit, 不会执行destroy,
  * 所以需要在监听路由事件中去手动调用初始化方法，
- * 统一使用initData方法名
- * 如果要destory,同init, 目前统一在layout-default的路由监听事件中统一处理
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class CacheReuseStrategy implements RouteReuseStrategy {
+  constructor(private routerCacheSrv: RouterCacheService) {}
+
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     // 默认所有路由不复用 可通过给路由配置项增加data: { keep: true }来进行选择性使用
     // {path: 'search', component: SearchComponent, data: {keep: true}},
-    if (route.data.keep) {
+    if (route.data.keepAlive) {
       return true;
     } else {
       return false;
@@ -31,14 +27,14 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
     // 按path作为key存储路由快照&组件当前实例对象
     const key = this.getCurrentUrl(route);
     if (handle) {
-      cacheRoutersService.update(key, handle);
+      this.routerCacheSrv.update(key, handle);
     }
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
     // 在缓存中有的都认为允许还原路由.
     const key = this.getCurrentUrl(route);
-    return !!route.routeConfig && !!cacheRoutersService.cacheRouters[key];
+    return !!route.routeConfig && !!this.routerCacheSrv.cacheRouters[key];
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
@@ -47,11 +43,11 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
     if (
       !route.routeConfig ||
       route.routeConfig.loadChildren ||
-      !cacheRoutersService.cacheRouters[key]
+      !this.routerCacheSrv.cacheRouters[key]
     ) {
       return null;
     }
-    return cacheRoutersService.cacheRouters[key];
+    return this.routerCacheSrv.cacheRouters[key];
   }
 
   // 进入路由触发

@@ -1,0 +1,67 @@
+.chara-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  grid-gap: 10px;
+  .img {
+    margin-left: 5px;
+    margin-bottom: 5px;
+  }
+}
+.notice{
+  width: 100%;
+  padding: 16px;
+  text-align: center;
+  ::ng-deep img {
+    max-width: 100%;
+  }
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  &-action {
+    // justify-content: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    flex-grow: 1;
+    .ant-btn:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
+
+  .ant-form-item {
+    margin-right: 16px;
+  }
+
+  .filter {
+    border: none;
+    color: #ffffff;
+    background: #f55291;
+    width: 68px;
+  }
+}
+
+.custom {
+  &-panel {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(100, 184, 255, 0.5);
+    border-radius: 10px;
+  }
+}
+
+.chara-item {
+  margin-right: 25px;
+}
+
+
+@media (max-width: 576px) {
+  .task{
+    flex-direction: column;
+  }
+  .chara-item {
+    margin-right: 5px;
+  }
+}

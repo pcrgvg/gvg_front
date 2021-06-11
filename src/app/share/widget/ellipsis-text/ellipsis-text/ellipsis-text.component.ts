@@ -39,17 +39,19 @@ export class EllipsisTextComponent implements OnInit, AfterViewInit {
     return length;
   }
 
-  getTextWidth(value: string, font: string) {
+  getTextWidth(value: string, font: string, fontSize: string) {
     const canvas = this.render.createElement('canvas');
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-    ctx.font = font;
+    // sans-serif
+    ctx.font = font ? font : `${fontSize}  Arial`;
     const textMetrics = ctx.measureText(value);
     return textMetrics.width;
   }
 
   ngAfterViewInit() {
-    const { width, font } = window.getComputedStyle(this.textTempl.nativeElement);
-    const textWidth = this.getTextWidth(this.text, font);
+    const { width, font, fontSize } = window.getComputedStyle(this.textTempl.nativeElement);
+
+    const textWidth = this.getTextWidth(this.text, font, fontSize);
     ///  https://angular.cn/guide/lifecycle-hooks#wait-a-tick
     setTimeout(() => {
       if (textWidth > parseFloat(width)) {

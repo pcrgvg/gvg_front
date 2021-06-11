@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CanautoPipe } from './canauto.pipe';
-import { I18nPipe } from './i18n.pipe';
 import { DomSanitizerPipe } from './dom-sanitizer.pipe';
 
 @NgModule({
-  declarations: [CanautoPipe, I18nPipe, DomSanitizerPipe],
+  declarations: [CanautoPipe, DomSanitizerPipe],
   imports: [CommonModule],
-  exports: [CanautoPipe, I18nPipe, DomSanitizerPipe],
+  exports: [CanautoPipe, DomSanitizerPipe],
 })
 export class PipesModule {}

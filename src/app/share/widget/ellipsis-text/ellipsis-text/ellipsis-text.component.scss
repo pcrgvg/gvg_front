@@ -1,3 +1,4 @@
+
 :host {
   display: inline-flex;
   max-width: 80px;
@@ -5,11 +6,12 @@
 .ellipsis {
   overflow: hidden;
   width: 100%;
-
+ 
   &-text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: 14px;
     width: 100%;
   }
 }

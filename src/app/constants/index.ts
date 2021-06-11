@@ -9,4 +9,10 @@ export const cn = {
 export const storageNames = {
   usedList: 'usedList',
   removedList: 'removedList',
+  token: 'token',
+};
+
+export const localforageName = {
+  cacheHttp: 'cacheHttp',
+  dbVersion: 'dbVersion',
 };

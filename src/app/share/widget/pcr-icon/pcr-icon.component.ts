@@ -7,23 +7,23 @@ import {
   SimpleChanges,
   OnDestroy,
 } from '@angular/core';
-import { RediveService } from '@core';
+import { RediveService } from '@app/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 interface Unit {
   prefabId: number;
   currentRarity?: number;
-  rarity: number;
+  rarity?: number;
   [propName: string]: any;
 }
 
 @Component({
   selector: 'app-pcr-icon',
   template: `
-    <img style="height: 42px; width: 42px;" loading="lazy" (error)="onError()" [src]="src" />
+    <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
   `,
-  styles: [],
+  styleUrls:  ['./pcr-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PcrIconComponent implements OnInit, OnDestroy {
@@ -47,7 +47,6 @@ export class PcrIconComponent implements OnInit, OnDestroy {
     this.setIconUrl();
   }
 
-  @Input() rarity: number;
 
   get src() {
     return this._src ?? '/assets/images/000001.webp';
@@ -71,13 +70,4 @@ export class PcrIconComponent implements OnInit, OnDestroy {
   onError() {
     this._src = '/assets/images/000001.webp';
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (
-  //     (changes.prefabId?.previousValue !== changes.prefabId?.currentValue || !changes.prefabId?.firstChange) &&
-  //     (changes.rarity?.previousValue !== changes.rarity?.currentValue || !changes.rarity?.firstChange)
-  //   ) {
-  //     this._src = this.redive.addIconUrl(this._prefabId, this.rarity);
-  //   }
-  // }
 }

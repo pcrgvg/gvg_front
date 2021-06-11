@@ -43,6 +43,7 @@ export interface GvgTask {
   index: number;
   checked: boolean;
   tasks: Task[];
+  count: number;
 }
 
 export type BossTask = Task & { bossId: number; prefabId: number; disabeld?: boolean };

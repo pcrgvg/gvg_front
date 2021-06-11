@@ -1,18 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '@core';
+import { HttpService } from '@app/core/net';
 import { Observable } from 'rxjs';
+import { pcrApis } from '../constants/apiUrls';
 import { Chara, GvgTask, ServerType } from '../models';
-
-export const pcrApis = {
-  // 获取角色列表
-  charaList: '/pcr/charaList',
-  gvgTaskList: '/pcr/gvgTask',
-  updateGvgTask: '/unpcr/updateGvgTask',
-  deleteTask: '/unpcr/deleteTask',
-  getRank: '/pcr/rank',
-  getClanBattleList: '/pcr/clanBattleList',
-  stageScore: '/pcr/getStageScore',
-};
 
 @Injectable({
   providedIn: 'root',
@@ -24,20 +14,20 @@ export class PcrApiService {
     return this.http.Get<Chara[]>(pcrApis.charaList, { server: serverType });
   }
 
-  updateTask(gvgTask: GvgTask): Observable<GvgTask> {
-    return this.http.post<GvgTask>(pcrApis.updateGvgTask, gvgTask);
+  updateTask(gvgTask: GvgTask): Observable<GvgTask[]> {
+    return this.http.post<GvgTask[]>(pcrApis.updateGvgTask, gvgTask);
   }
 
   gvgTaskList(stage: number = 3, serverType: string, clanBattleId: number): Observable<GvgTask[]> {
-    return this.http.Get<GvgTask[]>(pcrApis.gvgTaskList, {
+    return this.http.post<GvgTask[]>(pcrApis.gvgTaskList, {
       stage,
       server: serverType,
       clanBattleId,
     });
   }
 
-  deleteTask(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString() } });
+  deleteTask(id: number, server: string): Observable<boolean> {
+    return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString(),server } });
   }
 
   getRank(server: ServerType): Observable<number[]> {

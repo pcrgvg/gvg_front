@@ -1,8 +1,21 @@
-section {
-  height: calc(100vh - 120px);
-  // display: grid;
-  // grid-template-columns: 200px auto 200px;
-  div {
-    border: 1px solid red;
+
+
+.default{
+  background: url('https://pcr-icon.oss-cn-beijing.aliyuncs.com/common/bg.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+  section {
+    height: calc(100vh - 80px);
+    // display: grid;
+    overflow-y: auto;
+    overflow-x: hidden;
+    // grid-template-columns: 1fr 990px 1fr;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px 0;
+  
   }
 }
+
+
+

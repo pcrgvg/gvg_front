@@ -1,0 +1,87 @@
+<div class="g-card">
+    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B3,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
+    <div class="g-flex boss">
+        <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
+            <label nz-checkbox [(ngModel)]="boss.checked"></label>
+            <app-pcr-icon style="margin:0 16px" [unit]="boss"></app-pcr-icon>
+            <nz-select [(ngModel)]="boss.count" name="value">
+              <nz-option
+                *ngFor="let item of countList"
+                [nzLabel]="item + ''"
+                [nzValue]="item">
+              </nz-option>
+            </nz-select>
+            
+        </div>
+
+        <button class="g-btn"  nz-button (click)="search()">筛选</button>
+    </div>
+
+    <div class="divide"></div>
+
+    <cdk-virtual-scroll-viewport  [itemSize]="itemSize" class="scroll">
+        <div *cdkVirtualFor="let bossTask of ds;" class="scroll-item">
+          <div
+            *ngFor="let task of bossTask"
+            style="padding: 0 5px;"
+            class="task-item"
+            [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''"
+          >
+            <div class="g-flex-between">
+              <div class="g-flex" style="margin-bottom: 5px;">
+                <div class="g-flex">
+                  <span>boss {{ task.index }} </span><app-pcr-icon style="margin-left: 30px;" [unit]="task"></app-pcr-icon>
+                </div>
+                <span style="margin-left: 15px;">伤害{{ task.damage }}w</span>
+              </div>
+              <a
+                *ngIf="task.remarks"
+                nz-tooltip
+                nzTooltipTrigger="click"
+                [nzTooltipMouseLeaveDelay]="10000000"
+                [nzTooltipTitle]="titleTemplate"
+                >备注</a
+              >
+              <ng-template #titleTemplate>
+                <pre class="remarks">{{ task.remarks }}</pre>
+              </ng-template>
+            </div>
+            <div class="g-flex">
+              <div class="g-flex-column" class="item" *ngFor="let chara of task.charas">
+                <app-pcr-icon [unit]="chara"></app-pcr-icon>
+                <div class="g-flex-between" style="font-size: 14px; margin-top: 5px; width: 100%;">
+                  <div class="g-flex">
+                    {{ chara.currentRarity }}X
+                    <!-- <img style="width: 6px; height: 6px;" src="/assets/images/star.png" /> -->
+                   
+                  </div>
+                  <span>R{{ chara.rank }}</span>
+                </div>
+              </div>
+            </div>
+            <div style="height: 50px;" class="g-flex">
+              <span>{{ task.canAuto | canauto }} </span>
+              <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
+                <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
+              </div>
+            </div>
+            <div class="scroll-item-link">
+              <div>
+                <span>链接:</span>
+                <a
+                  style="padding: 0 5px;"
+                  *ngFor="let item of task.links; index as i"
+                  [href]="item.link"
+                  target="_blank"
+                >
+                  <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+      
+</div>
+
+

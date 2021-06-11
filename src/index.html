@@ -2,17 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Pcr</title>
+    <!-- <title>PCRGVG</title> -->
+    <title>萌之度</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
-      rel="stylesheet"
-    />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- <script data-ad-client="ca-pub-3729236646142718" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+    <script>
+        function loadingError() {
+          const loading = document.getElementById('loading')
+          loading.src="./assets/images/loading.gif"
+        }
+    </script>
   </head>
-  <body class="mat-typography">
-    <app-root></app-root>
+  <body>
+    <pcr-root>
+      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+        <img id="loading"  onerror="loadingError()"  src="https://pcr-icon.oss-cn-beijing.aliyuncs.com/common/loading.gif" alt="" />
+        <div style="text-align: center; margin-top: 16px;">加载中...</div>
+      </div>
+    </pcr-root>
   </body>
 </html>

@@ -1,0 +1,25 @@
+.box{
+    min-height: 45px; margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.chara {
+    &-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      grid-gap: 10px;
+   
+      .img {
+        cursor: pointer;
+        border: 1px solid transparent;
+        opacity: 0.5;
+        transition: opacity 0.2s linear;
+      }
+      .selected {
+        border-color: #FFD2D2;
+        opacity: 1;
+      }
+    }
+  }
+  

@@ -1,0 +1,37 @@
+<div class="g-card">
+  <h3 class="g-card-title">服务器</h3>
+  <div class="g-flex">
+    <button
+      *ngFor="let btn of btnList"
+      nz-button
+      class="g-btn"
+      style="margin-right: 16px"
+      (click)="jumpTo(btn.value)"
+    >
+      {{ btn.label }}
+    </button>
+  </div>
+</div>
+
+<div class="g-card">
+  <h3 class="g-card-title">说明</h3>
+  <p>本站主要针对公主链接国服和日服工会战作业,台服由于数据问题不支持</p>
+  <div>
+    有什么不明白的地方点击帮助查看说明,如果有bug或者优化建议联系我
+    <p>
+      可提<a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank"
+        >issue</a
+      >
+      或者
+      <a href="https://bbs.nga.cn/read.php?tid=24307857&_fp=4" target="_blank"
+        >nga</a
+      >留言
+    </p>
+  </div>
+</div>
+
+<div class="g-card">
+  <h3 class="g-card-title">更新日志</h3>
+  <!-- <div [innerHtml]="changelog | domSanitizer"></div> -->
+  <div>美化UI,筛选结果页面可以进一步筛选,详情可以查看帮助</div>
+</div>
