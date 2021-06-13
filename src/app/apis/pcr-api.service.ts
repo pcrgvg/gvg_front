@@ -55,4 +55,8 @@ export class PcrApiService {
   stageScore(server: string, clanBattleId: number) {
     return this.http.Get<number[]>(pcrApis.stageScore, { server, clanBattleId });
   }
+
+  updateCnTask() {
+    return this.http.put<number[]>(pcrApis.updateCnTask, {});
+  }
 }

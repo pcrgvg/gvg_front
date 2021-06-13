@@ -7,9 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 
-TODO
- -  阶段合并
- -  视频链接显示问题
- -  视频链接保存丢失问题
- -  公告图片大小问题
- -  修改信息阶段重复问题
+ /etc/nginx/nginx.conf
+
+ /home/admin/pcr/docker-pcr/web/pcr;
+ /usr/share/docker-pcr/web/pcr

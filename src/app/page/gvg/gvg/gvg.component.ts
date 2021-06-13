@@ -28,6 +28,8 @@ import { filterTask } from '../services/filterTask';
 import { FilterResultService } from '../services/filter-result.service';
 import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
+import { environment } from '@src/environments/environment';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'pcr-gvg',
@@ -46,7 +48,8 @@ export class GvgComponent implements OnInit {
     private route: ActivatedRoute,
     private noticeApiSrv: NoticeApiService,
     private modalSrc: NzModalService,
-    private filterResultSrv: FilterResultService
+    private filterResultSrv: FilterResultService,
+    private nzNotificationSrv: NzNotificationService
   ) {}
 
   charaList: Chara[] = []; // 角色列表
@@ -100,6 +103,8 @@ export class GvgComponent implements OnInit {
   operate = false;
   notice: Notice;
   isSpinning = true;
+  showLink = environment.showLink;
+  updateCnTaskLoading = false;
 
   ngOnInit(): void {
     this.dealServerType();
@@ -452,5 +457,14 @@ export class GvgComponent implements OnInit {
     this.stageOption = this.rediveSrv.initStateOption(id);
     this.getNotice();
     this.stage = 1;
+  }
+  // 主动爬取doc
+  updateCnTask() {
+    this.updateCnTaskLoading = true;
+    this.pcrApi.updateCnTask().pipe(
+      finalize(() => this.updateCnTaskLoading = false)
+    ).subscribe(res => {
+      this.nzNotificationSrv.success('', '更新成功')
+    })
   }
 }

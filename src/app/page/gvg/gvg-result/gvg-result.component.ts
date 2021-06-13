@@ -8,6 +8,7 @@ import { storageNames } from '@app/constants';
 import { FilterResultService } from '../services/filter-result.service';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { environment } from '@src/environments/environment'
 
 @Component({
   selector: 'pcr-gvg-result',
@@ -44,6 +45,8 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   usedList = [];
 
   ds = new TaskDataSource(this.filterResultSrv);
+
+  showLink = environment.showLink;
 
   ngOnInit(): void {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];

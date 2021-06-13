@@ -65,7 +65,7 @@
                 <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
               </div>
             </div>
-            <div class="scroll-item-link">
+            <div class="scroll-item-link" *ngIf="showLink">
               <div>
                 <span>链接:</span>
                 <a

@@ -16,7 +16,7 @@
 <div class="g-card">
   <h3 class="g-card-title">说明</h3>
   <p>本站主要针对公主链接国服和日服工会战作业,台服由于数据问题不支持</p>
-  <div>
+  <div *ngIf="showLink">
     有什么不明白的地方点击帮助查看说明,如果有bug或者优化建议联系我
     <p>
       可提<a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank"
@@ -34,4 +34,5 @@
   <h3 class="g-card-title">更新日志</h3>
   <!-- <div [innerHtml]="changelog | domSanitizer"></div> -->
   <div>美化UI,筛选结果页面可以进一步筛选,详情可以查看帮助</div>
+  <div>更新国服作业数据获取,数据来源花舞攻略组的在线作业文档,方法来自分刀APP炽旗</div>
 </div>
