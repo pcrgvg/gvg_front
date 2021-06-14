@@ -133,7 +133,7 @@
 
 
   <div class="notice" style="overflow: auto;" *ngIf="!filterGvgTaskList.length">
-    <div *ngIf="serverType === 'jp'">日服作业问题反馈➡ <a href="http://123.56.13.25/board/" target="_blank">简易留言板</a> </div>
+    <div *ngIf="serverType === 'jp'">日服作业问题反馈➡ <a *ngIf="showLink" href="http://123.56.13.25/board/" target="_blank">简易留言板</a> </div>
     <div *ngIf="serverType === 'cn'">
       由于作业文档没有星和rank数据,默认显示的5星rank7,具体数据以文档或者视频为准. <br>
       获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大,如果使用筛刀功能,请去除一部分,否则可能会很慢
