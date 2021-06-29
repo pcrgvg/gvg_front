@@ -190,14 +190,15 @@
 
                <div class="g-flex">
                 <div
+                *ngFor="let canAuto of task.canAuto"
                 [ngStyle]="{
-                  color: autoColor(task.canAuto),
+                  color: autoColor(canAuto),
                   fontSize: '20px',
                   fontWeight: 'bold',
-                  width: '60px'
+                  padding: '0 4px'
                 }"
               >
-                {{ task.canAuto | canauto }}
+                {{ canAuto | canauto }}
               </div>
               <div style="margin-left: 15px; color: #ff2277">
                 {{ task.damage }}W

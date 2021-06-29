@@ -246,8 +246,15 @@ export class GvgComponent implements OnInit {
     const bossList = cloneDeep(this.gvgTaskList);
     bossList.forEach((gvgtask) => {
       const tasks = cloneDeep(gvgtask.tasks);
-      gvgtask.tasks = tasks.filter((task) =>
-        this.autoSetting.includes(task.canAuto)
+      gvgtask.tasks = tasks.filter((task) => {
+        for (const canAuto of task.canAuto) {
+          const isHaved = this.autoSetting.includes(canAuto)
+          if (isHaved) {
+            return true;
+          }
+        }
+        return false;
+      }
       );
     });
     this.filterGvgTaskList = bossList;
