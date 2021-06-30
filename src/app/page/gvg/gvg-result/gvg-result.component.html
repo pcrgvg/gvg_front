@@ -60,7 +60,12 @@
               </div>
             </div>
             <div style="height: 50px;" class="g-flex">
-              <span>{{ task.canAuto | canauto }} </span>
+              <span *ngFor="let canAuto of task.canAuto"  [ngStyle]="{
+                color: autoColor(canAuto),
+                fontSize: '20px',
+                fontWeight: 'bold',
+                padding: '0 4px'
+              }">{{ canAuto | canauto }} </span>
               <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
                 <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
               </div>

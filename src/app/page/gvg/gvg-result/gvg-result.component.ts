@@ -1,5 +1,5 @@
 import { Component, ContentChild, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BossTask, GvgTask, Task } from '@src/app/models';
+import { BossTask, CanAutoType, GvgTask, Task } from '@src/app/models';
 import { StorageService } from '@app/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -72,6 +72,18 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
   trackByTaskFn(_: number, task: Task): number {
     return task.id;
+  }
+
+  autoColor(canAuto: number) {
+    switch (canAuto) {
+      case CanAutoType.auto:
+        return '#68B9FF';
+      case CanAutoType.harfAuto:
+        return '#1cbbb4';
+      case CanAutoType.unAuto:
+      default:
+        return '#FF2277';
+    }
   }
 }
 
@@ -173,5 +185,7 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     this.disconnect$.next();
     this.disconnect$.complete();
   }
+
+  
 }
 

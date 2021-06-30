@@ -98,13 +98,13 @@ export class GvgComponent implements OnInit {
   removedList: number[] = []; // 去除
   imgSource = ''; // 图片源
   imgSourceOption = [];
-  bossIdSet = new Set<number>(); // 选中的boss
   deleteRef: NzModalRef;
   operate = false;
   notice: Notice;
   isSpinning = true;
   showLink = environment.showLink;
   updateCnTaskLoading = false;
+  bossNumberList = [1, 2, 3, 4, 5];
 
   ngOnInit(): void {
     this.dealServerType();
@@ -177,7 +177,6 @@ export class GvgComponent implements OnInit {
     this.isSpinning = true;
     this.filterGvgTaskList = [];
     this.gvgTaskList = [];
-    this.bossIdSet.clear();
     this.getClanBattleList();
     this.getCharaList();
     this.getRank();
@@ -231,50 +230,22 @@ export class GvgComponent implements OnInit {
   }
 
   dealGvgTaskList(arr: GvgTask[]) {
-    this.bossIdSet.clear();
     arr.forEach((r) => {
-      this.bossIdSet.add(r.id);
       r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });
     });
     this.gvgTaskList = arr;
-    this.toggleAuto();
+    this.toggleAutoBoss();
   }
 
-  toggleAuto() {
-    const bossList = cloneDeep(this.gvgTaskList);
-    bossList.forEach((gvgtask) => {
-      const tasks = cloneDeep(gvgtask.tasks);
-      gvgtask.tasks = tasks.filter((task) => {
-        for (const canAuto of task.canAuto) {
-          const isHaved = this.autoSetting.includes(canAuto)
-          if (isHaved) {
-            return true;
-          }
-        }
-        return false;
-      }
-      );
-    });
-    this.filterGvgTaskList = bossList;
-  }
+
 
   toggleImgSource(url: string) {
     this.rediveSrv.changeImgSource(url);
   }
 
-  isSelected(id: number): boolean {
-    return this.bossIdSet.has(id);
-  }
 
-  selectedBossChange(check: boolean, id: number) {
-    if (check) {
-      this.bossIdSet.add(id);
-    } else {
-      this.bossIdSet.delete(id);
-    }
-  }
 
   toggleUsed(event, task: Task) {
     const index = this.usedList.findIndex((r) => r === task.id);
@@ -358,7 +329,7 @@ export class GvgComponent implements OnInit {
         bossId,
         task,
         bossList,
-        stageOption: this.stageOption
+        stageOption: this.stageOption,
       },
       nzFooter: null,
       nzWidth: '80%',
@@ -393,14 +364,12 @@ export class GvgComponent implements OnInit {
   filter() {
     const [bossList, taskList] = [[], []];
     this.filterGvgTaskList.forEach((r) => {
-      if (this.bossIdSet.has(r.id)) {
-        taskList.push(r);
-        bossList.push({
-          prefabId: r.prefabId,
-          id: r.id,
-          count: 1,
-        });
-      }
+      taskList.push(r);
+      bossList.push({
+        prefabId: r.prefabId,
+        id: r.id,
+        count: 1,
+      });
     });
     if (!taskList.length) {
       throw new Error('选择至少一个boss');
@@ -468,10 +437,34 @@ export class GvgComponent implements OnInit {
   // 主动爬取doc
   updateCnTask() {
     this.updateCnTaskLoading = true;
-    this.pcrApi.updateCnTask().pipe(
-      finalize(() => this.updateCnTaskLoading = false)
-    ).subscribe(res => {
-      this.nzNotificationSrv.success('', '更新成功')
-    })
+    this.pcrApi
+      .updateCnTask()
+      .pipe(finalize(() => (this.updateCnTaskLoading = false)))
+      .subscribe((res) => {
+        this.nzNotificationSrv.success('', '更新成功');
+      });
+  }
+
+  toggleAutoBoss() {
+    const bossList = cloneDeep(this.gvgTaskList);
+    const tempList = [];
+    for (let index = 0; index < bossList.length; index++) {
+      if (this.bossNumberList.includes(index + 1)) {
+        const gvgtask = bossList[index];
+        const tasks = cloneDeep(gvgtask.tasks);
+        gvgtask.tasks = tasks.filter((task) => {
+          for (const canAuto of task.canAuto) {
+            const isHaved = this.autoSetting.includes(canAuto);
+            if (isHaved) {
+              return true;
+            }
+          }
+          return false;
+        });
+        tempList.push(gvgtask);
+      }
+     
+    }
+    this.filterGvgTaskList = tempList;
   }
 }
