@@ -1,5 +1,5 @@
 <div class="g-card">
-    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B3,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
+    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B2,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
     <div class="g-flex boss">
         <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
             <label nz-checkbox [(ngModel)]="boss.checked"></label>

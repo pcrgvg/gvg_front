@@ -285,7 +285,7 @@ export const filterTask = ({
     usedList,
     server
   );
-  /// 一般来说肯定会有3刀的情况
+
   if (!result.length) {
     bossTasks = combine(bossTask, 2);
     result = fliterResult(bossTasks, unHaveCharas, usedList, server);

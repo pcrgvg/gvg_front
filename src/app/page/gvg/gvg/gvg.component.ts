@@ -231,6 +231,7 @@ export class GvgComponent implements OnInit {
 
   dealGvgTaskList(arr: GvgTask[]) {
     arr.forEach((r) => {
+      r.tasks.sort((a,b) => b.damage - a.damage); 
       r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });

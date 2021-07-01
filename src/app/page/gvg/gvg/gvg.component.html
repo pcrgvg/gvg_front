@@ -174,7 +174,7 @@
             nz-button
             (clickStop)="filter()"
           >
-            筛刀
+            分刀
           </button>
         </div>
       </div>
@@ -308,7 +308,7 @@
               <div *ngIf="showLink">
                 <span>视频:</span>
                 <a
-                  style="padding: 0 5px"
+                  style="padding: 0 8px"
                   *ngFor="let item of task.links; index as i"
                   [href]="item.link"
                   target="_blank"
