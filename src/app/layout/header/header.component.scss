@@ -10,14 +10,14 @@
   &-img {
     width: 40px;
     height: 40px;
-    border: 2px solid var(--primary);
-    opacity: 0.5;
-    border-radius: 50%;
+    // border: 2px solid var(--primary);
+    // opacity: 0.5;
+    // border-radius: 50%;
     cursor: pointer;
   }
   &-title {
     font-size: 28px;
-    margin-left: 40px;
+    margin-left: 20px;
     font-weight: bold;
     color: var(--primary);
     cursor: pointer;

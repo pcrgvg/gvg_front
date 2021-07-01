@@ -135,7 +135,7 @@ a {
   }
 
   &-tooltip {
-    max-width: none;
+    max-width: 50vw;
   }
 }
 
@@ -144,3 +144,6 @@ a {
   border-radius: 6px;
 }
 
+pre {
+  white-space: pre-wrap;
+}

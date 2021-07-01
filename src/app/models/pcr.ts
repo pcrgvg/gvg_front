@@ -12,7 +12,7 @@ export type Links = { name: string; link: string }[];
 
 export interface Task {
   id: number;
-  canAuto: number;
+  canAuto: number[];
   stage: number;
   damage: number;
   charas: Chara[];

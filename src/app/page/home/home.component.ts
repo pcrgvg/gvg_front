@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangelogServiceApi } from '@app/apis';
 import { ServerType } from '@src/app/models';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'pcr-home',
@@ -12,6 +13,7 @@ export class HomeComponent implements OnInit {
   changelog = '';
   serverType = '';
   btnList = [];
+  showLink = environment.showLink;
 
   constructor(
     private changelogApi: ChangelogServiceApi,

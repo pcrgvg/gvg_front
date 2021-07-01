@@ -11,12 +11,10 @@
       > div {
         flex-shrink: 0;
       }
-      .remarks {
-        height: 500px;
-        overflow: auto;
-      }
+    
       &-link {
         height: 50px;
+        overflow-y: auto;
       }
       .task-item {
         position: relative;
@@ -63,4 +61,9 @@
     .scroll-item {
       grid-template-columns: auto;
     }
+  }
+
+  .remarks {
+    max-height: 60vh;
+    overflow: auto;
   }

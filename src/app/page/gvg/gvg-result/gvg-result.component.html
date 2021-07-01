@@ -1,5 +1,5 @@
 <div class="g-card">
-    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B3,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
+    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B2,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
     <div class="g-flex boss">
         <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
             <label nz-checkbox [(ngModel)]="boss.checked"></label>
@@ -60,12 +60,17 @@
               </div>
             </div>
             <div style="height: 50px;" class="g-flex">
-              <span>{{ task.canAuto | canauto }} </span>
+              <span *ngFor="let canAuto of task.canAuto"  [ngStyle]="{
+                color: autoColor(canAuto),
+                fontSize: '20px',
+                fontWeight: 'bold',
+                padding: '0 4px'
+              }">{{ canAuto | canauto }} </span>
               <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
                 <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
               </div>
             </div>
-            <div class="scroll-item-link">
+            <div class="scroll-item-link" *ngIf="showLink">
               <div>
                 <span>链接:</span>
                 <a

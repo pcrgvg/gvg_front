@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@src/environments/environment'
 
 @Component({
   selector: 'pcr-about',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+  shwoLink = environment.showLink;
 
   constructor() { }
 

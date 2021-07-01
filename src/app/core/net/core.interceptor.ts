@@ -71,7 +71,7 @@ export class CoreInterceptor implements HttpInterceptor {
       }));
     } else {
       return next.handle(req).pipe(
-        timeout(10000),
+        timeout(30000),
         mergeMap((ev) => {
           if (ev instanceof HttpResponseBase) {
             return this.handleData(req, ev, isCache);
