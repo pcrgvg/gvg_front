@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RediveDataService, StorageService, unHaveCharas } from '@app/core';
-import { Chara } from '@src/app/models';
+import { Chara, ServerType } from '@src/app/models';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 
@@ -10,15 +10,19 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./add-un-have.component.scss']
 })
 export class AddUnHaveComponent implements OnInit {
-  unHaveCharas: Chara[] = [];
+
   constructor(
     public rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
     private modalSrc: NzModalService
   ) { }
 
+  unHaveCharas: Chara[] = [];
+  @Input()
+  server: ServerType;
+
   ngOnInit(): void {
-    this.unHaveCharas = this.rediveDataSrv.unHaveCharas;
+    this.unHaveCharas = this.rediveDataSrv.unHaveCharas[this.server] ?? [];
   }
 
   trackByCharaFn(_: number, chara: Chara): number {
@@ -41,8 +45,11 @@ export class AddUnHaveComponent implements OnInit {
   }
 
   confirm() {
-    this.rediveDataSrv.setUnHaveChara(this.unHaveCharas);
-    this.storageSrv.localSet(unHaveCharas, this.unHaveCharas);
+    this.rediveDataSrv.setUnHaveChara({
+      ...this.rediveDataSrv.unHaveCharas,
+      [this.server]: this.unHaveCharas
+    });
+ 
     this.modalSrc.closeAll();
   }
 

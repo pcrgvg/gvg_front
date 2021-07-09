@@ -7,7 +7,7 @@ import {
   NoticeApiService,
 } from '@app/apis';
 import { storageNames } from '@app/constants';
-import { RediveDataService, RediveService, StorageService } from '@app/core';
+import { RediveDataService, RediveService, ServerUnChara, StorageService } from '@app/core';
 import {
   CanAutoName,
   CanAutoType,
@@ -57,7 +57,6 @@ export class GvgComponent implements OnInit {
   stageOption = []; // 阶段option
   gvgTaskList: GvgTask[] = []; // 初始作业列表
   filterGvgTaskList: GvgTask[] = []; // 根据筛选条件显示的列表
-  unHaveChara: Chara[] = []; // 未拥有角色
   OnDestroySub = new Subject();
   autoSetting: CanAutoType[] = [
     CanAutoType.auto,
@@ -105,6 +104,7 @@ export class GvgComponent implements OnInit {
   showLink = environment.showLink;
   updateCnTaskLoading = false;
   bossNumberList = [1, 2, 3, 4, 5];
+  serverUnCharas: ServerUnChara;
 
   ngOnInit(): void {
     this.dealServerType();
@@ -116,18 +116,21 @@ export class GvgComponent implements OnInit {
       .getUnHaveCharaOb()
       .pipe(takeUntil(this.OnDestroySub))
       .subscribe((res) => {
-        this.unHaveChara = res;
+        this.serverUnCharas = res;
       });
 
     this.toggleServer();
+  }
+
+  // 未拥有角色
+  get unHaveCharaList(): Chara[] {
+    return this.serverUnCharas?.[this.serverType] ?? []
   }
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
       case '114':
-        this.operate = true;
-        break;
       case '142':
         this.operate = true;
         break;
@@ -312,6 +315,9 @@ export class GvgComponent implements OnInit {
   addUnHave() {
     this.modalSrc.create({
       nzContent: AddUnHaveComponent,
+      nzComponentParams: {
+        server: this.serverType
+      },
       nzFooter: null,
       nzWidth: '80%',
       nzMaskClosable: false,
@@ -393,7 +399,7 @@ export class GvgComponent implements OnInit {
         bossList: taskList,
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: this.rediveDataSrv.unHaveCharas,
+        unHaveCharas: this.unHaveCharaList,
         server: this.serverType,
       });
       worker.onerror = (err) => {
@@ -404,7 +410,7 @@ export class GvgComponent implements OnInit {
         bossList: taskList,
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: this.rediveDataSrv.unHaveCharas,
+        unHaveCharas: this.unHaveCharaList,
         server: this.serverType,
       });
 

@@ -1,11 +1,11 @@
 <div class="g-card">
   <div class="g-flex-between" style="margin-bottom: 16px">
-    <div class="g-card-title">未拥有角色</div>
+    <div class="g-card-title">未拥有/练角色</div>
     <button nz-button class="g-btn" (clickStop)="addUnHave()">添加</button>
   </div>
   <div class="chara-box">
     <app-pcr-icon
-      *ngFor="let chara of unHaveChara; trackBy: trackByCharaFn"
+      *ngFor="let chara of unHaveCharaList; trackBy: trackByCharaFn"
       [unit]="chara"
     ></app-pcr-icon>
   </div>
@@ -191,7 +191,8 @@
     <div *ngIf="serverType === 'cn'">
       由于作业文档没有星和rank数据,默认显示的5星rank7,具体数据以文档或者视频为准.
       <br />
-      获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大,如果使用筛刀功能,请去除一部分,否则可能会很慢
+      获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大.
+      如果使用筛刀功能,请去除一部分,否则可能会很慢(数据来源花舞攻略组的在线作业文档,方法来自APP炽旗)
     </div>
     <div [innerHtml]="notice?.content | domSanitizer"></div>
   </div>
