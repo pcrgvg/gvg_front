@@ -78,7 +78,7 @@ export class AddTaskComponent implements OnInit {
         [Validators.required],
       ],
       // {value: this.task?.canAuto ?? []}, [Validators.required]
-      canAuto: [this.task?.canAuto ?? [], [Validators.required]],
+      canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
     });
@@ -178,6 +178,7 @@ export class AddTaskComponent implements OnInit {
       links: this.links,
       remarks: this.remarks,
       server: this.serverType,
+      canAuto: [value.canAuto]
     };
     this.loading = true;
     this.pcraApiSrv
