@@ -80,7 +80,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
         return '#68B9FF';
       case CanAutoType.harfAuto:
         return '#1cbbb4';
-      case CanAutoType.unAuto:
+      case CanAutoType.manual:
       default:
         return '#FF2277';
     }

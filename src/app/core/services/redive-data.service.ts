@@ -26,9 +26,15 @@ export class RediveDataService {
 
   _init() {
     const data = this.storageSrv.localGet(unHaveCharas);
+    const cnData = data?.cn ?? []
+    let jpData = data?.jp ?? []
+     // TODO(kurumi): 修复以往数据,暂时日服期间访问均将以往数据视为日服,国服同理
+    if(data instanceof Array) {
+      jpData = data;
+    }
     this.setUnHaveChara({
-      cn: data?.cn ??[],
-      jp: data?.jp ?? [],
+      cn: cnData,
+      jp: jpData,
     });
   }
 

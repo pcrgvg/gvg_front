@@ -46,8 +46,8 @@ export class AddTaskComponent implements OnInit {
   serverType: ServerType = ServerType.jp;
   autoOption = [
     {
-      label: CanAutoName.unAuto,
-      value: CanAutoType.unAuto,
+      label: CanAutoName.manual,
+      value: CanAutoType.manual,
     },
     {
       label: CanAutoName.harfAuto,

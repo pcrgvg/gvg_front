@@ -61,12 +61,12 @@ export class GvgComponent implements OnInit {
   autoSetting: CanAutoType[] = [
     CanAutoType.auto,
     CanAutoType.harfAuto,
-    CanAutoType.unAuto,
+    CanAutoType.manual,
   ];
   autoOption = [
     {
-      label: CanAutoName.unAuto,
-      value: CanAutoType.unAuto,
+      label: CanAutoName.manual,
+      value: CanAutoType.manual,
     },
     {
       label: CanAutoName.harfAuto,
@@ -276,7 +276,7 @@ export class GvgComponent implements OnInit {
         return '#68B9FF';
       case CanAutoType.harfAuto:
         return '#1cbbb4';
-      case CanAutoType.unAuto:
+      case CanAutoType.manual:
       default:
         return '#FF2277';
     }
