@@ -7,7 +7,12 @@ import {
   NoticeApiService,
 } from '@app/apis';
 import { storageNames } from '@app/constants';
-import { RediveDataService, RediveService, ServerUnChara, StorageService } from '@app/core';
+import {
+  RediveDataService,
+  RediveService,
+  ServerUnChara,
+  StorageService,
+} from '@app/core';
 import {
   CanAutoName,
   CanAutoType,
@@ -105,6 +110,7 @@ export class GvgComponent implements OnInit {
   updateCnTaskLoading = false;
   bossNumberList = [1, 2, 3, 4, 5];
   serverUnCharas: ServerUnChara;
+  usedOrRemoved = 'all';
 
   ngOnInit(): void {
     this.dealServerType();
@@ -124,7 +130,7 @@ export class GvgComponent implements OnInit {
 
   // 未拥有角色
   get unHaveCharaList(): Chara[] {
-    return this.serverUnCharas?.[this.serverType] ?? []
+    return this.serverUnCharas?.[this.serverType] ?? [];
   }
 
   dealServerOperate() {
@@ -234,7 +240,7 @@ export class GvgComponent implements OnInit {
 
   dealGvgTaskList(arr: GvgTask[]) {
     arr.forEach((r) => {
-      r.tasks.sort((a,b) => b.damage - a.damage); 
+      r.tasks.sort((a, b) => b.damage - a.damage);
       r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });
@@ -243,13 +249,9 @@ export class GvgComponent implements OnInit {
     this.toggleAutoBoss();
   }
 
-
-
   toggleImgSource(url: string) {
     this.rediveSrv.changeImgSource(url);
   }
-
-
 
   toggleUsed(event, task: Task) {
     const index = this.usedList.findIndex((r) => r === task.id);
@@ -316,7 +318,7 @@ export class GvgComponent implements OnInit {
     this.modalSrc.create({
       nzContent: AddUnHaveComponent,
       nzComponentParams: {
-        server: this.serverType
+        server: this.serverType,
       },
       nzFooter: null,
       nzWidth: '80%',
@@ -414,7 +416,6 @@ export class GvgComponent implements OnInit {
         server: this.serverType,
       });
 
-      /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
       this.filterLoading = false;
       this.filterResultSrv.setFilterResult(filterResult);
       this.filterResultSrv.setBosslist(bossList);
@@ -460,17 +461,34 @@ export class GvgComponent implements OnInit {
         const gvgtask = bossList[index];
         const tasks = cloneDeep(gvgtask.tasks);
         gvgtask.tasks = tasks.filter((task) => {
-          for (const canAuto of task.canAuto) {
-            const isHaved = this.autoSetting.includes(canAuto);
-            if (isHaved) {
-              return true;
+          let b = false;
+          switch (this.usedOrRemoved) {
+            case 'used':
+              {
+                b = this.usedList.includes(task.id);
+              }
+              break;
+            case 'removed':
+              {
+                b = this.removedList.includes(task.id);
+              }
+              break;
+            case 'all':
+            default:
+              b = true;
+          }
+          if (b) {
+            for (const canAuto of task.canAuto) {
+              const isHaved = this.autoSetting.includes(canAuto);
+              if (isHaved) {
+                return true;
+              }
             }
           }
           return false;
         });
         tempList.push(gvgtask);
       }
-     
     }
     this.filterGvgTaskList = tempList;
   }
