@@ -16,7 +16,7 @@
   <nz-spin [nzSpinning]="isSpinning" nzTip="正在加载数据">
     <form nz-form class="form">
       <nz-form-item>
-        <nz-form-label>图源</nz-form-label>
+        <nz-form-label nzTooltipTitle="图片显示不出切换为oss">图源</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="imgSource"
@@ -130,7 +130,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>使用/去除</nz-form-label>
+        <nz-form-label  nzTooltipTitle="筛选已使用或者已去除的作业">使用/去除</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="usedOrRemoved"
