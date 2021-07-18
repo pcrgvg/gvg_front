@@ -89,17 +89,18 @@
 
 
       <nz-form-item>
-        <nz-form-label  nzTooltipTitle="筛选已使用或者已去除的作业">使用/去除</nz-form-label>
+        <nz-form-label  nzTooltipTitle="筛选尾刀/已使用/已去除">类别</nz-form-label>
         <nz-form-control>
           <nz-select
-            [(ngModel)]="usedOrRemoved"
+            [(ngModel)]="taskType"
             (ngModelChange)="toggleAutoBoss()"
-            name="usedOrRemoved"
+            name="taskType"
             style="min-width: 90px"
           >
             <nz-option nzValue="all" nzLabel="全部"></nz-option>
             <nz-option nzValue="used" nzLabel="已使用"></nz-option>
             <nz-option nzValue="removed" nzLabel="已去除"></nz-option>
+            <nz-option nzValue="1" nzLabel="尾刀"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -278,10 +279,13 @@
                   >
                     {{ canAuto | canauto }}
                   </div>
+                  <div style="color:#2f42d0" *ngIf="task.type == 1">(尾刀)</div>
                   <div style="margin-left: 15px; color: #ff2277">
                     {{ task.damage }}W
                   </div>
+                
                   <label
+                  *ngIf="task.type != 1"
                     style="margin-left: 15px; color: #68b9ff"
                     (clickStop)="clickStop()"
                     nz-checkbox
@@ -290,6 +294,7 @@
                     >使用</label
                   >
                   <label
+                  *ngIf="task.type != 1"
                     style="margin-left: 15px; color: #f55291"
                     nz-checkbox
                     (clickStop)="clickStop()"

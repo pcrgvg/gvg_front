@@ -112,7 +112,7 @@ export class GvgComponent implements OnInit {
   updateCnTaskLoading = false;
   bossNumberList = [1, 2, 3, 4, 5];
   serverUnCharas: ServerUnChara;
-  usedOrRemoved = 'all';
+  taskType = 'all';
 
   ngOnInit(): void {
     this.dealServerType();
@@ -498,7 +498,7 @@ export class GvgComponent implements OnInit {
         const tasks = cloneDeep(gvgtask.tasks);
         gvgtask.tasks = tasks.filter((task) => {
           let b = false;
-          switch (this.usedOrRemoved) {
+          switch (this.taskType) {
             case 'used':
               {
                 b = this.usedList.includes(task.id);
@@ -509,6 +509,11 @@ export class GvgComponent implements OnInit {
                 b = this.removedList.includes(task.id);
               }
               break;
+            case '1':
+                {
+                  b = (task.type == 1);
+                }
+                break;
             case 'all':
             default:
               b = true;
@@ -528,4 +533,5 @@ export class GvgComponent implements OnInit {
     }
     this.filterGvgTaskList = tempList;
   }
+
 }

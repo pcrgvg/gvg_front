@@ -81,6 +81,7 @@ export class AddTaskComponent implements OnInit {
       canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
+      type: [this.task?.type ?? 2] // 2为正常 1尾刀
     });
     this.remarks = this.task?.remarks ?? '';
     this.selectCharas = cloneDeep(

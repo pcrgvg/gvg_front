@@ -24,7 +24,8 @@ function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
   // flat task
   list.forEach((boss) => {
     boss.tasks.forEach((task) => {
-      if (!haveRemoved(task, removedList)) {
+      // 1为尾刀不计入
+      if (!haveRemoved(task, removedList) && task.type != 1) {
         tasks.push({
           bossId: boss.id,
           prefabId: boss.prefabId,

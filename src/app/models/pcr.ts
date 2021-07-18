@@ -21,6 +21,7 @@ export interface Task {
   disabeld?: boolean;
   server?: string;
   links: Links;
+  type: number; // 1尾刀,2正常
 }
 
 export enum ServerType {
