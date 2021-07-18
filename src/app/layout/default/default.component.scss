@@ -2,18 +2,27 @@
 
 .default{
   background: url('https://pcr-icon.oss-cn-beijing.aliyuncs.com/common/bg.png') no-repeat;
+  // background: url('/assets/images/bg.png');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  min-height: 100%;
   section {
-    height: calc(100vh - 80px);
+    // height: calc(100vh - 80px);
     // display: grid;
-    overflow-y: auto;
+    // overflow-y: auto;
     overflow-x: hidden;
     // grid-template-columns: 1fr 990px 1fr;
     margin: 0 auto;
     max-width: 900px;
     padding: 20px 0;
   
+  }
+
+  .ad-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

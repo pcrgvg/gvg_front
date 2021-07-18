@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "gh": "ng build --prod --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@version/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

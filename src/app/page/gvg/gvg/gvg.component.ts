@@ -35,6 +35,7 @@ import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {createWorker} from '@src/app/uitl/createWorker'
 
 @Component({
   selector: 'pcr-gvg',
@@ -385,7 +386,17 @@ export class GvgComponent implements OnInit {
     }
     this.filterLoading = true;
     if (typeof Worker !== 'undefined') {
-      const worker = new Worker('../work/filter.worker', { type: 'module' });
+      let worker: Worker;
+      // 由于同源策略,无法加载加载cdn中的worker,如果worker类方法有改变需要修改版本
+      if( environment.production) {
+        worker =  createWorker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
+      } else {
+        worker = new Worker('../work/filter.worker', { type: 'module' });
+      }
+      // const 
+      // const worker =  createWorker('work/filter.worker');
+      // const blob = new Blob([`onmessage = function({data}) { console.log(data); const res = filterTask(data); postMessage('msg from worker'); }`]);
+      // const worker = new Worker(window.URL.createObjectURL(blob));
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
