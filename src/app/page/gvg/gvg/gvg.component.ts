@@ -35,7 +35,8 @@ import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import {createWorker} from '@src/app/uitl/createWorker'
+// import { createWorker } from '@src/app/uitl/createWorker';
+// import { str } from '../services/test';
 
 @Component({
   selector: 'pcr-gvg',
@@ -56,7 +57,7 @@ export class GvgComponent implements OnInit {
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService,
     private nzNotificationSrv: NzNotificationService
-  ) {}
+  ) { }
 
   charaList: Chara[] = []; // 角色列表
   stage = 1; // 阶段
@@ -297,7 +298,7 @@ export class GvgComponent implements OnInit {
     return chara.prefabId;
   }
 
-  clickStop() {}
+  clickStop() { }
 
   delteConfirm(boss: GvgTask, task: Task) {
     // this.deleteRef.triggerOk()
@@ -385,40 +386,8 @@ export class GvgComponent implements OnInit {
       throw new Error('选择至少一个boss');
     }
     this.filterLoading = true;
-    if (typeof Worker !== 'undefined') {
-      let worker: Worker;
-      // 由于同源策略,无法加载加载cdn中的worker,如果worker类方法有改变需要修改版本
-      if( environment.production) {
-        worker =  createWorker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
-      } else {
-        worker = new Worker('../work/filter.worker', { type: 'module' });
-      }
-      // const 
-      // const worker =  createWorker('work/filter.worker');
-      // const blob = new Blob([`onmessage = function({data}) { console.log(data); const res = filterTask(data); postMessage('msg from worker'); }`]);
-      // const worker = new Worker(window.URL.createObjectURL(blob));
-      worker.onmessage = ({ data }) => {
-        console.log(`worker message: ${data.length}`);
-        this.filterLoading = false;
-        // this.storageSrv.sessionSet(Constants.filterResult, data.slice(0, 200));
-        // window.open('/gvgresult', '');
-        this.filterResultSrv.setFilterResult(data);
-        this.filterResultSrv.setBosslist(bossList);
-        this.router.navigate(['/gvg/result']);
-        worker.terminate();
-      };
 
-      worker.postMessage({
-        bossList: taskList,
-        removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
-        usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: this.unHaveCharaList,
-        server: this.serverType,
-      });
-      worker.onerror = (err) => {
-        this.filterLoading = false;
-      };
-    } else {
+    setTimeout(() => {
       const filterResult = filterTask({
         bossList: taskList,
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
@@ -431,7 +400,63 @@ export class GvgComponent implements OnInit {
       this.filterResultSrv.setFilterResult(filterResult);
       this.filterResultSrv.setBosslist(bossList);
       this.router.navigate(['/gvg/result']);
-    }
+    }, 500);
+
+
+
+    /** 
+    * 由于同源策略,无法加载加载cdn中的worker, 并且火狐不支持importScripts
+    * EDGE 不支持使用blob
+    */
+    // try {
+
+    //   // let worker: Worker;
+    //   // if( environment.production) {
+    //   //   worker =  createWorker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
+    //   // } else {
+    //   //   worker = new Worker('../work/filter.worker', { type: 'module' });
+    //   // }
+    //   const blob = new Blob([str,`onmessage = function({data}) { console.log(data); const res = filterTask(data); postMessage(res); }`]);
+    //   const worker = new Worker(window.URL.createObjectURL(blob));
+    //   // const worker = new Worker('https://aikurumi.cn/0.7ad4428b1f8695d2e696.worker.js');
+    //   worker.onmessage = ({ data }) => {
+    //     console.log(`worker message: ${data.length}`);
+    //     this.filterLoading = false;
+    //     // this.storageSrv.sessionSet(Constants.filterResult, data.slice(0, 200));
+    //     // window.open('/gvgresult', '');
+    //     this.filterResultSrv.setFilterResult(data);
+    //     this.filterResultSrv.setBosslist(bossList);
+    //     this.router.navigate(['/gvg/result']);
+    //     worker.terminate();
+    //   };
+
+    //   worker.postMessage({
+    //     bossList: taskList,
+    //     removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
+    //     usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
+    //     unHaveCharas: this.unHaveCharaList,
+    //     server: this.serverType,
+    //   });
+    //   worker.onerror = (err) => {
+    //     this.filterLoading = false;
+    //   };
+    // } catch (error) {
+    //   setTimeout(() => {
+    //     const filterResult = filterTask({
+    //       bossList: taskList,
+    //       removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
+    //       usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
+    //       unHaveCharas: this.unHaveCharaList,
+    //       server: this.serverType,
+    //     });
+
+    //     this.filterLoading = false;
+    //     this.filterResultSrv.setFilterResult(filterResult);
+    //     this.filterResultSrv.setBosslist(bossList);
+    //     this.router.navigate(['/gvg/result']);
+    //   }, 500);
+    // }
+
   }
 
   openAll() {

@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
 type BossTask = Task & {
@@ -13,6 +12,10 @@ interface FilterTaskParams {
   removedList: number[];
   unHaveCharas: Chara[];
   server: ServerType;
+}
+
+function cloneDeep(params: any) {
+    return JSON.parse(JSON.stringify(params))
 }
 
 function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
@@ -205,7 +208,7 @@ function fliterResult(
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
 function sortByScore(arr: BossTask[][], server: ServerType) {
-  const tempArr = cloneDeep(arr);
+  const tempArr: BossTask[][] = cloneDeep(arr);
 
   const scoreFactor = {
     1: {
