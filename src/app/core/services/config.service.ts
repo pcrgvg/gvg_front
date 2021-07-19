@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as localforage from 'localforage';
 import { StorageService } from './storage.service';
-import { SHA1 } from 'crypto-js';
+import CryptoES from 'crypto-es';
 import { localforageName, storageNames } from '@src/app/constants';
 import { RequestCacheService } from '../net/request-cache.service';
 import { DbApiService } from '@app/apis';
@@ -56,9 +56,11 @@ export class ConfigService {
   }
 
   configToken() {
+    
     const nowDate = new Date().getTime().toFixed();
     const l = Math.random() * nowDate.length;
-    const t = SHA1(nowDate.substr(l) + eval(this.s)).toString();
+    const t = CryptoES.SHA1((nowDate.substr(l) + eval(this.s))).toString();
+    // const t = SHA1.update(nowDate.substr(l) + eval(this.s)).digest('hex');
     const token = {
       d: nowDate,
       l,
