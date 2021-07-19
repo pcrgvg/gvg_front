@@ -22,6 +22,7 @@ export interface Task {
   server?: string;
   links: Links;
   type: number; // 1尾刀,2正常
+  autoDamage: number
 }
 
 export enum ServerType {
