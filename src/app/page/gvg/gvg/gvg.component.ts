@@ -373,7 +373,7 @@ export class GvgComponent implements OnInit {
    * 筛刀
    */
   filter() {
-    const filterGvgTaskList = cloneDeep(this.gvgTaskList);
+    const filterGvgTaskList = cloneDeep(this.filterGvgTaskList);
     const [bossList, taskList] = [[], []];
     filterGvgTaskList.forEach((r) => {
       r.tasks.forEach(t => {
