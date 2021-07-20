@@ -21,7 +21,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 interface Token {
   d: string; // 日期 ms
-  l: number; // 取时间的长度
+  l: string; // 取时间的长度
   t: string; // 生成的token
 }
 
@@ -40,7 +40,7 @@ export class CoreInterceptor implements HttpInterceptor {
 
           return of(new HttpResponse(Object.assign(ev, { body: body.data })));
         } else {
-          return throwError(new Error(body.msg));
+          return throwError(body.msg);
         }
       }
     } else {
@@ -52,9 +52,9 @@ export class CoreInterceptor implements HttpInterceptor {
     const token = this.storageSrv.sessionGet<Token>(storageNames.token);
     const req = request.clone({
       setHeaders: {
-        d: token?.d ?? '',
+        d: `${token?.d}`,
         l: `${token?.l}`,
-        t: token?.t ?? '',
+        t:  `${token?.t}`,
       },
       url: environment.baseUrl + request.url,
     });

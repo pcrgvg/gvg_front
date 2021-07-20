@@ -77,11 +77,12 @@ export class AddTaskComponent implements OnInit {
         { value: this.bossId, disabled: !!this.bossId },
         [Validators.required],
       ],
-      // {value: this.task?.canAuto ?? []}, [Validators.required]
-      canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
+      canAuto :[this.task?.canAuto ?? [], [Validators.required]],
+      // canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
-      type: [this.task?.type ?? 2] // 2为正常 1尾刀
+      type: [this.task?.type ?? 2], // 2为正常 1尾刀
+      autoDamage: [this.task?.autoDamage]
     });
     this.remarks = this.task?.remarks ?? '';
     this.selectCharas = cloneDeep(
@@ -179,7 +180,7 @@ export class AddTaskComponent implements OnInit {
       links: this.links,
       remarks: this.remarks,
       server: this.serverType,
-      canAuto: [value.canAuto]
+      canAuto: value.canAuto
     };
     this.loading = true;
     this.pcraApiSrv
@@ -210,5 +211,9 @@ export class AddTaskComponent implements OnInit {
       nzContent: this.addLinkRef,
       nzFooter: null,
     });
+  }
+
+  get showAutoDamage() {
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto) || (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto); 
   }
 }

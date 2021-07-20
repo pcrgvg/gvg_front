@@ -373,8 +373,12 @@ export class GvgComponent implements OnInit {
    * 筛刀
    */
   filter() {
+    const filterGvgTaskList = cloneDeep(this.filterGvgTaskList);
     const [bossList, taskList] = [[], []];
-    this.filterGvgTaskList.forEach((r) => {
+    filterGvgTaskList.forEach((r) => {
+      r.tasks.forEach(t => {
+        t.damage = this.typeDamage(t);
+      })
       taskList.push(r);
       bossList.push({
         prefabId: r.prefabId,
@@ -519,6 +523,7 @@ export class GvgComponent implements OnInit {
               b = true;
           }
           if (b) {
+           
             for (const canAuto of task.canAuto) {
               const isHaved = this.autoSetting.includes(canAuto);
               if (isHaved) {
@@ -532,6 +537,14 @@ export class GvgComponent implements OnInit {
       }
     }
     this.filterGvgTaskList = tempList;
+  }
+
+  // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害
+  typeDamage(task: Task) {
+    if (this.autoSetting.includes(CanAutoType.manual)) {
+      return task.damage;
+    }
+    return task.autoDamage ? task.autoDamage : task.damage;
   }
 
 }
