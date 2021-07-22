@@ -123,6 +123,9 @@ export class GvgComponent implements OnInit {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
+    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626924994/worker/232.db2c145a667d1c22ee72.js').then(url => {
+      this.blobUrl = url;
+    })
 
   }
 
@@ -196,9 +199,6 @@ export class GvgComponent implements OnInit {
         this.clanBattleId = this.clanBattleList[0].clanBattleId;
         this.battleIdChange(this.clanBattleId);
       });
-      getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626924994/worker/232.db2c145a667d1c22ee72.js').then(url => {
-        this.blobUrl = url;
-      })
   }
 
   getNotice() {
