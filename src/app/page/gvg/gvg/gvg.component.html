@@ -1,22 +1,13 @@
-<div class="g-card">
-  <div class="g-flex-between" style="margin-bottom: 16px">
-    <div class="g-card-title">未拥有/练角色</div>
-    <button nz-button class="g-btn" (clickStop)="addUnHave()">添加</button>
-  </div>
-  <div class="chara-box">
-    <app-pcr-icon
-      *ngFor="let chara of unHaveCharaList; trackBy: trackByCharaFn"
-      [unit]="chara"
-    ></app-pcr-icon>
-  </div>
-</div>
+<pcr-un-have-chara [serverType]="serverType"></pcr-un-have-chara>
 
 <div class="g-card" style="margin-top: 16px">
   <h3 class="g-card-title">工会战作业查询</h3>
   <nz-spin [nzSpinning]="isSpinning" nzTip="正在加载数据">
     <form nz-form class="form">
       <nz-form-item>
-        <nz-form-label nzTooltipTitle="图片显示不出切换为oss">图源</nz-form-label>
+        <nz-form-label nzTooltipTitle="图片显示不出切换为oss"
+          >图源</nz-form-label
+        >
         <nz-form-control>
           <nz-select
             [(ngModel)]="imgSource"
@@ -58,6 +49,7 @@
           <nz-select
             [(ngModel)]="clanBattleId"
             (ngModelChange)="battleIdChange($event)"
+            style="min-width: 110px"
             name="clanBattleId"
           >
             <nz-option
@@ -87,9 +79,10 @@
         </nz-form-control>
       </nz-form-item>
 
-
       <nz-form-item>
-        <nz-form-label  nzTooltipTitle="筛选尾刀/已使用/已去除">类别</nz-form-label>
+        <nz-form-label nzTooltipTitle="筛选尾刀/已使用/已去除"
+          >类别</nz-form-label
+        >
         <nz-form-control>
           <nz-select
             [(ngModel)]="taskType"
@@ -104,8 +97,6 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-
-     
 
       <nz-form-item>
         <nz-form-label>自动</nz-form-label>
@@ -146,8 +137,6 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-
-
 
       <div class="g-flex form-action">
         <div>
@@ -201,22 +190,12 @@
     </form>
   </nz-spin>
 
-  <div class="notice" style="overflow: auto" *ngIf="!filterGvgTaskList.length">
-    <div *ngIf="serverType === 'jp'">
-      日服作业问题反馈➡
-      <a *ngIf="showLink" href="http://123.56.13.25/board/" target="_blank"
-        >简易留言板</a
-      >
-      <div style="color:red;font-size:20px">愿意维护日服作业大佬请加群809036333</div>
-    </div>
-    <div *ngIf="serverType === 'cn'">
-      由于作业文档没有星和rank数据,默认显示的5星rank7,具体数据以文档或者视频为准.
-      <br />
-      获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大.
-      如果使用筛刀功能,请去除一部分,否则可能会很慢(数据来源花舞攻略组的在线作业文档,方法来自APP炽旗)
-    </div>
-    <div [innerHtml]="notice?.content | domSanitizer"></div>
-  </div>
+  <pcr-billboard
+    *ngIf="!filterGvgTaskList.length"
+    [serverType]="serverType"
+    [content]="notice?.content"
+    [showLink]="showLink"
+  ></pcr-billboard>
 
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
@@ -228,11 +207,6 @@
       <ng-template #headerTpl>
         <div class="g-flex-between">
           <div class="g-flex" style="align-items: center">
-            <!-- <label
-              nz-checkbox
-              [ngModel]="isSelected(bossTask.id)"
-              (ngModelChange)="selectedBossChange($event, bossTask.id)"
-            ></label> -->
             <app-pcr-icon style="margin: 0 40px" [unit]="bossTask">
             </app-pcr-icon>
             <div>{{ bossTask.unitName }}</div>
@@ -252,82 +226,16 @@
             [nzHeader]="childHeaderTpl"
           >
             <ng-template #childHeaderTpl>
-              <div class="g-flex task" style="align-items: center">
-                <div class="g-flex">
-                  <div
-                    class="g-flex-column chara-item"
-                    *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
-                  >
-                    <app-pcr-icon [unit]="chara"></app-pcr-icon>
-                    <div class="g-flex-between" style="font-size: 12px">
-                      <div style="color: #ff8a00">
-                        {{ chara.currentRarity }}X
-                      </div>
-                      <div style="color: #ff2277">R{{ chara.rank }}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="g-flex">
-                  <div
-                    *ngFor="let canAuto of task.canAuto"
-                    [ngStyle]="{
-                      color: autoColor(canAuto),
-                      fontSize: '20px',
-                      fontWeight: 'bold',
-                      padding: '0 4px'
-                    }"
-                  >
-                    {{ canAuto | canauto }}
-                  </div>
-                  <div style="color:#2f42d0" *ngIf="task.type == 1">(尾刀)</div>
-                  <div style="margin-left: 15px; color: #ff2277">
-                    {{ typeDamage(task) }}W
-                  </div>
-                
-                  <label
-                  *ngIf="task.type != 1"
-                    style="margin-left: 15px; color: #68b9ff"
-                    (clickStop)="clickStop()"
-                    nz-checkbox
-                    [ngModel]="usedList.includes(task.id)"
-                    (ngModelChange)="toggleUsed($event, task)"
-                    >使用</label
-                  >
-                  <label
-                  *ngIf="task.type != 1"
-                    style="margin-left: 15px; color: #f55291"
-                    nz-checkbox
-                    (clickStop)="clickStop()"
-                    [ngModel]="removedList.includes(task.id)"
-                    (ngModelChange)="toggleRemoved($event, task)"
-                    >去除</label
-                  >
-                  <button
-                    *ngIf="operate"
-                    class="g-btn-danger"
-                    style="margin-left: 15px"
-                    (clickStop)="addTask(task, bossTask.id)"
-                    nz-button
-                  >
-                    修改
-                  </button>
-                  <button
-                    *ngIf="operate"
-                    nz-button
-                    class="g-btn-danger"
-                    style="margin-left: 15px"
-                    [nzLoading]="loading"
-                    nz-popconfirm
-                    nzPopconfirmTitle="是否删除?"
-                    (nzOnConfirm)="delteConfirm(bossTask, task)"
-                    nzPopconfirmPlacement="topLeft"
-                    (clickStop)="clickStop()"
-                  >
-                    删除
-                  </button>
-                </div>
-              </div>
+              <pcr-task-item
+                [task]="task"
+                [autoSetting]="autoSetting"
+                [usedList]="usedList"
+                [removedList]="removedList"
+                [operate]="operate"
+                [serverType]="serverType"
+                (onAddTask)="addTask($event, bossTask.id)"
+                (onDelete)="onTaskDelete($event, bossTask)"
+              ></pcr-task-item>
             </ng-template>
 
             <div>

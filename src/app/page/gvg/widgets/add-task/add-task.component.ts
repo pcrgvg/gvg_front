@@ -74,7 +74,8 @@ export class AddTaskComponent implements OnInit {
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
       bossId: [
-        { value: this.bossId, disabled: !!this.bossId },
+        // disabled: !!this.bossId
+        { value: this.bossId, disabled: false },
         [Validators.required],
       ],
       canAuto :[this.task?.canAuto ?? [], [Validators.required]],

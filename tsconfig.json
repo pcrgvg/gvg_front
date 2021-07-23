@@ -15,7 +15,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "es2015",
     "module": "es2020",
     "lib": [
       "es2019",
@@ -25,5 +25,6 @@
       "@src/*": ["src/*"],
       "@app/*": ["src/app/*"]
     }
+    
   }
 }

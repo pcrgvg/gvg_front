@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "gh": "ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@version/",
     "test": "ng test",
     "lint": "ng lint",

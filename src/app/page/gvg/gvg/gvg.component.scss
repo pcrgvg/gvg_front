@@ -11,14 +11,7 @@
 app-ellipsis-text {
   max-width: none;
 }
-.notice{
-  width: 100%;
-  padding: 16px;
-  text-align: center;
-  ::ng-deep img {
-    max-width: 100%;
-  }
-}
+
 
 .form {
   display: flex;
@@ -55,16 +48,5 @@ app-ellipsis-text {
   }
 }
 
-.chara-item {
-  margin-right: 10px;
-}
 
 
-@media (max-width: 576px) {
-  .task{
-    flex-direction: column;
-  }
-  .chara-item {
-    margin-right: 5px;
-  }
-}

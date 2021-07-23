@@ -1,0 +1,10 @@
+.chara-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    grid-gap: 10px;
+    .img {
+      margin-left: 5px;
+      margin-bottom: 5px;
+    }
+  }

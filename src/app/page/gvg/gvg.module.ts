@@ -29,8 +29,11 @@ import { NoticeComponent } from './widgets/notice/notice.component';
 
 
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
+import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
+import { BillboardComponent } from './gvg/billboard/billboard.component';
+import { TaskItemComponent } from './gvg/task-item/task-item.component';
 
-// const icons: IconDefinition[] = [ PlusCircleOutline ];
+
 
 
 @NgModule({
@@ -41,6 +44,9 @@ import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
     GvgResultComponent,
     DeleteComfirmComponent,
     NoticeComponent,
+    UnHaveCharaComponent,
+    BillboardComponent,
+    TaskItemComponent,
   ],
   imports: [
     ShareModule,
