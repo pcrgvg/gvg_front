@@ -33,6 +33,15 @@ export class RediveService {
   }
   // 1048期后 4 5合并 value为6
   initStateOption(clanBattleId: number) {
+    // 2021/8
+    if (clanBattleId > 1041) {
+      return [
+        { label: '1+2', value: 1 },
+        { label: '3', value: 3 },
+        { label: '4+5', value: 6 },
+      ]
+    }
+    // 2021/4
     if (clanBattleId > 1037) {
       return [
         { label: '1', value: 1 },
