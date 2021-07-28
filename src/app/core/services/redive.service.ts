@@ -14,11 +14,11 @@ export class RediveService {
     this.baseUrlSub.next(this.storageSrc.localGet('imageBase', 'https://redive.estertion.win/'));
   }
 
-  addIconUrl(prefabId: number, rarity: number = 3): string {
+  addIconUrl(prefabId: number, rarity: number = 3, host?: string): string {
     if (prefabId >= 100000 && prefabId < 199999) {
       prefabId += rarity < 6 ? 30 : 60;
     }
-    return this.baseUrlSub.getValue() + this.iconBase.replace('{0}', prefabId.toString());
+    return (host ?? this.baseUrlSub.getValue()) + this.iconBase.replace('{0}', prefabId.toString());
   }
 
   changeImgSource(url: string) {
