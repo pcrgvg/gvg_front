@@ -32,6 +32,7 @@ import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import {getLocalWorkerUrl} from '@app/util/createWorker';
+import { NzImageService } from 'ng-zorro-antd/image';
 // import {workerString} from './fitler-worker-str';
 
 
@@ -54,7 +55,8 @@ export class GvgComponent implements OnInit {
     private noticeApiSrv: NoticeApiService,
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService,
-    private nzNotificationSrv: NzNotificationService
+    private nzNotificationSrv: NzNotificationService,
+    private nzImgSrv: NzImageService
   ) { }
     // 角色列表
   charaList: Chara[] = []; 
@@ -475,5 +477,9 @@ export class GvgComponent implements OnInit {
         this.stage = contentRef.validateForm.getRawValue().stage;
       }
     });
+  }
+
+  previewImg(url:string) {
+    this.nzImgSrv.preview([{src:url}]);
   }
 }

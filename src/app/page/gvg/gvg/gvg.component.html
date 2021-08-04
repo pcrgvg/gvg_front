@@ -251,6 +251,7 @@
                     [text]="item.name || '链接' + i + 1"
                   ></app-ellipsis-text>
                 </a>
+                <a  *ngFor="let url of task.images; index as i" style="padding: 0 8px" (clickStop)="previewImg(url)">图轴{{i +1}}</a>
               </div>
               <pre>备注: {{ task.remarks }}</pre>
             </div>

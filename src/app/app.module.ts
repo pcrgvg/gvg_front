@@ -38,6 +38,7 @@ registerLocaleData(zh);
     ShareModule,
     LayoutModule,
     AppRoutingModule,
+
     NzIconModule.forRoot(icons)
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],

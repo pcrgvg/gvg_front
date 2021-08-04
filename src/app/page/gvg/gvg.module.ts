@@ -18,6 +18,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 import { NgxWigModule } from 'ngx-wig';
 
@@ -65,7 +66,8 @@ import { TaskItemComponent } from './gvg/task-item/task-item.component';
     NzFormModule,
     NzCheckboxModule,
     NzSpinModule,
-    NzIconModule.forChild([PlusCircleOutline])
+    NzIconModule.forChild([PlusCircleOutline]),
+    NzImageModule
   ],
 })
 export class GvgModule {}

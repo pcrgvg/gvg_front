@@ -1,69 +1,70 @@
-
 .scroll {
-    width: 100%;
-    margin: 0 auto 0;
-    height: 600px;
-    &-item {
-      padding: 10px 5px;
-      border-bottom: 1px solid var(--primary);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      > div {
-        flex-shrink: 0;
-      }
-    
-      &-link {
-        height: 50px;
-        overflow-y: auto;
-      }
-      .task-item {
-        position: relative;
-      }
+  width: 100%;
+  margin: 0 auto 0;
+  height: 600px;
+  &-item {
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--primary);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    > div {
+      flex-shrink: 0;
     }
 
-   
+    &-link {
+      height: 50px;
+      overflow-y: auto;
+    }
+    .task-item {
+      position: relative;
+    }
   }
+}
 
-  .divide {
-    margin: 16px 0;
-    height: 1px;
-    background: var(--primary);
+.divide {
+  margin: 16px 0;
+  height: 1px;
+  background: var(--primary);
+}
+
+.item {
+  &:not(:last-child) {
+    margin-right: 10px;
   }
+}
 
-  .item{
+app-ellipsis-text {
+  max-width: none;
+}
+
+@media (min-width: 577px) {
+  .task-item {
     &:not(:last-child) {
-      margin-right: 10px;
-    }
-  }
-
-  @media (min-width:577px) {
-    .task-item{
-      &:not(:last-child) {
-        &::after {
-          display: block;
-          content: '';
-          position: absolute;
-          right: 0;
-          top: 50%;
-          height: 80%;
-          width: 1px;
-          transform: translateY(-50%);
-          background: var(--primary);
-        }
+      &::after {
+        display: block;
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        height: 80%;
+        width: 1px;
+        transform: translateY(-50%);
+        background: var(--primary);
       }
     }
   }
+}
 
-  @media (max-width:577px) {
-    .boss {
-      flex-wrap: wrap;
-    }
-    .scroll-item {
-      grid-template-columns: auto;
-    }
+@media (max-width: 577px) {
+  .boss {
+    flex-wrap: wrap;
   }
+  .scroll-item {
+    grid-template-columns: auto;
+  }
+}
 
-  .remarks {
-    max-height: 60vh;
-    overflow: auto;
-  }
+.remarks {
+  max-height: 60vh;
+  overflow: auto;
+}

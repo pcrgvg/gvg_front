@@ -9,6 +9,7 @@ import { FilterResultService } from '../services/filter-result.service';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { environment } from '@src/environments/environment'
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'pcr-gvg-result',
@@ -21,7 +22,8 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private storageSrv: StorageService,
-    private filterResultSrv: FilterResultService
+    private filterResultSrv: FilterResultService,
+    private nzImgSrv: NzImageService
   ) {
     breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Handset])
@@ -84,6 +86,10 @@ export class GvgResultComponent implements OnInit, OnDestroy {
       default:
         return '#FF2277';
     }
+  }
+
+  previewImg(url:string) {
+    this.nzImgSrv.preview([{src:url}]);
   }
 }
 
