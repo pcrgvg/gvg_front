@@ -20,7 +20,7 @@ import {
   ServerType,
   Task,
 } from '@app/models';
-import {  finalize, } from 'rxjs/operators';
+import { finalize, } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AddTaskComponent } from '../widgets/add-task/add-task.component';
@@ -31,7 +31,7 @@ import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import {getLocalWorkerUrl} from '@app/util/createWorker';
+import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
 // import {workerString} from './fitler-worker-str';
 
@@ -58,15 +58,15 @@ export class GvgComponent implements OnInit {
     private nzNotificationSrv: NzNotificationService,
     private nzImgSrv: NzImageService
   ) { }
-    // 角色列表
-  charaList: Chara[] = []; 
-   // 阶段
+  // 角色列表
+  charaList: Chara[] = [];
+  // 阶段
   stage = 1;
-   // 阶段option
+  // 阶段option
   stageOption = [];
-   // 初始作业列表,缓存所有结果
+  // 初始作业列表,缓存所有结果
   gvgTaskList: GvgTask[] = [];
-   // 根据筛选条件显示的列表
+  // 根据筛选条件显示的列表
   filterGvgTaskList: GvgTask[] = [];
   autoSetting: CanAutoType[] = [
     CanAutoType.auto,
@@ -90,7 +90,7 @@ export class GvgComponent implements OnInit {
   // 筛选loading
   filterLoading = false;
   // 搜索loading 
-  searchLoading = false; 
+  searchLoading = false;
   clanBattleList = []; // 会战期次
   clanBattleId = null; // 当前会战期次
   serverType = ServerType.jp;
@@ -102,6 +102,10 @@ export class GvgComponent implements OnInit {
     {
       label: ServerName.cn,
       value: ServerType.cn,
+    },
+    {
+      label: ServerName.tw,
+      value: ServerType.tw,
     },
   ];
   usedList: number[] = []; // 已使用的作业
@@ -134,9 +138,14 @@ export class GvgComponent implements OnInit {
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
-      case '114':
+      case '114': {
+        this.operate = this.serverType === ServerType.cn
+      } break;
       case '142':
-        this.operate = true;
+        this.operate = this.serverType === ServerType.jp
+        break;
+      case '143':
+        this.operate = this.serverType === ServerType.tw
         break;
       default:
         this.operate = false;
@@ -151,7 +160,7 @@ export class GvgComponent implements OnInit {
           this.serverType = ServerType.cn;
         }
         break;
-      case ServerType.jp:
+      case ServerType.tw: this.serverType = ServerType.tw; break;
       default: {
         this.serverType = ServerType.jp;
       }
@@ -337,10 +346,10 @@ export class GvgComponent implements OnInit {
 
       // getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js').then(url => {
       //   let worker: Worker = new Worker(url);
-       
+
       // })
       // worker = new Worker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
-   
+
     } catch (error) {
       console.log(error)
       setTimeout(() => {
@@ -412,16 +421,16 @@ export class GvgComponent implements OnInit {
               }
               break;
             case '1':
-                {
-                  b = (task.type == 1);
-                }
-                break;
+              {
+                b = (task.type == 1);
+              }
+              break;
             case 'all':
             default:
               b = true;
           }
           if (b) {
-           
+
             for (const canAuto of task.canAuto) {
               const isHaved = this.autoSetting.includes(canAuto);
               if (isHaved) {
@@ -446,10 +455,10 @@ export class GvgComponent implements OnInit {
   }
 
   // 删除作业
-   onTaskDelete(task: Task, boss: GvgTask) {
+  onTaskDelete(task: Task, boss: GvgTask) {
     const index = boss.tasks.findIndex((r) => r.id === task.id);
     boss.tasks.splice(index, 1);
-   }
+  }
 
   // 添加作业
   addTask(task?: Task, bossId?: number) {
@@ -479,7 +488,7 @@ export class GvgComponent implements OnInit {
     });
   }
 
-  previewImg(url:string) {
-    this.nzImgSrv.preview([{src:url}]);
+  previewImg(url: string) {
+    this.nzImgSrv.preview([{ src: url }]);
   }
 }
