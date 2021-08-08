@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<form class="g-flex" *ngIf="validateForm" nz-form [formGroup]="validateForm">
+<form class="g-flex" style="flex-wrap: wrap;" *ngIf="validateForm" nz-form [formGroup]="validateForm">
   <nz-form-item>
     <nz-form-label>BOSS</nz-form-label>
     <nz-form-control>
@@ -80,10 +80,12 @@
   <nz-form-item>
     <nz-form-label>自动</nz-form-label>
     <nz-form-control>
+      <!-- [nzMaxMultipleCount]="1"
+      nzMode="multiple" -->
       <nz-select
         formControlName="canAuto"
-        name="canAuto"
         nzMode="multiple"
+        name="canAuto"
         nzPlaceHolder="请选择"
         style="min-width: 90px"
       >
@@ -96,12 +98,38 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item *ngIf="showAutoDamage">
+    <nz-form-label>(半)自动伤害</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSuffix="W" style="width: 100px">
+        <input name="autoDamage" formControlName="autoDamage" type="number" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
   <nz-form-item>
     <nz-form-label>伤害</nz-form-label>
     <nz-form-control>
       <nz-input-group nzSuffix="W" style="width: 100px">
         <input name="damage" formControlName="damage" type="number" nz-input />
       </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+  <nz-form-item>
+    <nz-form-label>尾刀</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        formControlName="type"
+        name="type"
+        nzPlaceHolder="请选择"
+        style="min-width: 90px"
+      >
+      <nz-option [nzValue]="2" nzLabel="否"></nz-option>
+      <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+      </nz-select>
     </nz-form-control>
   </nz-form-item>
 </form>
@@ -130,7 +158,7 @@
 </div>
 
 <div>
-  <div class="g-card-title">备注</div>
+  <div class="g-card-title">备注{{showAutoDamage}}</div>
   <textarea
     style="margin: 16px 0"
     [(ngModel)]="remarks"

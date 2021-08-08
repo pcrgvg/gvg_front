@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChildren } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   PcrApiService,
-  ChangelogServiceApi,
   NoticeApiService,
 } from '@app/apis';
 import { storageNames } from '@app/constants';
-import { RediveDataService, RediveService, StorageService } from '@app/core';
+import {
+  RediveDataService,
+  RediveService,
+  StorageService,
+} from '@app/core';
 import {
   CanAutoName,
   CanAutoType,
@@ -18,18 +20,22 @@ import {
   ServerType,
   Task,
 } from '@app/models';
-import { Subject } from 'rxjs';
-import { catchError, finalize, takeUntil, timeout } from 'rxjs/operators';
-import { cloneDeep, reject } from 'lodash';
+import { finalize, } from 'rxjs/operators';
+import { cloneDeep } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { AddUnHaveComponent } from '../widgets/add-un-have/add-un-have.component';
 import { AddTaskComponent } from '../widgets/add-task/add-task.component';
 import { filterTask } from '../services/filterTask';
+
 import { FilterResultService } from '../services/filter-result.service';
 import { NoticeComponent } from '../widgets/notice/notice.component';
 import { NzCollapsePanelComponent } from 'ng-zorro-antd/collapse';
 import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { getLocalWorkerUrl } from '@app/util/createWorker';
+import { NzImageService } from 'ng-zorro-antd/image';
+// import {workerString} from './fitler-worker-str';
+
+
 
 @Component({
   selector: 'pcr-gvg',
@@ -49,25 +55,28 @@ export class GvgComponent implements OnInit {
     private noticeApiSrv: NoticeApiService,
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService,
-    private nzNotificationSrv: NzNotificationService
-  ) {}
-
-  charaList: Chara[] = []; // 角色列表
-  stage = 1; // 阶段
-  stageOption = []; // 阶段option
-  gvgTaskList: GvgTask[] = []; // 初始作业列表
-  filterGvgTaskList: GvgTask[] = []; // 根据筛选条件显示的列表
-  unHaveChara: Chara[] = []; // 未拥有角色
-  OnDestroySub = new Subject();
+    private nzNotificationSrv: NzNotificationService,
+    private nzImgSrv: NzImageService
+  ) { }
+  // 角色列表
+  charaList: Chara[] = [];
+  // 阶段
+  stage = 1;
+  // 阶段option
+  stageOption = [];
+  // 初始作业列表,缓存所有结果
+  gvgTaskList: GvgTask[] = [];
+  // 根据筛选条件显示的列表
+  filterGvgTaskList: GvgTask[] = [];
   autoSetting: CanAutoType[] = [
     CanAutoType.auto,
     CanAutoType.harfAuto,
-    CanAutoType.unAuto,
+    CanAutoType.manual,
   ];
   autoOption = [
     {
-      label: CanAutoName.unAuto,
-      value: CanAutoType.unAuto,
+      label: CanAutoName.manual,
+      value: CanAutoType.manual,
     },
     {
       label: CanAutoName.harfAuto,
@@ -78,9 +87,10 @@ export class GvgComponent implements OnInit {
       value: CanAutoType.auto,
     },
   ];
-  loading = false; // 删除loading
-  filterLoading = false; // 筛选loading
-  searchLoading = false; // 搜索loading
+  // 筛选loading
+  filterLoading = false;
+  // 搜索loading 
+  searchLoading = false;
   clanBattleList = []; // 会战期次
   clanBattleId = null; // 当前会战期次
   serverType = ServerType.jp;
@@ -92,6 +102,10 @@ export class GvgComponent implements OnInit {
     {
       label: ServerName.cn,
       value: ServerType.cn,
+    },
+    {
+      label: ServerName.tw,
+      value: ServerType.tw,
     },
   ];
   usedList: number[] = []; // 已使用的作业
@@ -105,6 +119,8 @@ export class GvgComponent implements OnInit {
   showLink = environment.showLink;
   updateCnTaskLoading = false;
   bossNumberList = [1, 2, 3, 4, 5];
+  taskType = 'all';
+  blobUrl = '';
 
   ngOnInit(): void {
     this.dealServerType();
@@ -112,24 +128,24 @@ export class GvgComponent implements OnInit {
     this.dealServerOperate();
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
-    this.rediveDataSrv
-      .getUnHaveCharaOb()
-      .pipe(takeUntil(this.OnDestroySub))
-      .subscribe((res) => {
-        this.unHaveChara = res;
-      });
-
     this.toggleServer();
+    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626924994/worker/232.db2c145a667d1c22ee72.js').then(url => {
+      this.blobUrl = url;
+    })
+
   }
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
-      case '114':
-        this.operate = true;
-        break;
+      case '114': {
+        this.operate = this.serverType === ServerType.cn
+      } break;
       case '142':
-        this.operate = true;
+        this.operate = this.serverType === ServerType.jp
+        break;
+      case '143':
+        this.operate = this.serverType === ServerType.tw
         break;
       default:
         this.operate = false;
@@ -144,7 +160,7 @@ export class GvgComponent implements OnInit {
           this.serverType = ServerType.cn;
         }
         break;
-      case ServerType.jp:
+      case ServerType.tw: this.serverType = ServerType.tw; break;
       default: {
         this.serverType = ServerType.jp;
       }
@@ -231,7 +247,7 @@ export class GvgComponent implements OnInit {
 
   dealGvgTaskList(arr: GvgTask[]) {
     arr.forEach((r) => {
-      r.tasks.sort((a,b) => b.damage - a.damage); 
+      r.tasks.sort((a, b) => b.damage - a.damage);
       r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });
@@ -240,44 +256,10 @@ export class GvgComponent implements OnInit {
     this.toggleAutoBoss();
   }
 
-
-
   toggleImgSource(url: string) {
     this.rediveSrv.changeImgSource(url);
   }
 
-
-
-  toggleUsed(event, task: Task) {
-    const index = this.usedList.findIndex((r) => r === task.id);
-    if (index > -1) {
-      this.usedList.splice(index, 1);
-    } else {
-      this.usedList.push(task.id);
-    }
-    this.storageSrv.localSet(storageNames.usedList, this.usedList);
-  }
-  toggleRemoved(event, task: Task) {
-    const index = this.removedList.findIndex((r) => r === task.id);
-    if (index > -1) {
-      this.removedList.splice(index, 1);
-    } else {
-      this.removedList.push(task.id);
-    }
-    this.storageSrv.localSet(storageNames.removedList, this.removedList);
-  }
-
-  autoColor(canAuto: number) {
-    switch (canAuto) {
-      case CanAutoType.auto:
-        return '#68B9FF';
-      case CanAutoType.harfAuto:
-        return '#1cbbb4';
-      case CanAutoType.unAuto:
-      default:
-        return '#FF2277';
-    }
-  }
 
   trackByBossFn(_: number, boss: GvgTask): number {
     return boss.id;
@@ -285,64 +267,6 @@ export class GvgComponent implements OnInit {
 
   trackByTaskFn(_: number, task: Task): number {
     return task.id;
-  }
-
-  trackByCharaFn(_: number, chara: Chara): number {
-    return chara.prefabId;
-  }
-
-  clickStop() {}
-
-  delteConfirm(boss: GvgTask, task: Task) {
-    // this.deleteRef.triggerOk()
-    this.loading = true;
-    this.pcrApi
-      .deleteTask(task.id, this.serverType)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe((res) => {
-        const index = boss.tasks.findIndex((r) => r.id === task.id);
-        boss.tasks.splice(index, 1);
-      });
-  }
-
-  delteCancel() {
-    this.deleteRef.destroy();
-  }
-
-  addUnHave() {
-    this.modalSrc.create({
-      nzContent: AddUnHaveComponent,
-      nzFooter: null,
-      nzWidth: '80%',
-      nzMaskClosable: false,
-    });
-  }
-
-  addTask(task?: Task, bossId?: number) {
-    const bossList = this.gvgTaskList.map((r) => ({
-      id: r.id,
-      prefabId: r.prefabId,
-      unitName: r.unitName,
-    }));
-    const modalRef = this.modalSrc.create({
-      nzContent: AddTaskComponent,
-      nzComponentParams: {
-        bossId,
-        task,
-        bossList,
-        stageOption: this.stageOption,
-      },
-      nzFooter: null,
-      nzWidth: '80%',
-      nzMaskClosable: false,
-    });
-    modalRef.afterClose.subscribe((r) => {
-      const contentRef = modalRef.getContentComponent();
-      if (contentRef.gvgTaskList.length) {
-        this.dealGvgTaskList(contentRef.gvgTaskList);
-        this.stage = contentRef.validateForm.getRawValue().stage;
-      }
-    });
   }
 
   openNotice() {
@@ -362,9 +286,13 @@ export class GvgComponent implements OnInit {
   /**
    * 筛刀
    */
-  filter() {
+  async filter() {
+    const filterGvgTaskList = cloneDeep(this.filterGvgTaskList);
     const [bossList, taskList] = [[], []];
-    this.filterGvgTaskList.forEach((r) => {
+    filterGvgTaskList.forEach((r) => {
+      r.tasks.forEach(t => {
+        t.damage = this.typeDamage(t);
+      })
       taskList.push(r);
       bossList.push({
         prefabId: r.prefabId,
@@ -376,13 +304,28 @@ export class GvgComponent implements OnInit {
       throw new Error('选择至少一个boss');
     }
     this.filterLoading = true;
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker('../work/filter.worker', { type: 'module' });
+    const unHaveCharas = this.rediveDataSrv.unHaveCharas[this.serverType];
+
+
+    /** 
+    * 由于同源策略,无法加载cdn中的worker, 并且火狐不支持importScripts
+    * 法1：全部使用blob字符串，但是极其难以维护
+    * 法2：先打包生成worker文件，再修改路径进行打包,稍微好维护一点
+    */
+    try {
+      // 方法1
+      // const blob = new Blob([workerString, `onmessage = function({data}) {
+      //   const res = filterTask(data);
+      //   postMessage(res);
+      // }`], {type: 'text/javascript'});
+      // const worker = new Worker(URL.createObjectURL(blob))
+
+      // 方法2
+      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url), {type: 'module'});
+      const worker = new Worker(this.blobUrl)
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
-        // this.storageSrv.sessionSet(Constants.filterResult, data.slice(0, 200));
-        // window.open('/gvgresult', '');
         this.filterResultSrv.setFilterResult(data);
         this.filterResultSrv.setBosslist(bossList);
         this.router.navigate(['/gvg/result']);
@@ -393,27 +336,38 @@ export class GvgComponent implements OnInit {
         bossList: taskList,
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: this.rediveDataSrv.unHaveCharas,
+        unHaveCharas: unHaveCharas,
         server: this.serverType,
       });
       worker.onerror = (err) => {
+        console.log(err);
         this.filterLoading = false;
       };
-    } else {
-      const filterResult = filterTask({
-        bossList: taskList,
-        removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
-        usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: this.rediveDataSrv.unHaveCharas,
-        server: this.serverType,
-      });
 
-      /// 结果可能很多比如超过1500条,没必要都展示,还可能超出storage的大小限制
-      this.filterLoading = false;
-      this.filterResultSrv.setFilterResult(filterResult);
-      this.filterResultSrv.setBosslist(bossList);
-      this.router.navigate(['/gvg/result']);
+      // getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js').then(url => {
+      //   let worker: Worker = new Worker(url);
+
+      // })
+      // worker = new Worker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
+
+    } catch (error) {
+      console.log(error)
+      setTimeout(() => {
+        const filterResult = filterTask({
+          bossList: taskList,
+          removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
+          usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
+          unHaveCharas: unHaveCharas,
+          server: this.serverType,
+        });
+
+        this.filterLoading = false;
+        this.filterResultSrv.setFilterResult(filterResult);
+        this.filterResultSrv.setBosslist(bossList);
+        this.router.navigate(['/gvg/result']);
+      }, 500);
     }
+
   }
 
   openAll() {
@@ -454,18 +408,87 @@ export class GvgComponent implements OnInit {
         const gvgtask = bossList[index];
         const tasks = cloneDeep(gvgtask.tasks);
         gvgtask.tasks = tasks.filter((task) => {
-          for (const canAuto of task.canAuto) {
-            const isHaved = this.autoSetting.includes(canAuto);
-            if (isHaved) {
-              return true;
+          let b = false;
+          switch (this.taskType) {
+            case 'used':
+              {
+                b = this.usedList.includes(task.id);
+              }
+              break;
+            case 'removed':
+              {
+                b = this.removedList.includes(task.id);
+              }
+              break;
+            case '1':
+              {
+                b = (task.type == 1);
+              }
+              break;
+            case 'all':
+            default:
+              b = true;
+          }
+          if (b) {
+
+            for (const canAuto of task.canAuto) {
+              const isHaved = this.autoSetting.includes(canAuto);
+              if (isHaved) {
+                return true;
+              }
             }
           }
           return false;
         });
         tempList.push(gvgtask);
       }
-     
     }
     this.filterGvgTaskList = tempList;
+  }
+
+  // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害
+  typeDamage(task: Task) {
+    if (this.autoSetting.includes(CanAutoType.manual)) {
+      return task.damage;
+    }
+    return task.autoDamage ? task.autoDamage : task.damage;
+  }
+
+  // 删除作业
+  onTaskDelete(task: Task, boss: GvgTask) {
+    const index = boss.tasks.findIndex((r) => r.id === task.id);
+    boss.tasks.splice(index, 1);
+  }
+
+  // 添加作业
+  addTask(task?: Task, bossId?: number) {
+    const bossList = this.gvgTaskList.map((r) => ({
+      id: r.id,
+      prefabId: r.prefabId,
+      unitName: r.unitName,
+    }));
+    const modalRef = this.modalSrc.create({
+      nzContent: AddTaskComponent,
+      nzComponentParams: {
+        bossId,
+        task,
+        bossList,
+        stageOption: this.stageOption,
+      },
+      nzFooter: null,
+      nzWidth: '80%',
+      nzMaskClosable: false,
+    });
+    modalRef.afterClose.subscribe((r) => {
+      const contentRef = modalRef.getContentComponent();
+      if (contentRef.gvgTaskList.length) {
+        this.dealGvgTaskList(contentRef.gvgTaskList);
+        this.stage = contentRef.validateForm.getRawValue().stage;
+      }
+    });
+  }
+
+  previewImg(url: string) {
+    this.nzImgSrv.preview([{ src: url }]);
   }
 }

@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
 type BossTask = Task & {
@@ -15,13 +14,18 @@ interface FilterTaskParams {
   server: ServerType;
 }
 
-function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
+export function cloneDeep(params: any) {
+    return JSON.parse(JSON.stringify(params))
+}
+
+export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
   const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
   list.forEach((boss) => {
     boss.tasks.forEach((task) => {
-      if (!haveRemoved(task, removedList)) {
+      // 1为尾刀不计入
+      if (!haveRemoved(task, removedList) && task.type != 1) {
         tasks.push({
           bossId: boss.id,
           prefabId: boss.prefabId,
@@ -34,7 +38,7 @@ function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
   return tasks;
 }
 
-function haveRemoved(task: Task, removedList: number[]): boolean {
+export function haveRemoved(task: Task, removedList: number[]): boolean {
   if (removedList.includes(task.id)) {
     return true;
   }
@@ -47,7 +51,7 @@ function haveRemoved(task: Task, removedList: number[]): boolean {
  * 返回所有长度为k的组合 BossTask[]
  * Array<Array<BossTask>>
  */
-function combine(bossTask: BossTask[], k: number): BossTask[][] {
+ export function combine(bossTask: BossTask[], k: number): BossTask[][] {
   const result: BossTask[][] = [];
   const subResult: BossTask[] = [];
 
@@ -76,7 +80,7 @@ function combine(bossTask: BossTask[], k: number): BossTask[][] {
  * @param bossTasks
  * 重复几次代表要借几次, 借完符合
  */
-function repeatCondition(
+ export function repeatCondition(
   repeateCharas: number[],
   unHaveCharas: number[],
   bossTasks: BossTask[]
@@ -130,7 +134,7 @@ function repeatCondition(
 /**
  * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
-const filterUnHaveCharas = (
+ export const filterUnHaveCharas = (
   charas: Chara[],
   unHaveCharas: Chara[]
 ): number[] => {
@@ -147,7 +151,7 @@ const filterUnHaveCharas = (
 /**
  * 处理一组作业中已使用的作业数，无返回0
  */
-const countUsed = (t: BossTask[], usedList: number[]): number => {
+ export const countUsed = (t: BossTask[], usedList: number[]): number => {
   return t.reduce((prev, current) => {
     if (usedList.includes(current.id)) {
       return prev + 1;
@@ -160,7 +164,7 @@ const countUsed = (t: BossTask[], usedList: number[]): number => {
  *  处理已使用最多的排在前面
  * 筛选结果按照分数从高到低排序，已使用的在前
  */
-function fliterResult(
+ export function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
@@ -196,7 +200,8 @@ function fliterResult(
   }
   const r = tempArr.map((r) => sortByScore(r, server));
   r.reverse();
-  const res = r.flat();
+  // const res = r.flat();
+  const res = r.reduce((arr, val) => arr.concat(val), []);
   return res;
 }
 
@@ -204,8 +209,8 @@ function fliterResult(
  *
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
-function sortByScore(arr: BossTask[][], server: ServerType) {
-  const tempArr = cloneDeep(arr);
+ export function sortByScore(arr: BossTask[][], server: ServerType) {
+  const tempArr: BossTask[][] = cloneDeep(arr);
 
   const scoreFactor = {
     1: {

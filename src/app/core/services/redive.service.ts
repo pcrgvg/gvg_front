@@ -14,11 +14,11 @@ export class RediveService {
     this.baseUrlSub.next(this.storageSrc.localGet('imageBase', 'https://redive.estertion.win/'));
   }
 
-  addIconUrl(prefabId: number, rarity: number = 3): string {
+  addIconUrl(prefabId: number, rarity: number = 3, host?: string): string {
     if (prefabId >= 100000 && prefabId < 199999) {
       prefabId += rarity < 6 ? 30 : 60;
     }
-    return this.baseUrlSub.getValue() + this.iconBase.replace('{0}', prefabId.toString());
+    return (host ?? this.baseUrlSub.getValue()) + this.iconBase.replace('{0}', prefabId.toString());
   }
 
   changeImgSource(url: string) {
@@ -33,6 +33,15 @@ export class RediveService {
   }
   // 1048期后 4 5合并 value为6
   initStateOption(clanBattleId: number) {
+    // 2021/8
+    if (clanBattleId > 1041) {
+      return [
+        { label: '1+2', value: 1 },
+        { label: '3', value: 3 },
+        { label: '4+5', value: 6 },
+      ]
+    }
+    // 2021/4
     if (clanBattleId > 1037) {
       return [
         { label: '1', value: 1 },

@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Chara } from '@app/models';
+import { Chara, ServerType } from '@app/models';
 import { StorageService } from './storage.service';
 
 export const unHaveCharas = 'unHaveCharas';
+
+export interface ServerUnChara {
+  cn: Chara[];
+  jp: Chara[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class RediveDataService {
-  private unHaveCharaSub = new BehaviorSubject<Chara[]>([]);
+  private unHaveCharaSub = new BehaviorSubject<ServerUnChara>({
+    cn: [],
+    jp: [],
+  });
   private charaListSub = new BehaviorSubject<Chara[]>([]);
   private rankListSub = new BehaviorSubject<number[]>([]);
   constructor(private storageSrv: StorageService) {
@@ -18,18 +26,24 @@ export class RediveDataService {
 
   _init() {
     const data = this.storageSrv.localGet(unHaveCharas);
-    this.setUnHaveChara(data ?? []);
+    const cnData = data?.cn ?? []
+    const jpData = data?.jp ?? []
+    this.setUnHaveChara({
+      cn: cnData,
+      jp: jpData,
+    });
   }
 
-  setUnHaveChara(charas: Chara[]) {
+  setUnHaveChara(charas: ServerUnChara) {
     this.unHaveCharaSub.next(charas);
+    this.storageSrv.localSet(unHaveCharas, charas);
   }
 
-  getUnHaveCharaOb(): Observable<Chara[]> {
+  getUnHaveCharaOb(): Observable<ServerUnChara> {
     return this.unHaveCharaSub.asObservable();
   }
 
-  get unHaveCharas(): Chara[] {
+  get unHaveCharas(): ServerUnChara {
     return this.unHaveCharaSub.getValue();
   }
 

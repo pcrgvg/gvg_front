@@ -11,3 +11,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
  /home/admin/pcr/docker-pcr/web/pcr;
  /usr/share/docker-pcr/web/pcr
+
+  

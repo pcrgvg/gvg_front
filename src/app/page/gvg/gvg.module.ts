@@ -18,6 +18,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 import { NgxWigModule } from 'ngx-wig';
 
@@ -29,8 +30,11 @@ import { NoticeComponent } from './widgets/notice/notice.component';
 
 
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
+import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
+import { BillboardComponent } from './gvg/billboard/billboard.component';
+import { TaskItemComponent } from './gvg/task-item/task-item.component';
 
-// const icons: IconDefinition[] = [ PlusCircleOutline ];
+
 
 
 @NgModule({
@@ -41,6 +45,9 @@ import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
     GvgResultComponent,
     DeleteComfirmComponent,
     NoticeComponent,
+    UnHaveCharaComponent,
+    BillboardComponent,
+    TaskItemComponent,
   ],
   imports: [
     ShareModule,
@@ -59,7 +66,8 @@ import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
     NzFormModule,
     NzCheckboxModule,
     NzSpinModule,
-    NzIconModule.forChild([PlusCircleOutline])
+    NzIconModule.forChild([PlusCircleOutline]),
+    NzImageModule
   ],
 })
 export class GvgModule {}

@@ -8,8 +8,8 @@ export class CanautoPipe implements PipeTransform {
     switch (value) {
       case CanAutoType.auto:
         return CanAutoName.auto;
-      case CanAutoType.unAuto:
-        return CanAutoName.unAuto;
+      case CanAutoType.manual:
+        return CanAutoName.manual;
       case CanAutoType.harfAuto:
         return CanAutoName.harfAuto;
       default:
