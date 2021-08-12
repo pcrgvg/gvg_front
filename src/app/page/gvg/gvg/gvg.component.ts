@@ -321,7 +321,7 @@ export class GvgComponent implements OnInit {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url), {type: 'module'});
+      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
       const worker = new Worker(this.blobUrl)
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);

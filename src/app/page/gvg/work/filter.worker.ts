@@ -73,6 +73,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     }
   };
   combineSub(0, subResult);
+  console.log(result.length, 'combine length')
   return result;
 }
 
@@ -282,7 +283,7 @@ export const filterTask = ({
   if (!bossList.length) {
     return [];
   }
-
+  const statTime = new Date().getTime()
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
@@ -302,7 +303,8 @@ export const filterTask = ({
     bossTasks = combine(bossTask, 1);
     result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
-
+  const endTime = new Date().getTime()
+  console.log((endTime - statTime) / 1000)
   return result;
 };
 
