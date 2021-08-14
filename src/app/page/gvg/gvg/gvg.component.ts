@@ -474,6 +474,7 @@ export class GvgComponent implements OnInit {
         task,
         bossList,
         stageOption: this.stageOption,
+        serverType: this.serverType
       },
       nzFooter: null,
       nzWidth: '80%',

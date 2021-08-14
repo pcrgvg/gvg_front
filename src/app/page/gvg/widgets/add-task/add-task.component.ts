@@ -43,7 +43,7 @@ export class AddTaskComponent implements OnInit {
    */
   gvgTaskList: GvgTask[] = [];
   remarks = '';
-  serverType: ServerType = ServerType.jp;
+  @Input() serverType: ServerType = ServerType.jp;
   autoOption = [
     {
       label: CanAutoName.manual,
@@ -70,16 +70,13 @@ export class AddTaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dealServer();
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
       bossId: [
-        // disabled: !!this.bossId
         { value: this.bossId, disabled: false },
         [Validators.required],
       ],
       canAuto :[this.task?.canAuto ?? [], [Validators.required]],
-      // canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
@@ -97,19 +94,6 @@ export class AddTaskComponent implements OnInit {
     this.links = this.task?.links ?? [];
   }
 
-  dealServer() {
-    const serverType = this.route.snapshot.queryParams.serverType;
-    switch (serverType) {
-      case '114':
-        this.serverType = ServerType.cn;
-        break;
-      case '142':
-        this.serverType = ServerType.jp;
-        break;
-      default:
-        this.serverType = ServerType.jp;
-    }
-  }
 
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;

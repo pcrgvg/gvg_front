@@ -31,7 +31,7 @@ export class RediveService {
   baseUrlOb() {
     return this.baseUrlSub.asObservable();
   }
-  // 1048期后 4 5合并 value为6
+  // 1038期后 4 5合并 value为6
   initStateOption(clanBattleId: number) {
     // 2021/8
     if (clanBattleId > 1041) {
