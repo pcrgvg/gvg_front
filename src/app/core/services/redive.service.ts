@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { ServerType } from '@src/app/models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 
@@ -31,26 +32,37 @@ export class RediveService {
   baseUrlOb() {
     return this.baseUrlSub.asObservable();
   }
-  // 1038期后 4 5合并 value为6
-  initStateOption(clanBattleId: number) {
-    // 2021/8
-    if (clanBattleId > 1041) {
-      return [
-        { label: '1+2', value: 1 },
-        { label: '3', value: 3 },
-        { label: '4+5', value: 6 },
-      ]
+  // 日服1038期后 4 5合并 value为6
+  initStateOption(clanBattleId: number, server: ServerType) {
+
+    if (server === ServerType.jp) {
+      // 2021/8
+      if (clanBattleId > 1041) {
+        return [
+          { label: '1+2', value: 1 },
+          { label: '3', value: 3 },
+          { label: '4+5', value: 6 },
+        ]
+      }
+      // 2021/4
+      if (clanBattleId > 1037) {
+        return [
+          { label: '1', value: 1 },
+          { label: '2', value: 2 },
+          { label: '3', value: 3 },
+          { label: '4+5', value: 6 },
+        ]
+      }
     }
-    // 2021/4
-    if (clanBattleId > 1037) {
+    if (server === ServerType.tw) {
       return [
         { label: '1', value: 1 },
         { label: '2', value: 2 },
         { label: '3', value: 3 },
         { label: '4+5', value: 6 },
       ]
-    
     }
+
 
     return [
       { label: '1', value: 1 },
@@ -59,6 +71,6 @@ export class RediveService {
       { label: '4', value: 4 },
       { label: '5', value: 5 },
     ]
-   
+
   }
 }

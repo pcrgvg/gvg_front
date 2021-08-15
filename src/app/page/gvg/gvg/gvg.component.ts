@@ -385,7 +385,7 @@ export class GvgComponent implements OnInit {
   }
 
   battleIdChange(id: number) {
-    this.stageOption = this.rediveSrv.initStateOption(id);
+    this.stageOption = this.rediveSrv.initStateOption(id, this.serverType);
     this.getNotice();
     this.stage = 1;
   }
