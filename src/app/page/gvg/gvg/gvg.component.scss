@@ -50,3 +50,8 @@ app-ellipsis-text {
 
 
 
+::ng-deep {
+  .ant-collapse .ant-collapse-item-disabled>.ant-collapse-header, .ant-collapse .ant-collapse-item-disabled>.ant-collapse-header>.arrow {
+    cursor: pointer;
+  }
+}

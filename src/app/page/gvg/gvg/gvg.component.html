@@ -218,6 +218,8 @@
         <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
           <nz-collapse-panel
             [nzActive]="false"
+            [nzDisabled]="true"
+            (clickStop)="toDetail(task)"
             style="
               border-top: 1px solid #64b8ff;
               background: rgba(255, 255, 255, 0.5);
@@ -238,7 +240,7 @@
               ></pcr-task-item>
             </ng-template>
 
-            <div>
+            <!-- <div>
               <div *ngIf="showLink">
                 <span>视频:</span>
                 <a
@@ -254,7 +256,7 @@
                 <a  *ngFor="let url of task.images; index as i" style="padding: 0 8px" (clickStop)="previewImg(url)">图轴{{i +1}}</a>
               </div>
               <pre>备注: {{ task.remarks }}</pre>
-            </div>
+            </div> -->
           </nz-collapse-panel>
         </nz-collapse>
       </div>

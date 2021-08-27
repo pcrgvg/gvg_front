@@ -29,6 +29,7 @@ export class TaskItemComponent implements OnInit {
   @Output() onAddTask = new EventEmitter<Task>()
   @Output() onDelete = new EventEmitter<Task>()
   loading = false;
+  canAutoType = CanAutoType;
 
   ngOnInit(): void {
 

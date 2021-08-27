@@ -492,4 +492,8 @@ export class GvgComponent implements OnInit {
   previewImg(url: string) {
     this.nzImgSrv.preview([{ src: url }]);
   }
+
+  toDetail(task: Task) {
+    console.log(task)
+  }
 }

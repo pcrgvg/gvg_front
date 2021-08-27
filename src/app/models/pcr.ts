@@ -17,6 +17,7 @@ export interface Task {
   damage: number;
   charas: Chara[];
   remarks: string;
+  exRemarks: string;
   isUsed?: boolean;
   disabeld?: boolean;
   server?: string;

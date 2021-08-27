@@ -33,6 +33,8 @@ import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
 import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
 import { BillboardComponent } from './gvg/billboard/billboard.component';
 import { TaskItemComponent } from './gvg/task-item/task-item.component';
+import { ResultDetailComponent } from './result-detail/result-detail.component';
+import { TaskDetailComponent } from './task-detail/task-detail.component';
 
 
 
@@ -48,6 +50,8 @@ import { TaskItemComponent } from './gvg/task-item/task-item.component';
     UnHaveCharaComponent,
     BillboardComponent,
     TaskItemComponent,
+    ResultDetailComponent,
+    TaskDetailComponent,
   ],
   imports: [
     ShareModule,
