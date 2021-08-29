@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TempService } from '../services/temp.service';
+
 
 @Component({
   selector: 'pcr-result-detail',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private tempSrv: TempService
+  ) { }
+
+  task: Task
 
   ngOnInit(): void {
+  
   }
 
 }

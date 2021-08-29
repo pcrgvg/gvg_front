@@ -135,7 +135,7 @@
 </form>
 
 <div class="g-flex" style="align-items: center">
-  <span class="g-card-title" >视频链接</span>
+  <span class="g-card-title" style="width: 78px;">视频链接</span>
 
   <i
     nz-icon
@@ -157,8 +157,21 @@
   </a>
 </div>
 
+
 <div>
-  <div class="g-card-title">备注{{showAutoDamage}}</div>
+  <div class="g-card-title" style="width: 78px;">额外备注</div>
+  <textarea
+    style="margin: 16px 0"
+    [(ngModel)]="exRemarks"
+    nz-input
+    placeholder=""
+    [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+  ></textarea>
+</div>
+
+
+<div>
+  <div class="g-card-title">备注</div>
   <textarea
     style="margin: 16px 0"
     [(ngModel)]="remarks"
@@ -227,6 +240,7 @@
   <div class="link-grid" style="color: #68b9ff">
     <span>名称</span>
     <span>链接</span>
+    <span>备注/轴</span>
   </div>
   <div class="link-grid" *ngFor="let item of links; index as i">
     <input nz-input [(ngModel)]="item.name" />
@@ -235,10 +249,22 @@
       [(ngModel)]="item.link"
       placeholder="链接需要以http/https开头"
     />
+    <button nz-button nzType="text" (clickStop)="addLinkRemark(item)" >编辑</button>
     <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
   </div>
 
   <div class="g-flex-center" style="margin-top: 20px">
     <button nz-button class="g-btn" (clickStop)="addLink()">添加</button>
   </div>
+</ng-template>
+
+<ng-template #linkRemark>
+  <div>文字轴/备注</div>
+  <textarea
+  style="margin-top: 32px;"
+  [(ngModel)]="currentLink.remarks"
+  nz-input
+  placeholder="可以回车换行"
+  [nzAutosize]="{ minRows: 4, maxRows: 10}"
+></textarea>
 </ng-template>

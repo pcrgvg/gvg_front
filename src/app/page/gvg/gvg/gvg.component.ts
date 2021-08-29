@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   PcrApiService,
@@ -33,6 +33,9 @@ import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { TempService } from '../services/temp.service';
+import { Routekeep, RoutekeepMixin } from '@src/app/core/router-config/route-keep';
+
 // import {workerString} from './fitler-worker-str';
 
 
@@ -42,8 +45,10 @@ import { NzImageService } from 'ng-zorro-antd/image';
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent implements OnInit {
-  @ViewChildren(NzCollapsePanelComponent)
+export class GvgComponent extends Routekeep implements OnInit, RoutekeepMixin {
+  // @ViewChildren(NzCollapsePanelComponent)
+  // nzCollapsePanels: NzCollapsePanelComponent[];
+  @ViewChildren('collapse')
   nzCollapsePanels: NzCollapsePanelComponent[];
   constructor(
     private router: Router,
@@ -56,8 +61,12 @@ export class GvgComponent implements OnInit {
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService,
     private nzNotificationSrv: NzNotificationService,
-    private nzImgSrv: NzImageService
-  ) { }
+    private nzImgSrv: NzImageService,
+    private tempSrv: TempService,
+  ) {
+    super();
+  }
+
   // 角色列表
   charaList: Chara[] = [];
   // 阶段
@@ -133,6 +142,20 @@ export class GvgComponent implements OnInit {
       this.blobUrl = url;
     })
 
+  }
+
+  ngOnActived(): void {
+    const serverType = this.route.snapshot.paramMap.get('serverType');
+    this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+    this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
+    if (serverType != this.serverType) {
+      this.dealServerType();
+      this.dealServerOperate();
+      this.toggleServer();
+    }
+  }
+  ngOnDeActived(): void {
+    
   }
 
   dealServerOperate() {
@@ -321,8 +344,8 @@ export class GvgComponent implements OnInit {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
-      const worker = new Worker(this.blobUrl)
+      const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
+      // const worker = new Worker(this.blobUrl)
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
@@ -494,6 +517,7 @@ export class GvgComponent implements OnInit {
   }
 
   toDetail(task: Task) {
-    console.log(task)
+    this.tempSrv.setTask(task);
+    this.router.navigate(['/gvg/task-detail'])
   }
 }

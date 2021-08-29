@@ -19,6 +19,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import { NgxWigModule } from 'ngx-wig';
 
@@ -32,9 +33,10 @@ import { NoticeComponent } from './widgets/notice/notice.component';
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
 import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
 import { BillboardComponent } from './gvg/billboard/billboard.component';
-import { TaskItemComponent } from './gvg/task-item/task-item.component';
+import { TaskItemComponent } from './widgets/task-item/task-item.component';
 import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { LinkButtonComponent } from './widgets/link-button/link-button.component';
 
 
 
@@ -52,6 +54,7 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
     TaskItemComponent,
     ResultDetailComponent,
     TaskDetailComponent,
+    LinkButtonComponent,
   ],
   imports: [
     ShareModule,
@@ -71,7 +74,8 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
     NzCheckboxModule,
     NzSpinModule,
     NzIconModule.forChild([PlusCircleOutline]),
-    NzImageModule
+    NzImageModule,
+    NzDropDownModule
   ],
 })
 export class GvgModule {}

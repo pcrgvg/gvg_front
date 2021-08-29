@@ -1,0 +1,17 @@
+.chara-item {
+  margin-right: 10px;
+}
+
+@media (max-width: 576px) {
+  .task {
+    flex-direction: column;
+  }
+  .chara-item {
+    margin-right: 5px;
+  }
+}
+
+.selected {
+  border-radius: 50%;
+  overflow: hidden;
+}

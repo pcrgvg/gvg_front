@@ -4,22 +4,22 @@ import { storageNames } from '@src/app/constants';
 import { StorageService } from '@src/app/core';
 import { CanAutoType, Chara, GvgTask, ServerType, Task } from '@src/app/models';
 import { finalize } from 'rxjs/operators';
-import { AddTaskComponent } from '../../widgets/add-task/add-task.component';
 
 @Component({
   selector: 'pcr-task-item',
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss']
 })
-export class TaskItemComponent implements OnInit {
+export class TaskItemComponent  implements OnInit {
+
 
   constructor(
     private storageSrv: StorageService,
     private pcrApi: PcrApiService,
-  ) { }
+  ) {
+  }
 
   @Input() task: Task;
-  @Input() autoSetting: CanAutoType[] = [];
 
   @Input()  usedList: number[] = []; // 已使用的作业
   @Input()  removedList: number[] = []; // 去除
@@ -32,7 +32,7 @@ export class TaskItemComponent implements OnInit {
   canAutoType = CanAutoType;
 
   ngOnInit(): void {
-
+    
   }
 
 
@@ -54,13 +54,6 @@ export class TaskItemComponent implements OnInit {
     }
   }
 
-    // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害
-    typeDamage(task: Task) {
-      if (this.autoSetting.includes(CanAutoType.manual)) {
-        return task.damage;
-      }
-      return task.autoDamage ? task.autoDamage : task.damage;
-    }
 
     toggleUsed(event, task: Task) {
       const index = this.usedList.findIndex((r) => r === task.id);
@@ -94,5 +87,15 @@ export class TaskItemComponent implements OnInit {
         .subscribe((res) => {
           this.onDelete.emit(this.task);
         });
+    }
+
+
+    fixedBorrowChara(chara: Chara) {
+      if (chara.prefabId == this.task.fixedBorrowChara?.prefabId) {
+        this.task.fixedBorrowChara = null;
+      } else {
+        this.task.fixedBorrowChara = chara;
+      }
+     
     }
 }

@@ -1,0 +1,45 @@
+<span
+  *ngIf="linkObj.link && linkObj.remarks; else elseTpl"
+  nz-dropdown
+  [nzDropdownMenu]="menu"
+  style="padding: 0 5px"
+>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item>
+        <a [href]="linkObj.link" target="_blank">查看视频</a>
+      </li>
+      <li nz-menu-item>
+        <a
+          nz-tooltip
+          nzTooltipTrigger="click"
+          [nzTooltipMouseLeaveDelay]="10000000"
+          [nzTooltipTitle]="titleTemplate"
+          >查看备注/文字轴</a
+        >
+        <ng-template #titleTemplate>
+          <pre class="remarks">{{ linkObj.remarks }}</pre>
+        </ng-template>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+  <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text>
+</span>
+
+<ng-template #elseTpl>
+    <a *ngIf="linkObj.link" [href]="linkObj.link" target="_blank">
+        <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text
+      ></a>
+      <a
+        *ngIf="linkObj.remarks"
+        nz-tooltip
+        nzTooltipTrigger="click"
+        [nzTooltipMouseLeaveDelay]="10000000"
+        [nzTooltipTitle]="titleTemplate"
+        ><app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text
+      ></a>
+      <ng-template #titleTemplate>
+        <pre class="remarks">{{ linkObj.remarks }}</pre>
+      </ng-template>
+      
+</ng-template>

@@ -17,7 +17,7 @@ interface FilterTaskParams {
 }
 
 export function cloneDeep(params: any) {
-    return JSON.parse(JSON.stringify(params))
+  return JSON.parse(JSON.stringify(params))
 }
 
 export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
@@ -53,7 +53,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  * 返回所有长度为k的组合 BossTask[]
  * Array<Array<BossTask>>
  */
- export function combine(bossTask: BossTask[], k: number): BossTask[][] {
+export function combine(bossTask: BossTask[], k: number): BossTask[][] {
   const result: BossTask[][] = [];
   const subResult: BossTask[] = [];
 
@@ -83,7 +83,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  * @param bossTasks
  * 重复几次代表要借几次, 借完符合
  */
- export function repeatCondition(
+export function repeatCondition(
   repeateCharas: number[],
   unHaveCharas: number[],
   bossTasks: BossTask[]
@@ -94,10 +94,22 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     map.set(prefabId, charaCount + 1);
   }
   /// 解决 bossTask.borrowChara引用问题
-  const bossTasksTemp = cloneDeep(bossTasks);
+  const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
 
   for (const bossTask of bossTasksTemp) {
-     // 若包含未拥有角色，该作业必定要借该角色
+
+    // 强制借人处理
+    if (bossTask.fixedBorrowChara) {
+      const charaCount = map.get(bossTask.fixedBorrowChara.prefabId);
+        if (charaCount > 0 && !bossTask.borrowChara) {
+          bossTask.borrowChara = bossTask.fixedBorrowChara;
+          map.set(bossTask.fixedBorrowChara.prefabId, charaCount - 1);
+          continue;
+        }
+    }
+
+  
+    // 若包含未拥有角色，该作业必定要借该角色
     let unHaveChara: Chara = null;
     for (const k of unHaveCharas) {
       unHaveChara = bossTask.charas.find((chara) => chara.prefabId === k);
@@ -105,6 +117,9 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
         break;
       }
     }
+
+
+
 
     if (unHaveChara) {
       const charaCount = map.get(unHaveChara.prefabId);
@@ -137,7 +152,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
 /**
  * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
- export const filterUnHaveCharas = (
+export const filterUnHaveCharas = (
   charas: Chara[],
   unHaveCharas: Chara[]
 ): number[] => {
@@ -154,7 +169,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
 /**
  * 处理一组作业中已使用的作业数，无返回0
  */
- export const countUsed = (t: BossTask[], usedList: number[]): number => {
+export const countUsed = (t: BossTask[], usedList: number[]): number => {
   return t.reduce((prev, current) => {
     if (usedList.includes(current.id)) {
       return prev + 1;
@@ -167,7 +182,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  *  处理已使用最多的排在前面
  * 筛选结果按照分数从高到低排序，已使用的在前
  */
- export function fliterResult(
+export function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
@@ -183,13 +198,20 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     // let total = 0;
     // const startTime = new Date().getTime();
     for (const task of bossTask) {
+      const fixedBorrowChara = task.fixedBorrowChara
+      if (fixedBorrowChara) {
+         repeateChara.push(fixedBorrowChara.prefabId);
+      }
       for (const chara of task.charas) {
         const size = set.size;
         charas.push(chara);
         set.add(chara.prefabId);
         /// 如果长度不变，说明是重复的
         if (size === set.size) {
-          repeateChara.push(chara.prefabId);
+          if (fixedBorrowChara?.prefabId != chara.prefabId) {
+            repeateChara.push(chara.prefabId);
+          }
+         
         }
       }
     }
@@ -212,7 +234,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  *
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
- export function sortByScore(arr: BossTask[][], server: ServerType) {
+export function sortByScore(arr: BossTask[][], server: ServerType) {
   const tempArr: BossTask[][] = cloneDeep(arr);
 
   const scoreFactor = {
