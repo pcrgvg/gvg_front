@@ -30,10 +30,11 @@ export class RediveDataService {
     const data = this.storageSrv.localGet(unHaveCharas);
     const cnData = data?.cn ?? []
     const jpData = data?.jp ?? []
+    const twData = data?.tw ?? []
     this.setUnHaveChara({
       cn: cnData,
       jp: jpData,
-      tw: [],
+      tw: twData,
     });
   }
 
