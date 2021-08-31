@@ -1,7 +1,5 @@
 /// <reference lib="webworker" />
-/**
- * 太慢了。。
- */
+
 import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
 type BossTask = Task & {
@@ -17,7 +15,9 @@ interface FilterTaskParams {
   unHaveCharas: Chara[];
   server: ServerType;
 }
-
+/**
+ * 太慢了。。极其费时间
+ */
 export function cloneDeep(params: any) {
   return JSON.parse(JSON.stringify(params));
 }
@@ -26,10 +26,10 @@ export function flatTask(
   bossList: GvgTask[],
   removedList: number[]
 ): BossTask[] {
-  const list = cloneDeep(bossList);
+  // const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
-  list.forEach((boss) => {
+  bossList.forEach((boss) => {
     boss.tasks.forEach((task) => {
       // 1为尾刀不计入
       if (!haveRemoved(task, removedList) && task.type != 1) {
@@ -98,9 +98,11 @@ export function repeatCondition(
     const charaCount = map.get(prefabId) ?? 0;
     map.set(prefabId, charaCount + 1);
   }
-  /// 解决 bossTask.borrowChara引用问题
-  const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
 
+  /// 解决 bossTask.borrowChara引用问题
+  // const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
+  const bossTasksTemp: BossTask[] = bossTasks.map(r => Object.assign({}, r));
+  // return [false, []]
   /// 先处理fixed和unhave
   for (const bossTask of bossTasksTemp) {
     // 若包含未拥有角色，该作业必定要借该角色
@@ -272,7 +274,7 @@ export function fliterResult(
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
 export function sortByScore(arr: BossTask[][], server: ServerType) {
-  const tempArr: BossTask[][] = cloneDeep(arr);
+  // const tempArr: BossTask[][] = cloneDeep(arr);
 
   const scoreFactor = {
     1: {
@@ -319,7 +321,7 @@ export function sortByScore(arr: BossTask[][], server: ServerType) {
     },
   };
 
-  tempArr.sort((a, b) => {
+  arr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
     a.forEach((task) => {
       aScore += task.damage * scoreFactor[task.stage][task.index];
@@ -329,7 +331,7 @@ export function sortByScore(arr: BossTask[][], server: ServerType) {
     });
     return bScore - aScore;
   });
-  return tempArr;
+  return arr;
 }
 
 export const filterTask = ({
