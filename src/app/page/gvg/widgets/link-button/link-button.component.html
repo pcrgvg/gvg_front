@@ -27,19 +27,21 @@
 </span>
 
 <ng-template #elseTpl>
-    <a *ngIf="linkObj.link" [href]="linkObj.link" target="_blank">
-        <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text
-      ></a>
-      <a
-        *ngIf="linkObj.remarks"
-        nz-tooltip
-        nzTooltipTrigger="click"
-        [nzTooltipMouseLeaveDelay]="10000000"
-        [nzTooltipTitle]="titleTemplate"
-        ><app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text
-      ></a>
-      <ng-template #titleTemplate>
-        <pre class="remarks">{{ linkObj.remarks }}</pre>
-      </ng-template>
-      
+  <a *ngIf="linkObj.link" [href]="linkObj.link" target="_blank">
+    <!-- <app-ellipsis-text [text]="linkObj.name"> </app-ellipsis-text> -->
+    {{linkObj.name}}
+</a>
+  <a
+    *ngIf="linkObj.remarks"
+    nz-tooltip
+    nzTooltipTrigger="click"
+    [nzTooltipMouseLeaveDelay]="10000000"
+    [nzTooltipTitle]="titleTemplate"
+    >
+    {{linkObj.name}}
+    <!-- <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text> -->
+  </a>
+  <ng-template #titleTemplate>
+    <pre class="remarks">{{ linkObj.remarks }}</pre>
+  </ng-template>
 </ng-template>
