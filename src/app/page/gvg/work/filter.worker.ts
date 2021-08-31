@@ -1,5 +1,7 @@
 /// <reference lib="webworker" />
-
+/**
+ * 太慢了。。
+ */
 import { Task, GvgTask, Chara, ServerType } from '../../../models';
 
 type BossTask = Task & {
@@ -17,10 +19,13 @@ interface FilterTaskParams {
 }
 
 export function cloneDeep(params: any) {
-  return JSON.parse(JSON.stringify(params))
+  return JSON.parse(JSON.stringify(params));
 }
 
-export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
+export function flatTask(
+  bossList: GvgTask[],
+  removedList: number[]
+): BossTask[] {
   const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
@@ -73,7 +78,7 @@ export function combine(bossTask: BossTask[], k: number): BossTask[][] {
     }
   };
   combineSub(0, subResult);
-  console.log(result.length, 'combine length')
+  console.log(result.length, 'combine length');
   return result;
 }
 
@@ -96,19 +101,8 @@ export function repeatCondition(
   /// 解决 bossTask.borrowChara引用问题
   const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
 
+  /// 先处理fixed和unhave
   for (const bossTask of bossTasksTemp) {
-
-    // 强制借人处理
-    if (bossTask.fixedBorrowChara) {
-      const charaCount = map.get(bossTask.fixedBorrowChara.prefabId);
-        if (charaCount > 0 && !bossTask.borrowChara) {
-          bossTask.borrowChara = bossTask.fixedBorrowChara;
-          map.set(bossTask.fixedBorrowChara.prefabId, charaCount - 1);
-          continue;
-        }
-    }
-
-  
     // 若包含未拥有角色，该作业必定要借该角色
     let unHaveChara: Chara = null;
     for (const k of unHaveCharas) {
@@ -118,8 +112,15 @@ export function repeatCondition(
       }
     }
 
-
-
+    const fixedBorrowChara = bossTask.fixedBorrowChara;
+    // 两者冲突
+    if (
+      fixedBorrowChara &&
+      unHaveChara &&
+      unHaveChara.prefabId != fixedBorrowChara.prefabId
+    ) {
+      return [false, []];
+    }
 
     if (unHaveChara) {
       const charaCount = map.get(unHaveChara.prefabId);
@@ -130,6 +131,50 @@ export function repeatCondition(
       }
     }
     // UNHAVE END
+    // TODO(KURUMI) 依然有BUG
+    // 强制借人处理
+    if (fixedBorrowChara) {
+      bossTask.borrowChara = fixedBorrowChara;
+      const charaCount = map.get(fixedBorrowChara.prefabId);
+      if (charaCount > 0) {
+        for (const chara of bossTask.charas) {
+          // 如果强制借用角色包含在重复角色中且在该使用角色合集里,重复-1;
+          if (
+            repeateCharas.includes(chara.prefabId) &&
+            chara.prefabId == fixedBorrowChara.prefabId
+          ) {
+            map.set(fixedBorrowChara.prefabId, charaCount - 1);
+            break;
+          }
+        }
+        continue;
+      }
+    }
+  }
+  // 处理虽然有2个重复，但是另一个重复被fixed占用
+  for (const bossTask of bossTasksTemp) {
+    if (bossTask.borrowChara) {
+      continue;
+    }
+    let repeateChara = null;
+    let count = 0;
+    for (const chara of bossTask.charas) {
+      if (repeateCharas.includes(chara.prefabId)) {
+        const charaCount = map.get(chara.prefabId);
+        if (charaCount > 0) {
+          repeateChara = chara;
+          count++;
+        }
+      }
+    }
+    if (count == 1) {
+      bossTask.borrowChara = repeateChara;
+      const charaCount = map.get(repeateChara.prefabId);
+      map.set(repeateChara.prefabId, charaCount - 1);
+    }
+  }
+
+  for (const bossTask of bossTasksTemp) {
     let repeatChara: Chara = null;
     //
     for (const k of repeateCharas) {
@@ -189,7 +234,6 @@ export function fliterResult(
   server: ServerType
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
-
   for (const bossTask of bossTasks) {
     const set = new Set(); // 查重
     const repeateChara: number[] = []; // 重复的角色
@@ -198,24 +242,17 @@ export function fliterResult(
     // let total = 0;
     // const startTime = new Date().getTime();
     for (const task of bossTask) {
-      const fixedBorrowChara = task.fixedBorrowChara
-      if (fixedBorrowChara) {
-         repeateChara.push(fixedBorrowChara.prefabId);
-      }
       for (const chara of task.charas) {
         const size = set.size;
         charas.push(chara);
         set.add(chara.prefabId);
         /// 如果长度不变，说明是重复的
         if (size === set.size) {
-          if (fixedBorrowChara?.prefabId != chara.prefabId) {
-            repeateChara.push(chara.prefabId);
-          }
-         
+          repeateChara.push(chara.prefabId);
         }
       }
     }
-    /// 未拥有的算作重复
+    /// 未拥有
     const unHaves = filterUnHaveCharas(charas, unHaveCharas);
     const [b, t] = repeatCondition(repeateChara, unHaves, bossTask);
     if (b) {
@@ -305,7 +342,7 @@ export const filterTask = ({
   if (!bossList.length) {
     return [];
   }
-  const statTime = new Date().getTime()
+  const statTime = new Date().getTime();
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
@@ -325,14 +362,13 @@ export const filterTask = ({
     bossTasks = combine(bossTask, 1);
     result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
-  const endTime = new Date().getTime()
-  console.log((endTime - statTime) / 1000)
+  const endTime = new Date().getTime();
+  console.log((endTime - statTime) / 1000);
   return result;
 };
 
-
 addEventListener('message', ({ data }) => {
-  console.log('start')
+  console.log('start');
   const res = filterTask(data);
   postMessage(res);
 });

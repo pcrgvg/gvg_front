@@ -34,7 +34,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { TempService } from '../services/temp.service';
-import { Routekeep, RoutekeepMixin } from '@src/app/core/router-config/route-keep';
+import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
 
 // import {workerString} from './fitler-worker-str';
 
@@ -45,11 +45,12 @@ import { Routekeep, RoutekeepMixin } from '@src/app/core/router-config/route-kee
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent extends Routekeep implements OnInit, RoutekeepMixin {
+export class GvgComponent   implements OnInit,RouteKeep {
   // @ViewChildren(NzCollapsePanelComponent)
   // nzCollapsePanels: NzCollapsePanelComponent[];
   @ViewChildren('collapse')
   nzCollapsePanels: NzCollapsePanelComponent[];
+  NG_ROUTE_KEEP = true;
   constructor(
     private router: Router,
     private pcrApi: PcrApiService,
@@ -63,9 +64,7 @@ export class GvgComponent extends Routekeep implements OnInit, RoutekeepMixin {
     private nzNotificationSrv: NzNotificationService,
     private nzImgSrv: NzImageService,
     private tempSrv: TempService,
-  ) {
-    super();
-  }
+  ) { }
 
   // 角色列表
   charaList: Chara[] = [];
@@ -138,25 +137,23 @@ export class GvgComponent extends Routekeep implements OnInit, RoutekeepMixin {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
-    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626924994/worker/232.db2c145a667d1c22ee72.js').then(url => {
+    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630311993/worker/232.63636941b803289a722b.js').then(url => {
       this.blobUrl = url;
     })
 
   }
 
-  ngOnActived(): void {
-    const serverType = this.route.snapshot.paramMap.get('serverType');
-    this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
-    this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
-    if (serverType != this.serverType) {
-      this.dealServerType();
-      this.dealServerOperate();
-      this.toggleServer();
-    }
-  }
-  ngOnDeActived(): void {
-    
-  }
+  // ngOnActived(): void {
+  //   const serverType = this.route.snapshot.paramMap.get('serverType');
+  //   this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+  //   this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
+  //   if (serverType != this.serverType) {
+  //     this.dealServerType();
+  //     this.dealServerOperate();
+  //     this.toggleServer();
+  //   }
+  // }
+
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
@@ -324,7 +321,8 @@ export class GvgComponent extends Routekeep implements OnInit, RoutekeepMixin {
       });
     });
     if (!taskList.length) {
-      throw new Error('选择至少一个boss');
+      this.nzNotificationSrv.error('', '选择至少一个boss');
+      return;
     }
     this.filterLoading = true;
     const unHaveCharas = this.rediveDataSrv.unHaveCharas[this.serverType];

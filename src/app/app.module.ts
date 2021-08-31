@@ -13,6 +13,8 @@ import { CoreModule } from './core/core.module';
 import { ShareModule } from './share';
 import { LayoutModule } from './layout/layout.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -38,8 +40,8 @@ registerLocaleData(zh);
     ShareModule,
     LayoutModule,
     AppRoutingModule,
-
-    NzIconModule.forRoot(icons)
+    NzIconModule.forRoot(icons),
+    NzModalModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent],

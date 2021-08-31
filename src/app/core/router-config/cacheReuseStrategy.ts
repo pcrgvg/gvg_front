@@ -17,7 +17,7 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
     const componentClass: any = route?.component?.valueOf();
     if (componentClass) {
       const component = new componentClass();
-      if (component.ROUTE_KEEP) {
+      if (component.NG_ROUTE_KEEP) {
         return true;
       }
     }
@@ -29,7 +29,6 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
     // 按path作为key存储路由快照&组件当前实例对象
 
     const key = this.getCurrentUrl(route);
-   
     if (handle) {
       // 离开路由handle不为null
       (handle as any)?.componentRef?.instance?.ngOnDeActived?.();
@@ -67,7 +66,7 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
     return future.routeConfig === curr.routeConfig;
   }
 
-  // 获取当前路由,从父级开始,
+  // 获取当前路由,从父级开始,不带路由参数
   private getCurrentUrl(route: ActivatedRouteSnapshot): string {
     if (route.pathFromRoot.length) {
       return route.pathFromRoot

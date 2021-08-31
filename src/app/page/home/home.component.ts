@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangelogServiceApi } from '@app/apis';
-import { Routekeep, RoutekeepMixin } from '@src/app/core/router-config/route-keep';
 import { ServerType } from '@src/app/models';
 import { environment } from '@src/environments/environment';
 
@@ -10,7 +9,7 @@ import { environment } from '@src/environments/environment';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends Routekeep implements OnInit {
+export class HomeComponent  implements OnInit {
   changelog = 0;
   serverType = '';
   btnList = [];
@@ -22,7 +21,6 @@ export class HomeComponent extends Routekeep implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ) { 
-    super();
   }
 
 
