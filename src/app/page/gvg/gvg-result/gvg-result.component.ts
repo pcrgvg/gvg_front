@@ -33,7 +33,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   bossList: GvgTask[];
   countList = [1, 2, 3];
 
-  itemSize = 280;
+  itemSize = 300;
   onDestroySub = new Subject();
   usedList = [];
 
@@ -48,9 +48,9 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.onDestroySub))
     .subscribe((res) => {
       if (res.matches) {
-        this.itemSize = 280 * 3;
+        this.itemSize = 300 * 3;
       } else {
-        this.itemSize = 280;
+        this.itemSize = 300;
       }
     });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];

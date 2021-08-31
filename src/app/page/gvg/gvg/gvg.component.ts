@@ -137,7 +137,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
-    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630311993/worker/232.63636941b803289a722b.js').then(url => {
+    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630420355/worker/232.eb723d20787b89f4f37a.js').then(url => {
       this.blobUrl = url;
     })
 
@@ -342,8 +342,8 @@ export class GvgComponent   implements OnInit,RouteKeep {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
-      // const worker = new Worker(this.blobUrl)
+      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
+      const worker = new Worker(this.blobUrl)
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;

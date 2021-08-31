@@ -46,10 +46,11 @@
                 <pre class="remarks">{{ task.remarks }}</pre>
               </ng-template>
             </div>
+           
             <div class="g-flex">
               <div class="g-flex-column" class="item" *ngFor="let chara of task.charas">
                 <app-pcr-icon [unit]="chara"></app-pcr-icon>
-                <div class="g-flex-between" style="font-size: 14px; margin-top: 5px; width: 100%;">
+                <div class="g-flex-between" style="font-size: 14px; margin-top: 2px; width: 100%;">
                   <div class="g-flex">
                     {{ chara.currentRarity }}X
                   </div>
@@ -57,6 +58,7 @@
                 </div>
               </div>
             </div>
+            <app-ellipsis-text *ngIf="task.exRemarks" style="height: 20px;color: red;max-width: 270px;" [text]="task.exRemarks"></app-ellipsis-text>
             <div style="height: 50px;" class="g-flex">
               <div
               *ngFor="let canAuto of task.canAuto"
