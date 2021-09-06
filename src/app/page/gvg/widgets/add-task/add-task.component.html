@@ -160,13 +160,18 @@
 
 <div>
   <div class="g-card-title" style="width: 78px;">额外备注</div>
-  <textarea
+  <nz-textarea-count [nzMaxCharacterCount]="20">
+    <textarea
     style="margin: 16px 0"
     [(ngModel)]="exRemarks"
     nz-input
-    placeholder=""
+    placeholder="暂时最大长度为20"
+  
+    [maxlength]="20"
     [nzAutosize]="{ minRows: 2, maxRows: 6 }"
   ></textarea>
+  </nz-textarea-count>
+
 </div>
 
 

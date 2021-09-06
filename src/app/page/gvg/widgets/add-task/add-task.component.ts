@@ -86,6 +86,7 @@ export class AddTaskComponent implements OnInit {
       autoDamage: [this.task?.autoDamage]
     });
     this.remarks = this.task?.remarks ?? '';
+    this.exRemarks = this.task.exRemarks ?? '';
     this.selectCharas = cloneDeep(
       this.task
         ? this.task.charas.map((r) => ({
