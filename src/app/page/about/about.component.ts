@@ -6,12 +6,12 @@ import { environment } from '@src/environments/environment'
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   shwoLink = environment.showLink;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() { 
+ 
   }
+
 
 }

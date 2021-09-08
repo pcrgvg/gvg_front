@@ -1,0 +1,78 @@
+<div class="g-flex task" style="align-items: center">
+  <div class="g-flex">
+    <div
+      class="g-flex-column chara-item"
+      (clickStop)="fixedBorrowChara(chara)"
+      *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
+    >
+      <app-pcr-icon [unit]="chara" [class.selected]="task.fixedBorrowChara?.prefabId == chara.prefabId" ></app-pcr-icon>
+      <div class="g-flex-between" style="font-size: 12px">
+        <div style="color: #ff8a00">{{ chara.currentRarity }}X</div>
+        <div style="color: #ff2277">R{{ chara.rank }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-flex">
+    <div
+      *ngFor="let canAuto of task.canAuto"
+      [ngStyle]="{
+        color: autoColor(canAuto),
+        fontSize: '20px',
+        fontWeight: 'bold',
+        padding: '0 4px'
+      }"
+    >
+      <span>{{ canAuto | canauto }}</span>
+      <span *ngIf="canAuto == canAutoType.manual">({{ task.damage }}W)</span>
+      <span *ngIf="canAuto == canAutoType.auto || canAuto == canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
+    </div>
+    <div style="color: #2f42d0" *ngIf="task.type == 1">(尾刀)</div>
+  </div>
+</div>
+<div class="g-flex-between" style="margin-top: 8px;">
+  <div style="margin-left: 15px;color: #000;">{{ task.exRemarks }}</div>
+  <div>
+    <label
+      *ngIf="task.type != 1"
+      style="margin-left: 15px; color: #68b9ff"
+      (clickStop)="clickStop()"
+      nz-checkbox
+      [ngModel]="usedList.includes(task.id)"
+      (ngModelChange)="toggleUsed($event, task)"
+      >使用</label
+    >
+    <label
+      *ngIf="task.type != 1"
+      style="margin-left: 15px; color: #f55291"
+      nz-checkbox
+      (clickStop)="clickStop()"
+      [ngModel]="removedList.includes(task.id)"
+      (ngModelChange)="toggleRemoved($event, task)"
+      >去除</label
+    >
+    <button
+      *ngIf="operate"
+      class="g-btn-danger"
+      style="margin-left: 15px"
+      (clickStop)="addTask()"
+      nz-button
+    >
+      修改
+    </button>
+    <button
+      *ngIf="operate"
+      nz-button
+      class="g-btn-danger"
+      style="margin-left: 15px"
+      [nzLoading]="loading"
+      nz-popconfirm
+      nzPopconfirmTitle="是否删除?"
+      (nzOnConfirm)="deleteConfirm()"
+      nzPopconfirmPlacement="topLeft"
+      (clickStop)="clickStop()"
+    >
+      删除
+    </button>
+  </div>
+</div>

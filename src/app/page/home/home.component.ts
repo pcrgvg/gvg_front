@@ -9,19 +9,23 @@ import { environment } from '@src/environments/environment';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  changelog = '';
+export class HomeComponent  implements OnInit {
+  changelog = 0;
   serverType = '';
   btnList = [];
   showLink = environment.showLink;
 
   constructor(
+    
     private changelogApi: ChangelogServiceApi,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) { 
+  }
+
 
   ngOnInit(): void {
+    console.log('honme ngOnInit')
     this.dealServerType();
     // this.changelogApi.getChangeLog().subscribe((r) => {
     //   this.changelog = r.content ?? '暂无';

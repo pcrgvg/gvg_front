@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   PcrApiService,
@@ -33,6 +33,9 @@ import { environment } from '@src/environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { TempService } from '../services/temp.service';
+import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
+
 // import {workerString} from './fitler-worker-str';
 
 
@@ -42,9 +45,12 @@ import { NzImageService } from 'ng-zorro-antd/image';
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent implements OnInit {
-  @ViewChildren(NzCollapsePanelComponent)
+export class GvgComponent   implements OnInit,RouteKeep {
+  // @ViewChildren(NzCollapsePanelComponent)
+  // nzCollapsePanels: NzCollapsePanelComponent[];
+  @ViewChildren('collapse')
   nzCollapsePanels: NzCollapsePanelComponent[];
+  NG_ROUTE_KEEP = true;
   constructor(
     private router: Router,
     private pcrApi: PcrApiService,
@@ -56,8 +62,10 @@ export class GvgComponent implements OnInit {
     private modalSrc: NzModalService,
     private filterResultSrv: FilterResultService,
     private nzNotificationSrv: NzNotificationService,
-    private nzImgSrv: NzImageService
+    private nzImgSrv: NzImageService,
+    private tempSrv: TempService,
   ) { }
+
   // 角色列表
   charaList: Chara[] = [];
   // 阶段
@@ -129,11 +137,23 @@ export class GvgComponent implements OnInit {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
-    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626924994/worker/232.db2c145a667d1c22ee72.js').then(url => {
+    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630420355/worker/232.eb723d20787b89f4f37a.js').then(url => {
       this.blobUrl = url;
     })
 
   }
+
+  // ngOnActived(): void {
+  //   const serverType = this.route.snapshot.paramMap.get('serverType');
+  //   this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
+  //   this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
+  //   if (serverType != this.serverType) {
+  //     this.dealServerType();
+  //     this.dealServerOperate();
+  //     this.toggleServer();
+  //   }
+  // }
+
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
@@ -301,7 +321,8 @@ export class GvgComponent implements OnInit {
       });
     });
     if (!taskList.length) {
-      throw new Error('选择至少一个boss');
+      this.nzNotificationSrv.error('', '选择至少一个boss');
+      return;
     }
     this.filterLoading = true;
     const unHaveCharas = this.rediveDataSrv.unHaveCharas[this.serverType];
@@ -321,7 +342,7 @@ export class GvgComponent implements OnInit {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url), {type: 'module'});
+      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
       const worker = new Worker(this.blobUrl)
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
@@ -385,7 +406,7 @@ export class GvgComponent implements OnInit {
   }
 
   battleIdChange(id: number) {
-    this.stageOption = this.rediveSrv.initStateOption(id);
+    this.stageOption = this.rediveSrv.initStateOption(id, this.serverType);
     this.getNotice();
     this.stage = 1;
   }
@@ -474,6 +495,7 @@ export class GvgComponent implements OnInit {
         task,
         bossList,
         stageOption: this.stageOption,
+        serverType: this.serverType
       },
       nzFooter: null,
       nzWidth: '80%',
@@ -490,5 +512,10 @@ export class GvgComponent implements OnInit {
 
   previewImg(url: string) {
     this.nzImgSrv.preview([{ src: url }]);
+  }
+
+  toDetail(task: Task) {
+    this.tempSrv.setTask(task);
+    this.router.navigate(['/gvg/task-detail'])
   }
 }

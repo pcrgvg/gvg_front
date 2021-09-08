@@ -15,16 +15,21 @@ interface FilterTaskParams {
   unHaveCharas: Chara[];
   server: ServerType;
 }
-
+/**
+ * 太慢了。。极其费时间
+ */
 export function cloneDeep(params: any) {
-    return JSON.parse(JSON.stringify(params))
+  return JSON.parse(JSON.stringify(params));
 }
 
-export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
-  const list = cloneDeep(bossList);
+export function flatTask(
+  bossList: GvgTask[],
+  removedList: number[]
+): BossTask[] {
+  // const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
-  list.forEach((boss) => {
+  bossList.forEach((boss) => {
     boss.tasks.forEach((task) => {
       // 1为尾刀不计入
       if (!haveRemoved(task, removedList) && task.type != 1) {
@@ -53,7 +58,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  * 返回所有长度为k的组合 BossTask[]
  * Array<Array<BossTask>>
  */
- export function combine(bossTask: BossTask[], k: number): BossTask[][] {
+export function combine(bossTask: BossTask[], k: number): BossTask[][] {
   const result: BossTask[][] = [];
   const subResult: BossTask[] = [];
 
@@ -73,6 +78,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     }
   };
   combineSub(0, subResult);
+  console.log(result.length, 'combine length');
   return result;
 }
 
@@ -82,7 +88,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  * @param bossTasks
  * 重复几次代表要借几次, 借完符合
  */
- export function repeatCondition(
+export function repeatCondition(
   repeateCharas: number[],
   unHaveCharas: number[],
   bossTasks: BossTask[]
@@ -92,17 +98,30 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     const charaCount = map.get(prefabId) ?? 0;
     map.set(prefabId, charaCount + 1);
   }
-  /// 解决 bossTask.borrowChara引用问题
-  const bossTasksTemp = cloneDeep(bossTasks);
 
+  /// 解决 bossTask.borrowChara引用问题
+  // const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
+  const bossTasksTemp: BossTask[] = bossTasks.map(r => Object.assign({}, r));
+  // return [false, []]
+  /// 先处理fixed和unhave
   for (const bossTask of bossTasksTemp) {
-     // 若包含未拥有角色，该作业必定要借该角色
+    // 若包含未拥有角色，该作业必定要借该角色
     let unHaveChara: Chara = null;
     for (const k of unHaveCharas) {
       unHaveChara = bossTask.charas.find((chara) => chara.prefabId === k);
       if (unHaveChara) {
         break;
       }
+    }
+
+    const fixedBorrowChara = bossTask.fixedBorrowChara;
+    // 两者冲突
+    if (
+      fixedBorrowChara &&
+      unHaveChara &&
+      unHaveChara.prefabId != fixedBorrowChara.prefabId
+    ) {
+      return [false, []];
     }
 
     if (unHaveChara) {
@@ -114,6 +133,50 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
       }
     }
     // UNHAVE END
+    // TODO(KURUMI) 依然有BUG
+    // 强制借人处理
+    if (fixedBorrowChara) {
+      bossTask.borrowChara = fixedBorrowChara;
+      const charaCount = map.get(fixedBorrowChara.prefabId);
+      if (charaCount > 0) {
+        for (const chara of bossTask.charas) {
+          // 如果强制借用角色包含在重复角色中且在该使用角色合集里,重复-1;
+          if (
+            repeateCharas.includes(chara.prefabId) &&
+            chara.prefabId == fixedBorrowChara.prefabId
+          ) {
+            map.set(fixedBorrowChara.prefabId, charaCount - 1);
+            break;
+          }
+        }
+        continue;
+      }
+    }
+  }
+  // 处理虽然有2个重复，但是另一个重复被fixed占用
+  for (const bossTask of bossTasksTemp) {
+    if (bossTask.borrowChara) {
+      continue;
+    }
+    let repeateChara = null;
+    let count = 0;
+    for (const chara of bossTask.charas) {
+      if (repeateCharas.includes(chara.prefabId)) {
+        const charaCount = map.get(chara.prefabId);
+        if (charaCount > 0) {
+          repeateChara = chara;
+          count++;
+        }
+      }
+    }
+    if (count == 1) {
+      bossTask.borrowChara = repeateChara;
+      const charaCount = map.get(repeateChara.prefabId);
+      map.set(repeateChara.prefabId, charaCount - 1);
+    }
+  }
+
+  for (const bossTask of bossTasksTemp) {
     let repeatChara: Chara = null;
     //
     for (const k of repeateCharas) {
@@ -136,7 +199,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
 /**
  * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
- export const filterUnHaveCharas = (
+export const filterUnHaveCharas = (
   charas: Chara[],
   unHaveCharas: Chara[]
 ): number[] => {
@@ -153,7 +216,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
 /**
  * 处理一组作业中已使用的作业数，无返回0
  */
- export const countUsed = (t: BossTask[], usedList: number[]): number => {
+export const countUsed = (t: BossTask[], usedList: number[]): number => {
   return t.reduce((prev, current) => {
     if (usedList.includes(current.id)) {
       return prev + 1;
@@ -166,14 +229,13 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  *  处理已使用最多的排在前面
  * 筛选结果按照分数从高到低排序，已使用的在前
  */
- export function fliterResult(
+export function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
   server: ServerType
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
-
   for (const bossTask of bossTasks) {
     const set = new Set(); // 查重
     const repeateChara: number[] = []; // 重复的角色
@@ -192,7 +254,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
         }
       }
     }
-    /// 未拥有的算作重复
+    /// 未拥有
     const unHaves = filterUnHaveCharas(charas, unHaveCharas);
     const [b, t] = repeatCondition(repeateChara, unHaves, bossTask);
     if (b) {
@@ -211,8 +273,8 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
  *
  * @param arr 按照分数排序，暂时分数系数为4阶段
  */
- export function sortByScore(arr: BossTask[][], server: ServerType) {
-  const tempArr: BossTask[][] = cloneDeep(arr);
+export function sortByScore(arr: BossTask[][], server: ServerType) {
+  // const tempArr: BossTask[][] = cloneDeep(arr);
 
   const scoreFactor = {
     1: {
@@ -259,7 +321,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     },
   };
 
-  tempArr.sort((a, b) => {
+  arr.sort((a, b) => {
     let [aScore, bScore] = [0, 0];
     a.forEach((task) => {
       aScore += task.damage * scoreFactor[task.stage][task.index];
@@ -269,7 +331,7 @@ export function haveRemoved(task: Task, removedList: number[]): boolean {
     });
     return bScore - aScore;
   });
-  return tempArr;
+  return arr;
 }
 
 export const filterTask = ({
@@ -282,7 +344,7 @@ export const filterTask = ({
   if (!bossList.length) {
     return [];
   }
-
+  const statTime = new Date().getTime();
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
@@ -302,13 +364,13 @@ export const filterTask = ({
     bossTasks = combine(bossTask, 1);
     result = fliterResult(bossTasks, unHaveCharas, usedList, server);
   }
-
+  const endTime = new Date().getTime();
+  console.log((endTime - statTime) / 1000);
   return result;
 };
 
-
 addEventListener('message', ({ data }) => {
-  console.log('start')
+  console.log('start');
   const res = filterTask(data);
   postMessage(res);
 });

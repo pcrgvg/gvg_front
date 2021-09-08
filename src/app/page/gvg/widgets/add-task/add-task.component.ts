@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PcrApiService } from '@src/app/apis';
 import { FormValidateService, RediveDataService } from '@src/app/core';
 import {
-  Links,
+  Link,
   Chara,
   CanAutoName,
   CanAutoType,
@@ -36,14 +36,15 @@ export class AddTaskComponent implements OnInit {
   @Input() stageOption = [];
   loading = false;
   rankOption = [];
-  links: Links = [];
+  links: Link[] = [];
   selectCharas: Chara[] = [];
   /**
    * 用于关闭后传值
    */
   gvgTaskList: GvgTask[] = [];
   remarks = '';
-  serverType: ServerType = ServerType.jp;
+  exRemarks = '';
+  @Input() serverType: ServerType = ServerType.jp;
   autoOption = [
     {
       label: CanAutoName.manual,
@@ -59,6 +60,8 @@ export class AddTaskComponent implements OnInit {
     },
   ];
   @ViewChild('addLinks') addLinkRef: TemplateRef<any>;
+  @ViewChild('linkRemark') linkRemarkRef: TemplateRef<any>;
+  currentLink: Link;
   constructor(
     private modalSrc: NzModalService,
     private fb: FormBuilder,
@@ -67,49 +70,34 @@ export class AddTaskComponent implements OnInit {
     private notificationSrc: NzNotificationService,
     private pcraApiSrv: PcrApiService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.dealServer();
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
       bossId: [
-        // disabled: !!this.bossId
         { value: this.bossId, disabled: false },
         [Validators.required],
       ],
-      canAuto :[this.task?.canAuto ?? [], [Validators.required]],
-      // canAuto: [this.task?.canAuto?.[0] ?? null, [Validators.required]],
+      canAuto: [this.task?.canAuto ?? [], [Validators.required]],
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
       autoDamage: [this.task?.autoDamage]
     });
     this.remarks = this.task?.remarks ?? '';
+    this.exRemarks = this.task.exRemarks ?? '';
     this.selectCharas = cloneDeep(
       this.task
         ? this.task.charas.map((r) => ({
-            ...r,
-            maxRarity: r.rarity,
-          }))
+          ...r,
+          maxRarity: r.rarity,
+        }))
         : []
     );
     this.links = this.task?.links ?? [];
   }
 
-  dealServer() {
-    const serverType = this.route.snapshot.queryParams.serverType;
-    switch (serverType) {
-      case '114':
-        this.serverType = ServerType.cn;
-        break;
-      case '142':
-        this.serverType = ServerType.jp;
-        break;
-      default:
-        this.serverType = ServerType.jp;
-    }
-  }
 
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;
@@ -160,10 +148,18 @@ export class AddTaskComponent implements OnInit {
       this.notificationSrc.error('', '至少选择一个角色');
       return;
     }
-    const invalidateLinks = this.links.filter((r) => !r.link);
-    if (this.links.length && invalidateLinks.length) {
-      this.notificationSrc.error('', '有视频链接为空');
-      return;
+    if (this.links.length) {
+      for (const linkObj of this.links) {
+        if(!linkObj.name?.trim()) {
+          this.notificationSrc.error('', '有名称为空');
+          return;
+        }
+        if (!linkObj.link?.trim() && !linkObj.remarks?.trim()) {
+          this.notificationSrc.error('', '有视频链接并且文字轴为空');
+          return;
+        }
+      }
+
     }
     const valid = this.fv.formIsValid(this.validateForm);
     if (!valid) {
@@ -180,6 +176,7 @@ export class AddTaskComponent implements OnInit {
       charas: this.selectCharas,
       links: this.links,
       remarks: this.remarks,
+      exRemarks: this.exRemarks,
       server: this.serverType,
       canAuto: value.canAuto
     };
@@ -200,6 +197,7 @@ export class AddTaskComponent implements OnInit {
     this.links.push({
       name: '',
       link: '',
+      remarks: ''
     });
   }
 
@@ -210,11 +208,21 @@ export class AddTaskComponent implements OnInit {
   openAddLink() {
     this.modalSrc.create({
       nzContent: this.addLinkRef,
+      nzWidth: 600,
       nzFooter: null,
     });
   }
 
+
   get showAutoDamage() {
-    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto) || (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto); 
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto) || (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
+  }
+
+  addLinkRemark(link: Link) {
+    this.currentLink = link;
+    this.modalSrc.create({
+      nzContent: this.linkRemarkRef,
+      nzFooter: null,
+    });
   }
 }

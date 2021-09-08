@@ -25,16 +25,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private filterResultSrv: FilterResultService,
     private nzImgSrv: NzImageService
   ) {
-    breakpointObserver
-    .observe([Breakpoints.XSmall, Breakpoints.Handset])
-    .pipe(takeUntil(this.onDestroySub))
-    .subscribe((res) => {
-      if (res.matches) {
-        this.itemSize = 250 * 3;
-      } else {
-        this.itemSize = 250;
-      }
-    });
+   
   }
 
 
@@ -42,15 +33,26 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   bossList: GvgTask[];
   countList = [1, 2, 3];
 
-  itemSize = 250;
+  itemSize = 300;
   onDestroySub = new Subject();
   usedList = [];
 
   ds = new TaskDataSource(this.filterResultSrv);
 
   showLink = environment.showLink;
+  canAutoType = CanAutoType
 
   ngOnInit(): void {
+    this.breakpointObserver
+    .observe([Breakpoints.XSmall, Breakpoints.Handset])
+    .pipe(takeUntil(this.onDestroySub))
+    .subscribe((res) => {
+      if (res.matches) {
+        this.itemSize = 300 * 3;
+      } else {
+        this.itemSize = 300;
+      }
+    });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
 
 

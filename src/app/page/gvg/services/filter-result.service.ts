@@ -26,5 +26,5 @@ export class FilterResultService {
   get bosslist(): GvgTask[] {
     return this.bosslistSub.getValue();
   }
-
+  
 }

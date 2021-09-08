@@ -8,6 +8,7 @@ export const unHaveCharas = 'unHaveCharas';
 export interface ServerUnChara {
   cn: Chara[];
   jp: Chara[];
+  tw: Chara[];
 }
 
 @Injectable({
@@ -17,6 +18,7 @@ export class RediveDataService {
   private unHaveCharaSub = new BehaviorSubject<ServerUnChara>({
     cn: [],
     jp: [],
+    tw: [],
   });
   private charaListSub = new BehaviorSubject<Chara[]>([]);
   private rankListSub = new BehaviorSubject<number[]>([]);
@@ -28,9 +30,11 @@ export class RediveDataService {
     const data = this.storageSrv.localGet(unHaveCharas);
     const cnData = data?.cn ?? []
     const jpData = data?.jp ?? []
+    const twData = data?.tw ?? []
     this.setUnHaveChara({
       cn: cnData,
       jp: jpData,
+      tw: twData,
     });
   }
 
