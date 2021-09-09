@@ -26,14 +26,14 @@ jobs:
           path: statics
       - name: build dist
         run: |
-          version=`date +%s`
-          echo ${version}
-          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@${version}/static/
+          echo ${GITHUB_SHA}
+          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@${GITHUB_SHA}/static/
       - name: commit to pcrgvg/statics
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: master
           push_options: '--force'
-          commit_message: ":bookmark: Release "
+          tagging_message: "v$GITHUB_SHA"
+          commit_message: ":bookmark: Release pcrgvg commit sha $GITHUB_SHA"
           repository: statics
           file_pattern: static/*
