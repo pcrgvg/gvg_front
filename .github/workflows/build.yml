@@ -1,0 +1,24 @@
+name: Build assets
+on:
+  workflow_dispatch:
+    inputs:
+      TAG:
+        description: 'Set a Tag'
+        required: true
+        default: ''
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: test
+        run: ls src
+      - name: checkout
+        with:
+          repository: pcrgvg/statics
+          path: statics
+      - run: ls statics
