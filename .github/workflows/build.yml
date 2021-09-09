@@ -14,12 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-      - name: test
-        run: ls src
+        uses: actions/checkout@v23
+      - name: set node
+        uses: actions/setup-node@v2
+          with:
+            node-version: '14'
       - name: checkout
         uses: actions/checkout@v2
         with:
           repository: pcrgvg/statics
           path: statics
-      - run: ls statics
+      - name: build dist
+        run: |
+          version=`date +%s`
+          echo ${version}
+          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@${version}/static/
+      - name: commit to pcrgvg/statics
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: master
+          push_options: '--force'
+          commit_message: ":bookmark: Release "
+          repository: statics
+          file_pattern: static/*
