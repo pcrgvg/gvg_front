@@ -18,6 +18,7 @@ jobs:
       - name: test
         run: ls src
       - name: checkout
+        uses: actions/checkout@v2
         with:
           repository: pcrgvg/statics
           path: statics
