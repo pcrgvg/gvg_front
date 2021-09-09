@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v23
       - name: set node
         uses: actions/setup-node@v2
-          with:
-            node-version: '14'
+        with:
+          node-version: '14'
       - name: checkout
         uses: actions/checkout@v2
         with:
