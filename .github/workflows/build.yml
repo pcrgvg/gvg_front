@@ -28,6 +28,8 @@ jobs:
         run: |
           echo ${GITHUB_SHA}
           npm install -g @angular/cli
+          npm i
+           echo start build
           ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@${GITHUB_SHA}/static/
       - name: commit to pcrgvg/statics
         uses: stefanzweifel/git-auto-commit-action@v4
