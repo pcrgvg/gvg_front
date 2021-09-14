@@ -19,7 +19,7 @@ export class DefaultComponent implements OnInit {
     if (showTip) {
       this.nzModalSrv.info({
         nzMask: true,
-        nzContent: '作业列表点击角色的头像,可设置该角色为强制借用(可能有BUG',
+        nzContent: '作业列表点击角色的头像,可设置该角色为强制借用(可能有BUG),同时摸了一个APP出来,详情首页',
         nzOnOk: (r) => {
           this.storageSrv.localSet('showTip', false);
         },
