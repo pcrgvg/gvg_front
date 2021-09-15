@@ -39,4 +39,4 @@ jobs:
         with:
             allowUpdates: true
             token: ${{ secrets.GITHUB_TOKEN }}
-            tag: v${{ GITHUB_SHA }}
+            tag: v$GITHUB_SHA
