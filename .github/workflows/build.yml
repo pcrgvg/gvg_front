@@ -25,6 +25,7 @@ jobs:
           npm install -g @angular/cli
           npm i
           echo start build
+          rm -rf statics/static/*
           ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v${GITHUB_SHA}/statics/static/
           ls statics/static
       - name: commit 
