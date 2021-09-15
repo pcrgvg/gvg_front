@@ -26,17 +26,17 @@ jobs:
           npm i
            echo start build
           ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v${GITHUB_SHA}/statics/static/
-      - name: commit to pcrgvg/statics
+      - name: commit 
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: master
           push_options: '--force'
-          tagging_message: "v$GITHUB_SHA"
-          commit_message: ":bookmark: Release pcrgvg commit sha $GITHUB_SHA"
-          file_pattern: static/static/*
-      - name: Release to github
-        uses: ncipollo/release-action@v1
-        with:
-            allowUpdates: true
-            token: ${{ secrets.GITHUB_TOKEN }}
-            tag: v${GITHUB_SHA}
+          tagging_message: "v${{github.sha}}A"
+          commit_message: ":bookmark: Release pcrgvg commit sha ${{github.sha}}"
+          file_pattern: statics/static/*
+      # - name: Release to github
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #       allowUpdates: true
+      #       token: ${{ secrets.GITHUB_TOKEN }}
+      #       tag: v${{github.sha}}
