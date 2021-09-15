@@ -19,18 +19,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - name: checkout
-        uses: actions/checkout@v2
-        with:
-          repository: pcrgvg/statics
-          path: statics
       - name: build dist
         run: |
           echo ${GITHUB_SHA}
           npm install -g @angular/cli
           npm i
            echo start build
-          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@${GITHUB_SHA}/static/
+          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@$v{GITHUB_SHA}/statics/static/
       - name: commit to pcrgvg/statics
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -38,5 +33,10 @@ jobs:
           push_options: '--force'
           tagging_message: "v$GITHUB_SHA"
           commit_message: ":bookmark: Release pcrgvg commit sha $GITHUB_SHA"
-          repository: statics
-          file_pattern: static/*
+          file_pattern: static/static/*
+      - name: Release to github
+        uses: ncipollo/release-action@v1
+        with:
+            allowUpdates: true
+            token: ${{ secrets.GITHUB_TOKEN }}
+            tag: v${{ GITHUB_SHA }}
