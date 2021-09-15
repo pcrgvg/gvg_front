@@ -25,7 +25,7 @@ jobs:
           npm install -g @angular/cli
           npm i
            echo start build
-          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@$v{GITHUB_SHA}/statics/static/
+          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v${GITHUB_SHA}/statics/static/
       - name: commit to pcrgvg/statics
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -39,4 +39,4 @@ jobs:
         with:
             allowUpdates: true
             token: ${{ secrets.GITHUB_TOKEN }}
-            tag: v$GITHUB_SHA
+            tag: v${GITHUB_SHA}
