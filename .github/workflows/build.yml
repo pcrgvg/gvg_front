@@ -34,9 +34,9 @@ jobs:
           tagging_message: "v${{github.sha}}A"
           commit_message: ":bookmark: Release pcrgvg commit sha ${{github.sha}}"
           file_pattern: statics/static/*
-      # - name: Release to github
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #       allowUpdates: true
-      #       token: ${{ secrets.GITHUB_TOKEN }}
-      #       tag: v${{github.sha}}
+      - name: Release to github
+        uses: ncipollo/release-action@v1
+        with:
+            allowUpdates: true
+            token: ${{ secrets.GITHUB_TOKEN }}
+            tag: v${{github.sha}}
