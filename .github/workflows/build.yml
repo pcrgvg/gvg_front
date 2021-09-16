@@ -33,6 +33,7 @@ jobs:
         with:
           branch: master
           add_options: '-A'
+          push_options: '--force'
           commit_message: ":bookmark: Release pcrgvg commit sha ${{github.sha}}"
           file_pattern: statics/static/*
       - name: Release to github
