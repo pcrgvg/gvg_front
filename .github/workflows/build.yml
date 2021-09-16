@@ -32,6 +32,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: master
+          add_options: '-A'
           commit_message: ":bookmark: Release pcrgvg commit sha ${{github.sha}}"
           file_pattern: statics/static/*
       - name: Release to github
