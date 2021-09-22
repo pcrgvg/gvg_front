@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { RouterCacheService } from './router-cache.service';
 
 /**
- * @description 
- * 
+ * @description
+ *
  */
 @Injectable({
   providedIn: 'root',

@@ -76,7 +76,7 @@ export class PcrIconComponent implements OnInit, OnDestroy {
         this._unit.prefabId,
         this._unit.currentRarity ?? this._unit.rarity,
         this.redive.ossSource
-      )
+      );
     } else {
        this._src = '/assets/images/000001.webp';
     }

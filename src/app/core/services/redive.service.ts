@@ -42,7 +42,7 @@ export class RediveService {
           { label: '1+2', value: 1 },
           { label: '3', value: 3 },
           { label: '4+5', value: 6 },
-        ]
+        ];
       }
       // 2021/4
       if (clanBattleId > 1037) {
@@ -51,7 +51,7 @@ export class RediveService {
           { label: '2', value: 2 },
           { label: '3', value: 3 },
           { label: '4+5', value: 6 },
-        ]
+        ];
       }
     }
     if (server === ServerType.tw) {
@@ -60,7 +60,7 @@ export class RediveService {
         { label: '2', value: 2 },
         { label: '3', value: 3 },
         { label: '4+5', value: 6 },
-      ]
+      ];
     }
 
 
@@ -70,6 +70,6 @@ export class RediveService {
       { label: '3', value: 3 },
       { label: '4', value: 4 },
       { label: '5', value: 5 },
-    ]
+    ];
   }
 }

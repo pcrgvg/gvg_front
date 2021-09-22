@@ -49,7 +49,7 @@ export class AddUnHaveComponent implements OnInit {
       ...this.rediveDataSrv.unHaveCharas,
       [this.server]: this.unHaveCharas
     });
- 
+
     this.modalSrc.closeAll();
   }
 

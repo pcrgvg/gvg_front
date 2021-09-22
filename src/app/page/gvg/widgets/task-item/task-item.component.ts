@@ -23,16 +23,16 @@ export class TaskItemComponent  implements OnInit {
 
   @Input()  usedList: number[] = []; // 已使用的作业
   @Input()  removedList: number[] = []; // 去除
-  @Input() operate = false; // 
-  @Input() serverType = ServerType.jp; // 
+  @Input() operate = false; //
+  @Input() serverType = ServerType.jp; //
 
-  @Output() onAddTask = new EventEmitter<Task>()
-  @Output() onDelete = new EventEmitter<Task>()
+  @Output() onAddTask = new EventEmitter<Task>();
+  @Output() onDelete = new EventEmitter<Task>();
   loading = false;
   canAutoType = CanAutoType;
 
   ngOnInit(): void {
-    
+
   }
 
 
@@ -73,7 +73,7 @@ export class TaskItemComponent  implements OnInit {
       }
       this.storageSrv.localSet(storageNames.removedList, this.removedList);
     }
-  
+
 
     addTask() {
       this.onAddTask.emit(this.task);
@@ -96,6 +96,6 @@ export class TaskItemComponent  implements OnInit {
       } else {
         this.task.fixedBorrowChara = chara;
       }
-     
+
     }
 }

@@ -28,9 +28,9 @@ export class RediveDataService {
 
   _init() {
     const data = this.storageSrv.localGet(unHaveCharas);
-    const cnData = data?.cn ?? []
-    const jpData = data?.jp ?? []
-    const twData = data?.tw ?? []
+    const cnData = data?.cn ?? [];
+    const jpData = data?.jp ?? [];
+    const twData = data?.tw ?? [];
     this.setUnHaveChara({
       cn: cnData,
       jp: jpData,

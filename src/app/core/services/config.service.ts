@@ -56,7 +56,7 @@ export class ConfigService {
   }
 
   configToken() {
-    
+
     const nowDate = new Date().getTime().toFixed();
     const l = Math.random() * nowDate.length;
     const t = CryptoES.SHA1((nowDate.substr(l) + eval(this.s))).toString();

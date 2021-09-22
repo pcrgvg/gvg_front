@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NzModalService} from 'ng-zorro-antd/modal'
-import { StorageService } from '@app/core/services/storage.service'
+import { NzModalService} from 'ng-zorro-antd/modal';
+import { StorageService } from '@app/core/services/storage.service';
 
 @Component({
   selector: 'app-default',
@@ -12,7 +12,7 @@ export class DefaultComponent implements OnInit {
     private nzModalSrv: NzModalService,
     private storageSrv: StorageService
   ) { }
-  @ViewChildren('adWrapper') ads: QueryList<any>
+  @ViewChildren('adWrapper') ads: QueryList<any>;
 
   ngOnInit(): void {
     const showTip = this.storageSrv.localGet('showTip', true);
@@ -26,7 +26,7 @@ export class DefaultComponent implements OnInit {
         nzOnCancel: () => {
           this.storageSrv.localSet('showTip', false);
         }
-      })
+      });
     }
   }
 
@@ -34,7 +34,7 @@ export class DefaultComponent implements OnInit {
     for (let index = 0; index < this.ads.length + 1; index++) {
       ((window as any).adsbygoogle || [])?.push({});
     }
-   
+
   }
 
 }

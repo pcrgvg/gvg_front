@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Task } from '@app/models'
+import { Task } from '@app/models';
 import { storageNames } from '@src/app/constants';
 import { StorageService } from '@src/app/core';
 import { TempService } from '../services/temp.service';
@@ -16,7 +16,7 @@ export class TaskDetailComponent implements OnInit {
     private storageSrv: StorageService,
   ) { }
 
-  task:Task;
+  task: Task;
   usedList: number[]  = [];
   removedList: number[]  = [];
   ngOnInit(): void {

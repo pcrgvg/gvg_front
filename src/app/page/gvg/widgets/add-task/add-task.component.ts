@@ -150,7 +150,7 @@ export class AddTaskComponent implements OnInit {
     }
     if (this.links.length) {
       for (const linkObj of this.links) {
-        if(!linkObj.name?.trim()) {
+        if (!linkObj.name?.trim()) {
           this.notificationSrc.error('', '有名称为空');
           return;
         }

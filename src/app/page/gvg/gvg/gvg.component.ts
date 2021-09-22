@@ -45,7 +45,7 @@ import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent   implements OnInit,RouteKeep {
+export class GvgComponent   implements OnInit, RouteKeep {
   // @ViewChildren(NzCollapsePanelComponent)
   // nzCollapsePanels: NzCollapsePanelComponent[];
   @ViewChildren('collapse')
@@ -97,7 +97,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
   ];
   // 筛选loading
   filterLoading = false;
-  // 搜索loading 
+  // 搜索loading
   searchLoading = false;
   clanBattleList = []; // 会战期次
   clanBattleId = null; // 当前会战期次
@@ -139,7 +139,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
     this.toggleServer();
     getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630420355/worker/232.eb723d20787b89f4f37a.js').then(url => {
       this.blobUrl = url;
-    })
+    });
 
   }
 
@@ -159,13 +159,13 @@ export class GvgComponent   implements OnInit,RouteKeep {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
       case '114': {
-        this.operate = this.serverType === ServerType.cn
-      } break;
+        this.operate = this.serverType === ServerType.cn;
+      }           break;
       case '142':
-        this.operate = this.serverType === ServerType.jp
+        this.operate = this.serverType === ServerType.jp;
         break;
       case '143':
-        this.operate = this.serverType === ServerType.tw
+        this.operate = this.serverType === ServerType.tw;
         break;
       default:
         this.operate = false;
@@ -312,7 +312,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
     filterGvgTaskList.forEach((r) => {
       r.tasks.forEach(t => {
         t.damage = this.typeDamage(t);
-      })
+      });
       taskList.push(r);
       bossList.push({
         prefabId: r.prefabId,
@@ -328,7 +328,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
     const unHaveCharas = this.rediveDataSrv.unHaveCharas[this.serverType];
 
 
-    /** 
+    /**
     * 由于同源策略,无法加载cdn中的worker, 并且火狐不支持importScripts
     * 法1：全部使用blob字符串，但是极其难以维护
     * 法2：先打包生成worker文件，再修改路径进行打包,稍微好维护一点
@@ -343,7 +343,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
 
       // 方法2
       // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
-      const worker = new Worker(this.blobUrl)
+      const worker = new Worker(this.blobUrl);
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
@@ -357,7 +357,7 @@ export class GvgComponent   implements OnInit,RouteKeep {
         bossList: taskList,
         removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
         usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-        unHaveCharas: unHaveCharas,
+        unHaveCharas,
         server: this.serverType,
       });
       worker.onerror = (err) => {
@@ -372,13 +372,13 @@ export class GvgComponent   implements OnInit,RouteKeep {
       // worker = new Worker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setTimeout(() => {
         const filterResult = filterTask({
           bossList: taskList,
           removedList: this.storageSrv.localGet(storageNames.removedList) ?? [],
           usedList: this.storageSrv.localGet(storageNames.usedList) ?? [],
-          unHaveCharas: unHaveCharas,
+          unHaveCharas,
           server: this.serverType,
         });
 
@@ -516,6 +516,6 @@ export class GvgComponent   implements OnInit,RouteKeep {
 
   toDetail(task: Task) {
     this.tempSrv.setTask(task);
-    this.router.navigate(['/gvg/task-detail'])
+    this.router.navigate(['/gvg/task-detail']);
   }
 }

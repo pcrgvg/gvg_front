@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '@src/environments/environment'
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'pcr-about',
@@ -9,8 +9,8 @@ import { environment } from '@src/environments/environment'
 export class AboutComponent {
   shwoLink = environment.showLink;
 
-  constructor() { 
- 
+  constructor() {
+
   }
 
 

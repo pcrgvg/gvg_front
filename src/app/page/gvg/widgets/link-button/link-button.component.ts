@@ -9,7 +9,7 @@ export class LinkButtonComponent implements OnInit {
 
   constructor() { }
 
-  @Input() linkObj: {link: string, name: string, remarks: string}
+  @Input() linkObj: {link: string, name: string, remarks: string};
 
   ngOnInit(): void {
   }

@@ -10,8 +10,8 @@ export class BillboardComponent implements OnInit {
 
   constructor() { }
   @Input() serverType = ServerType.jp;
-  @Input() content: string = '';
-  @Input() showLink: boolean = false;
+  @Input() content = '';
+  @Input() showLink = false;
 
   ngOnInit(): void {
   }

@@ -13,10 +13,10 @@ export class ResultDetailComponent implements OnInit {
     private tempSrv: TempService
   ) { }
 
-  task: Task
+  task: Task;
 
   ngOnInit(): void {
-  
+
   }
 
 }

@@ -27,7 +27,7 @@ export class PcrApiService {
   }
 
   deleteTask(id: number, server: string): Observable<boolean> {
-    return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString(),server } });
+    return this.http.delete<boolean>(pcrApis.deleteTask, { params: { id: id.toString(), server } });
   }
 
   getRank(server: ServerType): Observable<number[]> {

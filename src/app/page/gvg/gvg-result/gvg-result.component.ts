@@ -8,7 +8,7 @@ import { storageNames } from '@app/constants';
 import { FilterResultService } from '../services/filter-result.service';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { environment } from '@src/environments/environment'
+import { environment } from '@src/environments/environment';
 import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
@@ -25,7 +25,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private filterResultSrv: FilterResultService,
     private nzImgSrv: NzImageService
   ) {
-   
+
   }
 
 
@@ -40,7 +40,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   ds = new TaskDataSource(this.filterResultSrv);
 
   showLink = environment.showLink;
-  canAutoType = CanAutoType
+  canAutoType = CanAutoType;
 
   ngOnInit(): void {
     this.breakpointObserver
@@ -90,8 +90,8 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     }
   }
 
-  previewImg(url:string) {
-    this.nzImgSrv.preview([{src:url}]);
+  previewImg(url: string) {
+    this.nzImgSrv.preview([{src: url}]);
   }
 }
 
@@ -194,6 +194,6 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     this.disconnect$.complete();
   }
 
-  
+
 }
 
