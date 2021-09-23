@@ -1,13 +1,13 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NzModalService} from 'ng-zorro-antd/modal';
 import { StorageService } from '@app/core/services/storage.service';
 
 @Component({
-  selector: 'app-default',
+  selector: 'pcr-default',
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss'],
 })
-export class DefaultComponent implements OnInit {
+export class DefaultComponent implements OnInit, AfterViewInit {
   constructor(
     private nzModalSrv: NzModalService,
     private storageSrv: StorageService

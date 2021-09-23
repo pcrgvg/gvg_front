@@ -23,12 +23,12 @@
       </li>
     </ul>
   </nz-dropdown-menu>
-  <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text>
+  <pcr-ellipsis-text [text]="linkObj.name"></pcr-ellipsis-text>
 </span>
 
 <ng-template #elseTpl>
   <a *ngIf="linkObj.link" [href]="linkObj.link" target="_blank">
-    <!-- <app-ellipsis-text [text]="linkObj.name"> </app-ellipsis-text> -->
+    <!-- <pcr-ellipsis-text [text]="linkObj.name"> </pcr-ellipsis-text> -->
     {{linkObj.name}}
 </a>
   <a
@@ -39,7 +39,7 @@
     [nzTooltipTitle]="titleTemplate"
     >
     {{linkObj.name}}
-    <!-- <app-ellipsis-text [text]="linkObj.name"></app-ellipsis-text> -->
+    <!-- <pcr-ellipsis-text [text]="linkObj.name"></pcr-ellipsis-text> -->
   </a>
   <ng-template #titleTemplate>
     <pre class="remarks">{{ linkObj.remarks }}</pre>

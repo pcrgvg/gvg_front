@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'pcr-root',
   template: `
-    <app-default></app-default>
+    <pcr-default></pcr-default>
     <!-- <router-outlet></router-outlet> -->
   `,
   styles: [],

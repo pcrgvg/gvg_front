@@ -5,7 +5,7 @@
       (clickStop)="fixedBorrowChara(chara)"
       *ngFor="let chara of task.charas; trackBy: trackByCharaFn"
     >
-      <app-pcr-icon [unit]="chara" [class.selected]="task.fixedBorrowChara?.prefabId == chara.prefabId" ></app-pcr-icon>
+      <pcr-icon [unit]="chara" [class.selected]="task.fixedBorrowChara?.prefabId === chara.prefabId" ></pcr-icon>
       <div class="g-flex-between" style="font-size: 12px">
         <div style="color: #ff8a00">{{ chara.currentRarity }}X</div>
         <div style="color: #ff2277">R{{ chara.rank }}</div>
@@ -24,17 +24,17 @@
       }"
     >
       <span>{{ canAuto | canauto }}</span>
-      <span *ngIf="canAuto == canAutoType.manual">({{ task.damage }}W)</span>
-      <span *ngIf="canAuto == canAutoType.auto || canAuto == canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
+      <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}W)</span>
+      <span *ngIf="canAuto === canAutoType.auto || canAuto === canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
     </div>
-    <div style="color: #2f42d0" *ngIf="task.type == 1">(尾刀)</div>
+    <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
   </div>
 </div>
 <div class="g-flex-between" style="margin-top: 8px;">
   <div style="margin-left: 15px;color: #000;">{{ task.exRemarks }}</div>
   <div>
     <label
-      *ngIf="task.type != 1"
+      *ngIf="task.type !== 1"
       style="margin-left: 15px; color: #68b9ff"
       (clickStop)="clickStop()"
       nz-checkbox
@@ -43,7 +43,7 @@
       >使用</label
     >
     <label
-      *ngIf="task.type != 1"
+      *ngIf="task.type !== 1"
       style="margin-left: 15px; color: #f55291"
       nz-checkbox
       (clickStop)="clickStop()"

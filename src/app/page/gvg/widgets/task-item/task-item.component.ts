@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss']
 })
-export class TaskItemComponent  implements OnInit {
+export class TaskItemComponent  {
 
 
   constructor(
@@ -26,14 +26,14 @@ export class TaskItemComponent  implements OnInit {
   @Input() operate = false; //
   @Input() serverType = ServerType.jp; //
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onAddTask = new EventEmitter<Task>();
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onDelete = new EventEmitter<Task>();
   loading = false;
   canAutoType = CanAutoType;
 
-  ngOnInit(): void {
 
-  }
 
 
   trackByCharaFn(_: number, chara: Chara): number {

@@ -5,13 +5,10 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './link-button.component.html',
   styleUrls: ['./link-button.component.scss']
 })
-export class LinkButtonComponent implements OnInit {
+export class LinkButtonComponent  {
 
   constructor() { }
 
   @Input() linkObj: {link: string, name: string, remarks: string};
-
-  ngOnInit(): void {
-  }
 
 }

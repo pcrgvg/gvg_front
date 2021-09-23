@@ -10,12 +10,12 @@ export function createWorker(workerUrl: string) {
 				blob = new Blob(['importScripts(\'' + workerUrl + '\');'], { type: 'application/javascript' });
 			} catch (e1) {
 				console.log('33344');
-				let blobBuilder = new window.MSBlobBuilder();
+				const blobBuilder = new window.MSBlobBuilder();
 				blobBuilder.append('importScripts(\'' + workerUrl + '\');');
 				blob = blobBuilder.getBlob('application/javascript');
 			}
-			let url = window.URL || window.webkitURL;
-			let blobUrl = url.createObjectURL(blob);
+			const url = window.URL || window.webkitURL;
+			const blobUrl = url.createObjectURL(blob);
 			worker = new Worker(blobUrl);
 		} catch (e2) {
 			// if it still fails, there is nothing much we can do

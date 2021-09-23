@@ -12,11 +12,11 @@ import {
 import { NzTooltipTrigger } from 'ng-zorro-antd/tooltip';
 
 @Component({
-  selector: 'app-ellipsis-text',
+  selector: 'pcr-ellipsis-text',
   templateUrl: './ellipsis-text.component.html',
   styleUrls: ['./ellipsis-text.component.scss'],
 })
-export class EllipsisTextComponent implements OnInit, AfterViewInit {
+export class EllipsisTextComponent implements  AfterViewInit {
   @ViewChild('textTempl') textTempl: ElementRef;
   @Input() text = '';
 
@@ -25,7 +25,6 @@ export class EllipsisTextComponent implements OnInit, AfterViewInit {
 
   constructor(private render: Renderer2) {}
 
-  ngOnInit(): void {}
 
   byteLength(value: string): number {
     let length = 0;

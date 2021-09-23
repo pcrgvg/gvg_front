@@ -7,7 +7,7 @@ import { TempService } from '../services/temp.service';
   templateUrl: './result-detail.component.html',
   styleUrls: ['./result-detail.component.scss']
 })
-export class ResultDetailComponent implements OnInit {
+export class ResultDetailComponent  {
 
   constructor(
     private tempSrv: TempService
@@ -15,8 +15,5 @@ export class ResultDetailComponent implements OnInit {
 
   task: Task;
 
-  ngOnInit(): void {
-
-  }
 
 }

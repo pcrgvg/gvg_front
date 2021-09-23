@@ -4,17 +4,17 @@
     class="g-flex-column"
     *ngFor="let chara of selectCharas; trackBy: trackByCharaFn"
   >
-    <app-pcr-icon
+    <pcr-icon
       class="img"
       style="border: none"
       [class.selected]="isSelected(chara)"
       [unit]="chara"
       (clickStop)="toggleSelect(chara)"
-    ></app-pcr-icon>
-    <app-rarity-select
+    ></pcr-icon>
+    <pcr-rarity-select
       [maxRarity]="chara.rarity"
       [(ngModel)]="chara.currentRarity"
-    ></app-rarity-select>
+    ></pcr-rarity-select>
 
     <nz-select [(ngModel)]="chara.rank" nzPlaceHolder="请选择">
       <nz-option
@@ -44,14 +44,14 @@
           [nzLabel]="item.unitName"
         >
         <div class="g-flex" >
-          <app-pcr-icon style=" flex-shrink: 0;" [unit]="item"></app-pcr-icon>
+          <pcr-icon style=" flex-shrink: 0;" [unit]="item"></pcr-icon>
           <span style="margin-left: 5px;">{{item.unitName}}</span>
         </div>
       </nz-option>
       </nz-select>
       <ng-template #defaultTemplate let-selected>
         <div class="g-flex">
-          <app-pcr-icon style="width: 20px; height: 20px; flex-shrink: 0;" [unit]="currentBoss"></app-pcr-icon>
+          <pcr-icon style="width: 20px; height: 20px; flex-shrink: 0;" [unit]="currentBoss"></pcr-icon>
           <span style="margin-left: 5px;"> {{ selected.nzLabel }}</span>
         </div>
         
@@ -153,7 +153,7 @@
     [href]="item.link"
     target="_blank"
   >
-    <app-ellipsis-text [text]="item.name || '链接' + i + 1"></app-ellipsis-text>
+    <pcr-ellipsis-text [text]="item.name || '链接' + i + 1"></pcr-ellipsis-text>
   </a>
 </div>
 
@@ -189,35 +189,35 @@
 <nz-tabset>
   <nz-tab nzTitle="前卫">
     <div class="chara-box">
-      <app-pcr-icon
+      <pcr-icon
         class="img"
         *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
         [class.selected]="isSelected(chara)"
         [unit]="chara"
         (clickStop)="toggleSelect(chara)"
-      ></app-pcr-icon>
+      ></pcr-icon>
     </div>
   </nz-tab>
   <nz-tab nzTitle="中卫">
     <div class="chara-box">
-      <app-pcr-icon
+      <pcr-icon
         class="img"
         *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
         [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [unit]="chara"
-      ></app-pcr-icon>
+      ></pcr-icon>
     </div>
   </nz-tab>
   <nz-tab nzTitle="后卫">
     <div class="chara-box">
-      <app-pcr-icon
+      <pcr-icon
         class="img"
         *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
         [class.selected]="isSelected(chara)"
         (clickStop)="toggleSelect(chara)"
         [unit]="chara"
-      ></app-pcr-icon>
+      ></pcr-icon>
     </div>
   </nz-tab>
 </nz-tabset>

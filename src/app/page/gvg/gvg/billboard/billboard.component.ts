@@ -6,14 +6,13 @@ import { ServerType } from '@src/app/models';
   templateUrl: './billboard.component.html',
   styleUrls: ['./billboard.component.scss']
 })
-export class BillboardComponent implements OnInit {
+export class BillboardComponent  {
 
   constructor() { }
   @Input() serverType = ServerType.jp;
   @Input() content = '';
   @Input() showLink = false;
 
-  ngOnInit(): void {
-  }
+
 
 }

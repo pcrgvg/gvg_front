@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
   templateUrl: './notice.component.html',
   styleUrls: ['./notice.component.scss']
 })
-export class NoticeComponent implements OnInit {
+export class NoticeComponent  {
   @Input() operate = false;
   @Input() notice: Notice;
   @Input() server: ServerType;
@@ -23,8 +23,7 @@ export class NoticeComponent implements OnInit {
     private nzModalSrc: NzModalService
   ) { }
 
-  ngOnInit(): void {
-  }
+
 
 
   confirm() {

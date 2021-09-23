@@ -2,49 +2,49 @@
     <h3 class="g-card-title" style="font-weight: bold;">未拥有</h3>
 <div  class="g-flex box">
    <div class="chara-box">
-    <app-pcr-icon
+    <pcr-icon
     class="img"
     style="opacity: 1;"
     *ngFor="let chara of unHaveCharas; trackBy: trackByCharaFn"
     [unit]="chara"
     (clickStop)="toggleSelect(chara)"
-  ></app-pcr-icon>
+  ></pcr-icon>
    </div>
   </div>
 
 
   <nz-tabset>
     <nz-tab nzTitle="前卫">
-        <div class="chara-box">  <app-pcr-icon
+        <div class="chara-box">  <pcr-icon
             class="img"
             *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
             [class.selected]="isSelected(chara)"
             [unit]="chara"
             (clickStop)="toggleSelect(chara)"
-          ></app-pcr-icon></div>
+          ></pcr-icon></div>
       
     </nz-tab>
     <nz-tab nzTitle="中卫">
         <div class="chara-box">
-            <app-pcr-icon
+            <pcr-icon
             class="img"
             *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
             [class.selected]="isSelected(chara)"
             (clickStop)="toggleSelect(chara)"
             [unit]="chara"
-          ></app-pcr-icon>
+          ></pcr-icon>
         </div>
        
     </nz-tab>
     <nz-tab nzTitle="后卫">
         <div class="chara-box">
-            <app-pcr-icon
+            <pcr-icon
             class="img"
             *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
             [class.selected]="isSelected(chara)"
             (clickStop)="toggleSelect(chara)"
             [unit]="chara"
-          ></app-pcr-icon>
+          ></pcr-icon>
         </div>
      
     </nz-tab>

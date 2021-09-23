@@ -19,14 +19,14 @@ interface Unit {
 }
 
 @Component({
-  selector: 'app-pcr-icon',
+  selector: 'pcr-icon',
   template: `
     <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
   `,
   styleUrls: ['./pcr-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PcrIconComponent implements OnInit, OnDestroy {
+export class PcrIconComponent implements  OnDestroy {
   _unit: Unit;
   _src: string;
   onDestory$ = new Subject();
@@ -62,7 +62,7 @@ export class PcrIconComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  ngOnInit(): void { }
+
 
   ngOnDestroy(): void {
     this.onDestory$.next();

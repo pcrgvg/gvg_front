@@ -15,7 +15,7 @@ export const SELECT_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'app-rarity-select',
+  selector: 'pcr-rarity-select',
   templateUrl: './rarity-select.component.html',
   styleUrls: ['./rarity-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -6,11 +6,11 @@ import { StorageService, unHaveCharas } from '@app/core/services';
 
 
 @Component({
-  selector: 'app-header',
+  selector: 'pcr-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent  {
   @ViewChild('clearTpl') clearTpl: TemplateRef<any>;
   constructor(
     private router: Router,
@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
     private storageSrv: StorageService
   ) {}
 
-  ngOnInit(): void {}
 
   toHome() {
     this.router.navigate(['/']);

@@ -5,12 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './delete-comfirm.component.html',
   styleUrls: ['./delete-comfirm.component.scss']
 })
-export class DeleteComfirmComponent implements OnInit {
+export class DeleteComfirmComponent  {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+
 
   onConfirm() {
 

@@ -3,7 +3,7 @@
     <div class="g-flex boss">
         <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
             <label nz-checkbox [(ngModel)]="boss.checked"></label>
-            <app-pcr-icon style="margin:0 16px" [unit]="boss"></app-pcr-icon>
+            <pcr-icon style="margin:0 16px" [unit]="boss"></pcr-icon>
             <nz-select [(ngModel)]="boss.count" name="value">
               <nz-option
                 *ngFor="let item of countList"
@@ -30,7 +30,7 @@
             <div class="g-flex-between">
               <div class="g-flex" style="margin-bottom: 5px;">
                 <div class="g-flex">
-                  <span>boss {{ task.index }} </span><app-pcr-icon style="margin-left: 30px;" [unit]="task"></app-pcr-icon>
+                  <span>boss {{ task.index }} </span><pcr-icon style="margin-left: 30px;" [unit]="task"></pcr-icon>
                 </div>
                 <span style="margin-left: 15px;">伤害{{ task.damage }}w</span>
               </div>
@@ -49,7 +49,7 @@
            
             <div class="g-flex">
               <div class="g-flex-column" class="item" *ngFor="let chara of task.charas">
-                <app-pcr-icon [unit]="chara"></app-pcr-icon>
+                <pcr-icon [unit]="chara"></pcr-icon>
                 <div class="g-flex-between" style="font-size: 14px; margin-top: 2px; width: 100%;">
                   <div class="g-flex">
                     {{ chara.currentRarity }}X
@@ -58,7 +58,7 @@
                 </div>
               </div>
             </div>
-            <app-ellipsis-text *ngIf="task.exRemarks" style="height: 20px;color: red;max-width: 270px;" [text]="task.exRemarks"></app-ellipsis-text>
+            <pcr-ellipsis-text *ngIf="task.exRemarks" style="height: 20px;color: red;max-width: 270px;" [text]="task.exRemarks"></pcr-ellipsis-text>
             <div style="height: 50px;" class="g-flex">
               <div
               *ngFor="let canAuto of task.canAuto"
@@ -70,12 +70,12 @@
               }"
             >
               <span>{{ canAuto | canauto }}</span>
-              <span *ngIf="canAuto == canAutoType.manual">({{ task.damage }}W)</span>
-              <span *ngIf="canAuto == canAutoType.auto || canAuto == canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
+              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}W)</span>
+              <span *ngIf="canAuto === canAutoType.auto || canAuto === canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
             </div>
-            <div style="color: #2f42d0" *ngIf="task.type == 1">(尾刀)</div>
+            <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
               <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
-                <span>借 </span><app-pcr-icon [unit]="task.borrowChara"></app-pcr-icon>
+                <span>借 </span><pcr-icon [unit]="task.borrowChara"></pcr-icon>
               </div>
             </div>
             <div class="scroll-item-link" *ngIf="showLink">

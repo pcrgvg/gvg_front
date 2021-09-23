@@ -5,13 +5,11 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
   templateUrl: './select-suffix.component.html',
   styleUrls: ['./select-suffix.component.scss']
 })
-export class SelectSuffixComponent implements OnInit {
+export class SelectSuffixComponent {
   @ViewChild('nzSelectSuffixTpl', { static: true })
   nzSelectSuffix!: TemplateRef<void>;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
 }

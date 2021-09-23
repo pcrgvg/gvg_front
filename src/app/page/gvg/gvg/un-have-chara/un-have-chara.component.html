@@ -4,9 +4,9 @@
       <button nz-button class="g-btn" (clickStop)="addUnHave()">添加</button>
     </div>
     <div class="chara-box">
-      <app-pcr-icon
+      <pcr-icon
         *ngFor="let chara of unHaveCharaList; trackBy: trackByCharaFn"
         [unit]="chara"
-      ></app-pcr-icon>
+      ></pcr-icon>
     </div>
   </div>
