@@ -12,7 +12,6 @@ pcr-ellipsis-text {
   max-width: none;
 }
 
-
 .form {
   display: flex;
   flex-wrap: wrap;
@@ -48,10 +47,9 @@ pcr-ellipsis-text {
   }
 }
 
-
-
 ::ng-deep {
-  .ant-collapse .ant-collapse-item-disabled>.ant-collapse-header, .ant-collapse .ant-collapse-item-disabled>.ant-collapse-header>.arrow {
+  .ant-collapse .ant-collapse-item-disabled > .ant-collapse-header,
+  .ant-collapse .ant-collapse-item-disabled > .ant-collapse-header > .arrow {
     cursor: pointer;
   }
 }

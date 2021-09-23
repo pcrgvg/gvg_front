@@ -28,7 +28,6 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-
 }
 
 a {
@@ -57,12 +56,10 @@ a {
     }
   }
 
-
-
   &-btn {
     @include btn();
     border: 1px solid rgba(100, 184, 255, 0.5);
-    color: #68BAFF;
+    color: #68baff;
     &-danger {
       @include btn();
       color: #f55291;
@@ -77,13 +74,13 @@ a {
     margin-top: 0;
     right: 0;
   }
-  &-modal{
+  &-modal {
     &-content {
       border: 3px solid var(--primary);
       border-radius: 20px;
       padding: 20px;
     }
-    &-body{
+    &-body {
       padding: 0;
     }
   }
@@ -95,17 +92,17 @@ a {
     &.ant-tabs-tab-active {
       &::before {
         display: block;
-        content: '';
+        content: "";
         width: 16px;
         height: 15px;
         position: absolute;
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        background: url('~assets/images/tab_active.png');
+        background: url("~assets/images/tab_active.png");
       }
       .ant-tabs-tab-btn {
-        color: #F55291;
+        color: #f55291;
       }
     }
   }
@@ -124,8 +121,7 @@ a {
     box-shadow: 0 0 2px 2px var(--primary);
   }
   &-popover-buttons {
-   
-    .ant-btn-sm{
+    .ant-btn-sm {
       @include btn();
       color: #f55291;
       border-color: #f55291;
@@ -133,7 +129,7 @@ a {
     .ant-btn-primary {
       @include btn();
       border: 1px solid rgba(100, 184, 255, 0.5);
-      color: #68BAFF;
+      color: #68baff;
     }
   }
 
