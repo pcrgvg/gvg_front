@@ -219,8 +219,6 @@
         <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
           <nz-collapse-panel
             [nzActive]="false"
-            [nzDisabled]="true"
-            (clickStop)="toDetail(task)"
             style="
               border-top: 1px solid #64b8ff;
               background: rgba(255, 255, 255, 0.5);
@@ -241,7 +239,25 @@
             </ng-template>
 
 
-            <pre>备注: {{ task.remarks }}</pre>
+            <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0; max-height: 200px; overflow: auto">
+              <h6>备注: </h6>
+              <pre>{{ task.remarks }}</pre>
+            </div>
+            <div class="g-card">
+              <nz-tabset *ngIf="task.links.length; else elseLInkTpe">
+                <nz-tab [nzTitle]="linkObj.name" *ngFor="let linkObj of task.links"  >
+                  <div *ngIf="linkObj.link">
+                    视频连接: <a target="_blank" [href]="linkObj.link">{{ linkObj.name }}</a>
+                  </div>
+                  <div *ngIf="linkObj.remarks" style=" max-height: 300px; overflow: auto">
+                    <h6>备注:</h6>
+                    <pre >{{ linkObj.remarks }}</pre>
+                  </div>
+                </nz-tab>
+              </nz-tabset>
+      
+              <ng-template #elseLInkTpe>无视频连接</ng-template>
+            </div>
           </nz-collapse-panel>
         </nz-collapse>
       </div>
