@@ -116,8 +116,8 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label>伤害</nz-form-label>
+  <nz-form-item *ngIf="showManualDamage">
+    <nz-form-label>手动伤害</nz-form-label>
     <nz-form-control>
       <nz-input-group nzSuffix="W" style="width: 100px">
         <input name="damage" formControlName="damage" type="number" nz-input />

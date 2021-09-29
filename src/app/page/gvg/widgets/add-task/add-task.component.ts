@@ -81,7 +81,7 @@ export class AddTaskComponent implements OnInit {
         [Validators.required],
       ],
       canAuto: [this.task?.canAuto ?? [], [Validators.required]],
-      damage: [this.task?.damage, [Validators.required]],
+      damage: [this.task?.damage],
       stage: [this.task?.stage ?? null, [Validators.required]],
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
       autoDamage: [this.task?.autoDamage],
@@ -161,8 +161,24 @@ export class AddTaskComponent implements OnInit {
           return;
         }
       }
-
     }
+    // 判断对应的伤害必填
+    for (const type of (this.validateForm.get('canAuto').value as number[])) {
+      if (this.showAutoDamage && !this.validateForm.get('autoDamage').value) {
+        this.notificationSrc.error('', '自动伤害为空');
+        return
+      }
+      if (this.showManualDamage && !this.validateForm.get('damage').value) {
+        this.notificationSrc.error('', '手动伤害为空');
+        return
+      }
+      if (this.showHalfAutoDamage && !this.validateForm.get('halfAutoDamage').value) {
+        this.notificationSrc.error('', '半自动伤害为空');
+        return
+      }
+    }
+
+
     const valid = this.fv.formIsValid(this.validateForm);
     if (!valid) {
       return;
@@ -222,6 +238,14 @@ export class AddTaskComponent implements OnInit {
     return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto);
   }
 
+  get showHalfAutoDamage() {
+    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
+  }
+
+  get showManualDamage() {
+    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.manual);
+  }
+
   addLinkRemark(link: Link) {
     this.currentLink = link;
     this.modalSrc.create({
@@ -230,9 +254,7 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  get showHalfAutoDamage() {
-    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
-  }
+ 
 
   drop(event: CdkDragDrop<Link[]>) {
     const fromItem = this.links[event.previousIndex];
