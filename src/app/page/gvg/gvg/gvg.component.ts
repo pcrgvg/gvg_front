@@ -51,10 +51,10 @@ enum TaskType  {
   styleUrls: ['./gvg.component.scss'],
 })
 export class GvgComponent   implements OnInit, RouteKeep {
-  // @ViewChildren(NzCollapsePanelComponent)
-  // nzCollapsePanels: NzCollapsePanelComponent[];
-  @ViewChildren('collapse')
+  @ViewChildren(NzCollapsePanelComponent)
   nzCollapsePanels: NzCollapsePanelComponent[];
+  // @ViewChildren('collapse')
+  // nzCollapsePanels: NzCollapsePanelComponent[];
   NG_ROUTE_KEEP = true;
   constructor(
     private router: Router,

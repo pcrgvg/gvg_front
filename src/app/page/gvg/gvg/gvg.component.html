@@ -200,7 +200,7 @@
 
   <nz-collapse  [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
-    #collapse
+      #collapse
       [nzActive]="true"
       class="custom-panel"
       *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
@@ -240,7 +240,7 @@
             </ng-template>
 
 
-            <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0; max-height: 200px; overflow: auto">
+            <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0;">
               <h6>备注: </h6>
               <pre>{{ task.remarks }}</pre>
             </div>
@@ -250,7 +250,7 @@
                   <div *ngIf="linkObj.link">
                     视频连接: <a target="_blank" [href]="linkObj.link">{{ linkObj.name }}</a>
                   </div>
-                  <div *ngIf="linkObj.remarks" style=" max-height: 300px; overflow: auto">
+                  <div *ngIf="linkObj.remarks" >
                     <h6>备注:</h6>
                     <pre >{{ linkObj.remarks }}</pre>
                   </div>
