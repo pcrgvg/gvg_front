@@ -1,98 +1,135 @@
 <div class="g-card">
-    <h3 class="g-card-title">默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B2,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</h3>
-    <div class="g-flex boss">
-        <div *ngFor="let boss of bossList" class="g-flex" style=" margin-right: 16px;">
-            <label nz-checkbox [(ngModel)]="boss.checked"></label>
-            <pcr-icon style="margin:0 16px" [unit]="boss"></pcr-icon>
-            <nz-select [(ngModel)]="boss.count" name="value">
-              <nz-option
-                *ngFor="let item of countList"
-                [nzLabel]="item + ''"
-                [nzValue]="item">
-              </nz-option>
-            </nz-select>
-            
-        </div>
-
-        <button class="g-btn"  nz-button (click)="search()">筛选</button>
+  <h3 class="g-card-title">
+    默认显示所有符合条件的组合(即所有boss都不选中), 如果想要选择特定组合,
+    比如想要优选1刀B1,2刀B2,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选
+  </h3>
+  <div class="g-flex boss">
+    <div
+      *ngFor="let boss of bossList"
+      class="g-flex"
+      style="margin-right: 16px"
+    >
+      <label nz-checkbox [(ngModel)]="boss.checked"></label>
+      <pcr-icon style="margin: 0 16px" [unit]="boss"></pcr-icon>
+      <nz-select [(ngModel)]="boss.count" name="value">
+        <nz-option
+          *ngFor="let item of countList"
+          [nzLabel]="item + ''"
+          [nzValue]="item"
+        >
+        </nz-option>
+      </nz-select>
     </div>
 
-    <div class="divide"></div>
+    <button class="g-btn" nz-button (click)="search()">筛选</button>
+  </div>
 
-    <cdk-virtual-scroll-viewport  [itemSize]="itemSize" class="scroll">
-        <div *cdkVirtualFor="let bossTask of ds;" class="scroll-item">
-          <div
-            *ngFor="let task of bossTask"
-            style="padding: 0 5px;"
-            class="task-item"
-            [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''"
-          >
-            <div class="g-flex-between">
-              <div class="g-flex" style="margin-bottom: 5px;">
-                <div class="g-flex">
-                  <span>boss {{ task.index }} </span><pcr-icon style="margin-left: 30px;" [unit]="task"></pcr-icon>
-                </div>
-                <span style="margin-left: 15px;">伤害{{ task.damage }}w</span>
-              </div>
-              <a
-                *ngIf="task.remarks"
-                nz-tooltip
-                nzTooltipTrigger="click"
-                [nzTooltipMouseLeaveDelay]="10000000"
-                [nzTooltipTitle]="titleTemplate"
-                >备注</a
-              >
-              <ng-template #titleTemplate>
-                <pre class="remarks">{{ task.remarks }}</pre>
-              </ng-template>
-            </div>
-           
+  <div class="divide"></div>
+
+  <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
+    <div *cdkVirtualFor="let bossTask of ds" class="scroll-item">
+      <div
+        *ngFor="let task of bossTask"
+        style="padding: 0 5px"
+        class="task-item"
+        [style.backgroundColor]="
+          usedList.includes(task.id) ? 'rgb(255 162 154)' : ''
+        "
+      >
+        <div class="g-flex-between">
+          <div class="g-flex" style="margin-bottom: 5px">
             <div class="g-flex">
-              <div class="g-flex-column" class="item" *ngFor="let chara of task.charas">
-                <pcr-icon [unit]="chara"></pcr-icon>
-                <div class="g-flex-between" style="font-size: 14px; margin-top: 2px; width: 100%;">
-                  <div class="g-flex">
-                    {{ chara.currentRarity }}X
-                  </div>
-                  <span>R{{ chara.rank }}</span>
-                </div>
-              </div>
+              <span>boss {{ task.index }} </span
+              ><pcr-icon style="margin-left: 30px" [unit]="task"></pcr-icon>
             </div>
-            <pcr-ellipsis-text *ngIf="task.exRemarks" style="height: 20px;color: red;max-width: 270px;" [text]="task.exRemarks"></pcr-ellipsis-text>
-            <div style="height: 50px;" class="g-flex">
-              <div
-              *ngFor="let canAuto of task.canAuto"
-              [ngStyle]="{
-                color: autoColor(canAuto),
-                fontSize: '14px',
-                fontWeight: 'bold',
-                padding: '0 4px'
-              }"
+            <span style="margin-left: 15px">伤害{{ task.damage }}w</span>
+          </div>
+          <a
+            *ngIf="task.remarks"
+            nz-tooltip
+            nzTooltipTrigger="click"
+            [nzTooltipMouseLeaveDelay]="10000000"
+            [nzTooltipTitle]="titleTemplate"
+            >备注</a
+          >
+          <ng-template #titleTemplate>
+            <pre class="remarks">{{ task.remarks }}</pre>
+          </ng-template>
+        </div>
+
+        <div class="g-flex">
+          <div
+            class="g-flex-column"
+            class="item"
+            *ngFor="let chara of task.charas"
+          >
+            <pcr-icon [unit]="chara"></pcr-icon>
+            <div
+              class="g-flex-between"
+              style="font-size: 14px; margin-top: 2px; width: 100%"
             >
-              <span>{{ canAuto | canauto }}</span>
-              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}W)</span>
-              <span *ngIf="canAuto === canAutoType.auto || canAuto === canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
-            </div>
-            <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
-              <div style="margin-left: 20px;" *ngIf="task.borrowChara" class="g-flex">
-                <span>借 </span><pcr-icon [unit]="task.borrowChara"></pcr-icon>
-              </div>
-            </div>
-            <div class="scroll-item-link" *ngIf="showLink">
-              <div>
-                <span>链接:</span>
-                <ng-container   *ngFor="let item of task.links; index as i">
-                  <pcr-link-button  style="padding: 0 8px"  [linkObj]="item"></pcr-link-button>
-                 
-                </ng-container>
-              
-                <a  *ngFor="let url of task.images; index as i" style="padding: 0 8px" (clickStop)="previewImg(url)">图轴{{i +1}}</a>
-              </div>
+              <div class="g-flex">{{ chara.currentRarity }}X</div>
+              <span>R{{ chara.rank }}</span>
             </div>
           </div>
         </div>
-      </cdk-virtual-scroll-viewport>
-      
+        <pcr-ellipsis-text
+          *ngIf="task.exRemarks"
+          style="height: 20px; color: red; max-width: 270px"
+          [text]="task.exRemarks"
+        ></pcr-ellipsis-text>
+        <div style="height: 50px" class="g-flex">
+          <div
+            *ngFor="let canAuto of task.canAuto"
+            [ngStyle]="{
+              color: autoColor(canAuto),
+              fontSize: '14px',
+              fontWeight: 'bold',
+              padding: '0 4px'
+            }"
+          >
+            <span>{{ canAuto | canauto }}</span>
+            <span *ngIf="canAuto === canAutoType.manual"
+              >({{ task.damage }}W)</span
+            >
+            <!-- 兼容历史数据 -->
+            <span *ngIf="canAuto === canAutoType.auto"
+              >({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span
+            >
+            <span *ngIf="canAuto === canAutoType.harfAuto"
+              >({{
+                task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage
+              }}W)</span
+            >
+          </div>
+          <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
+          <div
+            style="margin-left: 20px"
+            *ngIf="task.borrowChara"
+            class="g-flex"
+          >
+            <span>借 </span><pcr-icon [unit]="task.borrowChara"></pcr-icon>
+          </div>
+        </div>
+        <div class="scroll-item-link" *ngIf="showLink">
+          <div>
+            <span>链接:</span>
+            <ng-container *ngFor="let item of task.links; index as i">
+              <pcr-link-button
+                style="padding: 0 8px"
+                [linkObj]="item"
+              ></pcr-link-button>
+            </ng-container>
+
+            <a
+              *ngFor="let url of task.images; index as i"
+              style="padding: 0 8px"
+              (clickStop)="previewImg(url)"
+              >图轴{{ i + 1 }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
 </div>
-
-

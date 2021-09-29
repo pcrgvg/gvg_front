@@ -22,6 +22,7 @@ import { cloneDeep } from 'lodash';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { finalize } from 'rxjs/operators';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'pcr-add-task',
@@ -83,10 +84,11 @@ export class AddTaskComponent implements OnInit {
       damage: [this.task?.damage, [Validators.required]],
       stage: [this.task?.stage ?? null, [Validators.required]],
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
-      autoDamage: [this.task?.autoDamage]
+      autoDamage: [this.task?.autoDamage],
+      halfAutoDamage: [this.task?.halfAutoDamage]
     });
     this.remarks = this.task?.remarks ?? '';
-    this.exRemarks = this.task.exRemarks ?? '';
+    this.exRemarks = this.task?.exRemarks ?? '';
     this.selectCharas = cloneDeep(
       this.task
         ? this.task.charas.map((r) => ({
@@ -197,25 +199,27 @@ export class AddTaskComponent implements OnInit {
     this.links.push({
       name: '',
       link: '',
-      remarks: ''
+      remarks: '',
+      index: this.links.length,
+      damage: 0
     });
   }
 
-  removeLink(index) {
+  removeLink(index: number) {
     this.links.splice(index, 1);
   }
 
   openAddLink() {
     this.modalSrc.create({
       nzContent: this.addLinkRef,
-      nzWidth: 600,
+      nzWidth: 800,
       nzFooter: null,
     });
   }
 
 
   get showAutoDamage() {
-    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto) || (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto);
   }
 
   addLinkRemark(link: Link) {
@@ -224,5 +228,16 @@ export class AddTaskComponent implements OnInit {
       nzContent: this.linkRemarkRef,
       nzFooter: null,
     });
+  }
+
+  get showHalfAutoDamage() {
+    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
+  }
+
+  drop(event: CdkDragDrop<Link[]>) {
+    const fromItem = this.links[event.previousIndex];
+    const toItem = this.links[event.currentIndex];
+    this.links[event.currentIndex] = fromItem;
+    this.links[event.previousIndex] = toItem;
   }
 }

@@ -8,7 +8,7 @@ export interface Chara {
   iconUrl?: string;
 }
 
-export type Link = { name: string; link: string, remarks: string };
+export type Link = { name: string; link: string, remarks: string, index?: number, damage?: number };
 
 
 export interface Task {
@@ -25,6 +25,7 @@ export interface Task {
   links: Link[];
   type: number; // 1尾刀,2正常
   autoDamage: number;
+  halfAutoDamage: number;
   images: string[];
   fixedBorrowChara?: Chara;
 }

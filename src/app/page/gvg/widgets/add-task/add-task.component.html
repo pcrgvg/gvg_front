@@ -99,10 +99,19 @@
   </nz-form-item>
 
   <nz-form-item *ngIf="showAutoDamage">
-    <nz-form-label>(半)自动伤害</nz-form-label>
+    <nz-form-label>自动伤害</nz-form-label>
     <nz-form-control>
       <nz-input-group nzSuffix="W" style="width: 100px">
         <input name="autoDamage" formControlName="autoDamage" type="number" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item *ngIf="showHalfAutoDamage">
+    <nz-form-label>半自动伤害</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSuffix="W" style="width: 100px">
+        <input name="halfAutoDamage" formControlName="halfAutoDamage" type="number" nz-input />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
@@ -146,7 +155,7 @@
   ></i>
 </div>
 
-<div class="g-flex" style="height: 50px; padding: 10px 0">
+<div class="g-flex" style="min-height: 50px; padding: 10px 0;flex-wrap: wrap;">
   <a
     style="margin-right: 10px"
     *ngFor="let item of links; index as i"
@@ -243,19 +252,27 @@
 
 <ng-template #addLinks>
   <div class="link-grid" style="color: #68b9ff">
+    <span nz-tooltip nzTooltipTitle="拖动序号可进行排序">序号 <i nz-icon nzType="question-circle" nzTheme="outline"></i></span>
     <span>名称</span>
+    <span>伤害</span>
     <span>链接</span>
     <span>备注/轴</span>
   </div>
-  <div class="link-grid" *ngFor="let item of links; index as i">
-    <input nz-input [(ngModel)]="item.name" />
-    <input
-      nz-input
-      [(ngModel)]="item.link"
-      placeholder="链接需要以http/https开头"
-    />
-    <button nz-button nzType="text" (clickStop)="addLinkRemark(item)" >编辑</button>
-    <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="link-list">
+  
+    <div class="link-grid" *ngFor="let item of links; index as i" cdkDrag>
+      <div class="drag-placeholder" *cdkDragPlaceholder></div>
+      <span style="cursor: move;" cdkDragHandle>{{i}}</span>
+      <input nz-input [(ngModel)]="item.name" />
+      <input nz-input [(ngModel)]="item.damage" type="number" />
+      <input
+        nz-input
+        [(ngModel)]="item.link"
+        placeholder="链接需要以http/https开头"
+      />
+      <button nz-button nzType="text" (clickStop)="addLinkRemark(item)" >编辑</button>
+      <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
+    </div>
   </div>
 
   <div class="g-flex-center" style="margin-top: 20px">

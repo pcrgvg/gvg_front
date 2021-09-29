@@ -38,6 +38,8 @@ import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { LinkButtonComponent } from './widgets/link-button/link-button.component';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 
 
@@ -75,7 +77,8 @@ import { LinkButtonComponent } from './widgets/link-button/link-button.component
     NzSpinModule,
     NzIconModule.forChild([PlusCircleOutline]),
     NzImageModule,
-    NzDropDownModule
+    NzDropDownModule,
+    DragDropModule
   ],
 })
 export class GvgModule {}

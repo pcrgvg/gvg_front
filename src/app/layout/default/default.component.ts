@@ -17,16 +17,16 @@ export class DefaultComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     const showTip = this.storageSrv.localGet('showTip', true);
     if (showTip) {
-      this.nzModalSrv.info({
-        nzMask: true,
-        nzContent: '作业列表点击角色的头像，可设置该角色为强制借用(可能有BUG)，同时摸了一个APP出来，详情首页',
-        nzOnOk: (r) => {
-          this.storageSrv.localSet('showTip', false);
-        },
-        nzOnCancel: () => {
-          this.storageSrv.localSet('showTip', false);
-        }
-      });
+      // this.nzModalSrv.info({
+      //   nzMask: true,
+      //   nzContent: '作业列表点击角色的头像，可设置该角色为强制借用(可能有BUG)，同时摸了一个APP出来，详情首页',
+      //   nzOnOk: (r) => {
+      //     this.storageSrv.localSet('showTip', false);
+      //   },
+      //   nzOnCancel: () => {
+      //     this.storageSrv.localSet('showTip', false);
+      //   }
+      // });
     }
   }
 

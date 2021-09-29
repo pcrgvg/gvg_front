@@ -25,7 +25,9 @@
     >
       <span>{{ canAuto | canauto }}</span>
       <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}W)</span>
-      <span *ngIf="canAuto === canAutoType.auto || canAuto === canAutoType.harfAuto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
+      <!-- 兼容历史数据 -->
+      <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
+      <span *ngIf="canAuto === canAutoType.harfAuto">({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage }}W)</span>
     </div>
     <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
   </div>
