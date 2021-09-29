@@ -162,7 +162,8 @@
     [href]="item.link"
     target="_blank"
   >
-    <pcr-ellipsis-text [text]="item.name || '链接' + i + 1"></pcr-ellipsis-text>
+    <!-- <pcr-ellipsis-text [text]="item.name || '链接' + i + 1"></pcr-ellipsis-text> -->
+    <pre style="text-align: center;">{{item.name}}</pre>
   </a>
 </div>
 
@@ -263,8 +264,9 @@
     <div class="link-grid" *ngFor="let item of links; index as i" cdkDrag>
       <div class="drag-placeholder" *cdkDragPlaceholder></div>
       <span style="cursor: move;" cdkDragHandle>{{i}}</span>
-      <input nz-input [(ngModel)]="item.name" />
-      <input nz-input [(ngModel)]="item.damage" type="number" />
+      <!-- <textarea [nzAutosize]="{ minRows: 2, maxRows: 6 }"  nz-input [(ngModel)]="item.name"></textarea> -->
+      <input nz-input [(ngModel)]="item.name"  />
+      <!-- <input nz-input [(ngModel)]="item.damage" type="number" /> -->
       <input
         nz-input
         [(ngModel)]="item.link"

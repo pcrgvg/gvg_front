@@ -198,7 +198,7 @@
     [showLink]="showLink"
   ></pcr-billboard>
 
-  <nz-collapse  [nzBordered]="false" nzExpandIconPosition="right">
+  <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
       #collapse
       [nzActive]="true"
@@ -209,8 +209,7 @@
       <ng-template #headerTpl>
         <div class="g-flex-between">
           <div class="g-flex" style="align-items: center">
-            <pcr-icon style="margin: 0 40px" [unit]="bossTask">
-            </pcr-icon>
+            <pcr-icon style="margin: 0 40px" [unit]="bossTask"> </pcr-icon>
             <div>{{ bossTask.unitName }}</div>
           </div>
         </div>
@@ -239,24 +238,32 @@
               ></pcr-task-item>
             </ng-template>
 
-
-            <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0;">
-              <h6>备注: </h6>
+            <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0">
+              <h6>备注:</h6>
               <pre>{{ task.remarks }}</pre>
             </div>
             <div class="g-card">
               <nz-tabset *ngIf="task.links.length; else elseLInkTpe">
-                <nz-tab [nzTitle]="linkObj.name" *ngFor="let linkObj of task.links"  >
+                <nz-tab
+                  [nzTitle]="titleTpl"
+                  *ngFor="let linkObj of task.links"
+                >
+                  <ng-template #titleTpl>
+                    <pre style="text-align: center;">{{ linkObj.name }}</pre>
+                  </ng-template>
                   <div *ngIf="linkObj.link">
-                    视频连接: <a target="_blank" [href]="linkObj.link">{{ linkObj.name }}</a>
+                    视频连接:
+                    <a target="_blank" [href]="linkObj.link">
+                      <pre>{{ linkObj.name }}</pre>
+                    </a>
                   </div>
-                  <div *ngIf="linkObj.remarks" >
+                  <div *ngIf="linkObj.remarks">
                     <h6>备注:</h6>
-                    <pre >{{ linkObj.remarks }}</pre>
+                    <pre>{{ linkObj.remarks }}</pre>
                   </div>
                 </nz-tab>
               </nz-tabset>
-      
+
               <ng-template #elseLInkTpe>无视频连接</ng-template>
             </div>
           </nz-collapse-panel>
