@@ -38,7 +38,12 @@ import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
 
 // import {workerString} from './fitler-worker-str';
 
-
+enum TaskType  {
+ all = 'all',
+ used = 'used',
+ removed = 'removed',
+ tail = 'tail',
+}
 
 @Component({
   selector: 'pcr-gvg',
@@ -127,7 +132,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
   showLink = environment.showLink;
   updateCnTaskLoading = false;
   bossNumberList = [1, 2, 3, 4, 5];
-  taskType = 'all';
+  taskType = [TaskType.all, TaskType.used, TaskType.removed, TaskType.tail];
   blobUrl = '';
 
   ngOnInit(): void {
@@ -427,46 +432,40 @@ export class GvgComponent   implements OnInit, RouteKeep {
     for (let index = 0; index < bossList.length; index++) {
       if (this.bossNumberList.includes(index + 1)) {
         const gvgtask = bossList[index];
-        const tasks = cloneDeep(gvgtask.tasks);
-        gvgtask.tasks = tasks.filter((task) => {
-          let b = false;
-          switch (this.taskType) {
-            case 'used':
-              {
-                b = this.usedList.includes(task.id);
-              }
-              break;
-            case 'removed':
-              {
-                b = this.removedList.includes(task.id);
-              }
-              break;
-            case '1':
-              {
-                b = (task.type == 1);
-              }
-              break;
-            case 'all':
-            default:
-              b = true;
-          }
-          if (b) {
-
-            for (const canAuto of task.canAuto) {
-              const isHaved = this.autoSetting.includes(canAuto);
-              if (isHaved) {
-                return true;
-              }
+        let tasks = cloneDeep(gvgtask.tasks);
+        tasks = this.filterTaskType(tasks);
+        tasks = tasks.filter((task) => {
+          for (const canAuto of task.canAuto) {
+            const isHaved = this.autoSetting.includes(canAuto);
+            if (isHaved) {
+              return true;
             }
           }
           return false;
         });
+        gvgtask.tasks = tasks;
         tempList.push(gvgtask);
       }
     }
     this.filterGvgTaskList = tempList;
   }
 
+  filterTaskType(taskList: Task[]) {
+      let result = [...taskList];
+      if (!this.taskType.includes(TaskType.tail)) {
+        result =  result.filter(r => r.type !== 1)
+      }
+      if (!this.taskType.includes(TaskType.removed)) {
+        result = result.filter(r => !this.removedList.includes(r.id))
+      }
+      if (!this.taskType.includes(TaskType.used)) {
+        result = result.filter(r => !this.usedList.includes(r.id))
+      }
+      if (!this.taskType.includes(TaskType.all)) {
+        result = result.filter(r => r.type == 1 || this.removedList.includes(r.id) || this.usedList.includes(r.id))
+      }
+      return result;
+  }
   // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害
   typeDamage(task: Task) {
     if (this.autoSetting.includes(CanAutoType.manual)) {

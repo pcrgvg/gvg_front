@@ -87,13 +87,14 @@
           <nz-select
             [(ngModel)]="taskType"
             (ngModelChange)="toggleAutoBoss()"
+            nzMode="multiple"
             name="taskType"
             style="min-width: 90px"
           >
             <nz-option nzValue="all" nzLabel="全部"></nz-option>
             <nz-option nzValue="used" nzLabel="已使用"></nz-option>
             <nz-option nzValue="removed" nzLabel="已去除"></nz-option>
-            <nz-option nzValue="1" nzLabel="尾刀"></nz-option>
+            <nz-option nzValue="tail" nzLabel="尾刀"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
