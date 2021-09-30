@@ -255,7 +255,7 @@
   <div class="link-grid" style="color: #68b9ff">
     <span nz-tooltip nzTooltipTitle="拖动序号可进行排序">序号 <i nz-icon nzType="question-circle" nzTheme="outline"></i></span>
     <span>名称</span>
-    <span>伤害</span>
+    <!-- <span>伤害</span> -->
     <span>链接</span>
     <span>备注/轴</span>
   </div>
@@ -264,8 +264,8 @@
     <div class="link-grid" *ngFor="let item of links; index as i" cdkDrag>
       <div class="drag-placeholder" *cdkDragPlaceholder></div>
       <span style="cursor: move;" cdkDragHandle>{{i}}</span>
-      <!-- <textarea [nzAutosize]="{ minRows: 2, maxRows: 6 }"  nz-input [(ngModel)]="item.name"></textarea> -->
-      <input nz-input [(ngModel)]="item.name"  />
+      <textarea style="height: 90px;" nz-input [(ngModel)]="item.name"></textarea>
+      <!-- <input nz-input [(ngModel)]="item.name"  /> -->
       <!-- <input nz-input [(ngModel)]="item.damage" type="number" /> -->
       <input
         nz-input
