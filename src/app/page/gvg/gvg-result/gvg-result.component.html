@@ -98,7 +98,7 @@
             >
             <span *ngIf="canAuto === canAutoType.harfAuto"
               >({{
-                task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage
+                task.halfAutoDamage ? task.halfAutoDamage : (task.autoDamage ? task.autoDamage : task.damage )
               }}W)</span
             >
           </div>
