@@ -270,10 +270,10 @@ export class GvgComponent   implements OnInit, RouteKeep {
         this.dealGvgTaskList(res);
       });
   }
-
+  // 排序
   dealGvgTaskList(arr: GvgTask[]) {
     arr.forEach((r) => {
-      r.tasks.sort((a, b) => b.damage - a.damage);
+      r.tasks.sort((a, b) => this.typeDamage(b) - this.typeDamage(a));
       r.tasks.forEach((t) => {
         t.charas.sort((a, b) => b.searchAreaWidth - a.searchAreaWidth);
       });
@@ -467,12 +467,15 @@ export class GvgComponent   implements OnInit, RouteKeep {
       }
       return result;
   }
-  // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害
+  // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害, 兼容以往数据
   typeDamage(task: Task) {
     if (this.autoSetting.includes(CanAutoType.manual)) {
       return task.damage;
     }
-    return task.autoDamage ? task.autoDamage : task.damage;
+    if (this.autoSetting.includes(CanAutoType.harfAuto)) {
+      return task.halfAutoDamage ?? task.damage;
+    }
+    return task.autoDamage ?? task.halfAutoDamage ?? task.damage;
   }
 
   // 删除作业
