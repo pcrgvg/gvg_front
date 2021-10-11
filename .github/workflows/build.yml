@@ -21,12 +21,12 @@ jobs:
           node-version: '14'
       - name: build dist
         run: |
-          echo ${GITHUB_SHA}
+          echo ${{ github.event.inputs.TAG }}
           npm install -g @angular/cli
           npm i
           echo start build
           rm -rf statics/static/*
-          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v${GITHUB_SHA}/statics/static/
+          ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@${{ github.event.inputs.TAG }}/statics/static/
           ls statics/static
       - name: commit 
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -34,11 +34,12 @@ jobs:
           branch: master
           add_options: '-A'
           push_options: '--force'
-          commit_message: ":bookmark: Release pcrgvg commit sha ${{github.sha}}"
+          skip_fetch: true 
+          commit_message: ":bookmark: Release pcrgvg commit tag ${{ github.event.inputs.TAG }}"
           file_pattern: statics/static/*
       - name: Release to github
         uses: ncipollo/release-action@v1
         with:
             allowUpdates: true
             token: ${{ secrets.GITHUB_TOKEN }}
-            tag: v${{github.sha}}
+            tag: ${{ github.event.inputs.TAG }}
