@@ -36,7 +36,6 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { TempService } from '../services/temp.service';
 import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
 
-// import {workerString} from './fitler-worker-str';
 
 enum TaskType  {
  all = 'all',
@@ -44,6 +43,8 @@ enum TaskType  {
  removed = 'removed',
  tail = 'tail',
 }
+
+const WokrerUrl = 'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/worker/232.eb723d20787b89f4f37a.js';
 
 @Component({
   selector: 'pcr-gvg',
@@ -142,7 +143,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
-    getLocalWorkerUrl('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1630420355/worker/232.eb723d20787b89f4f37a.js').then(url => {
+    getLocalWorkerUrl(WokrerUrl).then(url => {
       this.blobUrl = url;
     });
 
