@@ -249,7 +249,7 @@
                   *ngFor="let linkObj of task.links"
                 >
                   <ng-template #titleTpl>
-                    <pre style="text-align: center;">{{ linkObj.name }}</pre>
+                    <pre style="text-align: center;white-space: pre;">{{ linkObj.name }}</pre>
                   </ng-template>
                   <div *ngIf="linkObj.link">
                     视频连接:
