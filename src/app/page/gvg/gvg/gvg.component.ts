@@ -473,7 +473,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
       return task.damage;
     }
     if (this.autoSetting.includes(CanAutoType.harfAuto)) {
-      return task.halfAutoDamage ?? task.damage;
+      return task.halfAutoDamage ??  task.autoDamage ??  task.damage;
     }
     return task.autoDamage ?? task.halfAutoDamage ?? task.damage;
   }
