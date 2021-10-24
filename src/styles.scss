@@ -25,6 +25,13 @@ body {
   width: 100%;
   height: 100%;
 }
+// ng-zorro生成modal的时候会隐藏body滚动条 此时为了保持打开modal时候界面和原来一致  
+// 会在html的css上加上当前滚动的位移top, 从而导致cdk drag的位移判断出现问题
+// 当前方案将html的top暂时设置为0,  但是会导致打开modal后 界面还原
+// 其他解决方案待研究
+html {
+  top: 0 !important; 
+}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;

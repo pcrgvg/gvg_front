@@ -257,9 +257,10 @@ export class AddTaskComponent implements OnInit {
  
 
   drop(event: CdkDragDrop<Link[]>) {
-    const fromItem = this.links[event.previousIndex];
-    const toItem = this.links[event.currentIndex];
-    this.links[event.currentIndex] = fromItem;
-    this.links[event.previousIndex] = toItem;
+    // const fromItem = this.links[event.previousIndex];
+    // const toItem = this.links[event.currentIndex];
+    // this.links[event.currentIndex] = fromItem;
+    // this.links[event.previousIndex] = toItem;
+    moveItemInArray(this.links, event.previousIndex, event.currentIndex);
   }
 }
