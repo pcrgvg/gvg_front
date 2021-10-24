@@ -270,7 +270,7 @@
     <div cdkDropList (cdkDropListDropped)="drop($event)" class="link-list">
       <div class="link-grid" *ngFor="let item of links; index as i" cdkDrag>
         <div class="drag-placeholder" *cdkDragPlaceholder></div>
-        <span style="cursor: move">{{ i }}</span>
+        <span style="cursor: move" cdkDragHandle>{{ i }}</span>
         <textarea
           style="height: 90px"
           nz-input
