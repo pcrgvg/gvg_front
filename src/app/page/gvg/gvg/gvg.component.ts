@@ -470,7 +470,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
   // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害, 兼容以往数据
   typeDamage(task: Task) {
     if (this.autoSetting.includes(CanAutoType.manual)) {
-      return task.damage;
+      return task.damage ?? task.halfAutoDamage ??  task.autoDamage;
     }
     if (this.autoSetting.includes(CanAutoType.harfAuto)) {
       return task.halfAutoDamage ??  task.autoDamage ??  task.damage;
