@@ -10,6 +10,7 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { environment } from '@src/environments/environment';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pcr-gvg-result',
@@ -23,7 +24,8 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private storageSrv: StorageService,
     private filterResultSrv: FilterResultService,
-    private nzImgSrv: NzImageService
+    private nzImgSrv: NzImageService,
+    private router: Router
   ) {
 
   }
@@ -92,6 +94,10 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
   previewImg(url: string) {
     this.nzImgSrv.preview([{src: url}]);
+  }
+
+  home() {
+    this.router.navigate(['/'])
   }
 }
 

@@ -26,6 +26,10 @@
 
   <div class="divide"></div>
 
+  <div *ngIf="!bossList.length"  style="margin-top: 20px; color: red; text-align: center;">
+    数据为空，<button nz-button class="g-btn" style="color: red;" (clickStop)="home()">点击返回</button> 
+  </div>
+
   <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
     <div *cdkVirtualFor="let bossTask of ds" class="scroll-item">
       <div
