@@ -44,6 +44,8 @@ jobs:
           git pull
           ls statics/static
       - uses: actions/checkout@v2
+        with:
+            ref: master
       - name: Release to github
         uses: ncipollo/release-action@v1
         with:
