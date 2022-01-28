@@ -15,6 +15,7 @@
     </div>
     <div *ngIf="serverType === 'tw'">
       由于资源问题,台服使用的日服数据
+      <p style="color: red;">查询对应期次的日服作业功能，可能因为进度不同，有些作业无法使用，请先模拟</p>
     </div>
     <div [innerHtml]="content | domSanitizer"></div>
   </div>

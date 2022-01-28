@@ -162,6 +162,15 @@
             搜索
           </button>
           <button
+          *ngIf="serverType === 'tw'"
+            class="g-btn"
+            nz-button
+            [nzLoading]="searchLoading"
+            (clickStop)="getGvgTaskList('jp')"
+          >
+            搜索日服当期
+          </button>
+          <button
             (clickStop)="addTask()"
             *ngIf="operate"
             class="g-btn"

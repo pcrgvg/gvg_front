@@ -261,10 +261,10 @@ export class GvgComponent   implements OnInit, RouteKeep {
     });
   }
 
-  getGvgTaskList() {
+  getGvgTaskList(serverType: string = this.serverType) {
     this.searchLoading = true;
     this.pcrApi
-      .gvgTaskList(this.stage, this.serverType, this.clanBattleId)
+      .gvgTaskList(this.stage, serverType, this.clanBattleId)
       .pipe(finalize(() => (this.searchLoading = false)))
       .subscribe((res) => {
         this.dealGvgTaskList(res);
