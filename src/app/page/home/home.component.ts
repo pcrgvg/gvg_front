@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChangelogServiceApi } from '@app/apis';
 import { ServerType } from '@src/app/models';
 import { environment } from '@src/environments/environment';
-import { I18nService } from '@app/core/services/I18n/i18n.service';
-import { CN } from '@app/core/services/I18n/cn';
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
 
 @Component({
   selector: 'pcr-home',
@@ -24,7 +23,8 @@ export class HomeComponent implements OnInit {
     private i18nService: I18nService
   ) {}
 
-  homePage = CN.homePage;
+  homePage: LanguagePack['homePage'] = CN.homePage;
+  commonPage = CN.common
   ngOnInit(): void {
     console.log('honme ngOnInit');
    
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
     // });
     this.i18nService.getLanguagePackObs().subscribe((r) => {
       this.homePage = r.homePage;
+      this.commonPage = CN.common
       this.dealServerType();
     });
   }

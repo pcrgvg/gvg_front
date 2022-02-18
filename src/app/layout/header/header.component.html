@@ -20,10 +20,10 @@
       </nz-dropdown-menu>
     </div>
     <div class="header-btn" (clickStop)="clearStorage()" style="color: #f55291">
-      清除缓存
+      {{header.cache}}
     </div>
     <div class="header-btn" style="margin: 0 16px" (clickStop)="toAbout()">
-      帮助
+      {{header.help}}
     </div>
     <pcr-github-btn></pcr-github-btn>
   </div>

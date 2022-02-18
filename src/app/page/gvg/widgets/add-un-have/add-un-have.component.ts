@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RediveDataService, StorageService, unHaveCharas } from '@app/core';
 import { Chara, ServerType } from '@src/app/models';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { I18nService } from '@app/core/services/I18n/i18n.service'
-import { CN } from '@app/core/services/I18n/cn'
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n'
 
 
 @Component({
@@ -23,7 +22,7 @@ export class AddUnHaveComponent implements OnInit {
   unHaveCharas: Chara[] = [];
   @Input()
   server: ServerType;
-  gvgPage = CN.gvgPage;
+  gvgPage: LanguagePack['gvgPage']  = CN.gvgPage;
   ngOnInit(): void {
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas[this.server] ?? [];
     this.i18nService.getLanguagePackObs().subscribe(r => {

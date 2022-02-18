@@ -1,10 +1,10 @@
 <pcr-un-have-chara [serverType]="serverType"></pcr-un-have-chara>
 
 <div class="g-card" style="margin-top: 16px">
-  <h3 class="g-card-title">公会战作业查询</h3>
-  <nz-spin [nzSpinning]="isSpinning" nzTip="正在加载数据">
+  <h3 class="g-card-title">{{gvgPage.title}}</h3>
+  <nz-spin [nzSpinning]="isSpinning" [nzTip]="commonPage.loading">
     <form nz-form class="form">
-      <nz-form-item>
+      <!-- <nz-form-item>
         <nz-form-label nzTooltipTitle="图片显示不出切换为oss"
           >图源</nz-form-label
         >
@@ -23,19 +23,20 @@
             ></nz-option>
           </nz-select>
         </nz-form-control>
-      </nz-form-item>
+      </nz-form-item> -->
 
       <nz-form-item>
-        <nz-form-label>服务器</nz-form-label>
+        <nz-form-label>{{commonPage.server}}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="serverType"
             name="serverType"
             [nzDisabled]="operate"
             (ngModelChange)="toggleServer()"
+            style="min-width: 90px"
           >
             <nz-option
-              *ngFor="let item of serverOption"
+              *ngFor="let item of gvgPage.serverOption"
               [nzLabel]="item.label"
               [nzValue]="item.value"
             ></nz-option>
@@ -44,7 +45,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>期次</nz-form-label>
+        <nz-form-label>{{gvgPage.period}}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="clanBattleId"
@@ -62,7 +63,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>阶段</nz-form-label>
+        <nz-form-label>{{gvgPage.stage}}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="stage"
@@ -81,7 +82,7 @@
 
       <nz-form-item>
         <nz-form-label nzTooltipTitle="筛选尾刀/已使用/已去除"
-          >类别</nz-form-label
+          >{{gvgPage.category}}</nz-form-label
         >
         <nz-form-control>
           <nz-select
@@ -91,16 +92,16 @@
             name="taskType"
             style="min-width: 90px"
           >
-            <nz-option nzValue="all" nzLabel="全部"></nz-option>
-            <nz-option nzValue="used" nzLabel="已使用"></nz-option>
-            <nz-option nzValue="removed" nzLabel="已去除"></nz-option>
-            <nz-option nzValue="tail" nzLabel="尾刀"></nz-option>
+            <nz-option nzValue="all" [nzLabel]="gvgPage.all"></nz-option>
+            <nz-option nzValue="used" [nzLabel]="gvgPage.used"></nz-option>
+            <nz-option nzValue="removed" [nzLabel]="gvgPage.removed"></nz-option>
+            <nz-option nzValue="tail" [nzLabel]="gvgPage.tail"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>自动</nz-form-label>
+        <nz-form-label>{{commonPage.auto}}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="autoSetting"
@@ -110,11 +111,18 @@
             nzPlaceHolder="请选择"
             style="min-width: 80px"
           >
-            <nz-option
-              *ngFor="let item of autoOption"
-              [nzValue]="item.value"
-              [nzLabel]="item.label"
-            ></nz-option>
+          <nz-option
+          [nzValue]="CanAutoType.manual"
+          [nzLabel]="commonPage.manual"
+        ></nz-option>
+          <nz-option
+          [nzValue]="CanAutoType.harfAuto"
+          [nzLabel]="commonPage.semiAutomatic"
+        ></nz-option>
+          <nz-option
+          [nzValue]="CanAutoType.auto"
+          [nzLabel]="commonPage.auto"
+        ></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -142,13 +150,13 @@
       <div class="g-flex form-action">
         <div>
           <button (clickStop)="openNotice()" class="g-btn-danger" nz-button>
-            查看公告
+            {{gvgPage.readNotice}}
           </button>
           <button (clickStop)="openAll()" class="g-btn" nz-button>
-            展开所有
+            {{gvgPage.openAll}}
           </button>
           <button (clickStop)="closeAll()" class="g-btn" nz-button>
-            关闭所有
+            {{gvgPage.closeAll}}
           </button>
         </div>
 
@@ -159,7 +167,7 @@
             [nzLoading]="searchLoading"
             (clickStop)="getGvgTaskList()"
           >
-            搜索
+            {{gvgPage.search}}
           </button>
           <button
           *ngIf="serverType === 'tw'"
@@ -193,7 +201,7 @@
             nz-button
             (clickStop)="filter()"
           >
-            分刀
+            {{gvgPage.combine}}
           </button>
         </div>
       </div>
@@ -248,11 +256,11 @@
             </ng-template>
 
             <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0">
-              <h6>备注:</h6>
+              <h6>{{commonPage.remark}}:</h6>
               <pre>{{ task.remarks }}</pre>
             </div>
-            <div class="g-card">
-              <nz-tabset *ngIf="task.links.length; else elseLInkTpe">
+            <div class="g-card" *ngIf="task.links.length;">
+              <nz-tabset >
                 <nz-tab
                   [nzTitle]="titleTpl"
                   *ngFor="let linkObj of task.links"
@@ -261,19 +269,19 @@
                     <pre style="text-align: center;white-space: pre;">{{ linkObj.name }}</pre>
                   </ng-template>
                   <div *ngIf="linkObj.link">
-                    视频连接:
+                    {{gvgPage.videoLink}}:
                     <a target="_blank" [href]="linkObj.link">
                       <pre>{{ linkObj.name }}</pre>
                     </a>
                   </div>
                   <div *ngIf="linkObj.remarks">
-                    <h6>备注:</h6>
+                    <h6>{{commonPage.remark}}:</h6>
                     <pre>{{ linkObj.remarks }}</pre>
                   </div>
                 </nz-tab>
               </nz-tabset>
 
-              <ng-template #elseLInkTpe>无视频连接</ng-template>
+              <!-- <ng-template #elseLInkTpe>无视频连接</ng-template> -->
             </div>
           </nz-collapse-panel>
         </nz-collapse>

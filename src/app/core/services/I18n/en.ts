@@ -1,16 +1,16 @@
-export const EN = {
+import { ServerType } from '@src/app/models';
+import { LanguagePack } from './model'
+export const EN: LanguagePack = {
   common: {
-    jp: 'Japanese ',
-    tw: 'Taiwan',
-    cn: 'China',
     auto: 'auto',
     semiAutomatic: 'semi automatic',
     manual: 'manual',
+    loading: 'loading',
     server: 'server',
+    remark: 'remark',
   },
   homePage: {
-    server: 'server',
-    jp: 'Japanese',
+    jp: 'JA',
     tw: 'ZH-TW',
     cn: 'ZH-CN',
   },
@@ -30,7 +30,25 @@ export const EN = {
     confirm: 'confirm',
     front: 'front',
     middle: 'middle',
-    back: 'back'
+    back: 'back',
+    title: 'Clan battle formation search',
+    serverOption: [
+      {
+        label: 'JA',
+        value: ServerType.jp,
+      },
+      {
+        label: 'ZH-CN',
+        value: ServerType.cn,
+      },
+      {
+        label: 'ZH-TW',
+        value: ServerType.tw,
+      },
+    ],
+    tail: 'remaining',
+    all: 'all',
+    videoLink: 'video link',
   },
   header: {
     cache: 'clear cache',
@@ -39,6 +57,7 @@ export const EN = {
   gvgResultPage: {
     damage: 'damage',
     link: 'link',
-    remark: 'remark',
+    
+    filter: 'filter'
   },
 };

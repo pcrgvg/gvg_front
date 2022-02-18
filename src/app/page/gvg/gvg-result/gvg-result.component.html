@@ -21,13 +21,25 @@
       </nz-select>
     </div>
 
-    <button class="g-btn" nz-button (click)="search()">筛选</button>
+    <button class="g-btn" nz-button (click)="search()">
+      {{ gvgResultPage.filter }}
+    </button>
   </div>
 
   <div class="divide"></div>
 
-  <div *ngIf="!bossList.length"  style="margin-top: 20px; color: red; text-align: center;">
-    数据为空，<button nz-button class="g-btn" style="color: red;" (clickStop)="home()">点击返回</button> 
+  <div
+    *ngIf="!bossList.length"
+    style="margin-top: 20px; color: red; text-align: center"
+  >
+    数据为空，<button
+      nz-button
+      class="g-btn"
+      style="color: red"
+      (clickStop)="home()"
+    >
+      点击返回
+    </button>
   </div>
 
   <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
@@ -46,7 +58,7 @@
               <span>boss {{ task.index }} </span
               ><pcr-icon style="margin-left: 30px" [unit]="task"></pcr-icon>
             </div>
-            <span style="margin-left: 15px">伤害{{ task.damage }}w</span>
+            <span style="margin-left: 15px">{{ task.damage }}w</span>
           </div>
           <a
             *ngIf="task.remarks"
@@ -82,38 +94,47 @@
           style="height: 20px; color: red; max-width: 270px"
           [text]="task.exRemarks"
         ></pcr-ellipsis-text>
-        <div style="height: 50px" class="g-flex">
-          <div
-            *ngFor="let canAuto of task.canAuto"
-            [ngStyle]="{
-              color: autoColor(canAuto),
-              fontSize: '14px',
-              fontWeight: 'bold',
-              padding: '0 4px'
-            }"
-          >
-            <span>{{ canAuto | canauto }}</span>
-            <span *ngIf="canAuto === canAutoType.manual"
-              >({{ task.damage }}W)</span
+        <div style="height: 70px;padding:0 2px" class="g-flex-between">
+          <div style="display: grid; grid-template-columns: repeat(3, 33%)">
+            <div
+              *ngFor="let canAuto of task.canAuto"
+              style="
+                text-align: center;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 0 4px;
+              "
+              [ngStyle]="{
+                color: autoColor(canAuto)
+              }"
             >
-            <!-- 兼容历史数据 -->
-            <span *ngIf="canAuto === canAutoType.auto"
-              >({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span
-            >
-            <span *ngIf="canAuto === canAutoType.harfAuto"
-              >({{
-                task.halfAutoDamage ? task.halfAutoDamage : (task.autoDamage ? task.autoDamage : task.damage )
-              }}W)</span
-            >
+              <span>{{ canAuto | canauto }}</span>
+              <span *ngIf="canAuto === canAutoType.manual"
+                >（{{ task.damage }}W）</span
+              >
+              <!-- 兼容历史数据 -->
+              <span *ngIf="canAuto === canAutoType.auto"
+                >（{{
+                  task.autoDamage ? task.autoDamage : task.damage
+                }}W）</span
+              >
+              <span *ngIf="canAuto === canAutoType.harfAuto"
+                >（{{
+                  task.halfAutoDamage
+                    ? task.halfAutoDamage
+                    : task.autoDamage
+                    ? task.autoDamage
+                    : task.damage
+                }}W）</span
+              >
+            </div>
           </div>
-          <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
-          <div
-            style="margin-left: 20px"
-            *ngIf="task.borrowChara"
-            class="g-flex"
-          >
-            <span>借 </span><pcr-icon [unit]="task.borrowChara"></pcr-icon>
-          </div>
+          <div style="color: #2f42d0" *ngIf="task.type === 1">（尾刀）</div>
+          <pcr-icon
+          style="flex-shrink: 0;"
+              *ngIf="task.borrowChara"
+              [unit]="task.borrowChara"
+            ></pcr-icon>
         </div>
         <div class="scroll-item-link" *ngIf="showLink">
           <div>

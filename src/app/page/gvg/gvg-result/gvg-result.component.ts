@@ -1,4 +1,10 @@
-import { Component, ContentChild, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BossTask, CanAutoType, GvgTask, Task } from '@src/app/models';
 import { StorageService } from '@app/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -6,16 +12,17 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { storageNames } from '@app/constants';
 import { FilterResultService } from '../services/filter-result.service';
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { environment } from '@src/environments/environment';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { Router } from '@angular/router';
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
 
 @Component({
   selector: 'pcr-gvg-result',
   templateUrl: './gvg-result.component.html',
-  styleUrls: ['./gvg-result.component.scss']
+  styleUrls: ['./gvg-result.component.scss'],
 })
 export class GvgResultComponent implements OnInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
@@ -25,17 +32,14 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private storageSrv: StorageService,
     private filterResultSrv: FilterResultService,
     private nzImgSrv: NzImageService,
-    private router: Router
-  ) {
-
-  }
-
-
+    private router: Router,
+    private i18nService: I18nService
+  ) {}
 
   bossList: GvgTask[];
   countList = [1, 2, 3];
 
-  itemSize = 300;
+  itemSize = 320;
   onDestroySub = new Subject();
   usedList = [];
 
@@ -43,38 +47,35 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
   showLink = environment.showLink;
   canAutoType = CanAutoType;
-
+  gvgResultPage = CN.gvgResultPage;
   ngOnInit(): void {
     this.breakpointObserver
-    .observe([Breakpoints.XSmall, Breakpoints.Handset])
-    .pipe(takeUntil(this.onDestroySub))
-    .subscribe((res) => {
-      if (res.matches) {
-        this.itemSize = 300 * 3;
-      } else {
-        this.itemSize = 300;
-      }
-    });
+      .observe([Breakpoints.XSmall, Breakpoints.Handset])
+      .pipe(takeUntil(this.onDestroySub))
+      .subscribe((res) => {
+        if (res.matches) {
+          this.itemSize = 320 * 3;
+        } else {
+          this.itemSize = 320;
+        }
+      });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
-
-
     this.bossList = this.filterResultSrv.bosslist;
+    this.i18nService.getLanguagePackObs().subscribe(r => {
+      this.gvgResultPage = r.gvgResultPage;
+    })
   }
   ngOnDestroy(): void {
     this.onDestroySub.next();
     this.onDestroySub.complete();
   }
 
-
-
   search() {
     this.virtualScroll.scrollTo({
-      top: 0
+      top: 0,
     });
-    this.ds.onSearch( this.bossList);
-
+    this.ds.onSearch(this.bossList);
   }
-
 
   trackByTaskFn(_: number, task: Task): number {
     return task.id;
@@ -93,11 +94,11 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   }
 
   previewImg(url: string) {
-    this.nzImgSrv.preview([{src: url}]);
+    this.nzImgSrv.preview([{ src: url }]);
   }
 
   home() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
   }
 }
 
@@ -123,23 +124,24 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     // 初始化
     this.fetchData(0);
 
-
-    collectionViewer.viewChange.pipe(
-      takeUntil(this.disconnect$)
-    ).subscribe(range => {
-      if (this.cachedData.length >= this.filterResultSrv.filterResult.length) {
-        // this.complete$.next();
-        // this.complete$.complete();
-      } else {
-        const endPage = this.getPageForIndex(range.end);
-        this.fetchData(endPage + 1);
-      }
-    });
+    collectionViewer.viewChange
+      .pipe(takeUntil(this.disconnect$))
+      .subscribe((range) => {
+        if (
+          this.cachedData.length >= this.filterResultSrv.filterResult.length
+        ) {
+          // this.complete$.next();
+          // this.complete$.complete();
+        } else {
+          const endPage = this.getPageForIndex(range.end);
+          this.fetchData(endPage + 1);
+        }
+      });
   }
 
-  setTaskList( bossList?: GvgTask[]) {
+  setTaskList(bossList?: GvgTask[]) {
     if (bossList) {
-      const arr = bossList.filter(r => r.checked === true);
+      const arr = bossList.filter((r) => r.checked === true);
       if (arr.length) {
         const total = arr.reduce((count, boss) => {
           return count + boss.count;
@@ -148,18 +150,18 @@ export class TaskDataSource extends DataSource<BossTask[]> {
           throw new Error('选中boss的总数大于3');
         }
         const res = [];
-        this.filterResultSrv.filterResult.forEach(r => {
+        this.filterResultSrv.filterResult.forEach((r) => {
           const bossMap = new Map<number, number>();
-          arr.forEach(boss => {
+          arr.forEach((boss) => {
             bossMap.set(boss.prefabId, boss.count);
           });
-          r.forEach(task => {
+          r.forEach((task) => {
             const prefabId = task.prefabId;
             if (bossMap.has(prefabId)) {
               bossMap.set(prefabId, bossMap.get(prefabId) - 1);
             }
           });
-          if ([...bossMap.values()].every(r => r  === 0)){
+          if ([...bossMap.values()].every((r) => r === 0)) {
             res.push(r);
           }
         });
@@ -177,20 +179,22 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     return Math.floor(index / this.pageSize);
   }
 
-  onSearch( bossList: GvgTask[]) {
+  onSearch(bossList: GvgTask[]) {
     this.fetchedPagesSet.clear();
     this.cachedData = [];
     this.setTaskList(bossList);
     this.fetchData(0);
   }
 
-
   fetchData(start: number) {
     if (this.fetchedPagesSet.has(start)) {
       return;
     }
     this.fetchedPagesSet.add(start);
-    const  arr = this.taskList.slice(start * this.pageSize, (start + 1) * this.pageSize);
+    const arr = this.taskList.slice(
+      start * this.pageSize,
+      (start + 1) * this.pageSize
+    );
     this.cachedData.splice(start * this.pageSize, this.pageSize, ...arr);
     this.dataStream.next(this.cachedData);
   }
@@ -199,7 +203,4 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     this.disconnect$.next();
     this.disconnect$.complete();
   }
-
-
 }
-

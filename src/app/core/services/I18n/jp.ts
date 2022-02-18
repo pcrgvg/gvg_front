@@ -1,44 +1,65 @@
-export const JP = {
+import { ServerType } from '@src/app/models';
+import { LanguagePack } from './model'
+
+export const JP:LanguagePack = {
   common: {
-    jp: 'japanese ',
-    tw: 'tw',
-    cn: 'china',
-    auto: 'auto',
-    semiAutomatic: 'semi automatic',
-    manual: 'manual',
-    server: 'サーバ',
+    auto: 'フルオート',
+    semiAutomatic: 'セミオート',
+    manual: '手動',
+    loading: '加载中',
+    server: 'サーバー',
+    remark: '備考',
   },
   homePage: {
-    server: 'サーバ',
-    jp: '日本語',
-    tw: '繁体中文',
-    cn: '简体中文',
+   
+    jp: '日本語鯖',
+    tw: '繁体字鯖',
+    cn: '簡体字鯖',
   },
   gvgPage: {
-    unHave: '所有または実践されていない',
+    unHave: '未解放/未育成',
     add: '追加',
-    search: '探す',
-    stage: 'ステージ',
-    period: '限目',
-    used: 'used',
-    removed: '削除されました',
-    category: 'カテゴリー',
-    readNotice: 'notice',
-    openAll: 'open all',
-    closeAll: 'close all',
-    combine: 'combine',
-    confirm: 'confirm',
+    search: '検索',
+    stage: '段階目',
+    period: '期間',
+    used: '凸完了',
+    removed: '削除',
+    category: '種類',
+    readNotice: 'お知らせ',
+    openAll: 'すべて展開',
+    closeAll: 'すべて折りたたみ',
+    combine: '凸ルート',
+    confirm: '確認',
     front: '前衛',
     middle: '中衛',
-    back: '後衛'
+    back: '後衛',
+    title: 'クランバトル編成検索',
+    serverOption: [
+      {
+        label: '日本語鯖',
+        value: ServerType.jp,
+      },
+      {
+        label: '簡体字鯖',
+        value: ServerType.cn,
+      },
+      {
+        label: '繁体字鯖',
+        value: ServerType.tw,
+      },
+    ],
+    tail: '持越編成',
+    all: '全部',
+    videoLink: 'リンク',
   },
   header: {
-    cache: 'clear cache',
-    help: 'help',
+    cache: 'キャッシュクリア',
+    help: 'ヘルプ',
   },
   gvgResultPage: {
-    damage: 'damage',
-    link: 'link',
-    remark: 'remark',
+    damage: 'ダメージ',
+    link: 'リンク',
+    
+    filter: 'フィルタ',
   },
 };

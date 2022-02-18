@@ -16,7 +16,6 @@ import {
   Chara,
   GvgTask,
   Notice,
-  ServerName,
   ServerType,
   Task,
 } from '@app/models';
@@ -34,7 +33,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { TempService } from '../services/temp.service';
-import { RouteKeep, OnActived } from '@src/app/core/router-config/route-keep';
+import { RouteKeep } from '@src/app/core/router-config/route-keep';
+import { CN, LanguagePack, I18nService} from '@app/core/services/I18n'
 
 
 enum TaskType  {
@@ -70,6 +70,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
     private nzNotificationSrv: NzNotificationService,
     private nzImgSrv: NzImageService,
     private tempSrv: TempService,
+    private i18nService: I18nService
   ) { }
 
   // 角色列表
@@ -87,6 +88,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
     CanAutoType.harfAuto,
     CanAutoType.manual,
   ];
+  CanAutoType = CanAutoType;
   autoOption = [
     {
       label: CanAutoName.manual,
@@ -108,20 +110,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
   clanBattleList = []; // 会战期次
   clanBattleId = null; // 当前会战期次
   serverType = ServerType.jp;
-  serverOption = [
-    {
-      label: ServerName.jp,
-      value: ServerType.jp,
-    },
-    {
-      label: ServerName.cn,
-      value: ServerType.cn,
-    },
-    {
-      label: ServerName.tw,
-      value: ServerType.tw,
-    },
-  ];
   usedList: number[] = []; // 已使用的作业
   removedList: number[] = []; // 去除
   imgSource = ''; // 图片源
@@ -135,6 +123,8 @@ export class GvgComponent   implements OnInit, RouteKeep {
   bossNumberList = [1, 2, 3, 4, 5];
   taskType = [TaskType.all, TaskType.used, TaskType.removed, TaskType.tail];
   blobUrl = '';
+  gvgPage: LanguagePack['gvgPage'] = CN.gvgPage
+  commonPage = CN.common
 
   ngOnInit(): void {
     this.dealServerType();
@@ -146,7 +136,10 @@ export class GvgComponent   implements OnInit, RouteKeep {
     getLocalWorkerUrl(WokrerUrl).then(url => {
       this.blobUrl = url;
     });
-
+    this.i18nService.getLanguagePackObs().subscribe(r => {
+      this.gvgPage = r.gvgPage;
+      this.commonPage = r.common;
+    })
   }
 
   // ngOnActived(): void {
