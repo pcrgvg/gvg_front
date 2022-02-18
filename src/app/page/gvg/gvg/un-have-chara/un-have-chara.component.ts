@@ -5,6 +5,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddUnHaveComponent } from '../../widgets/add-un-have/add-un-have.component';
+import { I18nService } from '@app/core/services/I18n/i18n.service'
+import { CN } from '@app/core/services/I18n/cn'
 
 @Component({
   selector: 'pcr-un-have-chara',
@@ -15,12 +17,13 @@ export class UnHaveCharaComponent implements OnInit {
   constructor(
     private modalSrc: NzModalService,
     private rediveDataSrv: RediveDataService,
+    private i18nService: I18nService,
   ) {}
 
   @Input() serverType = ServerType.jp;
 
   serverUnCharas: ServerUnChara;
-
+  gvgPage = CN.gvgPage
 
   ngOnInit(): void {
     this.rediveDataSrv
@@ -28,6 +31,9 @@ export class UnHaveCharaComponent implements OnInit {
     .subscribe((res) => {
       this.serverUnCharas = res;
     });
+    this.i18nService.getLanguagePackObs().subscribe(r => {
+      this.gvgPage = r.gvgPage
+    })
   }
 
   // 未拥有角色

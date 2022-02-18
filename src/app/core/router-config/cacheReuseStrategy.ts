@@ -14,6 +14,7 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     // 默认所有路由不复用 可通过继承 Routekeep类则缓存,在构造函数中执行某些函数可能会报错,列如引入的observe
+    // TIPS 还是应该放到路由设置里配置， 然后添加可配置的路由缓存，此方法有挺多问题
     const componentClass: any = route?.component?.valueOf();
     if (componentClass) {
       const component = new componentClass();
