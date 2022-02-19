@@ -21,7 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IconDefinition } from '@ant-design/icons-angular';
 
 
-import { PlusCircleOutline, } from '@ant-design/icons-angular/icons';
+import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [ PlusCircleOutline ];
 

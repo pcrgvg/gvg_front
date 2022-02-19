@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RediveDataService, StorageService, unHaveCharas } from '@app/core';
 import { Chara, ServerType } from '@src/app/models';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n'
 
 
 @Component({
@@ -14,15 +15,19 @@ export class AddUnHaveComponent implements OnInit {
   constructor(
     public rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
-    private modalSrc: NzModalService
+    private modalSrc: NzModalService,
+    private i18nService: I18nService
   ) { }
 
   unHaveCharas: Chara[] = [];
   @Input()
   server: ServerType;
-
+  gvgPage: LanguagePack['gvgPage']  = CN.gvgPage;
   ngOnInit(): void {
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas[this.server] ?? [];
+    this.i18nService.getLanguagePackObs().subscribe(r => {
+      this.gvgPage = r.gvgPage
+    })
   }
 
   trackByCharaFn(_: number, chara: Chara): number {

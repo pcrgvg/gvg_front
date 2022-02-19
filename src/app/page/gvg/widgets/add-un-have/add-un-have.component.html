@@ -1,5 +1,5 @@
 <div style="max-width: 80vw">
-  <h3 class="g-card-title" style="font-weight: bold">未拥有</h3>
+  <h3 class="g-card-title" style="font-weight: bold">{{gvgPage.unHave}}</h3>
   <div class="g-flex box">
     <div class="chara-box">
       <pcr-icon
@@ -13,7 +13,7 @@
   </div>
 
   <nz-tabset>
-    <nz-tab nzTitle="前卫">
+    <nz-tab [nzTitle]="gvgPage.front">
       <div class="chara-box">
         <pcr-icon
           class="img"
@@ -24,7 +24,7 @@
         ></pcr-icon>
       </div>
     </nz-tab>
-    <nz-tab nzTitle="中卫">
+    <nz-tab [nzTitle]="gvgPage.middle">
       <div class="chara-box">
         <pcr-icon
           class="img"
@@ -35,7 +35,7 @@
         ></pcr-icon>
       </div>
     </nz-tab>
-    <nz-tab nzTitle="后卫">
+    <nz-tab [nzTitle]="gvgPage.back">
       <div class="chara-box">
         <pcr-icon
           class="img"
@@ -49,6 +49,6 @@
   </nz-tabset>
 
   <div class="g-flex-center" style="margin-top: 30px">
-    <button (clickStop)="confirm()" nz-button class="g-btn">确定</button>
+    <button (clickStop)="confirm()" nz-button class="g-btn">{{gvgPage.confirm}}</button>
   </div>
 </div>

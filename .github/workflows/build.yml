@@ -39,13 +39,13 @@ jobs:
           skip_fetch: true 
           commit_message: ":bookmark: Release pcrgvg commit tag ${{ github.event.inputs.TAG }}"
           file_pattern: statics/static/*
+      - uses: actions/checkout@v2
+        with:
+            ref: master
       - name: update repo
         run: |
           git pull
           ls statics/static
-      - uses: actions/checkout@v2
-        with:
-            ref: master
       - name: Release to github
         uses: ncipollo/release-action@v1
         with:

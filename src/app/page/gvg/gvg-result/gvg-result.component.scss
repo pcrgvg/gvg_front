@@ -6,7 +6,7 @@
     padding: 10px 5px;
     border-bottom: 1px solid var(--primary);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 33%);
     > div {
       flex-shrink: 0;
     }

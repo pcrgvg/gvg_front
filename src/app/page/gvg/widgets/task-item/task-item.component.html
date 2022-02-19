@@ -29,7 +29,7 @@
       <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
       <span *ngIf="canAuto === canAutoType.harfAuto">({{ task.halfAutoDamage ? task.halfAutoDamage : (task.autoDamage ? task.autoDamage : task.damage ) }}W)</span>
     </div>
-    <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
+    <div style="color: #2f42d0" *ngIf="task.type === 1">({{gvgPage.tail}})</div>
   </div>
 </div>
 <div class="g-flex-between" style="margin-top: 8px;">
@@ -42,7 +42,7 @@
       nz-checkbox
       [ngModel]="usedList.includes(task.id)"
       (ngModelChange)="toggleUsed($event, task)"
-      >使用</label
+      >{{gvgPage.used}}</label
     >
     <label
       *ngIf="task.type !== 1"
@@ -51,7 +51,7 @@
       (clickStop)="clickStop()"
       [ngModel]="removedList.includes(task.id)"
       (ngModelChange)="toggleRemoved($event, task)"
-      >去除</label
+      >{{gvgPage.removed}}</label
     >
     <button
       *ngIf="operate"

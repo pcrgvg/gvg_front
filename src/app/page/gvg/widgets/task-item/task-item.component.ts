@@ -4,18 +4,21 @@ import { storageNames } from '@src/app/constants';
 import { StorageService } from '@src/app/core';
 import { CanAutoType, Chara, GvgTask, ServerType, Task } from '@src/app/models';
 import { finalize } from 'rxjs/operators';
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
+
 
 @Component({
   selector: 'pcr-task-item',
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss']
 })
-export class TaskItemComponent  {
+export class TaskItemComponent implements OnInit  {
 
 
   constructor(
     private storageSrv: StorageService,
     private pcrApi: PcrApiService,
+    private i18nService: I18nService
   ) {
   }
 
@@ -32,8 +35,14 @@ export class TaskItemComponent  {
   @Output() onDelete = new EventEmitter<Task>();
   loading = false;
   canAutoType = CanAutoType;
-
-
+  gvgPage = CN.gvgPage;
+  commonPage = CN.common;
+  ngOnInit(): void {
+    this.i18nService.getLanguagePackObs().subscribe(r => {
+      this.gvgPage = r.gvgPage;
+      this.commonPage = r.common;
+    })
+  }
 
 
   trackByCharaFn(_: number, chara: Chara): number {

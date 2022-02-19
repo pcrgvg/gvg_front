@@ -36,11 +36,7 @@ export enum ServerType {
   tw = 'tw',
 }
 
-export enum ServerName {
-  jp = '日服',
-  cn = '国服',
-  tw = '台服',
-}
+
 
 export interface GvgTask {
   id: number;
