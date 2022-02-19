@@ -95,14 +95,13 @@
           [text]="task.exRemarks"
         ></pcr-ellipsis-text>
         <div style="height: 70px;padding:0 2px" class="g-flex-between">
-          <div style="display: grid; grid-template-columns: repeat(3, 33%)">
+          <div style="display: grid; grid-template-columns: repeat(3, 33%);flex-grow: 1;">
             <div
               *ngFor="let canAuto of task.canAuto"
               style="
                 text-align: center;
                 font-size: 14px;
                 font-weight: bold;
-                padding: 0 4px;
               "
               [ngStyle]="{
                 color: autoColor(canAuto)
