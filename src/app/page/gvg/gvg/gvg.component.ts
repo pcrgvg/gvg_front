@@ -142,17 +142,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
     })
   }
 
-  // ngOnActived(): void {
-  //   const serverType = this.route.snapshot.paramMap.get('serverType');
-  //   this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
-  //   this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
-  //   if (serverType != this.serverType) {
-  //     this.dealServerType();
-  //     this.dealServerOperate();
-  //     this.toggleServer();
-  //   }
-  // }
-
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
