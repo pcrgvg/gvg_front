@@ -39,6 +39,10 @@ jobs:
           skip_fetch: true 
           commit_message: ":bookmark: Release pcrgvg commit tag ${{ github.event.inputs.TAG }}"
           file_pattern: statics/static/*
+      - name: change dir
+        run: |
+          midir aa
+          cd aa
       - uses: actions/checkout@v2
         with:
             ref: master
