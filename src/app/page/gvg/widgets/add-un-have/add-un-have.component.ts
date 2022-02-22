@@ -1,33 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RediveDataService, StorageService, unHaveCharas } from '@app/core';
 import { Chara, ServerType } from '@src/app/models';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { CN, I18nService, LanguagePack } from '@app/core/services/I18n'
-
+import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'pcr-add-un-have',
   templateUrl: './add-un-have.component.html',
-  styleUrls: ['./add-un-have.component.scss']
+  styleUrls: ['./add-un-have.component.scss'],
 })
-export class AddUnHaveComponent implements OnInit {
-
+export class AddUnHaveComponent implements OnInit, OnDestroy {
   constructor(
     public rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
     private modalSrc: NzModalService,
     private i18nService: I18nService
-  ) { }
+  ) {}
 
   unHaveCharas: Chara[] = [];
   @Input()
   server: ServerType;
-  gvgPage: LanguagePack['gvgPage']  = CN.gvgPage;
+  gvgPage: LanguagePack['gvgPage'] = CN.gvgPage;
+  destroySub$ = new Subject();
   ngOnInit(): void {
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas[this.server] ?? [];
-    this.i18nService.getLanguagePackObs().subscribe(r => {
-      this.gvgPage = r.gvgPage
-    })
+    this.i18nService
+      .getLanguagePackObs()
+      .pipe(takeUntil(this.destroySub$))
+      .subscribe((r) => {
+        this.gvgPage = r.gvgPage;
+      });
   }
 
   trackByCharaFn(_: number, chara: Chara): number {
@@ -46,16 +50,22 @@ export class AddUnHaveComponent implements OnInit {
   }
 
   isSelected(chara: Chara) {
-    return this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1;
+    return (
+      this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1
+    );
   }
 
   confirm() {
     this.rediveDataSrv.setUnHaveChara({
       ...this.rediveDataSrv.unHaveCharas,
-      [this.server]: this.unHaveCharas
+      [this.server]: this.unHaveCharas,
     });
 
     this.modalSrc.closeAll();
   }
 
+  ngOnDestroy(): void {
+    this.destroySub$.next();
+    this.destroySub$.complete();
+  }
 }

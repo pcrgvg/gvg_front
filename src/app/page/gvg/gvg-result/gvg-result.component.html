@@ -94,28 +94,29 @@
           style="height: 20px; color: red; max-width: 270px"
           [text]="task.exRemarks"
         ></pcr-ellipsis-text>
-        <div style="height: 70px;padding:0 2px" class="g-flex-between">
-          <div style="display: grid; grid-template-columns: repeat(3, 33%);flex-grow: 1;">
+        <div style="height: 70px; padding: 0 2px" class="g-flex-between">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 33%);
+              flex-grow: 1;
+            "
+          >
             <div
               *ngFor="let canAuto of task.canAuto"
-              style="
-                text-align: center;
-                font-size: 14px;
-                font-weight: bold;
-              "
+              style="text-align: center; font-size: 14px; font-weight: bold"
               [ngStyle]="{
                 color: autoColor(canAuto)
               }"
             >
-              <span>{{ canAuto | canauto }}</span>
+              <span>{{ canAuto | canauto:commonPage }}</span>
               <span *ngIf="canAuto === canAutoType.manual"
-                >（{{ task.damage }}W）</span
+                >（{{ task.damage }}{{ commonPage.damageUnit }}）</span
               >
               <!-- 兼容历史数据 -->
               <span *ngIf="canAuto === canAutoType.auto"
-                >（{{
-                  task.autoDamage ? task.autoDamage : task.damage
-                }}W）</span
+                >（{{ task.autoDamage ? task.autoDamage : task.damage
+                }}{{ commonPage.damageUnit }}）</span
               >
               <span *ngIf="canAuto === canAutoType.harfAuto"
                 >（{{
@@ -124,16 +125,16 @@
                     : task.autoDamage
                     ? task.autoDamage
                     : task.damage
-                }}W）</span
+                }}{{ commonPage.damageUnit }}）</span
               >
             </div>
           </div>
           <div style="color: #2f42d0" *ngIf="task.type === 1">（尾刀）</div>
           <pcr-icon
-          style="flex-shrink: 0;"
-              *ngIf="task.borrowChara"
-              [unit]="task.borrowChara"
-            ></pcr-icon>
+            style="flex-shrink: 0"
+            *ngIf="task.borrowChara"
+            [unit]="task.borrowChara"
+          ></pcr-icon>
         </div>
         <div class="scroll-item-link" *ngIf="showLink">
           <div>

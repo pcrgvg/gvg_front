@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PcrApiService } from '@src/app/apis';
 import { storageNames } from '@src/app/constants';
 import { StorageService } from '@src/app/core';
 import { CanAutoType, Chara, GvgTask, ServerType, Task } from '@src/app/models';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss']
 })
-export class TaskItemComponent implements OnInit  {
+export class TaskItemComponent implements OnInit, OnDestroy  {
 
 
   constructor(
@@ -37,8 +38,11 @@ export class TaskItemComponent implements OnInit  {
   canAutoType = CanAutoType;
   gvgPage = CN.gvgPage;
   commonPage = CN.common;
+  detroySub$ = new Subject();
   ngOnInit(): void {
-    this.i18nService.getLanguagePackObs().subscribe(r => {
+    this.i18nService.getLanguagePackObs().pipe(
+      takeUntil(this.detroySub$)
+    ).subscribe(r => {
       this.gvgPage = r.gvgPage;
       this.commonPage = r.common;
     })
@@ -106,5 +110,10 @@ export class TaskItemComponent implements OnInit  {
         this.task.fixedBorrowChara = chara;
       }
 
+    }
+
+    ngOnDestroy(): void {
+        this.detroySub$.next();
+        this.detroySub$.complete()
     }
 }

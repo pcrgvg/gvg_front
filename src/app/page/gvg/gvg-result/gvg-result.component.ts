@@ -48,6 +48,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   showLink = environment.showLink;
   canAutoType = CanAutoType;
   gvgResultPage = CN.gvgResultPage;
+  commonPage = CN.common;
   ngOnInit(): void {
     this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Handset])
@@ -61,9 +62,14 @@ export class GvgResultComponent implements OnInit, OnDestroy {
       });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.bossList = this.filterResultSrv.bosslist;
-    this.i18nService.getLanguagePackObs().subscribe(r => {
-      this.gvgResultPage = r.gvgResultPage;
-    })
+    this.i18nService
+      .getLanguagePackObs()
+      .pipe(takeUntil(this.onDestroySub))
+      .subscribe((r) => {
+        this.gvgResultPage = r.gvgResultPage;
+        this.commonPage = r.common;
+
+      });
   }
   ngOnDestroy(): void {
     this.onDestroySub.next();

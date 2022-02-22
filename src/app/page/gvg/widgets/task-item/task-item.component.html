@@ -23,11 +23,11 @@
         padding: '0 4px'
       }"
     >
-      <span>{{ canAuto | canauto }}</span>
-      <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}W)</span>
+      <span>{{ canAuto | canauto:commonPage }}</span>
+      <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{commonPage.damageUnit}})</span>
       <!-- 兼容历史数据 -->
-      <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }}W)</span>
-      <span *ngIf="canAuto === canAutoType.harfAuto">({{ task.halfAutoDamage ? task.halfAutoDamage : (task.autoDamage ? task.autoDamage : task.damage ) }}W)</span>
+      <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }}{{commonPage.damageUnit}})</span>
+      <span *ngIf="canAuto === canAutoType.harfAuto">({{ task.halfAutoDamage ? task.halfAutoDamage : (task.autoDamage ? task.autoDamage : task.damage ) }}{{commonPage.damageUnit}})</span>
     </div>
     <div style="color: #2f42d0" *ngIf="task.type === 1">({{gvgPage.tail}})</div>
   </div>

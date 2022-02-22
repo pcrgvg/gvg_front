@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangelogServiceApi } from '@app/apis';
 import { ServerType } from '@src/app/models';
 import { environment } from '@src/environments/environment';
 import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'pcr-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   changelog = 0;
   serverType = '';
   btnList = [];
@@ -24,18 +26,22 @@ export class HomeComponent implements OnInit {
   ) {}
 
   homePage: LanguagePack['homePage'] = CN.homePage;
-  commonPage = CN.common
+  commonPage = CN.common;
+  destroySub$ = new Subject();
   ngOnInit(): void {
     console.log('honme ngOnInit');
-   
+
     // this.changelogApi.getChangeLog().subscribe((r) => {
     //   this.changelog = r.content ?? '暂无';
     // });
-    this.i18nService.getLanguagePackObs().subscribe((r) => {
-      this.homePage = r.homePage;
-      this.commonPage = CN.common
-      this.dealServerType();
-    });
+    this.i18nService
+      .getLanguagePackObs()
+      .pipe(takeUntil(this.destroySub$))
+      .subscribe((r) => {
+        this.homePage = r.homePage;
+        this.commonPage = CN.common;
+        this.dealServerType();
+      });
   }
 
   dealServerType() {
@@ -71,5 +77,10 @@ export class HomeComponent implements OnInit {
         serverType: serve,
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroySub$.next();
+    this.destroySub$.complete();
   }
 }

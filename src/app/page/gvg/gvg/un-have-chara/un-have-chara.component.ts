@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RediveDataService, RediveService, ServerUnChara } from '@src/app/core';
 import { Chara, ServerType } from '@src/app/models';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -13,7 +13,7 @@ import { CN } from '@app/core/services/I18n/cn'
   templateUrl: './un-have-chara.component.html',
   styleUrls: ['./un-have-chara.component.scss'],
 })
-export class UnHaveCharaComponent implements OnInit {
+export class UnHaveCharaComponent implements OnInit, OnDestroy {
   constructor(
     private modalSrc: NzModalService,
     private rediveDataSrv: RediveDataService,
@@ -24,14 +24,16 @@ export class UnHaveCharaComponent implements OnInit {
 
   serverUnCharas: ServerUnChara;
   gvgPage = CN.gvgPage
-
+  destroySub$ = new Subject();
   ngOnInit(): void {
     this.rediveDataSrv
     .getUnHaveCharaOb()
     .subscribe((res) => {
       this.serverUnCharas = res;
     });
-    this.i18nService.getLanguagePackObs().subscribe(r => {
+    this.i18nService.getLanguagePackObs().pipe(
+      takeUntil(this.destroySub$)
+    ).subscribe(r => {
       this.gvgPage = r.gvgPage
     })
   }
@@ -55,5 +57,10 @@ export class UnHaveCharaComponent implements OnInit {
 
   trackByCharaFn(_: number, chara: Chara): number {
     return chara.prefabId;
+  }
+
+  ngOnDestroy(): void {
+      this.destroySub$.next()
+      this.destroySub$.complete();
   }
 }
