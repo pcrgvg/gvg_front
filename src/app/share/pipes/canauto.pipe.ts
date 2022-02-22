@@ -4,26 +4,20 @@ import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
 
 @Pipe({
   name: 'canauto',
-  pure: false
 })
 export class CanautoPipe implements PipeTransform {
 
-  constructor( private I18nService: I18nService) {
-    this.I18nService.getLanguagePackObs().subscribe(r => {
-      this.common = r.common;
-    })
-  }
-  transform(value: CanAutoType, ...args: unknown[]): string {
+  transform(value: CanAutoType, ...args: [LanguagePack['common']]): string {
+    const common = args[0];
     switch (value) {
       case CanAutoType.auto:
-        return this.common.auto;
+        return common.auto;
       case CanAutoType.manual:
-        return this.common.manual;
+        return common.manual;
       case CanAutoType.harfAuto:
-        return this.common.semiAutomatic;
+        return common.semiAutomatic;
       default:
         return '';
     }
   }
-  common = CN.common;
 }
