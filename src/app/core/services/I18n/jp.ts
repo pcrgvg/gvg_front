@@ -9,12 +9,13 @@ export const JP:LanguagePack = {
     loading: '加载中',
     server: 'サーバー',
     remark: '備考',
+    damageUnit: '万'
   },
   homePage: {
    
-    jp: '日本語鯖',
-    tw: '繁体字鯖',
-    cn: '簡体字鯖',
+    jp: '日本語版',
+    tw: '繁体字版',
+    cn: '簡体字版',
   },
   gvgPage: {
     unHave: '未解放/未育成',
@@ -36,15 +37,15 @@ export const JP:LanguagePack = {
     title: 'クランバトル編成検索',
     serverOption: [
       {
-        label: '日本語鯖',
+        label: '日本語版',
         value: ServerType.jp,
       },
       {
-        label: '簡体字鯖',
+        label: '簡体字版',
         value: ServerType.cn,
       },
       {
-        label: '繁体字鯖',
+        label: '繁体字版',
         value: ServerType.tw,
       },
     ],

@@ -8,6 +8,7 @@ export const EN: LanguagePack = {
     loading: 'loading',
     server: 'server',
     remark: 'remark',
+    damageUnit: 'w'
   },
   homePage: {
     jp: 'JA',
