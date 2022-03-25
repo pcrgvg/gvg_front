@@ -3,6 +3,7 @@ import { HttpService } from '@app/core/net';
 import { Observable } from 'rxjs';
 import { pcrApis } from '../constants/apiUrls';
 import { Chara, GvgTask, ServerType } from '../models';
+import { CnTask } from '../models/cnTask';
 
 @Injectable({
   providedIn: 'root',
@@ -58,5 +59,9 @@ export class PcrApiService {
 
   updateCnTask() {
     return this.http.put<number[]>(pcrApis.updateCnTask, {});
+  }
+
+  getCnTask() {
+    return this.http.get<CnTask[]>(pcrApis.getCnTask);
   }
 }

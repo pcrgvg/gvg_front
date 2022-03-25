@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  PcrApiService,
-  NoticeApiService,
-} from '@app/apis';
+import { PcrApiService, NoticeApiService } from '@app/apis';
 import { storageNames } from '@app/constants';
-import {
-  RediveDataService,
-  RediveService,
-  StorageService,
-} from '@app/core';
+import { RediveDataService, RediveService, StorageService } from '@app/core';
 import {
   CanAutoName,
   CanAutoType,
@@ -19,7 +12,7 @@ import {
   ServerType,
   Task,
 } from '@app/models';
-import { finalize, } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AddTaskComponent } from '../widgets/add-task/add-task.component';
@@ -34,24 +27,25 @@ import { getLocalWorkerUrl } from '@app/util/createWorker';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { TempService } from '../services/temp.service';
 import { RouteKeep } from '@src/app/core/router-config/route-keep';
-import { CN, LanguagePack, I18nService} from '@app/core/services/I18n'
+import { CN, LanguagePack, I18nService } from '@app/core/services/I18n';
+import { CnTask } from '../../../models/cnTask';
 
-
-enum TaskType  {
- all = 'all',
- used = 'used',
- removed = 'removed',
- tail = 'tail',
+enum TaskType {
+  all = 'all',
+  used = 'used',
+  removed = 'removed',
+  tail = 'tail',
 }
 
-const WokrerUrl = 'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/worker/232.eb723d20787b89f4f37a.js';
+const WokrerUrl =
+  'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/worker/232.eb723d20787b89f4f37a.js';
 
 @Component({
   selector: 'pcr-gvg',
   templateUrl: './gvg.component.html',
   styleUrls: ['./gvg.component.scss'],
 })
-export class GvgComponent   implements OnInit, RouteKeep {
+export class GvgComponent implements OnInit, RouteKeep {
   @ViewChildren(NzCollapsePanelComponent)
   nzCollapsePanels: NzCollapsePanelComponent[];
   // @ViewChildren('collapse')
@@ -71,7 +65,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
     private nzImgSrv: NzImageService,
     private tempSrv: TempService,
     private i18nService: I18nService
-  ) { }
+  ) {}
 
   // 角色列表
   charaList: Chara[] = [];
@@ -123,8 +117,9 @@ export class GvgComponent   implements OnInit, RouteKeep {
   bossNumberList = [1, 2, 3, 4, 5];
   taskType = [TaskType.all, TaskType.used, TaskType.removed, TaskType.tail];
   blobUrl = '';
-  gvgPage: LanguagePack['gvgPage'] = CN.gvgPage
-  commonPage = CN.common
+  gvgPage: LanguagePack['gvgPage'] = CN.gvgPage;
+  commonPage = CN.common;
+  cnTask: CnTask[] = [];
 
   ngOnInit(): void {
     this.dealServerType();
@@ -133,22 +128,23 @@ export class GvgComponent   implements OnInit, RouteKeep {
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
     this.removedList = this.storageSrv.localGet(storageNames.removedList) ?? [];
     this.toggleServer();
-    getLocalWorkerUrl(WokrerUrl).then(url => {
+    getLocalWorkerUrl(WokrerUrl).then((url) => {
       this.blobUrl = url;
     });
-    this.i18nService.getLanguagePackObs().subscribe(r => {
+    this.i18nService.getLanguagePackObs().subscribe((r) => {
       this.gvgPage = r.gvgPage;
       this.commonPage = r.common;
-    })
+    });
   }
-
 
   dealServerOperate() {
     const serverType = this.route.snapshot.queryParams.serverType;
     switch (serverType) {
-      case '114': {
-        this.operate = this.serverType === ServerType.cn;
-      }           break;
+      case '114':
+        {
+          this.operate = this.serverType === ServerType.cn;
+        }
+        break;
       case '142':
         this.operate = this.serverType === ServerType.jp;
         break;
@@ -168,7 +164,9 @@ export class GvgComponent   implements OnInit, RouteKeep {
           this.serverType = ServerType.cn;
         }
         break;
-      case ServerType.tw: this.serverType = ServerType.tw; break;
+      case ServerType.tw:
+        this.serverType = ServerType.tw;
+        break;
       default: {
         this.serverType = ServerType.jp;
       }
@@ -185,10 +183,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
         label: 'oss',
         value: this.rediveSrv.ossSource,
       },
-      // {
-      //   label: '小水管',
-      //   value: '/',
-      // },
     ];
     this.imgSource = this.storageSrv.localGet(
       'imageBase',
@@ -244,6 +238,11 @@ export class GvgComponent   implements OnInit, RouteKeep {
   }
 
   getGvgTaskList(serverType: string = this.serverType) {
+    //  国服从1024期开始 直接从花舞网站获取
+    if (serverType === ServerType.cn && this.clanBattleId >= 1024) {
+      this.getCnTask();
+      return;
+    }
     this.searchLoading = true;
     this.pcrApi
       .gvgTaskList(this.stage, serverType, this.clanBattleId)
@@ -267,7 +266,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
   toggleImgSource(url: string) {
     this.rediveSrv.changeImgSource(url);
   }
-
 
   trackByBossFn(_: number, boss: GvgTask): number {
     return boss.id;
@@ -298,7 +296,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
     const filterGvgTaskList = cloneDeep(this.filterGvgTaskList);
     const [bossList, taskList] = [[], []];
     filterGvgTaskList.forEach((r) => {
-      r.tasks.forEach(t => {
+      r.tasks.forEach((t) => {
         t.damage = this.typeDamage(t);
       });
       taskList.push(r);
@@ -315,12 +313,11 @@ export class GvgComponent   implements OnInit, RouteKeep {
     this.filterLoading = true;
     const unHaveCharas = this.rediveDataSrv.unHaveCharas[this.serverType];
 
-
     /**
-    * 由于同源策略,无法加载cdn中的worker, 并且火狐不支持importScripts
-    * 法1：全部使用blob字符串，但是极其难以维护
-    * 法2：先打包生成worker文件，再修改路径进行打包,稍微好维护一点
-    */
+     * 由于同源策略,无法加载cdn中的worker, 并且火狐不支持importScripts
+     * 法1：全部使用blob字符串，但是极其难以维护
+     * 法2：先打包生成worker文件，再修改路径进行打包,稍微好维护一点
+     */
     try {
       // 方法1
       // const blob = new Blob([workerString, `onmessage = function({data}) {
@@ -330,8 +327,8 @@ export class GvgComponent   implements OnInit, RouteKeep {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
-      const worker = new Worker(this.blobUrl);
+      const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
+      // const worker = new Worker(this.blobUrl);
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
@@ -358,7 +355,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
 
       // })
       // worker = new Worker('https://cdn.jsdelivr.net/gh/pcrgvg/statics@1626531153/0.2606a39a918b8678c74d.worker.js');
-
     } catch (error) {
       console.log(error);
       setTimeout(() => {
@@ -376,7 +372,6 @@ export class GvgComponent   implements OnInit, RouteKeep {
         this.router.navigate(['/gvg/result']);
       }, 500);
     }
-
   }
 
   openAll() {
@@ -434,28 +429,33 @@ export class GvgComponent   implements OnInit, RouteKeep {
   }
 
   filterTaskType(taskList: Task[]) {
-      let result = [...taskList];
-      if (!this.taskType.includes(TaskType.tail)) {
-        result =  result.filter(r => r.type !== 1)
-      }
-      if (!this.taskType.includes(TaskType.removed)) {
-        result = result.filter(r => !this.removedList.includes(r.id))
-      }
-      if (!this.taskType.includes(TaskType.used)) {
-        result = result.filter(r => !this.usedList.includes(r.id))
-      }
-      if (!this.taskType.includes(TaskType.all)) {
-        result = result.filter(r => r.type == 1 || this.removedList.includes(r.id) || this.usedList.includes(r.id))
-      }
-      return result;
+    let result = [...taskList];
+    if (!this.taskType.includes(TaskType.tail)) {
+      result = result.filter((r) => r.type !== 1);
+    }
+    if (!this.taskType.includes(TaskType.removed)) {
+      result = result.filter((r) => !this.removedList.includes(r.id));
+    }
+    if (!this.taskType.includes(TaskType.used)) {
+      result = result.filter((r) => !this.usedList.includes(r.id));
+    }
+    if (!this.taskType.includes(TaskType.all)) {
+      result = result.filter(
+        (r) =>
+          r.type == 1 ||
+          this.removedList.includes(r.id) ||
+          this.usedList.includes(r.id)
+      );
+    }
+    return result;
   }
   // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害, 兼容以往数据
   typeDamage(task: Task) {
     if (this.autoSetting.includes(CanAutoType.manual)) {
-      return task.damage ?? task.halfAutoDamage ??  task.autoDamage;
+      return task.damage ?? task.halfAutoDamage ?? task.autoDamage;
     }
     if (this.autoSetting.includes(CanAutoType.harfAuto)) {
-      return task.halfAutoDamage ??  task.autoDamage ??  task.damage;
+      return task.halfAutoDamage ?? task.autoDamage ?? task.damage;
     }
     return task.autoDamage ?? task.halfAutoDamage ?? task.damage;
   }
@@ -480,7 +480,7 @@ export class GvgComponent   implements OnInit, RouteKeep {
         task,
         bossList,
         stageOption: this.stageOption,
-        serverType: this.serverType
+        serverType: this.serverType,
       },
       nzFooter: null,
       nzWidth: '80%',
@@ -502,5 +502,54 @@ export class GvgComponent   implements OnInit, RouteKeep {
   toDetail(task: Task) {
     this.tempSrv.setTask(task);
     this.router.navigate(['/gvg/task-detail']);
+  }
+
+  // 处理国服作业
+  getCnTask() {
+    if (this.cnTask.length) {
+      this.dealCnTask();
+      return;
+    }
+    this.searchLoading = true;
+    this.pcrApi
+      .getCnTask()
+      .pipe(finalize(() => (this.searchLoading = false)))
+      .subscribe((res) => {
+        this.cnTask = res;
+        this.dealCnTask();
+      });
+  }
+  // 转换数据类型
+  dealCnTask() {
+    this.searchLoading = true;
+    const arr = this.cnTask.filter((r) => r.stage === this.stage);
+    const taskList: any[] = arr.map((task, index) => ({
+      id: task.id,
+      prefabId: task.prefabId,
+      unitName: task.name,
+      server: ServerType.cn,
+      index,
+      tasks: task.homework.map((t) => ({
+        id: t.id,
+        canAuto: [t.auto === 1 ? CanAutoType.auto : CanAutoType.manual],
+        remarks: t.sn  + t.info,
+        damage: t.damage,
+        stage: this.stage,
+        links: t.video.map(video => ({
+          name: video.text,
+          link: video.url
+        })),
+        charas: t.unit.map(unit => ({
+          searchAreaWidth: 1,
+          id: unit.id,
+          prefabId: +(unit.id + '01'),
+          rarity: 5,
+          currentRarity: 5,
+          rank: 7
+        }))
+      })),
+    }));
+    this.dealGvgTaskList(taskList);
+    this.searchLoading = false
   }
 }
