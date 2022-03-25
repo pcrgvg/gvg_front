@@ -423,6 +423,8 @@ terms above.
 ng-zorro-antd
 MIT
 
+ngx-wig
+
 regenerator-runtime
 MIT
 MIT License
