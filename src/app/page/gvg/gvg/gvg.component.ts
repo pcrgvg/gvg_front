@@ -327,8 +327,8 @@ export class GvgComponent implements OnInit, RouteKeep {
       // const worker = new Worker(URL.createObjectURL(blob))
 
       // 方法2
-      const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
-      // const worker = new Worker(this.blobUrl);
+      // const worker = new Worker(new URL('../work/filter.worker' , import.meta.url));
+      const worker = new Worker(this.blobUrl);
       worker.onmessage = ({ data }) => {
         console.log(`worker message: ${data.length}`);
         this.filterLoading = false;
@@ -521,7 +521,6 @@ export class GvgComponent implements OnInit, RouteKeep {
   }
   // 转换数据类型
   dealCnTask() {
-    this.searchLoading = true;
     const arr = this.cnTask.filter((r) => r.stage === this.stage);
     const taskList: any[] = arr.map((task, index) => ({
       id: task.id,
@@ -550,6 +549,5 @@ export class GvgComponent implements OnInit, RouteKeep {
       })),
     }));
     this.dealGvgTaskList(taskList);
-    this.searchLoading = false
   }
 }
