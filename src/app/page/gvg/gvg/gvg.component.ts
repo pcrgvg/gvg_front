@@ -527,7 +527,7 @@ export class GvgComponent implements OnInit, RouteKeep {
       prefabId: task.prefabId,
       unitName: task.name,
       server: ServerType.cn,
-      index,
+      index: index + 1,
       tasks: task.homework.map((t) => ({
         id: t.id,
         canAuto: [t.auto === 1 ? CanAutoType.auto : CanAutoType.manual],

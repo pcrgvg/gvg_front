@@ -1,24 +1,34 @@
-<div class="notice" style="overflow: auto" >
-  <div style="color:red;font-size:18px">
+<div class="notice" style="overflow: auto">
+  <div style="color: red; font-size: 18px">
     <p>愿意维护作业以及提意见可加群809036333</p>
-    <a target="_blank" href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka">欢迎加入公主连接QQ频道</a>
+    <a
+      target="_blank"
+      href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka"
+      >欢迎加入公主连接QQ频道</a
+    >
   </div>
-    <div *ngIf="serverType === 'jp'">
-      日服作业问题反馈➡
-      <a *ngIf="showLink" href="http://49.232.23.11/board/" target="_blank"
-        >简易留言板</a
-      >
+  <div *ngIf="serverType === 'jp'">
+    日服作业问题反馈➡
+    <a *ngIf="showLink" href="http://49.232.23.11/board/" target="_blank"
+      >简易留言板</a
+    >
+  </div>
+  <div *ngIf="serverType === 'cn'">
+    <p></p>
+    <div style="color: red; font-size: 18px">
+      国服数据来源为<a href="https://www.caimogu.cc/gzlj.html" target="_blank">花舞攻略组</a>
     </div>
-    <div *ngIf="serverType === 'cn'">
+    <div>
       由于作业文档没有星和rank数据,默认显示的5星rank7,具体数据以文档或者视频为准.
-      <br />
-      <p style="color: red;">若长时间未更新到作业，可能是数据源寄了，可到花舞文档查看最新作业，联系我查看问题</p>
-      获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大.
-      如果使用筛刀功能,请去除一部分,否则可能会很慢(数据来源花舞攻略组的在线作业文档,方法来自APP炽旗)
     </div>
-    <div *ngIf="serverType === 'tw'">
-      由于资源问题,台服使用的日服数据
-      <p style="color: red;">查询对应期次的日服作业功能，可能因为进度不同，有些作业无法使用，请先模拟</p>
-    </div>
-    <div [innerHtml]="content | domSanitizer"></div>
+    <div>阵容相同但是手动/自动不同并未做处理,所以数据量比较大.</div>
+    <div>如果使用筛刀功能,请去除一部分,否则可能会很慢</div>
   </div>
+  <div *ngIf="serverType === 'tw'">
+    由于资源问题,台服使用的日服数据
+    <p style="color: red">
+      查询对应期次的日服作业功能，可能因为进度不同，有些作业无法使用，请先模拟
+    </p>
+  </div>
+  <div [innerHtml]="content | domSanitizer"></div>
+</div>
