@@ -162,6 +162,7 @@
 
         <div class="g-flex">
           <button
+          *ngIf="serverType !== 'cn'"
             class="g-btn"
             nz-button
             [nzLoading]="searchLoading"
