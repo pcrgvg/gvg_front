@@ -42,20 +42,40 @@
 <div class="g-card">
   <h3 class="g-card-title">APP</h3>
   <p>
-    技术使用的flutter,由于没有苹果开发者账号,所以打不了ios的包(需要好心IOS大佬打包),目前版本可能有bug,可提
+    技术使用的flutter,如遇到有bug,可提
     <a href="https://github.com/pcrgvg/pcrgvg_flutter/issues" target="_blank"
       >issue
     </a>
   </p>
+  <p>ios版由初音笔记作者打包提供，需要结合testflight使用</p>
   <p>
     <a href="https://github.com/pcrgvg/pcrgvg_flutter" target="_blank"
       >项目地址
     </a>
     <a
+      nz-tooltip
+      [nzTooltipTitle]="androidTemplate"
       style="margin: 0 16px"
       href="https://pcr-app.oss-cn-shanghai.aliyuncs.com/app-release.apk"
       target="_blank"
       >安卓下载
+      <ng-template #androidTemplate>
+        <img
+          src="/assets/images/android.png"
+          style="width: 100px; height: 100px"
+        />
+      </ng-template>
+    </a>
+    <a
+      nz-tooltip
+      [nzTooltipTitle]="iosTemplate"
+      style="margin: 0 16px"
+      href="https://testflight.apple.com/join/RHCIN2qI"
+      target="_blank"
+      >IOS下载
+      <ng-template #iosTemplate>
+        <img src="/assets/images/ios.png" style="width: 100px; height: 100px" />
+      </ng-template>
     </a>
   </p>
 </div>
