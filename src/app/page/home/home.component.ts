@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private changelogApi: ChangelogServiceApi,
     private route: ActivatedRoute,
     private router: Router,
-    private i18nService: I18nService
+    private i18nService: I18nService,
   ) {}
 
   homePage: LanguagePack['homePage'] = CN.homePage;

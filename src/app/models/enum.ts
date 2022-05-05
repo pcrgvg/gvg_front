@@ -11,4 +11,3 @@ export enum CanAutoName {
   auto = '自动',
   harfAuto = '半自动',
 }
-

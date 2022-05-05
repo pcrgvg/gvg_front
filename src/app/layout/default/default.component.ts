@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NzModalService} from 'ng-zorro-antd/modal';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { StorageService } from '@app/core/services/storage.service';
 
 @Component({
@@ -8,10 +8,7 @@ import { StorageService } from '@app/core/services/storage.service';
   styleUrls: ['./default.component.scss'],
 })
 export class DefaultComponent implements OnInit, AfterViewInit {
-  constructor(
-    private nzModalSrv: NzModalService,
-    private storageSrv: StorageService
-  ) { }
+  constructor(private nzModalSrv: NzModalService, private storageSrv: StorageService) {}
   @ViewChildren('adWrapper') ads: QueryList<any>;
 
   ngOnInit(): void {
@@ -34,7 +31,5 @@ export class DefaultComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.ads.length + 1; index++) {
       ((window as any).adsbygoogle || [])?.push({});
     }
-
   }
-
 }

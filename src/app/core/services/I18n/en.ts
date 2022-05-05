@@ -1,5 +1,5 @@
 import { ServerType } from '@src/app/models';
-import { LanguagePack } from './model'
+import { LanguagePack } from './model';
 export const EN: LanguagePack = {
   common: {
     auto: 'auto',
@@ -8,7 +8,7 @@ export const EN: LanguagePack = {
     loading: 'loading',
     server: 'server',
     remark: 'remark',
-    damageUnit: 'w'
+    damageUnit: 'w',
   },
   homePage: {
     jp: 'JA',
@@ -58,7 +58,7 @@ export const EN: LanguagePack = {
   gvgResultPage: {
     damage: 'damage',
     link: 'link',
-    
-    filter: 'filter'
+
+    filter: 'filter',
   },
 };

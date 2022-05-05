@@ -1,29 +1,24 @@
 <div class="notice" style="overflow: auto">
   <div style="color: red; font-size: 18px">
     <p>愿意维护作业以及提意见可加群809036333</p>
-    <a
-      target="_blank"
-      href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka"
-      >欢迎加入公主连接QQ频道</a
-    >
+    <a target="_blank" href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka">
+      欢迎加入公主连接QQ频道
+    </a>
   </div>
   <div *ngIf="serverType === 'jp'">
     日服作业问题反馈➡
-    <a *ngIf="showLink" href="http://49.232.23.11/board/" target="_blank"
-      >简易留言板</a
-    >
+    <a *ngIf="showLink" href="http://49.232.23.11/board/" target="_blank">简易留言板</a>
   </div>
   <div *ngIf="serverType === 'cn'">
     <p></p>
     <div style="color: red; font-size: 18px">
-     非常抱歉，国服作业不再支持，查询作业请到<a href="https://www.caimogu.cc/gzlj.html" target="_blank">花舞攻略组</a>
+      非常抱歉，国服作业不再支持，查询作业请到
+      <a href="https://www.caimogu.cc/gzlj.html" target="_blank">花舞攻略组</a>
     </div>
   </div>
   <div *ngIf="serverType === 'tw'">
     由于资源问题,台服使用的日服数据
-    <p style="color: red">
-      查询对应期次的日服作业功能，可能因为进度不同，有些作业无法使用，请先模拟
-    </p>
+    <p style="color: red">查询对应期次的日服作业功能，可能因为进度不同，有些作业无法使用，请先模拟</p>
   </div>
   <div [innerHtml]="content | domSanitizer"></div>
 </div>

@@ -1,13 +1,7 @@
 <div class="g-card">
   <h3 class="g-card-title">{{ commonPage.server }}</h3>
   <div class="g-flex">
-    <button
-      *ngFor="let btn of btnList"
-      nz-button
-      class="g-btn"
-      style="margin-right: 16px"
-      (click)="jumpTo(btn.value)"
-    >
+    <button *ngFor="let btn of btnList" nz-button class="g-btn" style="margin-right: 16px" (click)="jumpTo(btn.value)">
       {{ btn.label }}
     </button>
   </div>
@@ -17,24 +11,18 @@
   <h3 class="g-card-title">说明</h3>
 
   <p>本站主要针对公主连结公会战作业</p>
-  <a
-    target="_blank"
-    href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka"
-    >欢迎加入公主连接QQ频道</a
-  >
-  <div style="color: red; font-size: 20px">
-    愿意维护作业以及提意见可加群809036333
-  </div>
+  <a target="_blank" href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1YJVLa&from=246610&biz=ka">
+    欢迎加入公主连接QQ频道
+  </a>
+  <div style="color: red; font-size: 20px">愿意维护作业以及提意见可加群809036333</div>
   <div *ngIf="showLink">
     有什么不明白的地方点击帮助查看说明,如果有bug或者优化建议联系我
     <p>
-      可提<a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank"
-        >issue</a
-      >
+      可提
+      <a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank">issue</a>
       或者
-      <a href="https://bbs.nga.cn/read.php?tid=24307857&_fp=4" target="_blank"
-        >nga</a
-      >留言
+      <a href="https://bbs.nga.cn/read.php?tid=24307857&_fp=4" target="_blank">nga</a>
+      留言
     </p>
   </div>
 </div>
@@ -43,27 +31,20 @@
   <h3 class="g-card-title">APP</h3>
   <p>
     技术使用的flutter,如遇到有bug,可提
-    <a href="https://github.com/pcrgvg/pcrgvg_flutter/issues" target="_blank"
-      >issue
-    </a>
+    <a href="https://github.com/pcrgvg/pcrgvg_flutter/issues" target="_blank">issue</a>
   </p>
   <p>ios版由初音笔记作者打包提供，需要结合testflight使用</p>
   <p>
-    <a href="https://github.com/pcrgvg/pcrgvg_flutter" target="_blank"
-      >项目地址
-    </a>
+    <a href="https://github.com/pcrgvg/pcrgvg_flutter" target="_blank">项目地址</a>
     <a
       nz-tooltip
       [nzTooltipTitle]="androidTemplate"
       style="margin: 0 16px"
       href="https://pcr-app.oss-cn-shanghai.aliyuncs.com/app-release.apk"
-      target="_blank"
-      >安卓下载
+      target="_blank">
+      安卓下载
       <ng-template #androidTemplate>
-        <img
-          src="/assets/images/android.png"
-          style="width: 100px; height: 100px"
-        />
+        <img src="/assets/images/android.png" style="width: 100px; height: 100px" />
       </ng-template>
     </a>
     <a
@@ -71,8 +52,8 @@
       [nzTooltipTitle]="iosTemplate"
       style="margin: 0 16px"
       href="https://testflight.apple.com/join/RHCIN2qI"
-      target="_blank"
-      >IOS下载
+      target="_blank">
+      IOS下载
       <ng-template #iosTemplate>
         <img src="/assets/images/ios.png" style="width: 100px; height: 100px" />
       </ng-template>
@@ -85,9 +66,7 @@
   <div>2022年4月:不再支持国服</div>
   <div>2021年9月:视频添加备注/文字轴,可选择固定借用角色</div>
   <div>2021年8月:添加台服支持</div>
-  <div>
-    2021年6月:更新国服作业数据获取,数据来源花舞攻略组的在线作业文档,方法来自分刀APP炽旗
-  </div>
+  <div>2021年6月:更新国服作业数据获取,数据来源花舞攻略组的在线作业文档,方法来自分刀APP炽旗</div>
   <div>增加筛选已使用,去除,尾刀(不参与分刀)</div>
   <div>
     合并自动/手动,如果筛选时作业方式包含手动则显示手动伤害,不包含手动显示自动伤害,分刀排序的时候同理,自动伤害可能不准确

@@ -5,8 +5,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddUnHaveComponent } from '../../widgets/add-un-have/add-un-have.component';
-import { I18nService } from '@app/core/services/I18n/i18n.service'
-import { CN } from '@app/core/services/I18n/cn'
+import { I18nService } from '@app/core/services/I18n/i18n.service';
+import { CN } from '@app/core/services/I18n/cn';
 
 @Component({
   selector: 'pcr-un-have-chara',
@@ -23,19 +23,18 @@ export class UnHaveCharaComponent implements OnInit, OnDestroy {
   @Input() serverType = ServerType.jp;
 
   serverUnCharas: ServerUnChara;
-  gvgPage = CN.gvgPage
+  gvgPage = CN.gvgPage;
   destroySub$ = new Subject();
   ngOnInit(): void {
-    this.rediveDataSrv
-    .getUnHaveCharaOb()
-    .subscribe((res) => {
+    this.rediveDataSrv.getUnHaveCharaOb().subscribe((res) => {
       this.serverUnCharas = res;
     });
-    this.i18nService.getLanguagePackObs().pipe(
-      takeUntil(this.destroySub$)
-    ).subscribe(r => {
-      this.gvgPage = r.gvgPage
-    })
+    this.i18nService
+      .getLanguagePackObs()
+      .pipe(takeUntil(this.destroySub$))
+      .subscribe((r) => {
+        this.gvgPage = r.gvgPage;
+      });
   }
 
   // 未拥有角色
@@ -60,7 +59,7 @@ export class UnHaveCharaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.destroySub$.next()
-      this.destroySub$.complete();
+    this.destroySub$.next();
+    this.destroySub$.complete();
   }
 }

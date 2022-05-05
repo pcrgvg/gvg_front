@@ -8,8 +8,7 @@ export interface Chara {
   iconUrl?: string;
 }
 
-export type Link = { name: string; link: string, remarks: string, index?: number, damage?: number };
-
+export type Link = { name: string; link: string; remarks: string; index?: number; damage?: number };
 
 export interface Task {
   id: number;
@@ -35,8 +34,6 @@ export enum ServerType {
   cn = 'cn',
   tw = 'tw',
 }
-
-
 
 export interface GvgTask {
   id: number;

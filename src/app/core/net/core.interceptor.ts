@@ -18,7 +18,6 @@ import { StorageService } from '../services/storage.service';
 import { storageNames } from '@src/app/constants';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-
 interface Token {
   d: string; // 日期 ms
   l: string; // 取时间的长度
@@ -27,7 +26,11 @@ interface Token {
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
-  constructor(private requestCacheSrv: RequestCacheService, private notificationSrc: NzNotificationService, private storageSrv: StorageService) {}
+  constructor(
+    private requestCacheSrv: RequestCacheService,
+    private notificationSrc: NzNotificationService,
+    private storageSrv: StorageService,
+  ) {}
 
   handleData(req: HttpRequest<any>, ev: HttpResponseBase, isCache: boolean): Observable<any> {
     if (ev.ok) {
@@ -54,7 +57,7 @@ export class CoreInterceptor implements HttpInterceptor {
       setHeaders: {
         d: `${token?.d}`,
         l: `${token?.l}`,
-        t:  `${token?.t}`,
+        t: `${token?.t}`,
       },
       url: environment.baseUrl + request.url,
     });
@@ -62,13 +65,15 @@ export class CoreInterceptor implements HttpInterceptor {
     const cachedResponse: HttpResponse<any> = this.requestCacheSrv.get(req);
 
     if (cachedResponse) {
-      return of(new HttpResponse({
-        body: cachedResponse.body,
-        headers: cachedResponse.headers,
-        status: cachedResponse.status,
-        statusText: cachedResponse.statusText,
-        url: cachedResponse.url
-      }));
+      return of(
+        new HttpResponse({
+          body: cachedResponse.body,
+          headers: cachedResponse.headers,
+          status: cachedResponse.status,
+          statusText: cachedResponse.statusText,
+          url: cachedResponse.url,
+        }),
+      );
     } else {
       return next.handle(req).pipe(
         timeout(30000),

@@ -15,17 +15,12 @@ import { LayoutModule } from './layout/layout.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { IconDefinition } from '@ant-design/icons-angular';
 
-
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
 
-const icons: IconDefinition[] = [ PlusCircleOutline ];
-
-
+const icons: IconDefinition[] = [PlusCircleOutline];
 
 registerLocaleData(zh);
 
@@ -41,7 +36,7 @@ registerLocaleData(zh);
     LayoutModule,
     AppRoutingModule,
     NzIconModule.forRoot(icons),
-    NzModalModule
+    NzModalModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent],

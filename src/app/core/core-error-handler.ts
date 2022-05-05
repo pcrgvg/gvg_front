@@ -5,9 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   providedIn: 'root',
 })
 export class CoreErrorHandler implements ErrorHandler {
-  constructor(
-    private nzNotificationService: NzNotificationService
-  ) {}
+  constructor(private nzNotificationService: NzNotificationService) {}
   /// 若已经在订阅的err中处理了,这里就不会再处理
   handleError(error): void {
     console.log(error, 'deal error by errorhandler');

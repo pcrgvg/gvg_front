@@ -7,9 +7,9 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'pcr-notice',
   templateUrl: './notice.component.html',
-  styleUrls: ['./notice.component.scss']
+  styleUrls: ['./notice.component.scss'],
 })
-export class NoticeComponent  {
+export class NoticeComponent {
   @Input() operate = false;
   @Input() notice: Notice;
   @Input() server: ServerType;
@@ -17,14 +17,7 @@ export class NoticeComponent  {
 
   loading = false;
 
-
-  constructor(
-    private noticeApiSrv: NoticeApiService,
-    private nzModalSrc: NzModalService
-  ) { }
-
-
-
+  constructor(private noticeApiSrv: NoticeApiService, private nzModalSrc: NzModalService) {}
 
   confirm() {
     if (this.operate) {
@@ -33,17 +26,14 @@ export class NoticeComponent  {
         .updateNotice({
           ...this.notice,
           server: this.server,
-          clanBattleId: this.clanBattleId
+          clanBattleId: this.clanBattleId,
         })
-        .pipe(
-          finalize(() => this.loading = true)
-        )
+        .pipe(finalize(() => (this.loading = true)))
         .subscribe((r) => {
           this.nzModalSrc.closeAll();
         });
     } else {
       this.nzModalSrc.closeAll();
     }
-
   }
 }

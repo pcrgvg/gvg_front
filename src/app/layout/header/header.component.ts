@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private nzModalSrc: NzModalService,
     private storageSrv: StorageService,
-    private i18nSrv: I18nService
+    private i18nSrv: I18nService,
   ) {}
   language = '中文';
   dropMenu: DropMenu[] = [

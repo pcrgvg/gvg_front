@@ -3,29 +3,28 @@
     <img
       class="header-img"
       src="https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@master/statics/static/assets/images/loading.gif"
-      alt=""
-    />
+      alt="" />
     <div class="header-title">公主连结公会战</div>
   </div>
 
-  <div style="color: red; font-weight: bold;font-size: 18px;">可到首页扫码或者点击链接下载app使用</div>
+  <div style="color: red; font-weight: bold; font-size: 18px">可到首页扫码或者点击链接下载app使用</div>
 
   <div class="g-flex">
-    <div class="g-flex" nz-dropdown style="color: #1385e5;margin-right: 16px;" [nzDropdownMenu]="menu">
+    <div class="g-flex" nz-dropdown style="color: #1385e5; margin-right: 16px" [nzDropdownMenu]="menu">
       <i nz-icon nzType="global" nzTheme="outline"></i>
-      <span style="padding: 0 5px;">{{ language }}</span>
+      <span style="padding: 0 5px">{{ language }}</span>
       <i nz-icon nzType="down"></i>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li *ngFor="let item of dropMenu" (clickStop)="changeLanguage(item)" nz-menu-item>{{item.label}}</li>
+          <li *ngFor="let item of dropMenu" (clickStop)="changeLanguage(item)" nz-menu-item>{{ item.label }}</li>
         </ul>
       </nz-dropdown-menu>
     </div>
     <div class="header-btn" (clickStop)="clearStorage()" style="color: #f55291">
-      {{header.cache}}
+      {{ header.cache }}
     </div>
     <div class="header-btn" style="margin: 0 16px" (clickStop)="toAbout()">
-      {{header.help}}
+      {{ header.help }}
     </div>
     <pcr-github-btn></pcr-github-btn>
   </div>
@@ -37,16 +36,7 @@
   <h3 class="g-card-title">清除本地缓存</h3>
   <div style="margin: 16px 0">清除部分不会清除未拥有角色</div>
   <div class="g-flex-between">
-    <button nz-button class="g-btn-danger" (clickStop)="storageClear(1)">
-      清除所有
-    </button>
-    <button
-      style="margin-left: 16px"
-      nz-button
-      class="g-btn"
-      (clickStop)="storageClear(2)"
-    >
-      清除部分
-    </button>
+    <button nz-button class="g-btn-danger" (clickStop)="storageClear(1)">清除所有</button>
+    <button style="margin-left: 16px" nz-button class="g-btn" (clickStop)="storageClear(2)">清除部分</button>
   </div>
 </ng-template>

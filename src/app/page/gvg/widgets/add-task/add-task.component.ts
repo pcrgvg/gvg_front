@@ -1,28 +1,14 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PcrApiService } from '@src/app/apis';
 import { FormValidateService, RediveDataService } from '@src/app/core';
-import {
-  Link,
-  Chara,
-  CanAutoName,
-  CanAutoType,
-  Task,
-  GvgTask,
-  ServerType,
-} from '@src/app/models';
+import { Link, Chara, CanAutoName, CanAutoType, Task, GvgTask, ServerType } from '@src/app/models';
 import { cloneDeep } from 'lodash';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { finalize } from 'rxjs/operators';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'pcr-add-task',
@@ -70,36 +56,32 @@ export class AddTaskComponent implements OnInit {
     public rediveDataSrv: RediveDataService,
     private notificationSrc: NzNotificationService,
     private pcraApiSrv: PcrApiService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
     this.validateForm = this.fb.group({
-      bossId: [
-        { value: this.bossId, disabled: false },
-        [Validators.required],
-      ],
+      bossId: [{ value: this.bossId, disabled: false }, [Validators.required]],
       canAuto: [this.task?.canAuto ?? [], [Validators.required]],
       damage: [this.task?.damage],
       stage: [this.task?.stage ?? null, [Validators.required]],
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
       autoDamage: [this.task?.autoDamage],
-      halfAutoDamage: [this.task?.halfAutoDamage]
+      halfAutoDamage: [this.task?.halfAutoDamage],
     });
     this.remarks = this.task?.remarks ?? '';
     this.exRemarks = this.task?.exRemarks ?? '';
     this.selectCharas = cloneDeep(
       this.task
         ? this.task.charas.map((r) => ({
-          ...r,
-          maxRarity: r.rarity,
-        }))
-        : []
+            ...r,
+            maxRarity: r.rarity,
+          }))
+        : [],
     );
     this.links = this.task?.links ?? [];
   }
-
 
   get currentBoss() {
     const bossId = this.validateForm.get('bossId').value;
@@ -117,9 +99,7 @@ export class AddTaskComponent implements OnInit {
    * icon 是否选中
    */
   isSelected(chara: Chara) {
-    return (
-      this.selectCharas?.findIndex((r) => r.prefabId === chara.prefabId) > -1
-    );
+    return this.selectCharas?.findIndex((r) => r.prefabId === chara.prefabId) > -1;
   }
 
   trackByCharaFn(_: number, chara: Chara): number {
@@ -135,7 +115,7 @@ export class AddTaskComponent implements OnInit {
             ...chara,
             currentRarity: chara.rarity,
             rank: this.rankOption[0],
-          })
+          }),
         );
       }
     } else {
@@ -163,21 +143,20 @@ export class AddTaskComponent implements OnInit {
       }
     }
     // 判断对应的伤害必填
-    for (const type of (this.validateForm.get('canAuto').value as number[])) {
+    for (const type of this.validateForm.get('canAuto').value as number[]) {
       if (this.showAutoDamage && !this.validateForm.get('autoDamage').value) {
         this.notificationSrc.error('', '自动伤害为空');
-        return
+        return;
       }
       if (this.showManualDamage && !this.validateForm.get('damage').value) {
         this.notificationSrc.error('', '手动伤害为空');
-        return
+        return;
       }
       if (this.showHalfAutoDamage && !this.validateForm.get('halfAutoDamage').value) {
         this.notificationSrc.error('', '半自动伤害为空');
-        return
+        return;
       }
     }
-
 
     const valid = this.fv.formIsValid(this.validateForm);
     if (!valid) {
@@ -196,7 +175,7 @@ export class AddTaskComponent implements OnInit {
       remarks: this.remarks,
       exRemarks: this.exRemarks,
       server: this.serverType,
-      canAuto: value.canAuto
+      canAuto: value.canAuto,
     };
     this.loading = true;
     this.pcraApiSrv
@@ -217,7 +196,7 @@ export class AddTaskComponent implements OnInit {
       link: '',
       remarks: '',
       index: this.links.length,
-      damage: 0
+      damage: 0,
     });
   }
 
@@ -233,17 +212,16 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-
   get showAutoDamage() {
     return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.auto);
   }
 
   get showHalfAutoDamage() {
-    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.harfAuto);
   }
 
   get showManualDamage() {
-    return  (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.manual);
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.manual);
   }
 
   addLinkRemark(link: Link) {
@@ -253,8 +231,6 @@ export class AddTaskComponent implements OnInit {
       nzFooter: null,
     });
   }
-
- 
 
   drop(event: CdkDragDrop<Link[]>) {
     // const fromItem = this.links[event.previousIndex];

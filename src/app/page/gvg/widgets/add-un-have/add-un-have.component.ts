@@ -16,7 +16,7 @@ export class AddUnHaveComponent implements OnInit, OnDestroy {
     public rediveDataSrv: RediveDataService,
     private storageSrv: StorageService,
     private modalSrc: NzModalService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
   ) {}
 
   unHaveCharas: Chara[] = [];
@@ -50,9 +50,7 @@ export class AddUnHaveComponent implements OnInit, OnDestroy {
   }
 
   isSelected(chara: Chara) {
-    return (
-      this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1
-    );
+    return this.unHaveCharas.findIndex((r) => r.prefabId === chara.prefabId) > -1;
   }
 
   confirm() {

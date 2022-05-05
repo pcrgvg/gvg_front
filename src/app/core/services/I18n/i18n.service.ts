@@ -9,7 +9,7 @@ import { JP } from './jp';
 })
 export class I18nService {
   private _languageSetting = new BehaviorSubject('cn');
-  private _languagePack =  new BehaviorSubject(CN);
+  private _languagePack = new BehaviorSubject(CN);
   constructor() {}
 
   setLanguage(language: string) {
@@ -36,8 +36,7 @@ export class I18nService {
   setLanguagePack(language: string) {
     if (language === 'jp') {
       this._languagePack.next(JP);
-    }
-    else if (language === 'en') {
+    } else if (language === 'en') {
       this._languagePack.next(EN);
     } else {
       this._languagePack.next(CN);

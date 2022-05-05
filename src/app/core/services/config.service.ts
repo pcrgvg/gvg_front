@@ -17,10 +17,10 @@ export class ConfigService {
   constructor(
     private storageSrv: StorageService,
     private dbApiSrv: DbApiService,
-    private requestCacheSrv: RequestCacheService
+    private requestCacheSrv: RequestCacheService,
   ) {}
 
-   init() {
+  init() {
     this.configLocalforage();
     this.configToken();
     this.checkVersion();
@@ -28,12 +28,8 @@ export class ConfigService {
   }
 
   async checkVersion() {
-    const dbVersion =
-      (await localforage.getItem(localforageName.dbVersion)) ?? {};
-    const res = await this.dbApiSrv
-      .getVersion()
-      .pipe(timeout(10000))
-      .toPromise();
+    const dbVersion = (await localforage.getItem(localforageName.dbVersion)) ?? {};
+    const res = await this.dbApiSrv.getVersion().pipe(timeout(10000)).toPromise();
     localforage.setItem(localforageName.dbVersion, res);
     for (const server in res) {
       if (res[server]?.version !== dbVersion[server]?.version) {
@@ -56,10 +52,9 @@ export class ConfigService {
   }
 
   configToken() {
-
     const nowDate = new Date().getTime().toFixed();
     const l = Math.random() * nowDate.length;
-    const t = CryptoES.SHA1((nowDate.substr(l) + eval(this.s))).toString();
+    const t = CryptoES.SHA1(nowDate.substr(l) + eval(this.s)).toString();
     // const t = SHA1.update(nowDate.substr(l) + eval(this.s)).digest('hex');
     const token = {
       d: nowDate,

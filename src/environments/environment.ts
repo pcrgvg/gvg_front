@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: '/api',
-  showLink: true
+  showLink: true,
 };
 
 /*

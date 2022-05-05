@@ -3,15 +3,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { BossTask, Chara, GvgTask } from '@app/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FilterResultService {
   private filterResultSub = new BehaviorSubject<BossTask[][]>([]);
   private bosslistSub = new BehaviorSubject<GvgTask[]>([]);
 
-  constructor() { }
+  constructor() {}
 
-  setFilterResult( task: BossTask[][]) {
+  setFilterResult(task: BossTask[][]) {
     this.filterResultSub.next(task);
   }
 
@@ -19,12 +19,11 @@ export class FilterResultService {
     return this.filterResultSub.getValue();
   }
 
-  setBosslist( task: GvgTask[]) {
+  setBosslist(task: GvgTask[]) {
     this.bosslistSub.next(task);
   }
 
   get bosslist(): GvgTask[] {
     return this.bosslistSub.getValue();
   }
-
 }

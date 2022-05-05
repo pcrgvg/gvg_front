@@ -15,7 +15,7 @@ interface FilterTaskParams {
 }
 
 export function cloneDeep(params: any) {
-    return JSON.parse(JSON.stringify(params));
+  return JSON.parse(JSON.stringify(params));
 }
 
 export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
@@ -83,7 +83,7 @@ export function combine(bossTask: BossTask[], k: number): BossTask[][] {
 export function repeatCondition(
   repeateCharas: number[],
   unHaveCharas: number[],
-  bossTasks: BossTask[]
+  bossTasks: BossTask[],
 ): [boolean, BossTask[]] {
   const map = new Map<number, number>();
   for (const prefabId of [...repeateCharas, ...unHaveCharas]) {
@@ -94,7 +94,7 @@ export function repeatCondition(
   const bossTasksTemp = cloneDeep(bossTasks);
 
   for (const bossTask of bossTasksTemp) {
-     // 若包含未拥有角色，该作业必定要借该角色
+    // 若包含未拥有角色，该作业必定要借该角色
     let unHaveChara: Chara = null;
     for (const k of unHaveCharas) {
       unHaveChara = bossTask.charas.find((chara) => chara.prefabId === k);
@@ -134,10 +134,7 @@ export function repeatCondition(
 /**
  * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
-export const filterUnHaveCharas = (
-  charas: Chara[],
-  unHaveCharas: Chara[]
-): number[] => {
+export const filterUnHaveCharas = (charas: Chara[], unHaveCharas: Chara[]): number[] => {
   const unHaveCharaPrefabIds: number[] = [];
   for (const chara of unHaveCharas) {
     if (charas.findIndex((c) => c.prefabId === chara.prefabId) > -1) {
@@ -168,7 +165,7 @@ export function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
-  server: ServerType
+  server: ServerType,
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
 
@@ -284,12 +281,7 @@ export const filterTask = ({
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
-  let result: BossTask[][] = fliterResult(
-    bossTasks,
-    unHaveCharas,
-    usedList,
-    server
-  );
+  let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList, server);
 
   if (!result.length) {
     bossTasks = combine(bossTask, 2);

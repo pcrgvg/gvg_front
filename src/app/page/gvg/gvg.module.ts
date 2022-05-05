@@ -29,7 +29,6 @@ import { GvgResultComponent } from './gvg-result/gvg-result.component';
 import { DeleteComfirmComponent } from './widgets/delete-comfirm/delete-comfirm.component';
 import { NoticeComponent } from './widgets/notice/notice.component';
 
-
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
 import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
 import { BillboardComponent } from './gvg/billboard/billboard.component';
@@ -39,9 +38,6 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { LinkButtonComponent } from './widgets/link-button/link-button.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
-
-
 
 @NgModule({
   declarations: [
@@ -78,7 +74,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NzIconModule.forChild([PlusCircleOutline]),
     NzImageModule,
     NzDropDownModule,
-    DragDropModule
+    DragDropModule,
   ],
 })
 export class GvgModule {}

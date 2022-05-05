@@ -1,4 +1,4 @@
-<span #textTempl *ngIf="showTip" class="ellipsis-text" nzTooltipPlacement="top" nz-tooltip [nzTooltipTitle]="text">{{
-  text
-}}</span>
+<span #textTempl *ngIf="showTip" class="ellipsis-text" nzTooltipPlacement="top" nz-tooltip [nzTooltipTitle]="text">
+  {{ text }}
+</span>
 <span #textTempl *ngIf="!showTip" class="ellipsis-text">{{ text }}</span>

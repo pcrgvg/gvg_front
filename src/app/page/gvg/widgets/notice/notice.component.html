@@ -1,13 +1,11 @@
 <h3 class="g-card-title">作业公告</h3>
 
 <div *ngIf="operate">
-  
-    <ngx-wig [(ngModel)]="notice.content"></ngx-wig>
+  <ngx-wig [(ngModel)]="notice.content"></ngx-wig>
 </div>
-  
-  <div *ngIf="!operate" [innerHTML]="notice.content | domSanitizer"></div>
-  
 
-  <div class="g-flex-center" style="margin-top: 16px;">
-    <button nz-button class="g-btn" (clickStop)="confirm()">确定</button>
-  </div>
+<div *ngIf="!operate" [innerHTML]="notice.content | domSanitizer"></div>
+
+<div class="g-flex-center" style="margin-top: 16px">
+  <button nz-button class="g-btn" (clickStop)="confirm()">确定</button>
+</div>

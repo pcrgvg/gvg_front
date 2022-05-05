@@ -13,7 +13,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "analyzer": "ng build --configuration production --statsJson && webpack-bundle-analyzer dist/pcr-gvg/stats.json"
+    "analyzer": "ng build --configuration production --statsJson && webpack-bundle-analyzer dist/pcr-gvg/stats.json",
+    "fix": "prettier --write \"src/**/*.{ts,js,html,scss}\""
   },
   "private": true,
   "dependencies": {

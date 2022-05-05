@@ -6,7 +6,6 @@ import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
   name: 'canauto',
 })
 export class CanautoPipe implements PipeTransform {
-
   transform(value: CanAutoType, ...args: [LanguagePack['common']]): string {
     const common = args[0];
     switch (value) {

@@ -34,7 +34,6 @@ export class RediveService {
   }
   // 日服1038期后 4 5合并 value为6
   initStateOption(clanBattleId: number, server: ServerType) {
-
     if (server === ServerType.jp) {
       // 2021/8
       if (clanBattleId > 1041) {
@@ -62,7 +61,6 @@ export class RediveService {
         { label: '4+5', value: 6 },
       ];
     }
-
 
     return [
       { label: '1', value: 1 },

@@ -1,4 +1,12 @@
-import { NgModule, ErrorHandler, APP_INITIALIZER, Optional, SkipSelf, ComponentFactoryResolver, Injector } from '@angular/core';
+import {
+  NgModule,
+  ErrorHandler,
+  APP_INITIALIZER,
+  Optional,
+  SkipSelf,
+  ComponentFactoryResolver,
+  Injector,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreInterceptor } from './net/core.interceptor';
@@ -11,27 +19,23 @@ import { RequestCacheService } from './net/request-cache.service';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { SelectSuffixComponent } from './template/select-suffix/select-suffix.component';
 
-
 const Configfactory = (config: ConfigService) => {
-  return  () =>   config.init();
+  return () => config.init();
 };
 const Cachefactory = (cache: RequestCacheService) => {
   return () => cache.init();
 };
 
-const nzConfigFactory = (
-  injector: Injector,
-  resolver: ComponentFactoryResolver
-): NzConfig => {
+const nzConfigFactory = (injector: Injector, resolver: ComponentFactoryResolver): NzConfig => {
   const selectSuffixFactory = resolver.resolveComponentFactory(SelectSuffixComponent);
   const { nzSelectSuffix } = selectSuffixFactory.create(injector).instance;
   return {
     select: {
-      nzSuffixIcon: nzSelectSuffix
+      nzSuffixIcon: nzSelectSuffix,
     },
     notification: {
-      nzMaxStack: 3
-    }
+      nzMaxStack: 3,
+    },
   };
 };
 
@@ -39,10 +43,11 @@ const nzConfigFactory = (
   declarations: [SelectSuffixComponent],
   imports: [CommonModule],
   providers: [
-    { // The FactoryProvider
+    {
+      // The FactoryProvider
       provide: NZ_CONFIG,
       useFactory: nzConfigFactory,
-      deps: [Injector, ComponentFactoryResolver]
+      deps: [Injector, ComponentFactoryResolver],
     },
     { provide: HTTP_INTERCEPTORS, useClass: CoreInterceptor, multi: true },
     { provide: ErrorHandler, useClass: CoreErrorHandler },
@@ -54,9 +59,7 @@ const nzConfigFactory = (
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
-      throw new Error(
-        `CoreModule has already been loaded. Import Core modules in the AppModule only.`,
-      );
+      throw new Error(`CoreModule has already been loaded. Import Core modules in the AppModule only.`);
     }
   }
 }

@@ -1,10 +1,4 @@
-import {
-  Component,
-  ContentChild,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ContentChild, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BossTask, CanAutoType, GvgTask, Task } from '@src/app/models';
 import { StorageService } from '@app/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -33,7 +27,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
     private filterResultSrv: FilterResultService,
     private nzImgSrv: NzImageService,
     private router: Router,
-    private i18nService: I18nService
+    private i18nService: I18nService,
   ) {}
 
   bossList: GvgTask[];
@@ -68,7 +62,6 @@ export class GvgResultComponent implements OnInit, OnDestroy {
       .subscribe((r) => {
         this.gvgResultPage = r.gvgResultPage;
         this.commonPage = r.common;
-
       });
   }
   ngOnDestroy(): void {
@@ -130,19 +123,15 @@ export class TaskDataSource extends DataSource<BossTask[]> {
     // 初始化
     this.fetchData(0);
 
-    collectionViewer.viewChange
-      .pipe(takeUntil(this.disconnect$))
-      .subscribe((range) => {
-        if (
-          this.cachedData.length >= this.filterResultSrv.filterResult.length
-        ) {
-          // this.complete$.next();
-          // this.complete$.complete();
-        } else {
-          const endPage = this.getPageForIndex(range.end);
-          this.fetchData(endPage + 1);
-        }
-      });
+    collectionViewer.viewChange.pipe(takeUntil(this.disconnect$)).subscribe((range) => {
+      if (this.cachedData.length >= this.filterResultSrv.filterResult.length) {
+        // this.complete$.next();
+        // this.complete$.complete();
+      } else {
+        const endPage = this.getPageForIndex(range.end);
+        this.fetchData(endPage + 1);
+      }
+    });
   }
 
   setTaskList(bossList?: GvgTask[]) {
@@ -197,10 +186,7 @@ export class TaskDataSource extends DataSource<BossTask[]> {
       return;
     }
     this.fetchedPagesSet.add(start);
-    const arr = this.taskList.slice(
-      start * this.pageSize,
-      (start + 1) * this.pageSize
-    );
+    const arr = this.taskList.slice(start * this.pageSize, (start + 1) * this.pageSize);
     this.cachedData.splice(start * this.pageSize, this.pageSize, ...arr);
     this.dataStream.next(this.cachedData);
   }
