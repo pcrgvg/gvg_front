@@ -22,7 +22,8 @@ specifiers:
   '@angular/platform-browser-dynamic': ~13.3.6
   '@angular/router': ~13.3.6
   '@ant-design/icons-angular': ^13.1.0
-  '@types/jasmine': ~3.6.0
+  '@babel/runtime': ^7.17.9
+  '@types/jasmine': ~3.10.0
   '@types/jasminewd2': ~2.0.3
   '@types/lodash': ^4.14.168
   '@types/node': ^12.11.1
@@ -32,7 +33,7 @@ specifiers:
   crypto-es: ^1.2.7
   eslint: ^8.12.0
   husky: ^7.0.4
-  jasmine-core: ~3.6.0
+  jasmine-core: ~4.0.0
   jasmine-spec-reporter: ~5.0.0
   karma: ~6.3.14
   karma-chrome-launcher: ~3.1.0
@@ -43,7 +44,7 @@ specifiers:
   localforage: ^1.9.0
   lodash: ^4.17.21
   ng-zorro-antd: ^13.2.1
-  ngx-wig: ^11.0.0
+  ngx-wig: ^13.0.5
   protractor: ~7.0.0
   rxjs: ~6.6.0
   ts-node: ~8.3.0
@@ -63,12 +64,13 @@ dependencies:
   '@angular/platform-browser-dynamic': 13.3.6_5e7505298bcb9be98509e65bb6babdbb
   '@angular/router': 13.3.6_19f5abb5960e2e88eec08e7fc541b304
   '@ant-design/icons-angular': 13.1.0_19f5abb5960e2e88eec08e7fc541b304
+  '@babel/runtime': 7.17.9
   create-hash: 1.2.0
   crypto-es: 1.2.7
   localforage: 1.10.0
   lodash: 4.17.21
   ng-zorro-antd: 13.2.1_2fb697a518691c1bf02692a34b5b8cf4
-  ngx-wig: 11.0.0_8c9f395b3296d710a5b3d4f93c67d46d
+  ngx-wig: 13.0.5_8c9f395b3296d710a5b3d4f93c67d46d
   rxjs: 6.6.7
   tslib: 2.4.0
   zone.js: 0.11.5
@@ -82,7 +84,7 @@ devDependencies:
   '@angular-eslint/template-parser': 13.2.1_eslint@8.15.0+typescript@4.6.4
   '@angular/cli': 13.3.5
   '@angular/compiler-cli': 13.3.6_37cf7c8c67a249f364a85e9999481e99
-  '@types/jasmine': 3.6.11
+  '@types/jasmine': 3.10.6
   '@types/jasminewd2': 2.0.10
   '@types/lodash': 4.14.182
   '@types/node': 12.20.50
@@ -90,13 +92,13 @@ devDependencies:
   '@typescript-eslint/parser': 5.17.0_eslint@8.15.0+typescript@4.6.4
   eslint: 8.15.0
   husky: 7.0.4
-  jasmine-core: 3.6.0
+  jasmine-core: 4.0.1
   jasmine-spec-reporter: 5.0.2
   karma: 6.3.19
   karma-chrome-launcher: 3.1.1
   karma-coverage-istanbul-reporter: 3.0.3
   karma-jasmine: 4.0.2_karma@6.3.19
-  karma-jasmine-html-reporter: 1.7.0_10fc9ef7c0abbc3d1a7cac5f52d75244
+  karma-jasmine-html-reporter: 1.7.0_e4024afc4b33f5324b7ac68d65dbdd69
   lint-staged: 12.4.1
   protractor: 7.0.0
   ts-node: 8.3.0_typescript@4.6.4
@@ -1727,7 +1729,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
-    dev: true
 
   /@babel/template/7.16.7:
     resolution: {integrity: sha512-I8j/x8kHUrbYRTUxXrrMbfCa7jxkE7tZre39x3kjr9hvI82cK1FfqLygotcWN5kdPGWcLdWMHpSBavse5tWw3w==}
@@ -2310,14 +2311,14 @@ packages:
       '@types/node': 12.20.50
     dev: true
 
-  /@types/jasmine/3.6.11:
-    resolution: {integrity: sha512-S6pvzQDvMZHrkBz2Mcn/8Du7cpr76PlRJBAoHnSDNbulULsH5dp0Gns+WRyNX5LHejz/ljxK4/vIHK/caHt6SQ==}
+  /@types/jasmine/3.10.6:
+    resolution: {integrity: sha512-twY9adK/vz72oWxCWxzXaxoDtF9TpfEEsxvbc1ibjF3gMD/RThSuSud/GKUTR3aJnfbivAbC/vLqhY+gdWCHfA==}
     dev: true
 
   /@types/jasminewd2/2.0.10:
     resolution: {integrity: sha512-J7mDz7ovjwjc+Y9rR9rY53hFWKATcIkrr9DwQWmOas4/pnIPJTXawnzjwpHm3RSxz/e3ZVUvQ7cRbd5UQLo10g==}
     dependencies:
-      '@types/jasmine': 3.6.11
+      '@types/jasmine': 3.10.6
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -2722,7 +2723,7 @@ packages:
     resolution: {integrity: sha512-Zn4cw2NEqd+9fiSVWMscnjyQ1a8Yfoc5oBajLeo5w+YBHgDUcEBY2hS4YpTz6iN5f/2zQiktcuM6tS8x1p9dpA==}
     engines: {node: '>= 8.0.0'}
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.3
       depd: 1.1.2
       humanize-ms: 1.2.1
     transitivePeerDependencies:
@@ -5141,7 +5142,7 @@ packages:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5152,7 +5153,7 @@ packages:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5218,7 +5219,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5611,8 +5612,12 @@ packages:
     resolution: {integrity: sha1-vMl5rh+f0FcB5F5S5l06XWPxok4=}
     dev: true
 
-  /jasmine-core/3.6.0:
-    resolution: {integrity: sha512-8uQYa7zJN8hq9z+g8z1bqCfdC8eoDAeVnM5sfqs7KHv9/ifoJ500m018fpFc7RDaO6SWCLCXwo/wPSNcdYTgcw==}
+  /jasmine-core/3.99.1:
+    resolution: {integrity: sha512-Hu1dmuoGcZ7AfyynN3LsfruwMbxMALMka+YtZeGoLuDEySVmVAPaonkNoBRIw/ectu8b9tVQCJNgp4a4knp+tg==}
+    dev: true
+
+  /jasmine-core/4.0.1:
+    resolution: {integrity: sha512-w+JDABxQCkxbGGxg+a2hUVZyqUS2JKngvIyLGu/xiw2ZwgsoSB0iiecLQsQORSeaKQ6iGrCyWG86RfNDuoA7Lg==}
     dev: true
 
   /jasmine-spec-reporter/5.0.2:
@@ -5773,14 +5778,14 @@ packages:
       - supports-color
     dev: true
 
-  /karma-jasmine-html-reporter/1.7.0_10fc9ef7c0abbc3d1a7cac5f52d75244:
+  /karma-jasmine-html-reporter/1.7.0_e4024afc4b33f5324b7ac68d65dbdd69:
     resolution: {integrity: sha512-pzum1TL7j90DTE86eFt48/s12hqwQuiD+e5aXx2Dc9wDEn2LfGq6RoAxEZZjFiN0RDSCOnosEKRZWxbQ+iMpQQ==}
     peerDependencies:
       jasmine-core: '>=3.8'
       karma: '>=0.9'
       karma-jasmine: '>=1.1'
     dependencies:
-      jasmine-core: 3.6.0
+      jasmine-core: 4.0.1
       karma: 6.3.19
       karma-jasmine: 4.0.2_karma@6.3.19
     dev: true
@@ -5791,7 +5796,7 @@ packages:
     peerDependencies:
       karma: '*'
     dependencies:
-      jasmine-core: 3.6.0
+      jasmine-core: 3.99.1
       karma: 6.3.19
     dev: true
 
@@ -6428,12 +6433,12 @@ packages:
       - rxjs
     dev: false
 
-  /ngx-wig/11.0.0_8c9f395b3296d710a5b3d4f93c67d46d:
-    resolution: {integrity: sha512-Vpn3V/ihYkr6Ojtf+V3KYsCcRihI3QQN7VQ/nevbUdR59sweN3ReRUzvIqQbKHBQP5ndQjhtD9/EOoAtVLe2gQ==}
+  /ngx-wig/13.0.5_8c9f395b3296d710a5b3d4f93c67d46d:
+    resolution: {integrity: sha512-4AGCbIByWROlREc4Pa4BMIYFPXy+OnlcDoMLJgnpA621O5m+MvBb615Ekh0IMCLzqA9fN4vdliC5M1j38sjW5w==}
     peerDependencies:
-      '@angular/common': ^11.0.2
-      '@angular/core': ^11.0.2
-      '@angular/forms': ^11.0.2
+      '@angular/common': ^13.0.3
+      '@angular/core': ^13.0.3
+      '@angular/forms': ^13.0.3
     dependencies:
       '@angular/common': 13.3.6_@angular+core@13.3.6+rxjs@6.6.7
       '@angular/core': 13.3.6_rxjs@6.6.7+zone.js@0.11.5
@@ -7538,12 +7543,11 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
-    dev: true
 
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.9
     dev: true
 
   /regex-parser/2.2.11:
@@ -8080,7 +8084,7 @@ packages:
     engines: {node: '>= 10'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.3
       socks: 2.6.2
     transitivePeerDependencies:
       - supports-color
