@@ -8,7 +8,6 @@
   "trailingComma": "all",
   "bracketSameLine": true,
   "htmlWhitespaceSensitivity": "ignore",
-  "angleBracketSameLine ": true,
   "tabWidth": 2,
   "vueIndentScriptAndStyle": true
 }

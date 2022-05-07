@@ -38,7 +38,7 @@
     &:not(:last-child) {
       &::after {
         display: block;
-        content: "";
+        content: '';
         position: absolute;
         right: 0;
         top: 50%;

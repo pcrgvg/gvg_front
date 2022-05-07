@@ -11,10 +11,11 @@
     "build": "ng build --configuration production",
     "gh": "ng build --configuration production --deploy-url https://cdn.jsdelivr.net/gh/pcrgvg/statics@version/",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "analyzer": "ng build --configuration production --statsJson && webpack-bundle-analyzer dist/pcr-gvg/stats.json",
-    "fix": "prettier --write \"src/**/*.{ts,js,html,scss}\""
+    "fix": "ng lint --fix && prettier --write --ignore-unknown \"src/**/*.{ts,js,html,scss}\"",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -40,20 +41,21 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^13.3.5",
-    "@angular-eslint/builder": "12.5.0",
-    "@angular-eslint/eslint-plugin": "12.5.0",
-    "@angular-eslint/eslint-plugin-template": "12.5.0",
-    "@angular-eslint/schematics": "12.5.0",
-    "@angular-eslint/template-parser": "12.5.0",
+    "@angular-eslint/builder": "13.2.1",
+    "@angular-eslint/eslint-plugin": "13.2.1",
+    "@angular-eslint/eslint-plugin-template": "13.2.1",
+    "@angular-eslint/schematics": "13.2.1",
+    "@angular-eslint/template-parser": "13.2.1",
     "@angular/cli": "~13.3.5",
     "@angular/compiler-cli": "~13.3.6",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.168",
     "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "4.28.2",
-    "@typescript-eslint/parser": "4.28.2",
-    "eslint": "^7.26.0",
+    "@typescript-eslint/eslint-plugin": "5.17.0",
+    "@typescript-eslint/parser": "5.17.0",
+    "eslint": "^8.12.0",
+    "husky": "^7.0.4",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.14",
@@ -61,6 +63,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^12.4.1",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.6.4",
@@ -69,5 +72,8 @@
   "resolutions": {
     "webpack": "^5.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "lint-staged": {
+    "*.{ts,scss,html}": "npm run fix "
+  }
 }
