@@ -9,7 +9,7 @@ export const CN: LanguagePack = {
     loading: '正在加载数据',
     server: '服务器',
     remark: '备注',
-    damageUnit: 'W'
+    damageUnit: 'W',
   },
   homePage: {
     jp: '日服',

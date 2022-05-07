@@ -1,5 +1,5 @@
 <div style="max-width: 80vw">
-  <h3 class="g-card-title" style="font-weight: bold">{{gvgPage.unHave}}</h3>
+  <h3 class="g-card-title" style="font-weight: bold">{{ gvgPage.unHave }}</h3>
   <div class="g-flex box">
     <div class="chara-box">
       <pcr-icon
@@ -7,8 +7,7 @@
         style="opacity: 1"
         *ngFor="let chara of unHaveCharas; trackBy: trackByCharaFn"
         [unit]="chara"
-        (clickStop)="toggleSelect(chara)"
-      ></pcr-icon>
+        (clickStop)="toggleSelect(chara)"></pcr-icon>
     </div>
   </div>
 
@@ -20,8 +19,7 @@
           *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           [unit]="chara"
-          (clickStop)="toggleSelect(chara)"
-        ></pcr-icon>
+          (clickStop)="toggleSelect(chara)"></pcr-icon>
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="gvgPage.middle">
@@ -31,8 +29,7 @@
           *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
-          [unit]="chara"
-        ></pcr-icon>
+          [unit]="chara"></pcr-icon>
       </div>
     </nz-tab>
     <nz-tab [nzTitle]="gvgPage.back">
@@ -42,13 +39,12 @@
           *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
-          [unit]="chara"
-        ></pcr-icon>
+          [unit]="chara"></pcr-icon>
       </div>
     </nz-tab>
   </nz-tabset>
 
   <div class="g-flex-center" style="margin-top: 30px">
-    <button (clickStop)="confirm()" nz-button class="g-btn">{{gvgPage.confirm}}</button>
+    <button (clickStop)="confirm()" nz-button class="g-btn">{{ gvgPage.confirm }}</button>
   </div>
 </div>

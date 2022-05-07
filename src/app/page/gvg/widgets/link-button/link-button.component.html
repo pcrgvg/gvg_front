@@ -1,22 +1,13 @@
-<span
-  *ngIf="linkObj.link && linkObj.remarks; else elseTpl"
-  nz-dropdown
-  [nzDropdownMenu]="menu"
-  style="padding: 0 5px"
->
+<span *ngIf="linkObj.link && linkObj.remarks; else elseTpl" nz-dropdown [nzDropdownMenu]="menu" style="padding: 0 5px">
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li nz-menu-item>
         <a [href]="linkObj.link" target="_blank">查看视频</a>
       </li>
       <li nz-menu-item>
-        <a
-          nz-tooltip
-          nzTooltipTrigger="click"
-          [nzTooltipMouseLeaveDelay]="10000000"
-          [nzTooltipTitle]="titleTemplate"
-          >查看备注/文字轴</a
-        >
+        <a nz-tooltip nzTooltipTrigger="click" [nzTooltipMouseLeaveDelay]="10000000" [nzTooltipTitle]="titleTemplate">
+          查看备注/文字轴
+        </a>
         <ng-template #titleTemplate>
           <pre class="remarks">{{ linkObj.remarks }}</pre>
         </ng-template>
@@ -29,16 +20,15 @@
 <ng-template #elseTpl>
   <a *ngIf="linkObj.link" [href]="linkObj.link" target="_blank">
     <!-- <pcr-ellipsis-text [text]="linkObj.name"> </pcr-ellipsis-text> -->
-    {{linkObj.name}}
-</a>
+    {{ linkObj.name }}
+  </a>
   <a
     *ngIf="linkObj.remarks"
     nz-tooltip
     nzTooltipTrigger="click"
     [nzTooltipMouseLeaveDelay]="10000000"
-    [nzTooltipTitle]="titleTemplate"
-    >
-    {{linkObj.name}}
+    [nzTooltipTitle]="titleTemplate">
+    {{ linkObj.name }}
     <!-- <pcr-ellipsis-text [text]="linkObj.name"></pcr-ellipsis-text> -->
   </a>
   <ng-template #titleTemplate>

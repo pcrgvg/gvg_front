@@ -3,12 +3,10 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'pcr-link-button',
   templateUrl: './link-button.component.html',
-  styleUrls: ['./link-button.component.scss']
+  styleUrls: ['./link-button.component.scss'],
 })
-export class LinkButtonComponent  {
+export class LinkButtonComponent {
+  constructor() {}
 
-  constructor() { }
-
-  @Input() linkObj: {link: string, name: string, remarks: string};
-
+  @Input() linkObj: { link: string; name: string; remarks: string };
 }

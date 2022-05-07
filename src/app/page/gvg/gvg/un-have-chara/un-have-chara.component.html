@@ -1,12 +1,9 @@
 <div class="g-card">
-    <div class="g-flex-between" style="margin-bottom: 16px">
-      <div class="g-card-title">{{gvgPage.unHave}}</div>
-      <button nz-button class="g-btn" (clickStop)="addUnHave()">{{gvgPage.add}}</button>
-    </div>
-    <div class="chara-box">
-      <pcr-icon
-        *ngFor="let chara of unHaveCharaList; trackBy: trackByCharaFn"
-        [unit]="chara"
-      ></pcr-icon>
-    </div>
+  <div class="g-flex-between" style="margin-bottom: 16px">
+    <div class="g-card-title">{{ gvgPage.unHave }}</div>
+    <button nz-button class="g-btn" (clickStop)="addUnHave()">{{ gvgPage.add }}</button>
   </div>
+  <div class="chara-box">
+    <pcr-icon *ngFor="let chara of unHaveCharaList; trackBy: trackByCharaFn" [unit]="chara"></pcr-icon>
+  </div>
+</div>

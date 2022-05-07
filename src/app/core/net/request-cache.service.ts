@@ -14,10 +14,9 @@ export class RequestCacheService {
 
   constructor() {}
 
-   init() {
-
+  init() {
     return new Promise((resolve, reject) => {
-      localforage.getItem<string>(localforageName.cacheHttp).then(r => {
+      localforage.getItem<string>(localforageName.cacheHttp).then((r) => {
         this.cache = r ? JSON.parse(r) : {};
         setTimeout(() => {
           resolve(true);

@@ -1,36 +1,42 @@
-<div class="g-card" style="margin-bottom: 16px;">
-    <h4 class="g-card-title">关于本站</h4>
-    <div *ngIf="shwoLink">本站为粉丝自制,资源主要来源为干炸里脊,如果有问题联系我可提<a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank">issue</a></div>
-    <div style="color:red;font-size:20px">愿意维护作业以及提意见可加群809036333</div>
+<div class="g-card" style="margin-bottom: 16px">
+  <h4 class="g-card-title">关于本站</h4>
+  <div *ngIf="shwoLink">
+    本站为粉丝自制,资源主要来源为干炸里脊,如果有问题联系我可提
+    <a href="https://github.com/pcrgvg/gvg_front/issues" target="_blank">issue</a>
+  </div>
+  <div style="color: red; font-size: 20px">愿意维护作业以及提意见可加群809036333</div>
 </div>
 
 <div class="g-card">
+  <h4 class="g-card-title">图片</h4>
+  <div>如果图片显示不出,可使用谷歌浏览器,或者切换图源</div>
 
-    <h4 class="g-card-title">图片</h4>
-    <div>如果图片显示不出,可使用谷歌浏览器,或者切换图源</div>
+  <h4 class="g-card-title">缓存</h4>
+  <div>是否已使用,去除,未拥有角色都存在本地,建议每次新会战清除一下</div>
 
-    <h4 class="g-card-title">缓存</h4>
-    <div>是否已使用,去除,未拥有角色都存在本地,建议每次新会战清除一下</div>
+  <h4 class="g-card-title">筛刀</h4>
+  <div>
+    筛刀结果会按照三刀总分由高到低排序,若包含选中已使用的,则会按照组合中已使用的数量排序,结果三刀按照总分由高到低排序(尾刀不参与分刀),
+    合并自动/手动,如果筛选时作业方式包含手动则显示手动伤害,不包含手动显示自动伤害,分刀排序的时候同理,自动伤害可能不准确
+  </div>
 
-    <h4 class="g-card-title">筛刀</h4>
-    <div>
-        筛刀结果会按照三刀总分由高到低排序,若包含选中已使用的,则会按照组合中已使用的数量排序,结果三刀按照总分由高到低排序(尾刀不参与分刀),
-        合并自动/手动,如果筛选时作业方式包含手动则显示手动伤害,不包含手动显示自动伤害,分刀排序的时候同理,自动伤害可能不准确
-    </div>
-   
+  <h4 class="g-card-title">切换使用</h4>
+  <div>如果某些刀已经使用或者想使用,选中使用就会在筛选结果页面优先显示</div>
 
-    <h4 class="g-card-title">切换使用</h4>
-    <div>如果某些刀已经使用或者想使用,选中使用就会在筛选结果页面优先显示</div>
-    
-    <h4 class="g-card-title">去除</h4>
-    <div>如果某些刀没法使用,选中后在筛刀的时候会去除</div>
+  <h4 class="g-card-title">去除</h4>
+  <div>如果某些刀没法使用,选中后在筛刀的时候会去除</div>
 
-    <h4 class="g-card-title">筛刀结果页面</h4>
-    <div>结果页面默认显示所有符合条件的组合(即所有boss都不选中情况), 如果想要选择特定组合, 比如想要优选1刀B1,2刀B3,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选</div>
+  <h4 class="g-card-title">筛刀结果页面</h4>
+  <div>
+    结果页面默认显示所有符合条件的组合(即所有boss都不选中情况), 如果想要选择特定组合,
+    比如想要优选1刀B1,2刀B3,则选中B1,B2,并选择B1为1,B2为2,然后点击筛选
+  </div>
 
-    <h4 class="g-card-title">国服作业说明</h4>
-    <div>获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大,如果使用筛刀功能,请去除一部分,否则可能会很慢</div>
-    
-    <h4 class="g-card-title">台服说明</h4>
-    <div>所有数据使用的日服数据</div>
+  <h4 class="g-card-title">国服作业说明</h4>
+  <div>
+    获取作业的间隔为15分钟一次,作业数据不一定最新,阵容相同但是手动/自动不同并未做处理,所以数据量比较大,如果使用筛刀功能,请去除一部分,否则可能会很慢
+  </div>
+
+  <h4 class="g-card-title">台服说明</h4>
+  <div>所有数据使用的日服数据</div>
 </div>

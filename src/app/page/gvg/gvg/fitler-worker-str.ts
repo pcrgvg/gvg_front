@@ -1,9 +1,8 @@
-
- function cloneDeep(params) {
-    return JSON.parse(JSON.stringify(params))
+function cloneDeep(params) {
+  return JSON.parse(JSON.stringify(params));
 }
 
- function flatTask(bossList, removedList) {
+function flatTask(bossList, removedList) {
   const list = cloneDeep(bossList);
   const tasks = [];
   list.forEach((boss) => {
@@ -21,16 +20,15 @@
   return tasks;
 }
 
- function haveRemoved(task, removedList) {
+function haveRemoved(task, removedList) {
   if (removedList.includes(task.id)) {
     return true;
   }
   return false;
 }
 
-
- function combine(bossTask, k){
-  const result= [];
+function combine(bossTask, k) {
+  const result = [];
   const subResult = [];
 
   const combineSub = (start, subResult) => {
@@ -50,12 +48,7 @@
   return result;
 }
 
-
- function repeatCondition(
-  repeateCharas,
-  unHaveCharas,
-  bossTasks
-) {
+function repeatCondition(repeateCharas, unHaveCharas, bossTasks) {
   const map = new Map();
   for (const prefabId of [...repeateCharas, ...unHaveCharas]) {
     const charaCount = map.get(prefabId) ?? 0;
@@ -100,11 +93,7 @@
   return [values.every((v) => v === 0), bossTasksTemp];
 }
 
-
- const filterUnHaveCharas = (
-  charas,
-  unHaveCharas
-) => {
+const filterUnHaveCharas = (charas, unHaveCharas) => {
   const unHaveCharaPrefabIds = [];
   for (const chara of unHaveCharas) {
     if (charas.findIndex((c) => c.prefabId === chara.prefabId) > -1) {
@@ -115,8 +104,7 @@
   return unHaveCharaPrefabIds;
 };
 
-
- const countUsed = (t, usedList) => {
+const countUsed = (t, usedList) => {
   return t.reduce((prev, current) => {
     if (usedList.includes(current.id)) {
       return prev + 1;
@@ -125,19 +113,13 @@
   }, 0);
 };
 
-
- function fliterResult(
-  bossTasks,
-  unHaveCharas,
-  usedList,
-  server
-) {
-  const tempArr = [[], [], [], []]; 
+function fliterResult(bossTasks, unHaveCharas, usedList, server) {
+  const tempArr = [[], [], [], []];
 
   for (const bossTask of bossTasks) {
-    const set = new Set(); 
+    const set = new Set();
     const repeateChara = [];
-    const charas = []; 
+    const charas = [];
     for (const task of bossTask) {
       for (const chara of task.charas) {
         const size = set.size;
@@ -161,8 +143,7 @@
   return res;
 }
 
-
- function sortByScore(arr, server) {
+function sortByScore(arr, server) {
   const tempArr = cloneDeep(arr);
 
   const scoreFactor = {
@@ -223,26 +204,15 @@
   return tempArr;
 }
 
- const filterTask = ({
-  bossList,
-  usedList,
-  removedList,
-  unHaveCharas,
-  server,
-}) => {
+const filterTask = ({ bossList, usedList, removedList, unHaveCharas, server }) => {
   if (!bossList.length) {
     return [];
   }
 
-  const bossTask= flatTask(bossList, removedList);
+  const bossTask = flatTask(bossList, removedList);
   let bossTasks = combine(bossTask, 3);
 
-  let result = fliterResult(
-    bossTasks,
-    unHaveCharas,
-    usedList,
-    server
-  );
+  let result = fliterResult(bossTasks, unHaveCharas, usedList, server);
 
   if (!result.length) {
     bossTasks = combine(bossTask, 2);
@@ -514,4 +484,4 @@ function sortByScore(arr, server) {
 
   return result;
 };
-`
+`;

@@ -37,9 +37,7 @@ export class PcrApiService {
   /**
    * 获取会战期次
    */
-  getClanBattleList(
-    server: ServerType,
-  ): Observable<
+  getClanBattleList(server: ServerType): Observable<
     {
       clanBattleId: number;
       startTime: string;

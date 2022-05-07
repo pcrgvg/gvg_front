@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {
-
-  Task,
-} from '@app/models';
+import { Task } from '@app/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TempService {
-
-  constructor() { }
+  constructor() {}
 
   private taskSub = new BehaviorSubject<Task>(null);
   private taskGroupSub = new BehaviorSubject<Task[]>([]);
@@ -30,6 +26,4 @@ export class TempService {
   get taskGroup(): Task[] {
     return this.taskGroupSub.getValue();
   }
-
-
 }

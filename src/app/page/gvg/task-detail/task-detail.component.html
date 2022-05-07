@@ -1,24 +1,23 @@
 <div *ngIf="task">
-    <div class="g-card">
-        <pcr-task-item  [usedList]="usedList"
-        [removedList]="removedList" [task]="task"></pcr-task-item>
-      </div>
-      
-      <div  class="g-card" style="margin: 16px 0; max-height: 200px; overflow: auto">
-        <pre>备注: {{ task.remarks}}</pre>
-      </div>
-      
-      <div class="g-card">
-        <nz-tabset *ngIf="task.links.length; else elseLInkTpe">
-          <nz-tab [nzTitle]="linkObj.name" *ngFor="let linkObj of task.links"  >
-            <div *ngIf="linkObj.link">
-              视频连接: <a target="_blank" [href]="linkObj.link">{{ linkObj.name }}</a>
-            </div>
-            <pre *ngIf="linkObj.remarks">备注:{{ linkObj.remarks }}</pre>
-          </nz-tab>
-        </nz-tabset>
+  <div class="g-card">
+    <pcr-task-item [usedList]="usedList" [removedList]="removedList" [task]="task"></pcr-task-item>
+  </div>
 
-        <ng-template #elseLInkTpe>无视频连接</ng-template>
-      </div>
-      
+  <div class="g-card" style="margin: 16px 0; max-height: 200px; overflow: auto">
+    <pre>备注: {{ task.remarks }}</pre>
+  </div>
+
+  <div class="g-card">
+    <nz-tabset *ngIf="task.links.length; else elseLInkTpe">
+      <nz-tab [nzTitle]="linkObj.name" *ngFor="let linkObj of task.links">
+        <div *ngIf="linkObj.link">
+          视频连接:
+          <a target="_blank" [href]="linkObj.link">{{ linkObj.name }}</a>
+        </div>
+        <pre *ngIf="linkObj.remarks">备注:{{ linkObj.remarks }}</pre>
+      </nz-tab>
+    </nz-tabset>
+
+    <ng-template #elseLInkTpe>无视频连接</ng-template>
+  </div>
 </div>

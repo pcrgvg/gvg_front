@@ -1,7 +1,7 @@
 <pcr-un-have-chara [serverType]="serverType"></pcr-un-have-chara>
 
 <div class="g-card" style="margin-top: 16px">
-  <h3 class="g-card-title">{{gvgPage.title}}</h3>
+  <h3 class="g-card-title">{{ gvgPage.title }}</h3>
   <nz-spin [nzSpinning]="isSpinning" [nzTip]="commonPage.loading">
     <form nz-form class="form">
       <!-- <nz-form-item>
@@ -26,72 +26,56 @@
       </nz-form-item> -->
 
       <nz-form-item>
-        <nz-form-label>{{commonPage.server}}</nz-form-label>
+        <nz-form-label>{{ commonPage.server }}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="serverType"
             name="serverType"
             [nzDisabled]="operate"
             (ngModelChange)="toggleServer()"
-            style="min-width: 90px"
-          >
+            style="min-width: 90px">
             <nz-option
               *ngFor="let item of gvgPage.serverOption"
               [nzLabel]="item.label"
-              [nzValue]="item.value"
-            ></nz-option>
+              [nzValue]="item.value"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>{{gvgPage.period}}</nz-form-label>
+        <nz-form-label>{{ gvgPage.period }}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="clanBattleId"
             (ngModelChange)="battleIdChange($event)"
             style="min-width: 110px"
-            name="clanBattleId"
-          >
+            name="clanBattleId">
             <nz-option
               *ngFor="let item of clanBattleList"
               [nzValue]="item.clanBattleId"
-              [nzLabel]="item.startTime | date: 'yyyy/MM'"
-            ></nz-option>
+              [nzLabel]="item.startTime | date: 'yyyy/MM'"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>{{gvgPage.stage}}</nz-form-label>
+        <nz-form-label>{{ gvgPage.stage }}</nz-form-label>
         <nz-form-control>
-          <nz-select
-            [(ngModel)]="stage"
-            name="stage"
-            nzPlaceHolder="请选择"
-            style="min-width: 90px"
-          >
-            <nz-option
-              *ngFor="let item of stageOption"
-              [nzValue]="item.value"
-              [nzLabel]="item.label"
-            ></nz-option>
+          <nz-select [(ngModel)]="stage" name="stage" nzPlaceHolder="请选择" style="min-width: 90px">
+            <nz-option *ngFor="let item of stageOption" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzTooltipTitle="筛选尾刀/已使用/已去除"
-          >{{gvgPage.category}}</nz-form-label
-        >
+        <nz-form-label nzTooltipTitle="筛选尾刀/已使用/已去除">{{ gvgPage.category }}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="taskType"
             (ngModelChange)="toggleAutoBoss()"
             nzMode="multiple"
             name="taskType"
-            style="min-width: 90px"
-          >
+            style="min-width: 90px">
             <nz-option nzValue="all" [nzLabel]="gvgPage.all"></nz-option>
             <nz-option nzValue="used" [nzLabel]="gvgPage.used"></nz-option>
             <nz-option nzValue="removed" [nzLabel]="gvgPage.removed"></nz-option>
@@ -101,7 +85,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>{{commonPage.auto}}</nz-form-label>
+        <nz-form-label>{{ commonPage.auto }}</nz-form-label>
         <nz-form-control>
           <nz-select
             [(ngModel)]="autoSetting"
@@ -109,20 +93,10 @@
             nzMode="multiple"
             name="autoSetting"
             nzPlaceHolder="请选择"
-            style="min-width: 80px"
-          >
-          <nz-option
-          [nzValue]="CanAutoType.manual"
-          [nzLabel]="commonPage.manual"
-        ></nz-option>
-          <nz-option
-          [nzValue]="CanAutoType.harfAuto"
-          [nzLabel]="commonPage.semiAutomatic"
-        ></nz-option>
-          <nz-option
-          [nzValue]="CanAutoType.auto"
-          [nzLabel]="commonPage.auto"
-        ></nz-option>
+            style="min-width: 80px">
+            <nz-option [nzValue]="CanAutoType.manual" [nzLabel]="commonPage.manual"></nz-option>
+            <nz-option [nzValue]="CanAutoType.harfAuto" [nzLabel]="commonPage.semiAutomatic"></nz-option>
+            <nz-option [nzValue]="CanAutoType.auto" [nzLabel]="commonPage.auto"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -136,8 +110,7 @@
             nzMode="multiple"
             name="boss"
             nzPlaceHolder="请选择"
-            style="min-width: 90px"
-          >
+            style="min-width: 90px">
             <nz-option [nzValue]="1" nzLabel="1"></nz-option>
             <nz-option [nzValue]="2" nzLabel="2"></nz-option>
             <nz-option [nzValue]="3" nzLabel="3"></nz-option>
@@ -150,59 +123,44 @@
       <div class="g-flex form-action">
         <div>
           <button (clickStop)="openNotice()" class="g-btn-danger" nz-button>
-            {{gvgPage.readNotice}}
+            {{ gvgPage.readNotice }}
           </button>
           <button (clickStop)="openAll()" class="g-btn" nz-button>
-            {{gvgPage.openAll}}
+            {{ gvgPage.openAll }}
           </button>
           <button (clickStop)="closeAll()" class="g-btn" nz-button>
-            {{gvgPage.closeAll}}
+            {{ gvgPage.closeAll }}
           </button>
         </div>
 
         <div class="g-flex">
           <button
-          *ngIf="serverType !== 'cn'"
+            *ngIf="serverType !== 'cn'"
             class="g-btn"
             nz-button
             [nzLoading]="searchLoading"
-            (clickStop)="getGvgTaskList()"
-          >
-            {{gvgPage.search}}
+            (clickStop)="getGvgTaskList()">
+            {{ gvgPage.search }}
           </button>
           <button
-          *ngIf="serverType === 'tw'"
+            *ngIf="serverType === 'tw'"
             class="g-btn"
             nz-button
             [nzLoading]="searchLoading"
-            (clickStop)="getGvgTaskList('jp')"
-          >
+            (clickStop)="getGvgTaskList('jp')">
             搜索日服当期
           </button>
-          <button
-            (clickStop)="addTask()"
-            *ngIf="operate"
-            class="g-btn"
-            nz-button
-          >
-            添加作业
-          </button>
+          <button (clickStop)="addTask()" *ngIf="operate" class="g-btn" nz-button>添加作业</button>
           <button
             (clickStop)="updateCnTask()"
             [nzLoading]="updateCnTaskLoading"
             *ngIf="operate && serverType === 'cn'"
             class="g-btn"
-            nz-button
-          >
+            nz-button>
             更新作业
           </button>
-          <button
-            class="g-btn filter"
-            [nzLoading]="filterLoading"
-            nz-button
-            (clickStop)="filter()"
-          >
-            {{gvgPage.combine}}
+          <button class="g-btn filter" [nzLoading]="filterLoading" nz-button (clickStop)="filter()">
+            {{ gvgPage.combine }}
           </button>
         </div>
       </div>
@@ -213,8 +171,7 @@
     *ngIf="!filterGvgTaskList.length"
     [serverType]="serverType"
     [content]="notice?.content"
-    [showLink]="showLink"
-  ></pcr-billboard>
+    [showLink]="showLink"></pcr-billboard>
 
   <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
     <nz-collapse-panel
@@ -222,12 +179,11 @@
       [nzActive]="true"
       class="custom-panel"
       *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
-      [nzHeader]="headerTpl"
-    >
+      [nzHeader]="headerTpl">
       <ng-template #headerTpl>
         <div class="g-flex-between">
           <div class="g-flex" style="align-items: center">
-            <pcr-icon style="margin: 0 40px" [unit]="bossTask"> </pcr-icon>
+            <pcr-icon style="margin: 0 40px" [unit]="bossTask"></pcr-icon>
             <div>{{ bossTask.unitName }}</div>
           </div>
         </div>
@@ -237,13 +193,9 @@
         <nz-collapse [nzBordered]="false" nzExpandIconPosition="right">
           <nz-collapse-panel
             [nzActive]="false"
-            style="
-              border-top: 1px solid #64b8ff;
-              background: rgba(255, 255, 255, 0.5);
-            "
+            style="border-top: 1px solid #64b8ff; background: rgba(255, 255, 255, 0.5)"
             *ngFor="let task of bossTask.tasks; trackBy: trackByTaskFn"
-            [nzHeader]="childHeaderTpl"
-          >
+            [nzHeader]="childHeaderTpl">
             <ng-template #childHeaderTpl>
               <pcr-task-item
                 [task]="task"
@@ -252,31 +204,27 @@
                 [operate]="operate"
                 [serverType]="serverType"
                 (onAddTask)="addTask($event, bossTask.id)"
-                (onDelete)="onTaskDelete($event, bossTask)"
-              ></pcr-task-item>
+                (onDelete)="onTaskDelete($event, bossTask)"></pcr-task-item>
             </ng-template>
 
             <div *ngIf="task.remarks" class="g-card" style="margin: 16px 0">
-              <h6>{{commonPage.remark}}:</h6>
+              <h6>{{ commonPage.remark }}:</h6>
               <pre>{{ task.remarks }}</pre>
             </div>
-            <div class="g-card" *ngIf="task.links.length;">
-              <nz-tabset >
-                <nz-tab
-                  [nzTitle]="titleTpl"
-                  *ngFor="let linkObj of task.links"
-                >
+            <div class="g-card" *ngIf="task.links.length">
+              <nz-tabset>
+                <nz-tab [nzTitle]="titleTpl" *ngFor="let linkObj of task.links">
                   <ng-template #titleTpl>
-                    <pre style="text-align: center;white-space: pre;">{{ linkObj.name }}</pre>
+                    <pre style="text-align: center; white-space: pre">{{ linkObj.name }}</pre>
                   </ng-template>
                   <div *ngIf="linkObj.link">
-                    {{gvgPage.videoLink}}:
+                    {{ gvgPage.videoLink }}:
                     <a target="_blank" [href]="linkObj.link">
                       <pre>{{ linkObj.name }}</pre>
                     </a>
                   </div>
                   <div *ngIf="linkObj.remarks">
-                    <h6>{{commonPage.remark}}:</h6>
+                    <h6>{{ commonPage.remark }}:</h6>
                     <pre>{{ linkObj.remarks }}</pre>
                   </div>
                 </nz-tab>

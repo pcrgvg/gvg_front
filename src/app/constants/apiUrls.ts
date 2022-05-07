@@ -15,7 +15,7 @@ export const pcrApis = {
   getClanBattleList: '/pcr/clanBattleList',
   stageScore: '/pcr/getStageScore',
   updateCnTask: '/unpcr/updateCnTask',
-  getCnTask: '/unpcr/getCnTask'
+  getCnTask: '/unpcr/getCnTask',
 };
 
 export const DbApis = {

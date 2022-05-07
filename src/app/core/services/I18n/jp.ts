@@ -1,7 +1,7 @@
 import { ServerType } from '@src/app/models';
-import { LanguagePack } from './model'
+import { LanguagePack } from './model';
 
-export const JP:LanguagePack = {
+export const JP: LanguagePack = {
   common: {
     auto: 'フルオート',
     semiAutomatic: 'セミオート',
@@ -9,10 +9,9 @@ export const JP:LanguagePack = {
     loading: '加载中',
     server: 'サーバー',
     remark: '備考',
-    damageUnit: '万'
+    damageUnit: '万',
   },
   homePage: {
-   
     jp: '日本語版',
     tw: '繁体字版',
     cn: '簡体字版',
@@ -60,7 +59,7 @@ export const JP:LanguagePack = {
   gvgResultPage: {
     damage: 'ダメージ',
     link: 'リンク',
-    
+
     filter: 'フィルタ',
   },
 };

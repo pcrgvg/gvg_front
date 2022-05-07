@@ -3,15 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, NoticeApiService } from '@app/apis';
 import { storageNames } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
-import {
-  CanAutoName,
-  CanAutoType,
-  Chara,
-  GvgTask,
-  Notice,
-  ServerType,
-  Task,
-} from '@app/models';
+import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerType, Task } from '@app/models';
 import { finalize } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -37,8 +29,7 @@ enum TaskType {
   tail = 'tail',
 }
 
-const WokrerUrl =
-  'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/worker/232.eb723d20787b89f4f37a.js';
+const WokrerUrl = 'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/worker/232.eb723d20787b89f4f37a.js';
 
 @Component({
   selector: 'pcr-gvg',
@@ -64,7 +55,7 @@ export class GvgComponent implements OnInit, RouteKeep {
     private nzNotificationSrv: NzNotificationService,
     private nzImgSrv: NzImageService,
     private tempSrv: TempService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
   ) {}
 
   // 角色列表
@@ -77,11 +68,7 @@ export class GvgComponent implements OnInit, RouteKeep {
   gvgTaskList: GvgTask[] = [];
   // 根据筛选条件显示的列表
   filterGvgTaskList: GvgTask[] = [];
-  autoSetting: CanAutoType[] = [
-    CanAutoType.auto,
-    CanAutoType.harfAuto,
-    CanAutoType.manual,
-  ];
+  autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.manual];
   CanAutoType = CanAutoType;
   autoOption = [
     {
@@ -184,10 +171,7 @@ export class GvgComponent implements OnInit, RouteKeep {
         value: this.rediveSrv.ossSource,
       },
     ];
-    this.imgSource = this.storageSrv.localGet(
-      'imageBase',
-      this.rediveSrv.winSource
-    );
+    this.imgSource = this.storageSrv.localGet('imageBase', this.rediveSrv.winSource);
   }
 
   // 切换服务器触发
@@ -440,12 +424,7 @@ export class GvgComponent implements OnInit, RouteKeep {
       result = result.filter((r) => !this.usedList.includes(r.id));
     }
     if (!this.taskType.includes(TaskType.all)) {
-      result = result.filter(
-        (r) =>
-          r.type == 1 ||
-          this.removedList.includes(r.id) ||
-          this.usedList.includes(r.id)
-      );
+      result = result.filter((r) => r.type == 1 || this.removedList.includes(r.id) || this.usedList.includes(r.id));
     }
     return result;
   }
@@ -531,21 +510,21 @@ export class GvgComponent implements OnInit, RouteKeep {
       tasks: task.homework.map((t) => ({
         id: t.id,
         canAuto: [t.auto === 1 ? CanAutoType.auto : CanAutoType.manual],
-        remarks: t.sn  + t.info,
+        remarks: t.sn + t.info,
         damage: t.damage,
         stage: this.stage,
-        links: t.video.map(video => ({
+        links: t.video.map((video) => ({
           name: video.text,
-          link: video.url
+          link: video.url,
         })),
-        charas: t.unit.map(unit => ({
+        charas: t.unit.map((unit) => ({
           searchAreaWidth: 1,
           id: unit.id,
           prefabId: +(unit.id + '01'),
           rarity: 5,
           currentRarity: 5,
-          rank: 7
-        }))
+          rank: 7,
+        })),
       })),
     }));
     this.dealGvgTaskList(taskList);

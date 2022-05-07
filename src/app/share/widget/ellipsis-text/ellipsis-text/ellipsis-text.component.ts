@@ -16,7 +16,7 @@ import { NzTooltipTrigger } from 'ng-zorro-antd/tooltip';
   templateUrl: './ellipsis-text.component.html',
   styleUrls: ['./ellipsis-text.component.scss'],
 })
-export class EllipsisTextComponent implements  AfterViewInit {
+export class EllipsisTextComponent implements AfterViewInit {
   @ViewChild('textTempl') textTempl: ElementRef;
   @Input() text = '';
 
@@ -24,7 +24,6 @@ export class EllipsisTextComponent implements  AfterViewInit {
   nzTrigger: NzTooltipTrigger = null;
 
   constructor(private render: Renderer2) {}
-
 
   byteLength(value: string): number {
     let length = 0;

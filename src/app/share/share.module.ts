@@ -8,8 +8,14 @@ import { WidgetModule } from './widget/widget.module';
 import { PipesModule } from './pipes/pipes.module';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
-
-const commonModule = [CommonModule, RouterModule, FormsModule, ReactiveFormsModule,  OverlayModule, NzNotificationModule];
+const commonModule = [
+  CommonModule,
+  RouterModule,
+  FormsModule,
+  ReactiveFormsModule,
+  OverlayModule,
+  NzNotificationModule,
+];
 
 const exportModuel = [WidgetModule, DirectivesModule, PipesModule];
 

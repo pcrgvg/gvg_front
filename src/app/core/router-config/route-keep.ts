@@ -3,12 +3,12 @@
  */
 
 export interface OnActived {
-   // 被缓存后进入路由触发
-   ngOnActived(): void;
+  // 被缓存后进入路由触发
+  ngOnActived(): void;
 }
 
 export interface OnDeActived {
-   // 被缓存后离开路由触发
+  // 被缓存后离开路由触发
   ngOnDeActived(): void;
 }
 /**

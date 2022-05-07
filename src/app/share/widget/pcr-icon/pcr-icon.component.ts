@@ -26,7 +26,7 @@ interface Unit {
   styleUrls: ['./pcr-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PcrIconComponent implements  OnDestroy {
+export class PcrIconComponent implements OnDestroy {
   _unit: Unit;
   _src: string;
   onDestory$ = new Subject();
@@ -49,20 +49,14 @@ export class PcrIconComponent implements  OnDestroy {
     this.setIconUrl();
   }
 
-
   get src() {
     return this._src ?? '/assets/images/000001.webp';
   }
 
   setIconUrl() {
-    this._src = this.redive.addIconUrl(
-      this._unit.prefabId,
-      this._unit.currentRarity ?? this._unit.rarity,
-    );
+    this._src = this.redive.addIconUrl(this._unit.prefabId, this._unit.currentRarity ?? this._unit.rarity);
     this.cdr.markForCheck();
   }
-
-
 
   ngOnDestroy(): void {
     this.onDestory$.next();
@@ -75,10 +69,10 @@ export class PcrIconComponent implements  OnDestroy {
       this._src = this.redive.addIconUrl(
         this._unit.prefabId,
         this._unit.currentRarity ?? this._unit.rarity,
-        this.redive.ossSource
+        this.redive.ossSource,
       );
     } else {
-       this._src = '/assets/images/000001.webp';
+      this._src = '/assets/images/000001.webp';
     }
     this.cdr.markForCheck();
   }

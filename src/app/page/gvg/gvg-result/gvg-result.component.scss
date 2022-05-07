@@ -33,13 +33,12 @@
   }
 }
 
-
 @media (min-width: 577px) {
   .task-item {
     &:not(:last-child) {
       &::after {
         display: block;
-        content: "";
+        content: '';
         position: absolute;
         right: 0;
         top: 50%;
@@ -65,4 +64,3 @@
   max-height: 60vh;
   overflow: auto;
 }
-

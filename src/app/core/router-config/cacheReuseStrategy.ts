@@ -10,7 +10,7 @@ import { RouterCacheService } from './router-cache.service';
   providedIn: 'root',
 })
 export class CacheReuseStrategy implements RouteReuseStrategy {
-  constructor(private routerCacheSrv: RouterCacheService) { }
+  constructor(private routerCacheSrv: RouterCacheService) {}
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     // 默认所有路由不复用 可通过继承 Routekeep类则缓存,在构造函数中执行某些函数可能会报错,列如引入的observe
@@ -50,11 +50,7 @@ export class CacheReuseStrategy implements RouteReuseStrategy {
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
     // 从缓存中获取快照，若无则返回null
     const key = this.getCurrentUrl(route);
-    if (
-      !route.routeConfig ||
-      route.routeConfig.loadChildren ||
-      !this.routerCacheSrv.cacheRouters[key]
-    ) {
+    if (!route.routeConfig || route.routeConfig.loadChildren || !this.routerCacheSrv.cacheRouters[key]) {
       return null;
     }
     return this.routerCacheSrv.cacheRouters[key];

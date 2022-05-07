@@ -22,10 +22,7 @@ export function cloneDeep(params: any) {
   return JSON.parse(JSON.stringify(params));
 }
 
-export function flatTask(
-  bossList: GvgTask[],
-  removedList: number[]
-): BossTask[] {
+export function flatTask(bossList: GvgTask[], removedList: number[]): BossTask[] {
   // const list = cloneDeep(bossList);
   const tasks: BossTask[] = [];
   // flat task
@@ -91,7 +88,7 @@ export function combine(bossTask: BossTask[], k: number): BossTask[][] {
 export function repeatCondition(
   repeateCharas: number[],
   unHaveCharas: number[],
-  bossTasks: BossTask[]
+  bossTasks: BossTask[],
 ): [boolean, BossTask[]] {
   const map = new Map<number, number>();
   for (const prefabId of [...repeateCharas, ...unHaveCharas]) {
@@ -101,7 +98,7 @@ export function repeatCondition(
 
   /// 解决 bossTask.borrowChara引用问题
   // const bossTasksTemp: BossTask[] = cloneDeep(bossTasks);
-  const bossTasksTemp: BossTask[] = bossTasks.map(r => Object.assign({}, r));
+  const bossTasksTemp: BossTask[] = bossTasks.map((r) => Object.assign({}, r));
   // return [false, []]
   /// 先处理fixed和unhave
   for (const bossTask of bossTasksTemp) {
@@ -116,11 +113,7 @@ export function repeatCondition(
 
     const fixedBorrowChara = bossTask.fixedBorrowChara;
     // 两者冲突
-    if (
-      fixedBorrowChara &&
-      unHaveChara &&
-      unHaveChara.prefabId != fixedBorrowChara.prefabId
-    ) {
+    if (fixedBorrowChara && unHaveChara && unHaveChara.prefabId != fixedBorrowChara.prefabId) {
       return [false, []];
     }
 
@@ -141,10 +134,7 @@ export function repeatCondition(
       if (charaCount > 0) {
         for (const chara of bossTask.charas) {
           // 如果强制借用角色包含在重复角色中且在该使用角色合集里,重复-1;
-          if (
-            repeateCharas.includes(chara.prefabId) &&
-            chara.prefabId == fixedBorrowChara.prefabId
-          ) {
+          if (repeateCharas.includes(chara.prefabId) && chara.prefabId == fixedBorrowChara.prefabId) {
             map.set(fixedBorrowChara.prefabId, charaCount - 1);
             break;
           }
@@ -199,10 +189,7 @@ export function repeatCondition(
 /**
  * 处理未拥有角色, 当前组合所使用的角色是否包含未拥有角色
  */
-export const filterUnHaveCharas = (
-  charas: Chara[],
-  unHaveCharas: Chara[]
-): number[] => {
+export const filterUnHaveCharas = (charas: Chara[], unHaveCharas: Chara[]): number[] => {
   const unHaveCharaPrefabIds: number[] = [];
   for (const chara of unHaveCharas) {
     if (charas.findIndex((c) => c.prefabId === chara.prefabId) > -1) {
@@ -233,7 +220,7 @@ export function fliterResult(
   bossTasks: BossTask[][],
   unHaveCharas: Chara[],
   usedList: number[],
-  server: ServerType
+  server: ServerType,
 ): BossTask[][] {
   const tempArr: BossTask[][][] = [[], [], [], []]; /// 依次为包含0/1/2/3个已使用作业组
   for (const bossTask of bossTasks) {
@@ -348,12 +335,7 @@ export const filterTask = ({
   const bossTask: BossTask[] = flatTask(bossList, removedList);
   let bossTasks: BossTask[][] = combine(bossTask, 3);
 
-  let result: BossTask[][] = fliterResult(
-    bossTasks,
-    unHaveCharas,
-    usedList,
-    server
-  );
+  let result: BossTask[][] = fliterResult(bossTasks, unHaveCharas, usedList, server);
 
   if (!result.length) {
     bossTasks = combine(bossTask, 2);
