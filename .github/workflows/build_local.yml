@@ -5,7 +5,7 @@ on:
       TAG:
         description: 'Set a Tag'
         required: true
-        default: '',
+        default: ''
       MESSAGE:
         description: 'commit message',
         required: true,
