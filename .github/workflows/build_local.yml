@@ -5,6 +5,10 @@ on:
       TAG:
         description: 'Set a Tag'
         required: true
+        default: '',
+      MESSAGE:
+        description: 'commit message',
+        required: true,
         default: ''
   push:
     tags:
@@ -37,7 +41,7 @@ jobs:
           add_options: '-A'
           push_options: '--force'
           skip_fetch: true 
-          commit_message: ":bookmark: Release pcrgvg commit tag ${{ github.event.inputs.TAG }}"
+          commit_message: ":bookmark: ${{ github.event.inputs.MESSAGE }}"
           file_pattern: statics/static/*
       - name: change dir
         run: |
@@ -56,3 +60,4 @@ jobs:
             allowUpdates: true
             token: ${{ secrets.GITHUB_TOKEN }}
             tag: ${{ github.event.inputs.TAG }}
+            commit: ":bookmark: ${{ github.event.inputs.MESSAGE }}"
