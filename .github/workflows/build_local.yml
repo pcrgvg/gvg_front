@@ -7,8 +7,8 @@ on:
         required: true
         default: ''
       MESSAGE:
-        description: 'commit message',
-        required: true,
+        description: 'commit message'
+        required: true
         default: ''
   push:
     tags:
