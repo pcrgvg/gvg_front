@@ -19,6 +19,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { IconDefinition } from '@ant-design/icons-angular';
 
 import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
+import { environment } from '@src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAnalyticsModule, ScreenTrackingService } from '@angular/fire/compat/analytics';
 
 const icons: IconDefinition[] = [PlusCircleOutline];
 
@@ -37,8 +40,10 @@ registerLocaleData(zh);
     AppRoutingModule,
     NzIconModule.forRoot(icons),
     NzModalModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAnalyticsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }, ScreenTrackingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
