@@ -20,6 +20,7 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { TempService } from '../services/temp.service';
 import { RouteKeep } from '@src/app/core/router-config/route-keep';
 import { CN, LanguagePack, I18nService } from '@app/core/services/I18n';
+import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 import { CnTask } from '../../../models/cnTask';
 
 enum TaskType {
@@ -56,6 +57,7 @@ export class GvgComponent implements OnInit, RouteKeep {
     private nzImgSrv: NzImageService,
     private tempSrv: TempService,
     private i18nService: I18nService,
+    private analytics: AngularFireAnalytics,
   ) {}
 
   // 角色列表
