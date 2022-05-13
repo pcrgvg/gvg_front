@@ -60,4 +60,3 @@ jobs:
             allowUpdates: true
             token: ${{ secrets.GITHUB_TOKEN }}
             tag: ${{ github.event.inputs.TAG }}
-            commit: ":bookmark: ${{ github.event.inputs.MESSAGE }}"
