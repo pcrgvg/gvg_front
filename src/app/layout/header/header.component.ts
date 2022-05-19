@@ -4,6 +4,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import * as localforage from 'localforage';
 import { StorageService, unHaveCharas } from '@app/core/services';
 import { I18nService } from '@app/core/services/I18n/i18n.service';
+import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 
 interface DropMenu {
   value: string;
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
     private nzModalSrc: NzModalService,
     private storageSrv: StorageService,
     private i18nSrv: I18nService,
+    private analytics: AngularFireAnalytics,
   ) {}
   language = '中文';
   dropMenu: DropMenu[] = [
@@ -81,5 +83,6 @@ export class HeaderComponent implements OnInit {
   changeLanguage(item: DropMenu) {
     this.language = item.label;
     this.i18nSrv.setLanguage(item.value);
+    this.analytics.logEvent('change_lang', { lang: item.label });
   }
 }

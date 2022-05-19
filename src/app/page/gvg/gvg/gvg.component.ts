@@ -229,6 +229,7 @@ export class GvgComponent implements OnInit, RouteKeep {
       this.getCnTask();
       return;
     }
+
     this.searchLoading = true;
     this.pcrApi
       .gvgTaskList(this.stage, serverType, this.clanBattleId)
@@ -236,6 +237,7 @@ export class GvgComponent implements OnInit, RouteKeep {
       .subscribe((res) => {
         this.dealGvgTaskList(res);
       });
+    this.analytics.logEvent('search_task', { serverType });
   }
   // 排序
   dealGvgTaskList(arr: GvgTask[]) {
@@ -358,6 +360,7 @@ export class GvgComponent implements OnInit, RouteKeep {
         this.router.navigate(['/gvg/result']);
       }, 500);
     }
+    this.analytics.logEvent('filter_task');
   }
 
   openAll() {
