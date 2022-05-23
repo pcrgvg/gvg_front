@@ -136,10 +136,10 @@ export class AddTaskComponent implements OnInit {
           this.notificationSrc.error('', '有名称为空');
           return;
         }
-        if (!linkObj.link?.trim() && !linkObj.remarks?.trim()) {
-          this.notificationSrc.error('', '有视频链接并且文字轴为空');
-          return;
-        }
+        // if (!linkObj.link?.trim() && !linkObj.remarks?.trim()) {
+        //   this.notificationSrc.error('', '有视频链接并且文字轴为空');
+        //   return;
+        // }
       }
     }
     // 判断对应的伤害必填
