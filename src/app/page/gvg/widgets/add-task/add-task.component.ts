@@ -49,6 +49,16 @@ export class AddTaskComponent implements OnInit {
   @ViewChild('addLinks') addLinkRef: TemplateRef<any>;
   @ViewChild('linkRemark') linkRemarkRef: TemplateRef<any>;
   currentLink: Link;
+  /** 用于设置全部rank */
+  commonChara: Chara = {
+    prefabId: 99999999999999,
+    unitName: '全部',
+    rarity: 6,
+    currentRarity: 6,
+    rank: 26,
+    searchAreaWidth: 999999999,
+  };
+
   constructor(
     private modalSrc: NzModalService,
     private fb: FormBuilder,
@@ -61,6 +71,14 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.rankOption = [...this.rediveDataSrv.rankList].sort((a, b) => b - a);
+    this.commonChara = {
+      prefabId: 99999999999999,
+      unitName: '全部',
+      rarity: 6,
+      currentRarity: 6,
+      rank: this.rankOption[0],
+      searchAreaWidth: 999999999,
+    };
     this.validateForm = this.fb.group({
       bossId: [{ value: this.bossId, disabled: false }, [Validators.required]],
       canAuto: [this.task?.canAuto ?? [], [Validators.required]],
@@ -233,10 +251,12 @@ export class AddTaskComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Link[]>) {
-    // const fromItem = this.links[event.previousIndex];
-    // const toItem = this.links[event.currentIndex];
-    // this.links[event.currentIndex] = fromItem;
-    // this.links[event.previousIndex] = toItem;
     moveItemInArray(this.links, event.previousIndex, event.currentIndex);
+  }
+  // 修改所有rank
+  changeAllRank() {
+    this.selectCharas.forEach((r) => {
+      r.rank = this.commonChara.rank;
+    });
   }
 }

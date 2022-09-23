@@ -13,6 +13,14 @@
       <nz-option *ngFor="let item of rankOption" [nzValue]="item" [nzLabel]="item"></nz-option>
     </nz-select>
   </div>
+  <div class="g-flex-column">
+    <pcr-icon class="img" style="border: none" [unit]="commonChara"></pcr-icon>
+    <pcr-rarity-select [maxRarity]="commonChara.rarity" [(ngModel)]="commonChara.currentRarity"></pcr-rarity-select>
+
+    <nz-select [(ngModel)]="commonChara.rank" nzPlaceHolder="请选择" (ngModelChange)="changeAllRank()">
+      <nz-option *ngFor="let item of rankOption" [nzValue]="item" [nzLabel]="item"></nz-option>
+    </nz-select>
+  </div>
 </div>
 
 <form class="g-flex" style="flex-wrap: wrap" *ngIf="validateForm" nz-form [formGroup]="validateForm">
