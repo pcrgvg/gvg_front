@@ -12,6 +12,12 @@
   top: 0;
   width: 100%;
   z-index: 10;
+  @media (max-width: 50em) {
+    position: static;
+    height: auto;
+    flex-direction: column;
+  }
+
   &-img {
     width: 40px;
     height: 40px;
