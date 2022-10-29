@@ -24,6 +24,12 @@ pcr-ellipsis-text {
     .ant-btn:not(:first-child) {
       margin-left: 10px;
     }
+    @media (max-width: 50em) {
+      flex-direction: column-reverse;
+      &>:not(:last-child) {
+        margin-top: 1em;
+      }
+    }
   }
 
   .ant-form-item {
