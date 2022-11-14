@@ -26,7 +26,7 @@ pcr-ellipsis-text {
     }
     @media (max-width: 50em) {
       flex-direction: column-reverse;
-      &>:not(:last-child) {
+      & > :not(:last-child) {
         margin-top: 1em;
       }
     }
