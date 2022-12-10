@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, NoticeApiService } from '@app/apis';
-import { storageNames } from '@app/constants';
+import { storageNames, localforageName } from '@app/constants';
 import { RediveDataService, RediveService, StorageService } from '@app/core';
 import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerType, Task } from '@app/models';
 import { finalize } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import * as localforage from 'localforage';
 import { AddTaskComponent } from '../widgets/add-task/add-task.component';
 import { filterTask } from '../services/filterTask';
 
@@ -40,8 +41,8 @@ const WokrerUrl = 'https://cdn.jsdelivr.net/gh/pcrgvg/gvg_front@v1.0.2/statics/w
 export class GvgComponent implements OnInit, RouteKeep {
   @ViewChildren(NzCollapsePanelComponent)
   nzCollapsePanels: NzCollapsePanelComponent[];
-  // @ViewChildren('collapse')
-  // nzCollapsePanels: NzCollapsePanelComponent[];
+  @ViewChildren('collapse')
+  nzBossPanels: NzCollapsePanelComponent[];
   NG_ROUTE_KEEP = true;
   constructor(
     private router: Router,
@@ -124,6 +125,8 @@ export class GvgComponent implements OnInit, RouteKeep {
       this.gvgPage = r.gvgPage;
       this.commonPage = r.common;
     });
+
+    this.initFilter();
   }
 
   dealServerOperate() {
@@ -415,6 +418,7 @@ export class GvgComponent implements OnInit, RouteKeep {
       }
     }
     this.filterGvgTaskList = tempList;
+    this.saveFilter();
   }
 
   filterTaskType(taskList: Task[]) {
@@ -533,5 +537,47 @@ export class GvgComponent implements OnInit, RouteKeep {
       })),
     }));
     this.dealGvgTaskList(taskList);
+  }
+
+  openBoss() {
+    this.closeAll();
+    this.nzBossPanels.forEach((r) => {
+      r.nzActive = true;
+      r.markForCheck();
+    });
+  }
+
+  setAnchor(bossTask: GvgTask) {
+    return `B${bossTask.prefabId}`;
+  }
+
+  getAnchor(bossTask: GvgTask) {
+    const serverType = this.route.snapshot.paramMap.get('serverType');
+    const server = this.route.snapshot.queryParams.serverType;
+    return `gvg;serverType=${serverType}?serverType=${server}#B${bossTask.prefabId}`;
+  }
+
+  saveFilter() {
+    localforage.setItem(localforageName.filter, {
+      serverType: this.serverType,
+      clanBattleId: this.clanBattleId,
+      stage: this.stage,
+      taskType: this.taskType,
+      autoSetting: this.autoSetting,
+      bossNumberList: this.bossNumberList,
+    });
+  }
+
+  initFilter() {
+    localforage.getItem<any>(localforageName.filter).then((r) => {
+      if (r) {
+        this.serverType = r.serverType;
+        this.clanBattleId = r.clanBattleId;
+        this.stage = r.stage;
+        this.taskType = r.taskType;
+        this.autoSetting = r.autoSetting;
+        this.bossNumberList = r.bossNumberList;
+      }
+    });
   }
 }

@@ -15,4 +15,6 @@ export const storageNames = {
 export const localforageName = {
   cacheHttp: 'cacheHttp',
   dbVersion: 'dbVersion',
+  filter: 'filter',
+  collect: 'collect',
 };

@@ -27,6 +27,7 @@ export const JP: LanguagePack = {
     category: '種類',
     readNotice: 'お知らせ',
     openAll: 'すべて展開',
+    openBoss: 'BOSS展開',
     closeAll: 'すべて折りたたみ',
     combine: '凸ルート',
     confirm: '確認',

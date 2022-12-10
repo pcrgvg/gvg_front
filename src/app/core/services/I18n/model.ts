@@ -24,6 +24,7 @@ export interface LanguagePack {
     category: string;
     readNotice: string;
     openAll: string;
+    openBoss: string;
     closeAll: string;
     combine: string;
     confirm: string;

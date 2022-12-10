@@ -4,7 +4,7 @@ import { StorageService } from '@app/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { storageNames } from '@app/constants';
+import { storageNames, localforageName } from '@app/constants';
 import { FilterResultService } from '../services/filter-result.service';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -12,6 +12,7 @@ import { environment } from '@src/environments/environment';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { Router } from '@angular/router';
 import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
+import * as localforage from 'localforage';
 
 @Component({
   selector: 'pcr-gvg-result',

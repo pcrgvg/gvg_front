@@ -27,6 +27,7 @@ export const CN: LanguagePack = {
     category: '类别',
     readNotice: '查看公告',
     openAll: '展开所有',
+    openBoss: '展开BOSS',
     closeAll: '关闭所有',
     combine: '分刀',
     confirm: '确定',

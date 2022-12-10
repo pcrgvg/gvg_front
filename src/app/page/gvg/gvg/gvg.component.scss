@@ -59,3 +59,16 @@ pcr-ellipsis-text {
     cursor: pointer;
   }
 }
+
+.right {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  a {
+    width: 45px;
+    height: 45px;
+  }
+}

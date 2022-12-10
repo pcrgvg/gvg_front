@@ -26,6 +26,7 @@ export const EN: LanguagePack = {
     category: 'category',
     readNotice: 'notice',
     openAll: 'open all',
+    openBoss: 'open boss',
     closeAll: 'close all',
     combine: 'combine',
     confirm: 'confirm',

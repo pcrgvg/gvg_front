@@ -1,30 +1,9 @@
 <pcr-un-have-chara [serverType]="serverType"></pcr-un-have-chara>
 
-<div class="g-card" style="margin-top: 16px">
+<div class="g-card" style="margin-top: 16px; position: relative">
   <h3 class="g-card-title">{{ gvgPage.title }}</h3>
   <nz-spin [nzSpinning]="isSpinning" [nzTip]="commonPage.loading">
     <form nz-form class="form">
-      <!-- <nz-form-item>
-        <nz-form-label nzTooltipTitle="图片显示不出切换为oss"
-          >图源</nz-form-label
-        >
-        <nz-form-control>
-          <nz-select
-            [(ngModel)]="imgSource"
-            (ngModelChange)="toggleImgSource($event)"
-            name="imgSource"
-            nzPlaceHolder="请选择"
-            style="min-width: 90px"
-          >
-            <nz-option
-              *ngFor="let item of imgSourceOption"
-              [nzValue]="item.value"
-              [nzLabel]="item.label"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item> -->
-
       <nz-form-item>
         <nz-form-label>{{ commonPage.server }}</nz-form-label>
         <nz-form-control>
@@ -128,6 +107,9 @@
           <button (clickStop)="openAll()" class="g-btn" nz-button>
             {{ gvgPage.openAll }}
           </button>
+          <button (clickStop)="openBoss()" class="g-btn" nz-button>
+            {{ gvgPage.openBoss }}
+          </button>
           <button (clickStop)="closeAll()" class="g-btn" nz-button>
             {{ gvgPage.closeAll }}
           </button>
@@ -181,7 +163,7 @@
       *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
       [nzHeader]="headerTpl">
       <ng-template #headerTpl>
-        <div class="g-flex-between">
+        <div class="g-flex-between" [attr.id]="setAnchor(bossTask)">
           <div class="g-flex" style="align-items: center">
             <pcr-icon style="margin: 0 40px" [unit]="bossTask"></pcr-icon>
             <div>{{ bossTask.unitName }}</div>
@@ -237,4 +219,13 @@
       </div>
     </nz-collapse-panel>
   </nz-collapse>
+
+  <div class="right">
+    <a
+      [href]="getAnchor(bossTask)"
+      *ngFor="let bossTask of filterGvgTaskList; trackBy: trackByBossFn"
+      style="margin-bottom: 20px">
+      <pcr-icon [unit]="bossTask"></pcr-icon>
+    </a>
+  </div>
 </div>
