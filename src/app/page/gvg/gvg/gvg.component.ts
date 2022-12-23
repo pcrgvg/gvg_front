@@ -554,12 +554,15 @@ export class GvgComponent implements OnInit, RouteKeep {
   getAnchor(bossTask: GvgTask) {
     const serverType = this.route.snapshot.paramMap.get('serverType');
     const server = this.route.snapshot.queryParams.serverType;
-    return `gvg;serverType=${serverType}?serverType=${server}#B${bossTask.prefabId}`;
+    let anchor = `#B${bossTask.prefabId}`;
+    if (server) {
+      anchor = `?serverType=${server}` + anchor;
+    }
+    return `gvg;serverType=${serverType}${anchor}`;
   }
 
   saveFilter() {
     localforage.setItem(localforageName.filter, {
-      serverType: this.serverType,
       clanBattleId: this.clanBattleId,
       stage: this.stage,
       taskType: this.taskType,
@@ -571,7 +574,6 @@ export class GvgComponent implements OnInit, RouteKeep {
   initFilter() {
     localforage.getItem<any>(localforageName.filter).then((r) => {
       if (r) {
-        this.serverType = r.serverType;
         this.clanBattleId = r.clanBattleId;
         this.stage = r.stage;
         this.taskType = r.taskType;

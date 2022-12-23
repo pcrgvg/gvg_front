@@ -29,7 +29,7 @@ import { GvgResultComponent } from './gvg-result/gvg-result.component';
 import { DeleteComfirmComponent } from './widgets/delete-comfirm/delete-comfirm.component';
 import { NoticeComponent } from './widgets/notice/notice.component';
 
-import { PlusCircleOutline } from '@ant-design/icons-angular/icons';
+import { PlusCircleOutline, HeartOutline, HeartFill } from '@ant-design/icons-angular/icons';
 import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
 import { BillboardComponent } from './gvg/billboard/billboard.component';
 import { TaskItemComponent } from './widgets/task-item/task-item.component';
@@ -71,7 +71,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NzFormModule,
     NzCheckboxModule,
     NzSpinModule,
-    NzIconModule.forChild([PlusCircleOutline]),
+    NzIconModule.forChild([PlusCircleOutline, HeartOutline, HeartFill]),
     NzImageModule,
     NzDropDownModule,
     DragDropModule,

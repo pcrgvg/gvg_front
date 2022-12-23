@@ -27,18 +27,19 @@
   <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="scroll">
     <div *cdkVirtualFor="let bossTask of ds" class="scroll-item">
       <div
-        *ngFor="let task of bossTask"
+        *ngFor="let task of bossTask; index as i"
         style="padding: 0 5px"
         class="task-item"
         [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''">
         <div class="g-flex-between">
           <div class="g-flex" style="margin-bottom: 5px">
             <div class="g-flex">
+              <!-- <i (clickStop)="collect(task)" nz-icon style="color: #eb2f96;" nzType="heart" nzTheme="outline"></i>
+              <i nz-icon style="color: #eb2f96;" nzType="heart" nzTheme="fill"></i> -->
               <span>boss {{ task.index }}</span>
               <pcr-icon style="margin-left: 30px" [unit]="task"></pcr-icon>
             </div>
             <span style="margin-left: 15px">{{ task.damage }}w</span>
-            <span>收藏</span>
           </div>
           <a
             *ngIf="task.remarks"

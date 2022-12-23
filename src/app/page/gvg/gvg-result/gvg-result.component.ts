@@ -100,6 +100,15 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   home() {
     this.router.navigate(['/']);
   }
+
+  collect(task) {
+    // TODO 监听更改  显示提示
+    localforage.getItem<any[]>(localforageName.collect).then((r) => {
+      const list = r ?? [];
+      list.push(task);
+      localforage.setItem(localforageName.collect, list);
+    });
+  }
 }
 
 export class TaskDataSource extends DataSource<BossTask[]> {
