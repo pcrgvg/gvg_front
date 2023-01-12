@@ -17,23 +17,37 @@
         </ul>
       </nz-dropdown-menu>
     </div>
-    <div class="header-btn" (clickStop)="clearStorage()" style="color: #f55291">
+    <!-- <div class="header-btn" (clickStop)="clearStorage()" style="color: #f55291">
       {{ header.cache }}
-    </div>
-    <div class="header-btn" style="margin: 0 16px" (clickStop)="toAbout()">
-      {{ header.help }}
-    </div>
-    <pcr-github-btn></pcr-github-btn>
+    </div> -->
+    <i
+      nz-icon
+      class="header-btn"
+      (clickStop)="clearStorage()"
+      style="color: #f55291"
+      nzType="setting"
+      nzTheme="outline"></i>
+    <i class="header-btn" style="color: #eb2f96" nz-icon nzType="star" nzTheme="fill" (clickStop)="toCollection()"></i>
+    <i class="header-btn" nz-icon nzType="question-circle" nzTheme="outline" (clickStop)="toAbout()"></i>
+
+    <pcr-github-btn style="margin-left: 5px"></pcr-github-btn>
   </div>
 </header>
 
 <div style="height: 60px"></div>
 
-<ng-template #clearTpl>
+<ng-template #clearTpl let-ref="modalRef">
   <h3 class="g-card-title">清除本地缓存</h3>
-  <div style="margin: 16px 0">清除部分不会清除未拥有角色</div>
-  <div class="g-flex-between">
-    <button nz-button class="g-btn-danger" (clickStop)="storageClear(1)">清除所有</button>
-    <button style="margin-left: 16px" nz-button class="g-btn" (clickStop)="storageClear(2)">清除部分</button>
+  <div style="border-bottom: 1px solid rgb(233, 233, 233)">
+    <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">
+      全部
+    </label>
+  </div>
+  <br />
+  <nz-checkbox-group [(ngModel)]="checkOptions" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
+
+  <div class="g-flex" style="margin-top: 20px; justify-content: center">
+    <button nz-button (clickStop)="ref.destroy()">取消</button>
+    <button style="margin-left: 16px" nz-button class="g-btn" (clickStop)="storageClear()">确定</button>
   </div>
 </ng-template>

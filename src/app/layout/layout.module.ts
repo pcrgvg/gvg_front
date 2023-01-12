@@ -8,7 +8,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { DownCircleOutline, GlobalOutline } from '@ant-design/icons-angular/icons';
+import { DownCircleOutline, GlobalOutline, SettingOutline } from '@ant-design/icons-angular/icons';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 const components = [DefaultComponent];
 
@@ -19,7 +20,8 @@ const components = [DefaultComponent];
     NzModalModule,
     NzButtonModule,
     NzDropDownModule,
-    NzIconModule.forChild([GlobalOutline, DownCircleOutline]),
+    NzCheckboxModule,
+    NzIconModule.forChild([GlobalOutline, DownCircleOutline, SettingOutline]),
   ],
   exports: [...components],
 })

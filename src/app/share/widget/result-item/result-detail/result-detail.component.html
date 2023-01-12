@@ -1,0 +1,9 @@
+<div style="padding: 10px 0">
+  <nz-tabset>
+    <nz-tab [nzTitle]="titleTpl" *ngFor="let task of bossTask">
+      <ng-template #titleTpl>
+        <pcr-icon [unit]="task"></pcr-icon>
+      </ng-template>
+    </nz-tab>
+  </nz-tabset>
+</div>

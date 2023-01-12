@@ -33,8 +33,6 @@ import { PlusCircleOutline, HeartOutline, HeartFill } from '@ant-design/icons-an
 import { UnHaveCharaComponent } from './gvg/un-have-chara/un-have-chara.component';
 import { BillboardComponent } from './gvg/billboard/billboard.component';
 import { TaskItemComponent } from './widgets/task-item/task-item.component';
-import { ResultDetailComponent } from './result-detail/result-detail.component';
-import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { LinkButtonComponent } from './widgets/link-button/link-button.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -50,8 +48,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     UnHaveCharaComponent,
     BillboardComponent,
     TaskItemComponent,
-    ResultDetailComponent,
-    TaskDetailComponent,
     LinkButtonComponent,
   ],
   imports: [

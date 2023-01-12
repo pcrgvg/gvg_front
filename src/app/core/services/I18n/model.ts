@@ -7,6 +7,7 @@ export interface LanguagePack {
     server: string;
     remark: string;
     damageUnit: string;
+    collection: string;
   };
   homePage: {
     jp: string;

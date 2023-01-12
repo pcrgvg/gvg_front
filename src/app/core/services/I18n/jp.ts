@@ -10,6 +10,7 @@ export const JP: LanguagePack = {
     server: 'サーバー',
     remark: '備考',
     damageUnit: '万',
+    collection: 'collection',
   },
   homePage: {
     jp: '日本語版',
