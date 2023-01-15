@@ -8,10 +8,19 @@ import { PipesModule } from '../../pipes/pipes.module';
 import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { TaskResultComponent } from './task-result/task-result.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [ResultItemComponent, ResultDetailComponent, TaskResultComponent],
-  imports: [CommonModule, PcrIconModule, EllipsisTextModule, NzToolTipModule, PipesModule, NzTabsModule],
+  imports: [
+    CommonModule,
+    PcrIconModule,
+    EllipsisTextModule,
+    NzToolTipModule,
+    PipesModule,
+    NzTabsModule,
+    NzButtonModule,
+  ],
   exports: [TaskResultComponent],
 })
 export class ResultItemModule {}

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import * as localforage from 'localforage';
-import { StorageService, CollectService, RediveDataService } from '@app/core/services';
+import { StorageService, CollectService, RediveDataService, TopLinkService } from '@app/core/services';
 import { I18nService } from '@app/core/services/I18n/i18n.service';
 import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 import { localforageName, storageNames } from '@src/app/constants';
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     private analytics: AngularFireAnalytics,
     private rediveDataService: RediveDataService,
     private collectService: CollectService,
+    private topLinkService: TopLinkService,
   ) {}
   language = '中文';
   dropMenu: DropMenu[] = [
@@ -50,7 +51,7 @@ export class HeaderComponent implements OnInit {
     { label: '未拥有角色', value: '1', checked: false },
     { label: '已使用作业', value: '2', checked: false },
     { label: '已去除作业', value: '3', checked: false },
-    { label: '已使用轴', value: '4', checked: false },
+    { label: '已置顶轴', value: '4', checked: false },
     { label: '收藏夹', value: '5', checked: false },
     { label: '搜索条件', value: '6', checked: false },
     { label: '会战信息', value: '7', checked: false },
@@ -108,7 +109,7 @@ export class HeaderComponent implements OnInit {
             this.storageSrv.localSet(storageNames.removedList, []);
             break;
           case '4':
-            // TODO
+            this.topLinkService.clear();
             break;
           case '5':
             this.collectService.clear();
@@ -117,6 +118,9 @@ export class HeaderComponent implements OnInit {
             localforage.setItem(localforageName.filter, {});
             break;
           case '7':
+            localforage.setItem(localforageName.dbVersion, {});
+            break;
+          case '8':
             localforage.setItem(localforageName.dbVersion, {});
             break;
           default:

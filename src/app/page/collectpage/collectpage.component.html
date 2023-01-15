@@ -2,4 +2,5 @@
   <div *ngFor="let bossTask of taskList" class="scroll-item">
     <pcr-task-result [bossTask]="bossTask" [usedList]="usedList"></pcr-task-result>
   </div>
+  <div *ngIf="!taskList.length" style="text-align: center">没有任何收藏~</div>
 </div>

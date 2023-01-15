@@ -17,4 +17,5 @@ export const localforageName = {
   dbVersion: 'dbVersion',
   filter: 'filter',
   collect: 'collect',
+  topLink: 'topLink',
 };

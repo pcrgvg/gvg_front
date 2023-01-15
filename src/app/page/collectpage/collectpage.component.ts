@@ -12,8 +12,8 @@ import * as localforage from 'localforage';
 export class CollectpageComponent implements OnInit {
   constructor(private storageSrv: StorageService) {}
 
-  taskList: BossTask[][];
-  usedList: number[];
+  taskList: BossTask[][] = [];
+  usedList: number[] = [];
 
   ngOnInit(): void {
     localforage.getItem<any[]>(localforageName.collect).then((r) => {

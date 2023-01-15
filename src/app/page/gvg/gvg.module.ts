@@ -36,6 +36,7 @@ import { TaskItemComponent } from './widgets/task-item/task-item.component';
 import { LinkButtonComponent } from './widgets/link-button/link-button.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { LinkComponent } from './gvg/link/link.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BillboardComponent,
     TaskItemComponent,
     LinkButtonComponent,
+    LinkComponent,
   ],
   imports: [
     ShareModule,

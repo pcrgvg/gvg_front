@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CollectService } from '@app/core/services/collect.service';
+import { CollectService } from '@app/core/services';
 import { ResultDetailComponent } from '../result-detail/result-detail.component';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-
 @Component({
   selector: 'pcr-task-result',
   templateUrl: './task-result.component.html',
@@ -27,6 +26,7 @@ export class TaskResultComponent {
   viewDetail() {
     this.nzModalService.create({
       nzTitle: '作业详情',
+      nzWidth: '80vw',
       nzContent: ResultDetailComponent,
       nzComponentParams: {
         bossTask: this.bossTask,
