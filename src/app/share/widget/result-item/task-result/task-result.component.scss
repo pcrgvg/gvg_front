@@ -1,0 +1,10 @@
+.task {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+}
+
+@media (max-width: 577px) {
+  .task {
+    grid-template-columns: auto;
+  }
+}

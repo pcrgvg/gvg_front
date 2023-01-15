@@ -193,27 +193,8 @@
               <h6>{{ commonPage.remark }}:</h6>
               <pre>{{ task.remarks }}</pre>
             </div>
-            <div class="g-card" *ngIf="task.links.length">
-              <nz-tabset>
-                <nz-tab [nzTitle]="titleTpl" *ngFor="let linkObj of task.links">
-                  <ng-template #titleTpl>
-                    <pre style="text-align: center; white-space: pre">{{ linkObj.name }}</pre>
-                  </ng-template>
-                  <div *ngIf="linkObj.link">
-                    {{ gvgPage.videoLink }}:
-                    <a target="_blank" [href]="linkObj.link">
-                      <pre>{{ linkObj.name }}</pre>
-                    </a>
-                  </div>
-                  <div *ngIf="linkObj.remarks">
-                    <h6>{{ commonPage.remark }}:</h6>
-                    <pre>{{ linkObj.remarks }}</pre>
-                  </div>
-                </nz-tab>
-              </nz-tabset>
 
-              <!-- <ng-template #elseLInkTpe>无视频连接</ng-template> -->
-            </div>
+            <pcr-link [links]="task.links"></pcr-link>
           </nz-collapse-panel>
         </nz-collapse>
       </div>

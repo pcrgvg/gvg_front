@@ -47,6 +47,14 @@ export class RediveDataService {
     return this.unHaveCharaSub.asObservable();
   }
 
+  clearUnHaveChara() {
+    this.setUnHaveChara({
+      cn: [],
+      jp: [],
+      tw: [],
+    });
+  }
+
   get unHaveCharas(): ServerUnChara {
     return this.unHaveCharaSub.getValue();
   }

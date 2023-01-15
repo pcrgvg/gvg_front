@@ -10,6 +10,7 @@ export const CN: LanguagePack = {
     server: '服务器',
     remark: '备注',
     damageUnit: 'W',
+    collection: '收藏',
   },
   homePage: {
     jp: '日服',

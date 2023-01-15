@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PcrApiService, NoticeApiService } from '@app/apis';
 import { storageNames, localforageName } from '@app/constants';
-import { RediveDataService, RediveService, StorageService } from '@app/core';
+import { RediveDataService, RediveService, StorageService, TopLinkService } from '@app/core';
 import { CanAutoName, CanAutoType, Chara, GvgTask, Notice, ServerType, Task } from '@app/models';
 import { finalize } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';

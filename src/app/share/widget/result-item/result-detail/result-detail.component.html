@@ -1,0 +1,74 @@
+<div style="padding: 10px 0; max-height: 60vh; overflow-y: auto">
+  <nz-tabset [(nzSelectedIndex)]="selectedIndex">
+    <nz-tab [nzTitle]="titleTpl" *ngFor="let task of bossTask; index as i">
+      <ng-template #titleTpl>
+        <pcr-icon [unit]="task" [borrowChara]="i === selectedIndex ? task : null"></pcr-icon>
+      </ng-template>
+
+      <div class="g-flex" style="flex-wrap: wrap">
+        <div class="g-flex-column chara-item" *ngFor="let chara of task.charas">
+          <pcr-icon [unit]="chara" [borrowChara]="task.borrowChara"></pcr-icon>
+          <div class="g-flex-between" style="font-size: 12px">
+            <div style="color: #ff8a00">{{ chara.currentRarity }}X</div>
+            <div style="color: #ff2277">R{{ chara.rank }}</div>
+          </div>
+        </div>
+
+        <div style="height: 70px; padding: 0 2px" class="g-flex-between">
+          <div style="display: flex">
+            <div
+              *ngFor="let canAuto of task.canAuto"
+              style="text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px"
+              [ngStyle]="{
+                color: autoColor(canAuto)
+              }">
+              <span>{{ canAuto | canauto: commonPage }}</span>
+              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
+              <!-- 兼容历史数据 -->
+              <span *ngIf="canAuto === canAutoType.auto">
+                ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
+              </span>
+              <span *ngIf="canAuto === canAutoType.harfAuto">
+                ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
+                }}{{ commonPage.damageUnit }})
+              </span>
+            </div>
+          </div>
+          <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
+        </div>
+      </div>
+      <div style="color: #000">{{ task.exRemarks }}</div>
+      <div *ngIf="task.remarks" class="g-card" style="margin: 5px 0">
+        <h6>{{ commonPage.remark }}:</h6>
+        <pre>{{ task.remarks }}</pre>
+      </div>
+
+      <div class="g-card" *ngIf="task.links.length">
+        <nz-tabset>
+          <nz-tab [nzTitle]="titleTpl" *ngFor="let linkObj of sortLink(task.links)">
+            <ng-template #titleTpl>
+              <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) && '#1cbbb4'">{{
+                linkObj.name
+              }}</pre>
+            </ng-template>
+            <div class="g-flex" style="justify-content: flex-end">
+              <button nz-button (click)="setTop(linkObj)" nzType="primary">
+                {{ isSetTop(linkObj) ? '取消置顶' : '置顶' }}
+              </button>
+            </div>
+            <div *ngIf="linkObj.link">
+              {{ gvgPage.videoLink }}:
+              <a target="_blank" [href]="linkObj.link">
+                <pre>{{ linkObj.name }}</pre>
+              </a>
+            </div>
+            <div *ngIf="linkObj.remarks">
+              <h6>{{ commonPage.remark }}:</h6>
+              <pre>{{ linkObj.remarks }}</pre>
+            </div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+</div>

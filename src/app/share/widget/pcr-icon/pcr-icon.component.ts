@@ -21,7 +21,9 @@ interface Unit {
 @Component({
   selector: 'pcr-icon',
   template: `
-    <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
+    <div class="flash" [class.flash-active]="borrowChara?.prefabId === _unit.prefabId">
+      <img style="height: 100%; width:100%" loading="lazy" (error)="onError()" [src]="src" />
+    </div>
   `,
   styleUrls: ['./pcr-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +50,9 @@ export class PcrIconComponent implements OnDestroy {
     this._unit = val;
     this.setIconUrl();
   }
+
+  @Input()
+  borrowChara: Unit;
 
   get src() {
     return this._src ?? '/assets/images/000001.webp';

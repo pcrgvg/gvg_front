@@ -1,0 +1,11 @@
+<div>
+  <div style="font-size: 16px; color: #68b9ff; text-align: right; padding: 0 20px">
+    <span style="margin-right: 20px; cursor: pointer" (click)="viewDetail()">详情</span>
+    <span (click)="collect(bossTask)" style="cursor: pointer; color: #eb2f96">
+      {{ isCollected(bossTask) ? '取消收藏' : '收藏' }}
+    </span>
+  </div>
+  <div class="task">
+    <pcr-result-item *ngFor="let task of bossTask" [task]="task" [usedList]="usedList"></pcr-result-item>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+.item {
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.remarks {
+  max-height: 60vh;
+  overflow: auto;
+}

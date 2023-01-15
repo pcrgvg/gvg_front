@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GvgComponent } from './gvg/gvg.component';
 import { GvgResultComponent } from './gvg-result/gvg-result.component';
-import { TaskDetailComponent } from './task-detail/task-detail.component';
 
 const routes: Routes = [
   {
@@ -12,10 +11,6 @@ const routes: Routes = [
   {
     path: 'result',
     component: GvgResultComponent,
-  },
-  {
-    path: 'task-detail',
-    component: TaskDetailComponent,
   },
 ];
 

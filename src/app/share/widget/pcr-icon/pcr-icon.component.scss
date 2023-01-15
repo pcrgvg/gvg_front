@@ -1,7 +1,37 @@
-:host {
+.flash {
   width: 45px;
   height: 45px;
+  position: relative;
+  overflow: hidden;
   img {
     vertical-align: baseline;
+  }
+}
+
+.flash-active {
+  border: 2px solid red;
+  &::after {
+    content: '';
+    height: 55px;
+    width: 25px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0.6;
+    filter: blur(6px);
+    animation: flash 2s infinite ease-out;
+  }
+}
+
+@keyframes flash {
+  0% {
+    transform: translate(-20px, -20px) rotate(45deg);
+  }
+  100% {
+    transform: translate(45px, 45px) rotate(45deg);
   }
 }

@@ -12,7 +12,9 @@ import { environment } from '@src/environments/environment';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { Router } from '@angular/router';
 import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
-import * as localforage from 'localforage';
+
+const ItemSize = 166;
+const Padding = 50;
 
 @Component({
   selector: 'pcr-gvg-result',
@@ -34,7 +36,7 @@ export class GvgResultComponent implements OnInit, OnDestroy {
   bossList: GvgTask[];
   countList = [1, 2, 3];
 
-  itemSize = 320;
+  itemSize = ItemSize;
   onDestroySub = new Subject();
   usedList = [];
 
@@ -50,9 +52,9 @@ export class GvgResultComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroySub))
       .subscribe((res) => {
         if (res.matches) {
-          this.itemSize = 320 * 3;
+          this.itemSize = ItemSize * 3 + Padding;
         } else {
-          this.itemSize = 320;
+          this.itemSize = ItemSize + Padding;
         }
       });
     this.usedList = this.storageSrv.localGet(storageNames.usedList) ?? [];
@@ -99,15 +101,6 @@ export class GvgResultComponent implements OnInit, OnDestroy {
 
   home() {
     this.router.navigate(['/']);
-  }
-
-  collect(task) {
-    // TODO 监听更改  显示提示
-    localforage.getItem<any[]>(localforageName.collect).then((r) => {
-      const list = r ?? [];
-      list.push(task);
-      localforage.setItem(localforageName.collect, list);
-    });
   }
 }
 

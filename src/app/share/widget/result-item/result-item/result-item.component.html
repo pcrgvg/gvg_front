@@ -1,0 +1,59 @@
+<div
+  style="padding: 0 5px"
+  class="task-item"
+  [style.backgroundColor]="usedList.includes(task.id) ? 'rgb(255 162 154)' : ''">
+  <div class="g-flex-between">
+    <div class="g-flex" style="margin-bottom: 5px">
+      <div class="g-flex">
+        <pcr-icon [unit]="task"></pcr-icon>
+        <div style="height: 70px; padding: 0 2px" class="g-flex-between">
+          <div style="display: flex">
+            <div
+              *ngFor="let canAuto of task.canAuto"
+              style="text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px"
+              [ngStyle]="{
+                color: autoColor(canAuto)
+              }">
+              <span>{{ canAuto | canauto: commonPage }}</span>
+              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
+              <!-- 兼容历史数据 -->
+              <span *ngIf="canAuto === canAutoType.auto">
+                ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
+              </span>
+              <span *ngIf="canAuto === canAutoType.harfAuto">
+                ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
+                }}{{ commonPage.damageUnit }})
+              </span>
+            </div>
+          </div>
+          <div style="color: #2f42d0" *ngIf="task.type === 1">(尾刀)</div>
+        </div>
+      </div>
+    </div>
+    <a
+      *ngIf="task.remarks"
+      nz-tooltip
+      nzTooltipTrigger="click"
+      [nzTooltipMouseLeaveDelay]="10000000"
+      [nzTooltipTitle]="titleTemplate">
+      备注
+    </a>
+    <ng-template #titleTemplate>
+      <pre class="remarks">{{ task.remarks }}</pre>
+    </ng-template>
+  </div>
+
+  <div class="g-flex">
+    <div class="g-flex-column" class="item" *ngFor="let chara of task.charas">
+      <pcr-icon [unit]="chara" [borrowChara]="task.borrowChara"></pcr-icon>
+      <div class="g-flex-between" style="font-size: 14px; margin-top: 2px; width: 100%">
+        <div class="g-flex">{{ chara.currentRarity }}X</div>
+        <span>R{{ chara.rank }}</span>
+      </div>
+    </div>
+  </div>
+  <pcr-ellipsis-text
+    *ngIf="task.exRemarks"
+    style="height: 20px; color: red; max-width: 270px"
+    [text]="task.exRemarks"></pcr-ellipsis-text>
+</div>
