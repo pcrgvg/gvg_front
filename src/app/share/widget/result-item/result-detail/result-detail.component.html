@@ -47,7 +47,7 @@
         <nz-tabset>
           <nz-tab [nzTitle]="titleTpl" *ngFor="let linkObj of sortLink(task.links)">
             <ng-template #titleTpl>
-              <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) && '#1cbbb4'">{{
+              <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) ? '#1cbbb4' : ''">{{
                 linkObj.name
               }}</pre>
             </ng-template>
