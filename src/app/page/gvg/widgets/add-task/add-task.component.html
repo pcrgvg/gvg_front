@@ -100,6 +100,14 @@
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
+  <nz-form-item *ngIf="showEasyManualDamage">
+    <nz-form-label>简易手动伤害</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSuffix="W" style="width: 100px">
+        <input name="easyManualDamage" formControlName="easyManualDamage" type="number" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
 
   <nz-form-item>
     <nz-form-label>尾刀</nz-form-label>
@@ -125,7 +133,6 @@
 
 <div class="g-flex" style="min-height: 50px; padding: 10px 0; flex-wrap: wrap">
   <a style="margin-right: 10px" *ngFor="let item of links; index as i" [href]="item.link" target="_blank">
-    <!-- <pcr-ellipsis-text [text]="item.name || '链接' + i + 1"></pcr-ellipsis-text> -->
     <pre style="text-align: center">{{ item.name }}</pre>
   </a>
 </div>
@@ -199,6 +206,7 @@
       </span>
       <span>名称</span>
       <span>链接</span>
+      <span>类型</span>
       <span>备注/轴</span>
     </div>
     <div cdkDropList (cdkDropListDropped)="drop($event)" class="link-list">
@@ -207,6 +215,9 @@
         <span style="cursor: move" cdkDragHandle>{{ i }}</span>
         <textarea style="height: 90px" nz-input [(ngModel)]="item.name"></textarea>
         <input nz-input [(ngModel)]="item.link" placeholder="链接需要以http/https开头" />
+        <nz-select [(ngModel)]="item.type" nzPlaceHolder="请选择" style="min-width: 90px">
+          <nz-option *ngFor="let item of autoOption" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+        </nz-select>
         <button nz-button nzType="text" (clickStop)="addLinkRemark(item)">编辑</button>
         <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
       </div>

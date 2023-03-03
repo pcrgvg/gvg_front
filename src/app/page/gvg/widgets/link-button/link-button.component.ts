@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CanAutoType } from '@src/app/models';
 
 @Component({
   selector: 'pcr-link-button',

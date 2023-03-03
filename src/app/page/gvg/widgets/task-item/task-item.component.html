@@ -13,25 +13,30 @@
   </div>
 
   <div class="g-flex">
-    <div
-      *ngFor="let canAuto of task.canAuto"
-      [ngStyle]="{
-        color: autoColor(canAuto),
-        fontSize: '20px',
-        fontWeight: 'bold',
-        padding: '0 4px'
-      }">
-      <span>{{ canAuto | canauto: commonPage }}</span>
-      <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
-      <!-- 兼容历史数据 -->
-      <span *ngIf="canAuto === canAutoType.auto">
-        ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
-      </span>
-      <span *ngIf="canAuto === canAutoType.harfAuto">
-        ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
-        }}{{ commonPage.damageUnit }})
-      </span>
-    </div>
+    <ng-container *ngFor="let canAuto of task.canAuto">
+      <div
+        *ngIf="showAutoType(canAuto)"
+        (clickStop)="toggleLinkShow(canAuto)"
+        [class.active]="task.linkShowType === canAuto && 'active'"
+        [ngStyle]="{
+          color: autoColor(canAuto),
+          fontSize: '20px',
+          fontWeight: 'bold',
+          padding: '0 4px'
+        }">
+        <span>{{ canAuto | canauto: commonPage }}</span>
+        <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
+        <span *ngIf="canAuto === canAutoType.easyManual">({{ task.easyManualDamage }}{{ commonPage.damageUnit }})</span>
+        <!-- 兼容历史数据 -->
+        <span *ngIf="canAuto === canAutoType.auto">
+          ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
+        </span>
+        <span *ngIf="canAuto === canAutoType.harfAuto">
+          ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
+          }}{{ commonPage.damageUnit }})
+        </span>
+      </div>
+    </ng-container>
     <div style="color: #2f42d0" *ngIf="task.type === 1">({{ gvgPage.tail }})</div>
   </div>
 </div>

@@ -15,6 +15,9 @@
                 color: autoColor(canAuto)
               }">
               <span>{{ canAuto | canauto: commonPage }}</span>
+              <span *ngIf="canAuto === canAutoType.easyManual">
+                ({{ task.easyManualDamage }}{{ commonPage.damageUnit }})
+              </span>
               <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
               <!-- 兼容历史数据 -->
               <span *ngIf="canAuto === canAutoType.auto">

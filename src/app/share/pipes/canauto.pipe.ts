@@ -15,6 +15,8 @@ export class CanautoPipe implements PipeTransform {
         return common.manual;
       case CanAutoType.harfAuto:
         return common.semiAutomatic;
+      case CanAutoType.easyManual:
+        return common.easyManual;
       default:
         return '';
     }

@@ -21,6 +21,7 @@ export class TaskItemComponent implements OnInit, OnDestroy {
   @Input() removedList: number[] = []; // 去除
   @Input() operate = false; //
   @Input() serverType = ServerType.jp; //
+  @Input() autoSetting: CanAutoType[] = [];
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onAddTask = new EventEmitter<Task>();
@@ -103,5 +104,17 @@ export class TaskItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.detroySub$.next();
     this.detroySub$.complete();
+  }
+
+  showAutoType(type: number) {
+    return this.autoSetting.includes(type);
+  }
+
+  toggleLinkShow(autoType: number) {
+    if (this.task.linkShowType === autoType) {
+      this.task.linkShowType = null;
+    } else {
+      this.task.linkShowType = autoType;
+    }
   }
 }

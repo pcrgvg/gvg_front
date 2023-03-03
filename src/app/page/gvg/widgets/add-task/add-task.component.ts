@@ -45,6 +45,10 @@ export class AddTaskComponent implements OnInit {
       label: CanAutoName.auto,
       value: CanAutoType.auto,
     },
+    {
+      label: CanAutoName.easyManual,
+      value: CanAutoType.easyManual,
+    },
   ];
   @ViewChild('addLinks') addLinkRef: TemplateRef<any>;
   @ViewChild('linkRemark') linkRemarkRef: TemplateRef<any>;
@@ -87,6 +91,7 @@ export class AddTaskComponent implements OnInit {
       type: [this.task?.type ?? 2], // 2为正常 1尾刀
       autoDamage: [this.task?.autoDamage],
       halfAutoDamage: [this.task?.halfAutoDamage],
+      easyManualDamage: [this.task?.easyManualDamage],
     });
     this.remarks = this.task?.remarks ?? '';
     this.exRemarks = this.task?.exRemarks ?? '';
@@ -174,6 +179,10 @@ export class AddTaskComponent implements OnInit {
         this.notificationSrc.error('', '半自动伤害为空');
         return;
       }
+      if (this.showEasyManualDamage && !this.validateForm.get('easyManualDamage').value) {
+        this.notificationSrc.error('', '简易手动伤害为空');
+        return;
+      }
     }
 
     const valid = this.fv.formIsValid(this.validateForm);
@@ -240,6 +249,9 @@ export class AddTaskComponent implements OnInit {
 
   get showManualDamage() {
     return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.manual);
+  }
+  get showEasyManualDamage() {
+    return (this.validateForm.get('canAuto').value as number[]).includes(CanAutoType.easyManual);
   }
 
   addLinkRemark(link: Link) {

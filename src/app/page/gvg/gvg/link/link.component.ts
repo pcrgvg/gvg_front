@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Link } from '@src/app/models';
+import { CanAutoType, Link } from '@src/app/models';
 import { TopLinkService } from '@app/core';
 import { LanguagePack, CN } from '@src/app/core/services/I18n';
 
@@ -11,6 +11,9 @@ import { LanguagePack, CN } from '@src/app/core/services/I18n';
 export class LinkComponent {
   @Input()
   links: Link[];
+
+  @Input() autoSetting: CanAutoType[] = [];
+  @Input() linkShowType: number;
 
   gvgPage: LanguagePack['gvgPage'] = CN.gvgPage;
   commonPage = CN.common;
@@ -29,11 +32,22 @@ export class LinkComponent {
     return [...topLink, ...other];
   }
 
-  isSetTop(link) {
+  isSetTop(link: Link) {
     return this.topLinkService.isSetTop(link);
   }
 
-  setTop(link) {
+  setTop(link: Link) {
     this.topLinkService.setTop(link);
+  }
+
+  showLink(link: Link) {
+    if (link.type) {
+      let show = this.autoSetting.includes(link.type);
+      if (this.linkShowType) {
+        return show && this.linkShowType == link.type;
+      }
+      return show;
+    }
+    return true;
   }
 }

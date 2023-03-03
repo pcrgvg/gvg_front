@@ -8,7 +8,14 @@ export interface Chara {
   iconUrl?: string;
 }
 
-export type Link = { name: string; link: string; remarks: string; index?: number; damage?: number };
+export type Link = {
+  name: string;
+  link: string;
+  remarks: string;
+  index?: number;
+  damage?: number;
+  type?: number;
+};
 
 export interface Task {
   id: number;
@@ -25,8 +32,11 @@ export interface Task {
   type: number; // 1尾刀,2正常
   autoDamage: number;
   halfAutoDamage: number;
+  easyManualDamage: number;
   images: string[];
   fixedBorrowChara?: Chara;
+  /** 控制视频连接显示 */
+  linkShowType?: number;
 }
 
 export enum ServerType {

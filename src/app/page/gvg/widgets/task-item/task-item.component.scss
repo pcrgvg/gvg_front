@@ -15,3 +15,18 @@
   border-radius: 50%;
   overflow: hidden;
 }
+
+.active {
+  position: relative;
+  &::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 50%;
+    bottom: 10p;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    background: red;
+  }
+}

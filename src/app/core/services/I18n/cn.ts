@@ -6,6 +6,7 @@ export const CN: LanguagePack = {
     auto: '自动',
     semiAutomatic: '半自动',
     manual: '手动',
+    easyManual: '简易手动',
     loading: '正在加载数据',
     server: '服务器',
     remark: '备注',

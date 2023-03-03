@@ -73,9 +73,7 @@
             name="autoSetting"
             nzPlaceHolder="请选择"
             style="min-width: 80px">
-            <nz-option [nzValue]="CanAutoType.manual" [nzLabel]="commonPage.manual"></nz-option>
-            <nz-option [nzValue]="CanAutoType.harfAuto" [nzLabel]="commonPage.semiAutomatic"></nz-option>
-            <nz-option [nzValue]="CanAutoType.auto" [nzLabel]="commonPage.auto"></nz-option>
+            <nz-option *ngFor="let item of autoOption" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -183,6 +181,7 @@
                 [task]="task"
                 [usedList]="usedList"
                 [removedList]="removedList"
+                [autoSetting]="autoSetting"
                 [operate]="operate"
                 [serverType]="serverType"
                 (onAddTask)="addTask($event, bossTask.id)"
@@ -194,7 +193,7 @@
               <pre>{{ task.remarks }}</pre>
             </div>
 
-            <pcr-link [links]="task.links"></pcr-link>
+            <pcr-link [linkShowType]="task.linkShowType" [links]="task.links" [autoSetting]="autoSetting"></pcr-link>
           </nz-collapse-panel>
         </nz-collapse>
       </div>

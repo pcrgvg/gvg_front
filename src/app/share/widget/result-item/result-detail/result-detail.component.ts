@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CN, LanguagePack } from '@src/app/core/services/I18n';
 import { TopLinkService } from '@src/app/core/services';
-import { CanAutoType, Link } from '@src/app/models';
+import { CanAutoType, Link, Task } from '@src/app/models';
 
 @Component({
   selector: 'pcr-result-detail',
@@ -50,5 +50,23 @@ export class ResultDetailComponent {
 
   setTop(link) {
     this.topLinkService.setTop(link);
+  }
+
+  toggleLinkShow(task: Task, autoType: number) {
+    if (task.linkShowType === autoType) {
+      task.linkShowType = null;
+    } else {
+      task.linkShowType = autoType;
+    }
+  }
+
+  showLink(task: Task, link: Link) {
+    if (link.type) {
+      if (task.linkShowType) {
+        return task.linkShowType == link.type;
+      }
+    }
+
+    return true;
   }
 }

@@ -86,6 +86,10 @@ export class GvgComponent implements OnInit, RouteKeep {
       label: CanAutoName.auto,
       value: CanAutoType.auto,
     },
+    {
+      label: CanAutoName.easyManual,
+      value: CanAutoType.easyManual,
+    },
   ];
   // 筛选loading
   filterLoading = false;
@@ -289,6 +293,18 @@ export class GvgComponent implements OnInit, RouteKeep {
     filterGvgTaskList.forEach((r) => {
       r.tasks.forEach((t) => {
         t.damage = this.typeDamage(t);
+        /** 根据自动类型过滤视频链接 */
+        const links = [];
+        for (const link of t.links) {
+          if (link.type) {
+            if (this.autoSetting.includes(link.type)) {
+              links.push(link);
+            }
+          } else {
+            links.push(link);
+          }
+        }
+        t.links = links;
       });
       taskList.push(r);
       bossList.push({

@@ -5,6 +5,7 @@ export const EN: LanguagePack = {
     auto: 'auto',
     semiAutomatic: 'semi automatic',
     manual: 'manual',
+    easyManual: 'easy manual',
     loading: 'loading',
     server: 'server',
     remark: 'remark',

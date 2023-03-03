@@ -6,6 +6,7 @@ export const JP: LanguagePack = {
     auto: 'フルオート',
     semiAutomatic: 'セミオート',
     manual: '手動',
+    easyManual: '簡易手動',
     loading: '加载中',
     server: 'サーバー',
     remark: '備考',

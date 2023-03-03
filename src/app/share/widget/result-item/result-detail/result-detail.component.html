@@ -18,11 +18,16 @@
           <div style="display: flex">
             <div
               *ngFor="let canAuto of task.canAuto"
-              style="text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px"
+              (click)="toggleLinkShow(task, canAuto)"
+              [class.active]="task.linkShowType === canAuto && 'active'"
+              style="text-align: center; font-size: 14px; font-weight: bold; cursor: pointer; margin-left: 5px"
               [ngStyle]="{
                 color: autoColor(canAuto)
               }">
               <span>{{ canAuto | canauto: commonPage }}</span>
+              <span *ngIf="canAuto === canAutoType.easyManual">
+                ({{ task.easyManualDamage }}{{ commonPage.damageUnit }})
+              </span>
               <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
               <!-- 兼容历史数据 -->
               <span *ngIf="canAuto === canAutoType.auto">
@@ -45,28 +50,31 @@
 
       <div class="g-card" *ngIf="task.links.length">
         <nz-tabset>
-          <nz-tab [nzTitle]="titleTpl" *ngFor="let linkObj of sortLink(task.links)">
-            <ng-template #titleTpl>
-              <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) ? '#1cbbb4' : ''">{{
-                linkObj.name
-              }}</pre>
-            </ng-template>
-            <div class="g-flex" style="justify-content: flex-end">
-              <button nz-button (click)="setTop(linkObj)" nzType="primary">
-                {{ isSetTop(linkObj) ? '取消置顶' : '置顶' }}
-              </button>
-            </div>
-            <div *ngIf="linkObj.link">
-              {{ gvgPage.videoLink }}:
-              <a target="_blank" [href]="linkObj.link">
-                <pre>{{ linkObj.name }}</pre>
-              </a>
-            </div>
-            <div *ngIf="linkObj.remarks">
-              <h6>{{ commonPage.remark }}:</h6>
-              <pre>{{ linkObj.remarks }}</pre>
-            </div>
-          </nz-tab>
+          <ng-container *ngFor="let linkObj of sortLink(task.links)">
+            <nz-tab [nzTitle]="titleTpl" *ngIf="showLink(task, linkObj)">
+              <ng-template #titleTpl>
+                <div>{{ linkObj.type | canauto: commonPage }}</div>
+                <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) ? '#1cbbb4' : ''">{{
+                  linkObj.name
+                }}</pre>
+              </ng-template>
+              <div class="g-flex" style="justify-content: flex-end">
+                <button nz-button (click)="setTop(linkObj)" nzType="primary">
+                  {{ isSetTop(linkObj) ? '取消置顶' : '置顶' }}
+                </button>
+              </div>
+              <div *ngIf="linkObj.link">
+                {{ gvgPage.videoLink }}:
+                <a target="_blank" [href]="linkObj.link">
+                  <pre>{{ linkObj.name }}</pre>
+                </a>
+              </div>
+              <div *ngIf="linkObj.remarks">
+                <h6>{{ commonPage.remark }}:</h6>
+                <pre>{{ linkObj.remarks }}</pre>
+              </div>
+            </nz-tab>
+          </ng-container>
         </nz-tabset>
       </div>
     </nz-tab>

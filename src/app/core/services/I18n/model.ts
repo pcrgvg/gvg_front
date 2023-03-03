@@ -2,6 +2,7 @@ export interface LanguagePack {
   common: {
     auto: string;
     semiAutomatic: string;
+    easyManual: string;
     manual: string;
     loading: string;
     server: string;
