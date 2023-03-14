@@ -3,7 +3,7 @@
     <ng-container *ngFor="let linkObj of sortLink(links)">
       <nz-tab [nzTitle]="titleTpl" *ngIf="showLink(linkObj)">
         <ng-template #titleTpl>
-          <div>{{ linkObj.type | canauto: commonPage }}</div>
+          <div style="text-align: center">{{ linkObj.type | canauto: commonPage }}</div>
           <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) ? '#1cbbb4' : ''">{{
             linkObj.name
           }}</pre>

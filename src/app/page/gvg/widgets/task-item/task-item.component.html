@@ -19,11 +19,9 @@
         (clickStop)="toggleLinkShow(canAuto)"
         [class.active]="task.linkShowType === canAuto && 'active'"
         [ngStyle]="{
-          color: autoColor(canAuto),
-          fontSize: '20px',
-          fontWeight: 'bold',
-          padding: '0 4px'
-        }">
+          color: autoColor(canAuto)
+        }"
+        style="text-align: center; padding: 0 4px; font-weight: bold; font-size: 20px">
         <span>{{ canAuto | canauto: commonPage }}</span>
         <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
         <span *ngIf="canAuto === canAutoType.easyManual">({{ task.easyManualDamage }}{{ commonPage.damageUnit }})</span>

@@ -133,6 +133,7 @@
 
 <div class="g-flex" style="min-height: 50px; padding: 10px 0; flex-wrap: wrap">
   <a style="margin-right: 10px" *ngFor="let item of links; index as i" [href]="item.link" target="_blank">
+    <div style="text-align: center">{{ item.type | canauto: commonPage }}</div>
     <pre style="text-align: center">{{ item.name }}</pre>
   </a>
 </div>
@@ -238,3 +239,42 @@
     placeholder="可以回车换行"
     [nzAutosize]="{ minRows: 4, maxRows: 10 }"></textarea>
 </ng-template>
+
+<nz-modal
+  [(nzVisible)]="isAddLinkVisible"
+  (nzOnCancel)="isAddLinkVisible = false"
+  [nzFooter]="null"
+  nzWidth="800px"
+  (nzAfterClose)="nzAfterClose()">
+  <ng-container *nzModalContent>
+    <div>
+      <div class="link-grid" style="color: #68b9ff">
+        <span nz-tooltip nzTooltipTitle="拖动序号可进行排序">
+          序号
+          <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+        </span>
+        <span>名称</span>
+        <span>链接</span>
+        <span>类型</span>
+        <span>备注/轴</span>
+      </div>
+      <div cdkDropList (cdkDropListDropped)="drop($event)" class="link-list">
+        <div class="link-grid" *ngFor="let item of links; index as i" cdkDrag>
+          <div class="drag-placeholder" *cdkDragPlaceholder></div>
+          <span style="cursor: move" cdkDragHandle>{{ i }}</span>
+          <textarea style="height: 90px" nz-input [(ngModel)]="item.name"></textarea>
+          <input nz-input [(ngModel)]="item.link" placeholder="链接需要以http/https开头" />
+          <nz-select [(ngModel)]="item.type" nzPlaceHolder="请选择" style="min-width: 90px">
+            <nz-option *ngFor="let item of autoOption" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+          </nz-select>
+          <button nz-button nzType="text" (clickStop)="addLinkRemark(item)">编辑</button>
+          <button nz-button class="g-btn-danger" (clickStop)="removeLink(i)">删除</button>
+        </div>
+      </div>
+
+      <div class="g-flex-center" style="margin-top: 20px">
+        <button nz-button class="g-btn" (clickStop)="addLink()">添加</button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

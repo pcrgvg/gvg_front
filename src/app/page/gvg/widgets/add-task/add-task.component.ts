@@ -9,6 +9,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { finalize } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CN } from '@src/app/core/services/I18n';
 
 @Component({
   selector: 'pcr-add-task',
@@ -62,6 +63,10 @@ export class AddTaskComponent implements OnInit {
     rank: 26,
     searchAreaWidth: 999999999,
   };
+
+  commonPage = CN.common;
+
+  isAddLinkVisible = false;
 
   constructor(
     private modalSrc: NzModalService,
@@ -224,6 +229,7 @@ export class AddTaskComponent implements OnInit {
       remarks: '',
       index: this.links.length,
       damage: 0,
+      type: CanAutoType.auto,
     });
   }
 
@@ -232,11 +238,26 @@ export class AddTaskComponent implements OnInit {
   }
 
   openAddLink() {
-    this.modalSrc.create({
-      nzContent: this.addLinkRef,
-      nzWidth: 800,
-      nzFooter: null,
-    });
+    // this.modalSrc.create({
+    //   nzContent: this.addLinkRef,
+    //   nzWidth: 800,
+    //   nzFooter: null,
+    // });
+    this.isAddLinkVisible = true;
+    // 打开的时候处理
+    const canAuto = this.validateForm.get('canAuto').value as number[];
+    for (const type of canAuto) {
+      if (this.links.findIndex((r) => r.type == type) <= -1) {
+        this.links.push({
+          type,
+          name: '',
+          link: '',
+          remarks: '',
+          index: this.links.length,
+          damage: 0,
+        });
+      }
+    }
   }
 
   get showAutoDamage() {
@@ -270,5 +291,11 @@ export class AddTaskComponent implements OnInit {
     this.selectCharas.forEach((r) => {
       r.rank = this.commonChara.rank;
     });
+  }
+  // 关闭添加视频链接后 处理自动选项
+  nzAfterClose() {
+    const canAuto = this.validateForm.get('canAuto').value as number[];
+    const arr = new Set([...this.links.map((r) => r.type)]);
+    this.validateForm.get('canAuto').setValue(Array.from(arr));
   }
 }
