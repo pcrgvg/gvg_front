@@ -71,7 +71,7 @@ export class GvgComponent implements OnInit, RouteKeep {
   gvgTaskList: GvgTask[] = [];
   // 根据筛选条件显示的列表
   filterGvgTaskList: GvgTask[] = [];
-  autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.manual];
+  autoSetting: CanAutoType[] = [CanAutoType.auto, CanAutoType.harfAuto, CanAutoType.manual, CanAutoType.easyManual];
   CanAutoType = CanAutoType;
   autoOption = [
     {
@@ -455,13 +455,24 @@ export class GvgComponent implements OnInit, RouteKeep {
   }
   // 如果包含手动，则使用damage， 如果不包含且有自动刀的伤害显示自动刀的伤害, 兼容以往数据
   typeDamage(task: Task) {
-    if (this.autoSetting.includes(CanAutoType.manual)) {
-      return task.damage ?? task.halfAutoDamage ?? task.autoDamage;
+    // if (this.autoSetting.includes(CanAutoType.manual)) {
+    //   return task.damage ?? task.halfAutoDamage ?? task.autoDamage;
+    // }
+    // if (this.autoSetting.includes(CanAutoType.harfAuto)) {
+    //   return task.halfAutoDamage ?? task.autoDamage ?? task.damage;
+    // }
+    // return task.autoDamage ?? task.halfAutoDamage ?? task.damage;
+    let damage: number;
+    if (this.autoSetting.includes(CanAutoType.manual) && task.canAuto.includes(CanAutoType.manual)) {
+      damage = task.damage;
     }
-    if (this.autoSetting.includes(CanAutoType.harfAuto)) {
-      return task.halfAutoDamage ?? task.autoDamage ?? task.damage;
+    if (this.autoSetting.includes(CanAutoType.harfAuto) && task.canAuto.includes(CanAutoType.harfAuto)) {
+      damage = damage ?? task.halfAutoDamage;
     }
-    return task.autoDamage ?? task.halfAutoDamage ?? task.damage;
+    if (this.autoSetting.includes(CanAutoType.easyManual) && task.canAuto.includes(CanAutoType.easyManual)) {
+      damage = damage ?? task.easyManualDamage;
+    }
+    return damage ?? task.autoDamage;
   }
 
   // 删除作业

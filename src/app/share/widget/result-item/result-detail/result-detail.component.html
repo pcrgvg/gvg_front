@@ -25,17 +25,12 @@
                 color: autoColor(canAuto)
               }">
               <span>{{ canAuto | canauto: commonPage }}</span>
-              <span *ngIf="canAuto === canAutoType.easyManual">
-                ({{ task.easyManualDamage }}{{ commonPage.damageUnit }})
-              </span>
-              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
+              <span *ngIf="canAuto === canAutoType.easyManual">({{ task.easyManualDamage }})</span>
+              <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }})</span>
               <!-- 兼容历史数据 -->
-              <span *ngIf="canAuto === canAutoType.auto">
-                ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
-              </span>
+              <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }})</span>
               <span *ngIf="canAuto === canAutoType.harfAuto">
-                ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
-                }}{{ commonPage.damageUnit }})
+                ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage }})
               </span>
             </div>
           </div>
@@ -53,7 +48,7 @@
           <ng-container *ngFor="let linkObj of sortLink(task.links)">
             <nz-tab [nzTitle]="titleTpl" *ngIf="showLink(task, linkObj)">
               <ng-template #titleTpl>
-                <div>{{ linkObj.type | canauto: commonPage }}</div>
+                <div style="text-align: center">{{ linkObj.type | canauto: commonPage }}</div>
                 <pre style="text-align: center; white-space: pre" [style.color]="isSetTop(linkObj) ? '#1cbbb4' : ''">{{
                   linkObj.name
                 }}</pre>

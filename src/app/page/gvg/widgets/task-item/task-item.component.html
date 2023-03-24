@@ -23,15 +23,12 @@
         }"
         style="text-align: center; padding: 0 4px; font-weight: bold; font-size: 20px">
         <span>{{ canAuto | canauto: commonPage }}</span>
-        <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }}{{ commonPage.damageUnit }})</span>
-        <span *ngIf="canAuto === canAutoType.easyManual">({{ task.easyManualDamage }}{{ commonPage.damageUnit }})</span>
+        <span *ngIf="canAuto === canAutoType.manual">({{ task.damage }})</span>
+        <span *ngIf="canAuto === canAutoType.easyManual">({{ task.easyManualDamage }})</span>
         <!-- 兼容历史数据 -->
-        <span *ngIf="canAuto === canAutoType.auto">
-          ({{ task.autoDamage ? task.autoDamage : task.damage }}{{ commonPage.damageUnit }})
-        </span>
+        <span *ngIf="canAuto === canAutoType.auto">({{ task.autoDamage ? task.autoDamage : task.damage }})</span>
         <span *ngIf="canAuto === canAutoType.harfAuto">
-          ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage
-          }}{{ commonPage.damageUnit }})
+          ({{ task.halfAutoDamage ? task.halfAutoDamage : task.autoDamage ? task.autoDamage : task.damage }})
         </span>
       </div>
     </ng-container>
