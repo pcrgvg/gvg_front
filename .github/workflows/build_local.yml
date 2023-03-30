@@ -24,7 +24,7 @@ jobs:
       - name: set node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: build dist
         run: |
           echo ${{ github.event.inputs.TAG }}
