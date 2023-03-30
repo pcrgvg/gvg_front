@@ -24,12 +24,12 @@ jobs:
       - name: set node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '14'
       - name: build dist
         run: |
           echo ${{ github.event.inputs.TAG }}
           npm install -g @angular/cli
-          npm i -g pnpm
+          npm i -g pnpm@7
           pnpm i
           echo start build
           git rm -rf statics/static/*
