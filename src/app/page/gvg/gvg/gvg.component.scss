@@ -72,3 +72,9 @@ pcr-ellipsis-text {
     height: 45px;
   }
 }
+
+@media (max-width: 500px) {
+  .right {
+    display: none;
+  }
+}
