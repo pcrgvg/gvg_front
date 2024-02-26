@@ -6,6 +6,7 @@ export interface Chara {
   rank: number;
   searchAreaWidth: number;
   iconUrl?: string;
+  [prop: string]: any
 }
 
 export type Link = {

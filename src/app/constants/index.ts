@@ -19,3 +19,32 @@ export const localforageName = {
   collect: 'collect',
   topLink: 'topLink',
 };
+
+/** 角色属性 */
+export const CharaTalent = [
+  {
+    code: 1,
+    label: '火',
+    name: 'fire'
+  },
+  {
+    code: 2,
+    label: '水',
+    name: 'water'
+  },
+  {
+    code: 3,
+    label: '风',
+    name: 'wind'
+  },
+  {
+    code: 4,
+    label: '光',
+    name: 'light'
+  },
+  {
+    code: 5,
+    label: '暗',
+    name: 'dark'
+  },
+]

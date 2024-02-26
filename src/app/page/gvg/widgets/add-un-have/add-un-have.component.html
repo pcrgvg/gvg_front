@@ -10,13 +10,23 @@
         (clickStop)="toggleSelect(chara)"></pcr-icon>
     </div>
   </div>
-
+  <nz-tabset>
+    <nz-tab nzTitle="所有" (nzClick)="talentId = 0"></nz-tab>
+    <nz-tab *ngFor="let tab of talentOption" [nzTitle]="titleTemplate" (nzClick)="talentId = tab.code">
+      <ng-template #titleTemplate>
+        <!-- <i nz-icon [nzType]="tab.icon"></i> -->
+        <img [src]="redive.addTalentUrl(tab.code)" style="width: 30px; height: 30px;">
+      
+      </ng-template>
+    </nz-tab>
+  </nz-tabset>
+  
   <nz-tabset>
     <nz-tab [nzTitle]="gvgPage.front">
       <div class="chara-box">
         <pcr-icon
           class="img"
-          *ngFor="let chara of rediveDataSrv.front; trackBy: trackByCharaFn"
+          *ngFor="let chara of front; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           [unit]="chara"
           (clickStop)="toggleSelect(chara)"></pcr-icon>
@@ -26,7 +36,7 @@
       <div class="chara-box">
         <pcr-icon
           class="img"
-          *ngFor="let chara of rediveDataSrv.middle; trackBy: trackByCharaFn"
+          *ngFor="let chara of middle; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [unit]="chara"></pcr-icon>
@@ -36,7 +46,7 @@
       <div class="chara-box">
         <pcr-icon
           class="img"
-          *ngFor="let chara of rediveDataSrv.back; trackBy: trackByCharaFn"
+          *ngFor="let chara of back; trackBy: trackByCharaFn"
           [class.selected]="isSelected(chara)"
           (clickStop)="toggleSelect(chara)"
           [unit]="chara"></pcr-icon>

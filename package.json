@@ -74,8 +74,5 @@
   "resolutions": {
     "webpack": "^5.0.0"
   },
-  "type": "module",
-  "lint-staged": {
-    "*.{ts,scss,html}": "npm run fix "
-  }
+  "type": "module"
 }

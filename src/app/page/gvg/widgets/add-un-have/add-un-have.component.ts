@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { RediveDataService, StorageService, unHaveCharas } from '@app/core';
+import { RediveDataService, RediveService, StorageService, unHaveCharas } from '@app/core';
 import { Chara, ServerType } from '@src/app/models';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { CN, I18nService, LanguagePack } from '@app/core/services/I18n';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CharaTalent } from '@src/app/constants';
 
 @Component({
   selector: 'pcr-add-un-have',
@@ -17,6 +18,7 @@ export class AddUnHaveComponent implements OnInit, OnDestroy {
     private storageSrv: StorageService,
     private modalSrc: NzModalService,
     private i18nService: I18nService,
+    public redive: RediveService
   ) {}
 
   unHaveCharas: Chara[] = [];
@@ -24,6 +26,9 @@ export class AddUnHaveComponent implements OnInit, OnDestroy {
   server: ServerType;
   gvgPage: LanguagePack['gvgPage'] = CN.gvgPage;
   destroySub$ = new Subject();
+  talentOption = CharaTalent;
+  /** 当前属性 默认所有 */
+  talentId = 0
   ngOnInit(): void {
     this.unHaveCharas = this.rediveDataSrv.unHaveCharas[this.server] ?? [];
     this.i18nService
@@ -61,6 +66,26 @@ export class AddUnHaveComponent implements OnInit, OnDestroy {
 
     this.modalSrc.closeAll();
   }
+
+  get front() {
+    if (this.talentId) {
+      return this.rediveDataSrv.front.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.front
+  }
+  get middle() {
+    if (this.talentId) {
+      return this.rediveDataSrv.middle.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.middle
+  }
+  get back() {
+    if (this.talentId) {
+      return this.rediveDataSrv.back.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.back
+  }
+
 
   ngOnDestroy(): void {
     this.destroySub$.next();

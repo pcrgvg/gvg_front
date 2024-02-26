@@ -10,6 +10,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { finalize } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CN } from '@src/app/core/services/I18n';
+import { CharaTalent } from '@src/app/constants'
+import { RediveService } from '@app/core';
 
 @Component({
   selector: 'pcr-add-task',
@@ -67,6 +69,9 @@ export class AddTaskComponent implements OnInit {
   commonPage = CN.common;
 
   isAddLinkVisible = false;
+  talentOption = CharaTalent;
+  /** 当前属性 默认所有 */
+  talentId = 0
 
   constructor(
     private modalSrc: NzModalService,
@@ -76,6 +81,7 @@ export class AddTaskComponent implements OnInit {
     private notificationSrc: NzNotificationService,
     private pcraApiSrv: PcrApiService,
     private route: ActivatedRoute,
+    public redive: RediveService
   ) {}
 
   ngOnInit(): void {
@@ -297,5 +303,25 @@ export class AddTaskComponent implements OnInit {
     const canAuto = this.validateForm.get('canAuto').value as number[];
     const arr = new Set([...this.links.map((r) => r.type)]);
     this.validateForm.get('canAuto').setValue(Array.from(arr));
+  }
+
+
+  get front() {
+    if (this.talentId) {
+      return this.rediveDataSrv.front.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.front
+  }
+  get middle() {
+    if (this.talentId) {
+      return this.rediveDataSrv.middle.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.middle
+  }
+  get back() {
+    if (this.talentId) {
+      return this.rediveDataSrv.back.filter(r => r.talentId == this.talentId)
+    }
+    return this.rediveDataSrv.back
   }
 }

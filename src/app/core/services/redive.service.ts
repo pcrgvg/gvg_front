@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { ServerType } from '@src/app/models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
+import { CharaTalent } from '@src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,15 @@ export class RediveService {
       prefabId += rarity < 6 ? 30 : 60;
     }
     return (host ?? this.baseUrlSub.getValue()) + this.iconBase.replace('{0}', prefabId.toString());
+  }
+
+  addTalentUrl(talentId: number) {
+    // https://pcr-icon.oss-cn-beijing.aliyuncs.com/common/fire.png
+    if (talentId) {
+      const tablent = CharaTalent.filter((r) => r.code == talentId)[0];
+      return this.ossSource + `common/${tablent?.name}.png`;
+    }
+    return '';
   }
 
   changeImgSource(url: string) {
