@@ -8,12 +8,12 @@ import { CharaTalent } from '@src/app/constants';
   providedIn: 'root',
 })
 export class RediveService {
-  baseUrlSub: BehaviorSubject<string> = new BehaviorSubject('https://redive.estertion.win/');
-  winSource = 'https://redive.estertion.win/';
+  baseUrlSub: BehaviorSubject<string> = new BehaviorSubject('https://wthee.xyz/redive/jp/resource/');
   ossSource = 'https://pcr-icon.oss-cn-beijing.aliyuncs.com/';
+  winSource = 'https://wthee.xyz/redive/jp/resource/';
   iconBase = 'icon/unit/{0}.webp';
   constructor(private storageSrc: StorageService) {
-    this.baseUrlSub.next(this.storageSrc.localGet('imageBase', 'https://redive.estertion.win/'));
+    this.baseUrlSub.next(this.storageSrc.localGet('imageBase', 'https://wthee.xyz/redive/jp/resource/'));
   }
 
   addIconUrl(prefabId: number, rarity: number = 3, host?: string): string {
